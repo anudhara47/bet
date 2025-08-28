@@ -205,14 +205,6 @@ export default function PromotionPage() {
         </Card>
       </div>
 
-
-      <div className="fixed bottom-24 right-4">
-          <Button variant="ghost" size="icon" className="bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg h-14 w-14">
-            <MessageCircle className="w-8 h-8" />
-          </Button>
-      </div>
-
-
       <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-start max-w-lg mx-auto">
         <Link href="/" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
           <HomeIcon className="w-6 h-6" />
@@ -222,14 +214,6 @@ export default function PromotionPage() {
           <Activity className="w-6 h-6" />
           <span className="text-xs mt-1">Activity</span>
         </Link>
-        
-        <div className="text-center">
-             <div className="relative w-16 h-16 -mt-8">
-                <Image src="https://placehold.co/80x80/FFD700/FF4500?text=GO" alt="Spin wheel" width={80} height={80} className="animate-spin-slow" data-ai-hint="spinning wheel prize" />
-            </div>
-            <span className="text-xs font-bold text-red-500">Get ₹500</span>
-        </div>
-
         <Link href="/promotion" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-red-600")}>
           <Landmark className="w-6 h-6" />
           <span className="text-xs mt-1">Promotion</span>
@@ -242,5 +226,3 @@ export default function PromotionPage() {
     </div>
   );
 }
-
-    

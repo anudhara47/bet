@@ -50,7 +50,7 @@ export default function HomePage() {
             <div className="bg-red-600 w-8 h-8 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-lg">9</span>
             </div>
-            <span className="font-bold text-xl md:text-2xl text-red-600">91 CLUB</span>
+            <span className="font-bold text-xl md:text-2xl text-red-600">9XBETCLUB</span>
           </div>
           <Button variant="ghost" size="icon">
             <Download className="h-6 w-6" />
@@ -326,27 +326,13 @@ export default function HomePage() {
                     </div>
                 </div>
                 <p>• The platform advocates fairness, justice, and openness. We mainly operate fair lottery, blockchain games, live casinos, and slot machine games.</p>
-                <p>• 91club works with more than 10,000 online live game dealers and slot games, all of which are verified fair games.</p>
-                <p>• 91club supports fast deposit and withdrawal, and look forward to your joining. Gambling can be addictive, please play rationally. 91club only accepts users over the age of 18.</p>
+                <p>• 9xbetclub works with more than 10,000 online live game dealers and slot games, all of which are verified fair games.</p>
+                <p>• 9xbetclub supports fast deposit and withdrawal, and look forward to your joining. Gambling can be addictive, please play rationally. 9xbetclub only accepts users over the age of 18.</p>
             </CardContent>
         </Card>
 
       </main>
       
-      <div className="fixed bottom-24 right-4 sm:bottom-10 space-y-2 flex flex-col items-end">
-          <Button className="rounded-full h-auto px-4 py-2 bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-lg">
-            <div className="bg-white w-5 h-5 rounded-full flex items-center justify-center mr-2">
-                <div className="bg-red-600 w-4 h-4 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">9</span>
-                </div>
-            </div>
-            <span className="text-xs font-bold">Add to Desktop</span>
-          </Button>
-          <Button variant="ghost" size="icon" className="bg-white rounded-full shadow-lg h-12 w-12">
-            <MessageCircle className="w-8 h-8 text-red-500" />
-          </Button>
-      </div>
-
       <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-start max-w-lg mx-auto">
         <Link href="/" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-red-600")}>
           <HomeIcon className="w-6 h-6" />
@@ -357,13 +343,6 @@ export default function HomePage() {
           <span className="text-xs mt-1">Activity</span>
         </Link>
         
-        <div className="text-center">
-             <div className="relative w-16 h-16 -mt-8">
-                <Image src="https://placehold.co/80x80/FFD700/FF4500?text=GO" alt="Spin wheel" width={80} height={80} className="animate-spin-slow" data-ai-hint="spinning wheel prize" />
-            </div>
-            <span className="text-xs font-bold text-red-500">Get ₹500</span>
-        </div>
-
         <Link href="/promotion" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
           <Landmark className="w-6 h-6" />
           <span className="text-xs mt-1">Promotion</span>

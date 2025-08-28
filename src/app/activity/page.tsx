@@ -62,7 +62,7 @@ export default function ActivityPage() {
             <div className="bg-white w-8 h-8 rounded-full flex items-center justify-center">
               <span className="text-red-600 font-bold text-lg">9</span>
             </div>
-            <span className="font-bold text-xl md:text-2xl text-white">91 CLUB</span>
+            <span className="font-bold text-xl md:text-2xl text-white">9XBETCLUB</span>
         </div>
         <h1 className="text-2xl font-bold">Activity</h1>
         <p className="text-xs mt-2 opacity-90">
@@ -124,14 +124,6 @@ export default function ActivityPage() {
           <Activity className="w-6 h-6" />
           <span className="text-xs mt-1">Activity</span>
         </Link>
-        
-        <div className="text-center">
-             <div className="relative w-16 h-16 -mt-8">
-                <Image src="https://placehold.co/80x80/FFD700/FF4500?text=GO" alt="Spin wheel" width={80} height={80} className="animate-spin-slow" data-ai-hint="spinning wheel prize" />
-            </div>
-            <span className="text-xs font-bold text-red-500">Get ₹500</span>
-        </div>
-
         <Link href="/promotion" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
           <Landmark className="w-6 h-6" />
           <span className="text-xs mt-1">Promotion</span>

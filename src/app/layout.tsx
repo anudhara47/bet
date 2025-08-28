@@ -4,7 +4,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: '91 Club',
+  title: '9xbetclub',
   description: 'A new application built in Firebase Studio',
 };
 
@@ -27,5 +27,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-    
