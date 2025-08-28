@@ -32,6 +32,21 @@ const AviatorIcon = () => (
     </svg>
 );
 
+const VortexIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent" />
+        <g transform="translate(50, 50) scale(0.5)">
+            <path d="M100,100 m-80,0 a80,80 0 1,0 160,0 a80,80 0 1,0 -160,0" fill="none" stroke="#8b5cf6" strokeWidth="15" strokeDasharray="15, 10" transform="rotate(45 100 100)">
+                <animateTransform attributeName="transform" type="rotate" from="45 100 100" to="405 100 100" dur="4s" repeatCount="indefinite" />
+            </path>
+            <path d="M100,100 m-50,0 a50,50 0 1,0 100,0 a50,50 0 1,0 -100,0" fill="none" stroke="#a78bfa" strokeWidth="12" strokeDasharray="10, 5" transform="rotate(-60 100 100)">
+                 <animateTransform attributeName="transform" type="rotate" from="-60 100 100" to="300 100 100" dur="3s" repeatCount="indefinite" />
+            </path>
+             <circle cx="100" cy="100" r="20" fill="#c4b5fd" />
+        </g>
+    </svg>
+);
+
 const CricketIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent" />
@@ -336,6 +351,11 @@ export default function MiniGamePage() {
       label: "AVIATOR BONUS"
     },
     {
+      href: "/mini-game/vortex",
+      Icon: VortexIcon,
+      label: "VORTEX"
+    },
+    {
       href: "/mini-game/cricket",
       Icon: CricketIcon,
       label: "CRICKET"
@@ -371,9 +391,9 @@ export default function MiniGamePage() {
       label: "JAVELIN"
     },
     {
-      href: "/mini-game/dragon-tiger",
-      Icon: DragonTigerIcon,
-      label: "DRAGON TIGER"
+        href: "/mini-game/dragon-tiger",
+        Icon: DragonTigerIcon,
+        label: "DRAGON TIGER"
     },
     {
         href: "/mini-game/goal",
