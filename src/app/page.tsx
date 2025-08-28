@@ -39,8 +39,8 @@ export default function Home() {
         </div>
       </header>
       <main className="container mx-auto p-4">
-        <Card>
-          <CardContent className="p-2">
+        <Card className="shadow-md">
+          <CardContent className="p-4">
             <Carousel 
               plugins={[plugin.current]}
               opts={{
