@@ -22,9 +22,9 @@ export default function FantasyPage() {
       <main className="container mx-auto">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
           {Array.from({ length: 20 }).map((_, index) => (
-            <Card key={index} className="w-[150px] h-[200px] shadow-lg overflow-hidden">
+            <Card key={index} className="w-[100px] h-[100px] shadow-lg overflow-hidden">
               <CardContent className="p-0">
-                <Image src={`https://picsum.photos/150/200?random=${index+100}`} alt={`Game ${index + 1}`} width={150} height={200} data-ai-hint="fantasy game" />
+                <Image src={`https://picsum.photos/100/100?random=${index+100}`} alt={`Game ${index + 1}`} width={100} height={100} data-ai-hint="fantasy game" />
               </CardContent>
             </Card>
           ))}
