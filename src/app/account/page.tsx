@@ -9,6 +9,9 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { useLanguage } from "@/context/language-context";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 const ArWalletIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,16 +84,57 @@ const WithdrawHistoryIcon = () => (
 
 export default function AccountPage() {
   const { language, setLanguage, translations } = useLanguage();
+  const { toast } = useToast();
+  const router = useRouter();
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
 
   const t = translations.account_page;
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText("927417");
+    toast({ title: "UID copied to clipboard!" });
+  };
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => {
+        setIsRefreshing(false);
+        toast({ title: "Balance updated!"});
+    }, 1000);
+  }
+
+  const handleLogout = () => {
+    toast({ title: "Logged out successfully" });
+    router.push("/");
+  }
+
   const serviceCenterItems = [
     { icon: <Settings className="text-red-500" />, label: t.service_center.settings, href: "/settings" },
-    { icon: <FileQuestion className="text-red-500" />, label: t.service_center.feedback },
-    { icon: <Megaphone className="text-red-500" />, label: t.service_center.announcement },
-    { icon: <MessageCircle className="text-red-500" />, label: t.service_center.customer_service },
-    { icon: <BookOpen className="text-red-500" />, label: t.service_center.beginners_guide },
-    { icon: <Building className="text-red-500" />, label: t.service_center.about_us },
+    { icon: <FileQuestion className="text-red-500" />, label: t.service_center.feedback, href: "/feedback" },
+    { icon: <Megaphone className="text-red-500" />, label: t.service_center.announcement, href: "/announcement" },
+    { icon: <MessageCircle className="text-red-500" />, label: t.service_center.customer_service, href: "/customer-service" },
+    { icon: <BookOpen className="text-red-500" />, label: t.service_center.beginners_guide, href: "/guide" },
+    { icon: <Building className="text-red-500" />, label: t.service_center.about_us, href: "/about" },
+  ];
+  
+  const mainWalletActions = [
+    { icon: <ArWalletIcon/>, label: t.ar_wallet, href: '/wallet' },
+    { icon: <DepositIcon/>, label: t.deposit, href: '/deposit' },
+    { icon: <WithdrawIcon/>, label: t.withdraw, href: '/withdraw' },
+    { icon: <VipIcon/>, label: t.vip, href: '/vip' },
+  ];
+
+  const historyCards = [
+    { icon: <GameHistoryIcon/>, title: t.game_history.title, description: t.game_history.description, href: "/game-history" },
+    { icon: <TransactionIcon/>, title: t.transaction.title, description: t.transaction.description, href: "/transaction-history" },
+    { icon: <DepositHistoryIcon/>, title: t.deposit_history.title, description: t.deposit_history.description, href: "/deposit-history" },
+    { icon: <WithdrawHistoryIcon/>, title: t.withdraw_history.title, description: t.withdraw_history.description, href: "/withdraw-history" },
+  ];
+  
+  const infoLinks = [
+      { icon: <Bell className="text-red-500" />, label: t.notification, badge: 23, href: "/notifications" },
+      { icon: <Gift className="text-red-500" />, label: t.gifts, href: "/gifts" },
+      { icon: <BarChart className="text-red-500" />, label: t.game_statistics, href: "/statistics" },
   ];
 
   if (!t) {
@@ -112,7 +156,7 @@ export default function AccountPage() {
             </div>
             <div className="flex items-center gap-2 mt-1 text-sm">
               <span>UID: 927417</span>
-              <Button variant="ghost" size="icon" className="w-6 h-6"><Copy className="w-4 h-4" /></Button>
+              <Button variant="ghost" size="icon" className="w-6 h-6" onClick={copyToClipboard}><Copy className="w-4 h-4" /></Button>
             </div>
             <p className="text-xs mt-1">{t.last_login}: 2025-08-28 16:55:53</p>
           </div>
@@ -124,99 +168,62 @@ export default function AccountPage() {
           <CardContent className="p-4 flex justify-between items-center">
             <div>
               <p className="text-sm text-muted-foreground">{t.total_balance}</p>
-              <p className="text-2xl font-bold flex items-center gap-2">₹305.77 <RefreshCw className="w-4 h-4 text-muted-foreground" /></p>
+              <p className="text-2xl font-bold flex items-center gap-2">
+                ₹305.77 
+                <RefreshCw 
+                    className={cn("w-4 h-4 text-muted-foreground cursor-pointer", isRefreshing && "animate-spin")} 
+                    onClick={handleRefresh}
+                />
+              </p>
             </div>
-            <Button className="bg-red-500 hover:bg-red-600 text-white rounded-full px-6">{t.enter_wallet}</Button>
+            <Button onClick={() => router.push('/wallet')} className="bg-red-500 hover:bg-red-600 text-white rounded-full px-6">{t.enter_wallet}</Button>
           </CardContent>
           <Separator />
           <div className="grid grid-cols-4 gap-2 p-4 text-center">
-            <div className="flex flex-col items-center gap-1">
-                <ArWalletIcon/>
-                <span className="text-xs font-medium">{t.ar_wallet}</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-                <DepositIcon/>
-                <span className="text-xs font-medium">{t.deposit}</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-                <WithdrawIcon/>
-                <span className="text-xs font-medium">{t.withdraw}</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-                <VipIcon/>
-                <span className="text-xs font-medium">{t.vip}</span>
-            </div>
+             {mainWalletActions.map((action, index) => (
+                 <Link href={action.href} key={index} className="flex flex-col items-center gap-1 cursor-pointer hover:bg-red-50 rounded-lg p-1">
+                    {action.icon}
+                    <span className="text-xs font-medium">{action.label}</span>
+                </Link>
+             ))}
           </div>
         </Card>
 
         <div className="grid grid-cols-2 gap-4 mt-4">
-            <Card className="rounded-xl shadow-lg">
-                <CardContent className="p-4 flex items-center gap-4">
-                    <GameHistoryIcon/>
-                    <div>
-                        <p className="font-semibold">{t.game_history.title}</p>
-                        <p className="text-xs text-muted-foreground">{t.game_history.description}</p>
-                    </div>
-                </CardContent>
-            </Card>
-            <Card className="rounded-xl shadow-lg">
-                <CardContent className="p-4 flex items-center gap-4">
-                    <TransactionIcon/>
-                    <div>
-                        <p className="font-semibold">{t.transaction.title}</p>
-                        <p className="text-xs text-muted-foreground">{t.transaction.description}</p>
-                    </div>
-                </CardContent>
-            </Card>
-            <Card className="rounded-xl shadow-lg">
-                <CardContent className="p-4 flex items-center gap-4">
-                    <DepositHistoryIcon/>
-                    <div>
-                        <p className="font-semibold">{t.deposit_history.title}</p>
-                        <p className="text-xs text-muted-foreground">{t.deposit_history.description}</p>
-                    </div>
-                </CardContent>
-            </Card>
-            <Card className="rounded-xl shadow-lg">
-                <CardContent className="p-4 flex items-center gap-4">
-                    <WithdrawHistoryIcon/>
-                    <div>
-                        <p className="font-semibold">{t.withdraw_history.title}</p>
-                        <p className="text-xs text-muted-foreground">{t.withdraw_history.description}</p>
-                    </div>
-                </CardContent>
-            </Card>
+            {historyCards.map((card, index) => (
+                <Link href={card.href} key={index}>
+                    <Card className="rounded-xl shadow-lg hover:bg-gray-50 cursor-pointer">
+                        <CardContent className="p-4 flex items-center gap-4">
+                            {card.icon}
+                            <div>
+                                <p className="font-semibold">{card.title}</p>
+                                <p className="text-xs text-muted-foreground">{card.description}</p>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </Link>
+            ))}
         </div>
 
         <Card className="rounded-xl shadow-lg mt-4">
             <CardContent className="p-0">
-                <div className="flex items-center justify-between p-4">
-                    <div className="flex items-center gap-3">
-                        <Bell className="text-red-500" />
-                        <span className="font-semibold">{t.notification}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">23</span>
-                        <ChevronRight className="text-muted-foreground" />
-                    </div>
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between p-4">
-                    <div className="flex items-center gap-3">
-                        <Gift className="text-red-500" />
-                        <span className="font-semibold">{t.gifts}</span>
-                    </div>
-                    <ChevronRight className="text-muted-foreground" />
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between p-4">
-                    <div className="flex items-center gap-3">
-                        <BarChart className="text-red-500" />
-                        <span className="font-semibold">{t.game_statistics}</span>
-                    </div>
-                    <ChevronRight className="text-muted-foreground" />
-                </div>
-                 <Separator />
+                {infoLinks.map((link, index) => (
+                    <React.Fragment key={link.href}>
+                        <Link href={link.href}>
+                            <div className="flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer">
+                                <div className="flex items-center gap-3">
+                                    {link.icon}
+                                    <span className="font-semibold">{link.label}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    {link.badge && <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">{link.badge}</span>}
+                                    <ChevronRight className="text-muted-foreground" />
+                                </div>
+                            </div>
+                        </Link>
+                        {index < infoLinks.length && <Separator />}
+                    </React.Fragment>
+                ))}
                  <div className="flex items-center justify-between p-4">
                     <div className="flex items-center gap-3">
                         <Globe className="text-red-500" />
@@ -242,29 +249,38 @@ export default function AccountPage() {
             <CardContent className="p-4">
                 <h2 className="font-semibold mb-4">{t.service_center.title}</h2>
                 <div className="grid grid-cols-3 gap-4 text-center">
-                    {serviceCenterItems.map((item, index) => {
-                      const content = (
-                        <div className="flex flex-col items-center gap-2">
-                            <div className="bg-red-100 p-3 rounded-full">
-                                {item.icon}
-                            </div>
-                            <span className="text-xs text-muted-foreground">{item.label}</span>
-                        </div>
-                      );
-                      
-                      if ('href' in item && item.href) {
-                        return <Link key={index} href={item.href}>{content}</Link>;
-                      }
-                      return <div key={index}>{content}</div>;
-                    })}
+                    {serviceCenterItems.map((item, index) => (
+                       <Link key={index} href={item.href || "#"} className="flex flex-col items-center gap-2 cursor-pointer hover:bg-red-50 rounded-lg p-2">
+                           <div className="bg-red-100 p-3 rounded-full">
+                               {item.icon}
+                           </div>
+                           <span className="text-xs text-muted-foreground">{item.label}</span>
+                       </Link>
+                    ))}
                 </div>
             </CardContent>
         </Card>
 
-        <Button variant="outline" className="w-full mt-4 bg-card border-red-300 text-red-500 font-bold flex items-center gap-2 rounded-full py-6 text-lg">
-            <LogOut className="w-6 h-6" />
-            {t.log_out}
-        </Button>
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <Button variant="outline" className="w-full mt-4 bg-card border-red-300 text-red-500 font-bold flex items-center gap-2 rounded-full py-6 text-lg">
+                    <LogOut className="w-6 h-6" />
+                    {t.log_out}
+                </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action will end your current session.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleLogout}>Log Out</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
       </div>
 
       <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-start max-w-lg mx-auto">
