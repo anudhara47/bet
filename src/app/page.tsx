@@ -7,6 +7,147 @@ import { cn } from "@/lib/utils";
 import * as React from "react";
 import Link from "next/link";
 
+const AviatorIcon = () => (
+  <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="aviatorGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+        <stop offset="0%" style={{stopColor: 'rgba(96, 165, 250, 1)', stopOpacity: 1}} />
+        <stop offset="100%" style={{stopColor: 'rgba(59, 130, 246, 1)', stopOpacity: 1}} />
+      </radialGradient>
+      <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+        <feOffset dx="2" dy="2" result="offsetblur"/>
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="0.5"/>
+        </feComponentTransfer>
+        <feMerge>
+          <feMergeNode/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <circle cx="100" cy="100" r="90" fill="url(#aviatorGrad)" />
+    <g transform="translate(100, 100) scale(0.8)" filter="url(#dropShadow)">
+      <path d="M-10,60 L-40,30 L-30,20 L-10,30 L10,30 L30,20 L40,30 L10,60 L10,70 L30,80 L30,90 L10,80 L-10,80 L-30,90 L-30,80 L-10,70 Z" fill="white" transform="rotate(-45) translate(-10, -50)"/>
+      <path d="M0-80 L10-60 L-10-60 Z" fill="#FBBF24"/>
+      <path d="M-30,-20 L-70,20 L-50,30 L-20,0 Z" fill="white" transform="rotate(-45) translate(-10,-50)" />
+      <path d="M30,-20 L70,20 L50,30 L20,0 Z" fill="white" transform="rotate(-45) translate(-10,-50)" />
+    </g>
+  </svg>
+);
+
+const MinesIcon = () => (
+  <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="minesGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+        <stop offset="0%" style={{stopColor: 'rgba(192, 132, 252, 1)', stopOpacity: 1}} />
+        <stop offset="100%" style={{stopColor: 'rgba(168, 85, 247, 1)', stopOpacity: 1}} />
+      </radialGradient>
+       <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <circle cx="100" cy="100" r="90" fill="url(#minesGrad)"/>
+    <g transform="translate(45, 45) scale(0.7)" filter="url(#glow)">
+      <path d="M55 10 L100 10 L125 50 L100 90 L55 90 L30 50 Z" fill="#FBBF24" stroke="#FDE68A" strokeWidth="5"/>
+      <path d="M77.5 25 L105 50 L77.5 75 L50 50 Z" fill="white" />
+    </g>
+     <g transform="translate(100, 105) scale(0.3)" filter="url(#glow)">
+      <path d="M55 10 L100 10 L125 50 L100 90 L55 90 L30 50 Z" fill="#A78BFA" stroke="white" strokeWidth="8"/>
+       <path d="M77.5 25 L105 50 L77.5 75 L50 50 Z" fill="white" />
+    </g>
+  </svg>
+);
+
+const RummyIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="cardGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#f8fafc" />
+                <stop offset="100%" stopColor="#e2e8f0" />
+            </linearGradient>
+            <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+                <feOffset in="blur" dx="2" dy="4" result="offsetBlur" />
+                <feMerge>
+                    <feMergeNode in="offsetBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+        </defs>
+        <g transform="translate(140 25) rotate(15)" style={{filter: 'url(#cardShadow)'}}>
+            <rect x="0" y="0" width="80" height="110" rx="8" fill="url(#cardGrad)" stroke="#cbd5e1" strokeWidth="1" />
+            <text x="10" y="25" fontFamily="Arial" fontSize="20" fill="#ef4444" fontWeight="bold">A</text>
+            <path d="M35 45 L45 45 L40 55 Z M40 50 L40 70" stroke="#ef4444" strokeWidth="5" />
+        </g>
+        <g transform="translate(190 20) rotate(5)" style={{filter: 'url(#cardShadow)'}}>
+            <rect x="0" y="0" width="80" height="110" rx="8" fill="url(#cardGrad)" stroke="#cbd5e1" strokeWidth="1" />
+            <text x="10" y="25" fontFamily="Arial" fontSize="20" fill="#1e293b" fontWeight="bold">K</text>
+            <path d="M30 45 L50 45 M40 45 L40 75 M30 75 L50 75" stroke="#1e293b" strokeWidth="4" />
+        </g>
+        <g transform="translate(80 30) rotate(-10)" style={{filter: 'url(#cardShadow)'}}>
+            <rect x="0" y="0" width="80" height="110" rx="8" fill="url(#cardGrad)" stroke="#cbd5e1" strokeWidth="1" />
+            <text x="10" y="25" fontFamily="Arial" fontSize="20" fill="#ef4444" fontWeight="bold">Q</text>
+            <circle cx="40" cy="60" r="15" stroke="#ef4444" strokeWidth="4" fill="none" />
+             <path d="M50 70 L55 75" stroke="#ef4444" strokeWidth="4" />
+        </g>
+    </svg>
+);
+
+
+const SportsIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <radialGradient id="sportsGrad" cx="50%" cy="50%" r="75%">
+                <stop offset="0%" stopColor="#fff" />
+                <stop offset="100%" stopColor="#e2e8f0" />
+            </radialGradient>
+            <filter id="ballShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="5" dy="10" stdDeviation="5" floodColor="#000" floodOpacity="0.2" />
+            </filter>
+        </defs>
+        <g style={{filter: 'url(#ballShadow)'}}>
+            <circle cx="200" cy="100" r="70" fill="url(#sportsGrad)" />
+            <path d="M150,55 C180,75 220,75 250,55" stroke="#ef4444" strokeWidth="5" fill="none" />
+            <path d="M150,145 C180,125 220,125 250,145" stroke="#ef4444" strokeWidth="5" fill="none" />
+        </g>
+    </svg>
+);
+
+const CasinoIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="diceGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#fef2f2" />
+                <stop offset="100%" stopColor="#fee2e2" />
+            </linearGradient>
+            <filter id="diceShadow" x="-20%" y="-20%" width="140%" height="140%">
+                 <feDropShadow dx="4" dy="4" stdDeviation="3" floodColor="#000" floodOpacity="0.2" />
+            </filter>
+        </defs>
+        <g transform="translate(100,100)">
+            <g transform="rotate(20) translate(-50, -50)" style={{filter: 'url(#diceShadow)'}}>
+                <rect x="0" y="0" width="100" height="100" rx="15" fill="url(#diceGrad)" stroke="#fca5a5" />
+                <circle cx="25" cy="25" r="8" fill="#dc2626"/>
+                <circle cx="75" cy="75" r="8" fill="#dc2626"/>
+            </g>
+            <g transform="rotate(-20) translate(0, -60)" style={{filter: 'url(#diceShadow)'}}>
+                <rect x="0" y="0" width="100" height="100" rx="15" fill="url(#diceGrad)" stroke="#fca5a5" />
+                <circle cx="50" cy="50" r="8" fill="#dc2626"/>
+                <circle cx="25" cy="25" r="8" fill="#dc2626"/>
+                <circle cx="75" cy="25" r="8" fill="#dc2626"/>
+                <circle cx="25" cy="75" r="8" fill="#dc2626"/>
+                <circle cx="75" cy="75" r="8" fill="#dc2626"/>
+            </g>
+        </g>
+    </svg>
+);
+
+
 export default function HomePage() {
 
   const navItems = [
@@ -29,7 +170,7 @@ export default function HomePage() {
     return winners;
   };
 
-  const winners = React.useMemo(() => generateWinners(50), []);
+  const winners = React.useMemo(() => generateWinners(100), []);
   const extendedWinners = React.useMemo(() => [...winners, ...winners], [winners]);
 
   const earningsChart = [
@@ -131,29 +272,35 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-3 gap-2">
             <Link href="/mini-game">
-                <Card className="overflow-hidden rounded-lg bg-blue-400/20">
-                <Image src="https://picsum.photos/200/200?random=10" alt="Aviator" width={200} height={200} data-ai-hint="aviator game" />
-                <CardContent className="p-1 sm:p-2 text-center">
-                    <p className="font-bold text-blue-800 text-xs sm:text-sm">AVIATOR</p>
-                </CardContent>
+                <Card className="overflow-hidden rounded-lg bg-blue-400/20 aspect-square flex flex-col">
+                  <div className="flex-grow">
+                    <AviatorIcon />
+                  </div>
+                  <CardContent className="p-1 sm:p-2 text-center bg-blue-100/50">
+                      <p className="font-bold text-blue-800 text-xs sm:text-sm">AVIATOR</p>
+                  </CardContent>
                 </Card>
             </Link>
             <Link href="/mini-game">
-                <Card className="overflow-hidden rounded-lg bg-purple-400/20">
-                <Image src="https://picsum.photos/200/200?random=11" alt="Mines" width={200} height={200} data-ai-hint="mines game" />
-                <CardContent className="p-1 sm:p-2 text-center">
-                    <p className="font-bold text-purple-800 text-xs sm:text-sm">MINES</p>
-                    <p className="text-xs text-purple-600">TB GAME</p>
-                </CardContent>
+                <Card className="overflow-hidden rounded-lg bg-purple-400/20 aspect-square flex flex-col">
+                  <div className="flex-grow">
+                    <MinesIcon />
+                  </div>
+                  <CardContent className="p-1 sm:p-2 text-center bg-purple-100/50">
+                      <p className="font-bold text-purple-800 text-xs sm:text-sm">MINES</p>
+                      <p className="text-xs text-purple-600">TB GAME</p>
+                  </CardContent>
                 </Card>
             </Link>
             <Link href="/mini-game">
-                <Card className="overflow-hidden rounded-lg bg-purple-400/20">
-                <Image src="https://picsum.photos/200/200?random=12" alt="Mines Pro" width={200} height={200} data-ai-hint="mines game explosion" />
-                <CardContent className="p-1 sm:p-2 text-center">
-                    <p className="font-bold text-purple-800 text-xs sm:text-sm">MINES PRO</p>
-                    <p className="text-xs text-purple-600">TB GAME</p>
-                </CardContent>
+                <Card className="overflow-hidden rounded-lg bg-purple-400/20 aspect-square flex flex-col">
+                  <div className="flex-grow">
+                     <MinesIcon />
+                  </div>
+                  <CardContent className="p-1 sm:p-2 text-center bg-purple-100/50">
+                      <p className="font-bold text-purple-800 text-xs sm:text-sm">MINES PRO</p>
+                      <p className="text-xs text-purple-600">TB GAME</p>
+                  </CardContent>
                 </Card>
             </Link>
           </div>
@@ -193,8 +340,8 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 gap-2 sm:gap-4">
             <Link href="/card">
-                <Card className="rounded-lg overflow-hidden">
-                    <Image src="https://picsum.photos/400/150?random=16" alt="Rummy" width={400} height={150} className="w-full" data-ai-hint="man cards" />
+                <Card className="rounded-lg overflow-hidden bg-slate-200">
+                    <RummyIcon />
                 </Card>
             </Link>
           </div>
@@ -231,18 +378,18 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4">
             <Link href="/casino">
-                <Card className="rounded-lg overflow-hidden">
-                    <Image src="https://picsum.photos/200/200?random=24" alt="Evo" width={200} height={200} className="w-full" data-ai-hint="woman gold" />
+                <Card className="rounded-lg overflow-hidden bg-red-100/50 aspect-square">
+                    <CasinoIcon />
                 </Card>
             </Link>
             <Link href="/casino">
-                <Card className="rounded-lg overflow-hidden">
-                    <Image src="https://picsum.photos/200/200?random=25" alt="Playace" width={200} height={200} className="w-full" data-ai-hint="woman cards traditional" />
+                <Card className="rounded-lg overflow-hidden bg-red-100/50 aspect-square">
+                    <CasinoIcon />
                 </Card>
             </Link>
             <Link href="/casino">
-                <Card className="rounded-lg overflow-hidden">
-                    <Image src="https://picsum.photos/200/200?random=26" alt="MG Live Grand" width={200} height={200} className="w-full" data-ai-hint="woman fire" />
+                <Card className="rounded-lg overflow-hidden bg-red-100/50 aspect-square">
+                    <CasinoIcon />
                 </Card>
             </Link>
           </div>
@@ -255,8 +402,8 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 gap-2 sm:gap-4">
             <Link href="/sports">
-                <Card className="rounded-lg overflow-hidden">
-                    <Image src="https://picsum.photos/400/200?random=27" alt="Sports" width={400} height={200} className="w-full" data-ai-hint="baseball player" />
+                <Card className="rounded-lg overflow-hidden bg-slate-200">
+                    <SportsIcon />
                 </Card>
             </Link>
           </div>
