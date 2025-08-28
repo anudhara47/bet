@@ -42,7 +42,7 @@ const SplashScreen = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background overflow-hidden">
-      <div className={cn("relative flex h-64 w-64 items-center justify-center transition-transform duration-1000", isRotating && "animate-spin-splash")}>
+      <div className={cn("relative flex h-64 w-64 items-center justify-center transition-transform duration-1000", isRotating && "animate-spin-splash-slow")}>
         {Array.from({ length: DOT_COUNT }).map((_, i) => {
           const angle = (i / DOT_COUNT) * 2 * Math.PI;
           const x = RADIUS * Math.cos(angle);
@@ -51,20 +51,22 @@ const SplashScreen = () => {
           return (
             <div
               key={i}
-              className={`absolute h-5 w-5 rounded-full shadow-lg transition-all ease-[cubic-bezier(0.34, 1.56, 0.64, 1)] ${DOT_COLORS[i % DOT_COLORS.length]}`}
+              className={`absolute h-6 w-6 rounded-full shadow-lg transition-all ease-[cubic-bezier(0.34, 1.56, 0.64, 1)] flex items-center justify-center text-white font-bold text-sm ${DOT_COLORS[i % DOT_COLORS.length]}`}
               style={{
                 transform: dotsVisible ? `translate(${x}px, ${y}px) scale(1)` : `translate(0px, -150px) scale(0)`,
                 opacity: dotsVisible ? 1 : 0,
                 transitionDuration: `${DOT_ANIMATION_DURATION}ms`,
                 transitionDelay: `${i * DOT_ANIMATION_DELAY_STEP}ms`,
               }}
-            />
+            >
+              {i + 1}
+            </div>
           );
         })}
 
         {logoVisible && (
           <div className="absolute animate-logo-zoom">
-            <AppLogo className="text-8xl" />
+            <AppLogo className="text-6xl" />
           </div>
         )}
       </div>
