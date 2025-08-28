@@ -11,17 +11,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import Autoplay from "embla-carousel-autoplay";
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function Home() {
   const categories = [
-    { name: "lobby", colors: "from-sky-400 via-blue-500 to-indigo-500" },
-    { name: "mini game", colors: "from-green-400 via-emerald-500 to-teal-500" },
-    { name: "card", colors: "from-amber-400 via-orange-500 to-red-500" },
-    { name: "sports", colors: "from-blue-400 via-cyan-500 to-sky-500" },
-    { name: "casino", colors: "from-purple-400 via-fuchsia-500 to-pink-500" },
-    { name: "fantasy", colors: "from-yellow-400 via-amber-500 to-orange-500" },
-    { name: "Live bet", colors: "from-red-500 via-rose-500 to-pink-500" },
-    { name: "All games", colors: "from-indigo-400 via-purple-500 to-violet-500" }
+    { name: "lobby", path: "/lobby", colors: "from-sky-400 via-blue-500 to-indigo-500" },
+    { name: "mini game", path: "/mini-game", colors: "from-green-400 via-emerald-500 to-teal-500" },
+    { name: "card", path: "/card", colors: "from-amber-400 via-orange-500 to-red-500" },
+    { name: "sports", path: "/sports", colors: "from-blue-400 via-cyan-500 to-sky-500" },
+    { name: "casino", path: "/casino", colors: "from-purple-400 via-fuchsia-500 to-pink-500" },
+    { name: "fantasy", path: "/fantasy", colors: "from-yellow-400 via-amber-500 to-orange-500" },
+    { name: "Live bet", path: "/live-bet", colors: "from-red-500 via-rose-500 to-pink-500" },
+    { name: "All games", path: "/all-games", colors: "from-indigo-400 via-purple-500 to-violet-500" }
   ];
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
@@ -60,19 +61,20 @@ export default function Home() {
               className="w-full"
             >
               <CarouselContent className="-ml-2">
-                {categories.map((category, index) => (
-                  <CarouselItem key={index} className="basis-auto pl-2">
+                {categories.map((category) => (
+                  <CarouselItem key={category.name} className="basis-auto pl-2">
                     <div className="p-0">
-                      <Button
-                        key={category.name}
-                        className={cn(
-                          "capitalize w-[75px] h-[25px] text-[10px] text-white font-bold rounded-md border-b-4 border-gray-800/80 transition-all hover:border-b-2 active:border-b-0 active:translate-y-1",
-                          "bg-gradient-to-br",
-                          category.colors
-                        )}
-                      >
-                        {category.name}
-                      </Button>
+                      <Link href={category.path}>
+                        <Button
+                          className={cn(
+                            "capitalize w-[75px] h-[25px] text-[10px] text-white font-bold rounded-md border-b-4 border-gray-800/80 transition-all hover:border-b-2 active:border-b-0 active:translate-y-1",
+                            "bg-gradient-to-br",
+                            category.colors
+                          )}
+                        >
+                          {category.name}
+                        </Button>
+                      </Link>
                     </div>
                   </CarouselItem>
                 ))}
