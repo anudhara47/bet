@@ -57,7 +57,7 @@ export default function WinGoPage() {
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     const [gameInterval, setGameInterval] = React.useState(30);
 
-    const gameHistory = [
+    const initialHistory = [
         { period: '20250828100051955', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
         { period: '20250828100051954', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
         { period: '20250828100051953', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
@@ -67,8 +67,10 @@ export default function WinGoPage() {
         { period: '20250828100051949', number: 2, bigSmall: 'Small', colors: ['red'] },
         { period: '20250828100051948', number: 1, bigSmall: 'Small', colors: ['green'] },
         { period: '20250828100051947', number: 3, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100051946', number: 7, bigSmall: 'Big', colors: ['green'] },
     ];
+    
+    const [gameHistory, setGameHistory] = React.useState(initialHistory);
+
 
     React.useEffect(() => {
         const getISTDate = () => {
@@ -87,11 +89,17 @@ export default function WinGoPage() {
             const totalSecondsInDay = istNow.getHours() * 3600 + istNow.getMinutes() * 60 + istNow.getSeconds();
             const gameNumber = Math.floor(totalSecondsInDay / gameInterval) + 1;
             
-            setPeriodId(`${year}${month}${day}${gameNumber.toString().padStart(5, '0')}`);
+            const currentPeriodId = `${year}${month}${day}${gameNumber.toString().padStart(5, '0')}`;
+            setPeriodId(currentPeriodId);
 
             const seconds = istNow.getSeconds();
             const remaining = gameInterval - (seconds % gameInterval);
             setTimeLeft(remaining);
+            
+            if (remaining === gameInterval) { // New game starts
+                const newResult = { period: '20250828100051978', number: 8, bigSmall: 'Big', colors: ['red'] };
+                setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
+            }
         };
     
         updateTimerAndPeriod(); // Initial call
