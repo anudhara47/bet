@@ -58,42 +58,32 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100052049', number: 2, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052048', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052047', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052046', number: 4, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052045', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052044', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
-        { period: '20250828100052043', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100052042', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100052041', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100052040', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052060', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052059', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052058', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052057', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052056', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052055', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
+        { period: '20250828100052054', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052053', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052052', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052051', number: 8, bigSmall: 'Big', colors: ['red'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
 
 
     React.useEffect(() => {
-        const getISTDate = () => {
-            const now = new Date();
-            const utcOffset = now.getTimezoneOffset() * 60000;
-            const istOffset = 5.5 * 3600000;
-            return new Date(now.getTime() + utcOffset + istOffset);
-        };
-    
-        const basePeriod = BigInt("20250828100052050");
-        let lastKnownPeriod = BigInt(periodId || "0");
-        if (lastKnownPeriod === 0n) {
-             lastKnownPeriod = basePeriod - 1n;
-        }
+        let timer: NodeJS.Timeout;
+        const basePeriod = BigInt(gameHistory[0].period);
 
         const updateTimerAndPeriod = () => {
-            const istNow = getISTDate();
-            const secondsInDay = istNow.getUTCHours() * 3600 + istNow.getUTCMinutes() * 60 + istNow.getUTCSeconds();
-            const remaining = gameInterval - (secondsInDay % gameInterval);
-    
+            const now = new Date();
+            const seconds = now.getSeconds();
+            const remaining = gameInterval - (seconds % gameInterval);
+            
             if (timeLeft === 1 && remaining === gameInterval) {
-                 const newPeriod = lastKnownPeriod + 1n;
+                 const newPeriod = BigInt(periodId) + 1n;
                  const newNumber = Math.floor(Math.random() * 10);
                  const newColors = [];
                  if ([0,5].includes(newNumber)) newColors.push('purple');
@@ -109,16 +99,16 @@ export default function WinGoPage() {
                  setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
                  setPeriodId(newPeriod.toString());
             } else if (periodId === '') {
-                 setPeriodId(basePeriod.toString());
+                 setPeriodId((basePeriod + 1n).toString());
             }
             setTimeLeft(remaining > 0 ? remaining : 0);
         };
     
-        updateTimerAndPeriod(); // Initial call
-        const timer = setInterval(updateTimerAndPeriod, 1000);
+        updateTimerAndPeriod(); 
+        timer = setInterval(updateTimerAndPeriod, 1000);
     
         return () => clearInterval(timer);
-    }, [gameInterval, timeLeft, periodId]);
+    }, [gameInterval, timeLeft, periodId, gameHistory]);
 
 
     const formatTime = (seconds: number) => {
