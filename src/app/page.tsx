@@ -154,14 +154,6 @@ export default function HomePage() {
           <Activity className="w-6 h-6" />
           <span className="text-xs mt-1">Activity</span>
         </Button>
-        <div className="relative">
-          <div className="absolute -bottom-4 sm:-top-10">
-             <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-yellow-400 to-orange-500 flex flex-col items-center justify-center text-white">
-                <div className="font-bold text-sm sm:text-base">GO</div>
-             </div>
-             <p className="text-center font-bold text-xs mt-1">Get ₹500</p>
-          </div>
-        </div>
         <Button variant="ghost" className="flex flex-col h-auto items-center text-muted-foreground">
           <Percent className="w-6 h-6" />
           <span className="text-xs mt-1">Promotion</span>
@@ -174,5 +166,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-    
