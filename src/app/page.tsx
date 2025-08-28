@@ -1,4 +1,5 @@
 import { Wallet } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
@@ -14,12 +15,15 @@ export default function Home() {
             </a>
           </div>
           <div className="flex flex-1 items-center justify-end">
-            <Wallet className="h-6 w-6 mr-4 text-yellow-400" />
+            <Wallet className="h-5 w-5 mr-4" />
           </div>
         </div>
       </header>
       <main className="container mx-auto flex flex-col items-center justify-center p-4">
-        {/* You can start building your page here */}
+        <div className="flex gap-4">
+          <Button>Deposit</Button>
+          <Button>Withdrawal</Button>
+        </div>
       </main>
     </div>
   );
