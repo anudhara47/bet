@@ -10,10 +10,6 @@ import * as React from "react";
 const AviatorIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="aviatorGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" style={{stopColor: 'rgba(239, 68, 68, 0.8)', stopOpacity: 1}} />
-          <stop offset="100%" style={{stopColor: 'rgba(220, 38, 38, 1)', stopOpacity: 1}} />
-        </radialGradient>
         <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
           <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
           <feOffset dx="2" dy="2" result="offsetblur"/>
@@ -26,44 +22,32 @@ const AviatorIcon = () => (
           </feMerge>
         </filter>
       </defs>
-      <circle cx="100" cy="100" r="80" fill="url(#aviatorGrad)" />
+      <rect width="200" height="200" fill="transparent" />
       <g transform="translate(100, 100) scale(0.7) rotate(-45)" filter="url(#dropShadow)">
-        <path d="M-10,60 L-40,30 L-30,20 L-10,30 L10,30 L30,20 L40,30 L10,60 L10,70 L30,80 L30,90 L10,80 L-10,80 L-30,90 L-30,80 L-10,70 Z" fill="white" transform="translate(-10, -50)"/>
+        <path d="M-10,60 L-40,30 L-30,20 L-10,30 L10,30 L30,20 L40,30 L10,60 L10,70 L30,80 L30,90 L10,80 L-10,80 L-30,90 L-30,80 L-10,70 Z" fill="#ef4444" transform="translate(-10, -50)"/>
         <path d="M0-80 L10-60 L-10-60 Z" fill="#FBBF24"/>
-        <path d="M-30,-20 L-70,20 L-50,30 L-20,0 Z" fill="white" transform="translate(-10,-50)" />
-        <path d="M30,-20 L70,20 L50,30 L20,0 Z" fill="white" transform="translate(-10,-50)" />
+        <path d="M-30,-20 L-70,20 L-50,30 L-20,0 Z" fill="#de2d2d" transform="translate(-10,-50)" />
+        <path d="M30,-20 L70,20 L50,30 L20,0 Z" fill="#de2d2d" transform="translate(-10,-50)" />
       </g>
-       <text x="50%" y="85%" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">AVIATOR</text>
+       <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">AVIATOR</text>
     </svg>
 );
 
 const CricketIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="cricketGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#22c55e" />
-                <stop offset="100%" stopColor="#16a34a" />
-            </radialGradient>
-        </defs>
-        <circle cx="100" cy="100" r="80" fill="url(#cricketGrad)" />
+        <rect width="200" height="200" fill="transparent" />
         <g transform="translate(50, 40) scale(0.6)">
             <path d="M100 130 L110 120 L110 30 L100 20 Z" fill="#a16207" />
             <path d="M90 130 L100 120 L100 30 L90 20 Z" fill="#eab308" />
             <circle cx="100" cy="90" r="15" fill="#ef4444" />
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">CRICKET</text>
+        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">CRICKET</text>
     </svg>
 );
 
 const ChickenRoadIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="chickenGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#f97316" />
-                <stop offset="100%" stopColor="#ea580c" />
-            </radialGradient>
-        </defs>
-        <circle cx="100" cy="100" r="80" fill="url(#chickenGrad)" />
+        <rect width="200" height="200" fill="transparent" />
         <g transform="translate(55, 50) scale(0.5)">
             <circle cx="100" cy="100" r="50" fill="#fcd34d" />
             <circle cx="85" cy="90" r="5" fill="black" />
@@ -71,17 +55,13 @@ const ChickenRoadIcon = () => (
             <path d="M100 110 C 105 120, 95 120, 100 110" fill="none" stroke="black" strokeWidth="2"/>
             <path d="M95 100 L105 105 L95 110 Z" fill="#f97316" />
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="white" fontSize="18" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">CHICKEN ROAD</text>
+        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="18" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">CHICKEN ROAD</text>
     </svg>
 );
 
 const MinesIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="minesGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" style={{stopColor: 'rgba(192, 132, 252, 1)', stopOpacity: 1}} />
-          <stop offset="100%" style={{stopColor: 'rgba(168, 85, 247, 1)', stopOpacity: 1}} />
-        </radialGradient>
          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
           <feMerge>
@@ -90,122 +70,86 @@ const MinesIcon = () => (
           </feMerge>
         </filter>
       </defs>
-      <circle cx="100" cy="100" r="80" fill="url(#minesGrad)"/>
+      <rect width="200" height="200" fill="transparent"/>
       <g transform="translate(60, 50) scale(0.4)" filter="url(#glow)">
         <path d="M55 10 L100 10 L125 50 L100 90 L55 90 L30 50 Z" fill="#FBBF24" stroke="#FDE68A" strokeWidth="5"/>
-        <path d="M77.5 25 L105 50 L77.5 75 L50 50 Z" fill="white" />
+        <path d="M77.5 25 L105 50 L77.5 75 L50 50 Z" fill="#a855f7" />
       </g>
-      <text x="50%" y="85%" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">MINES</text>
+      <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">MINES</text>
     </svg>
 );
 
 const LimboIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="limboGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#6366f1" />
-                <stop offset="100%" stopColor="#4f46e5" />
-            </radialGradient>
-        </defs>
-        <circle cx="100" cy="100" r="80" fill="url(#limboGrad)" />
+        <rect width="200" height="200" fill="transparent" />
         <g transform="translate(60, 40) scale(0.5)">
-            <path d="M100 20 L120 70 L80 70 Z" fill="white"/>
+            <path d="M100 20 L120 70 L80 70 Z" fill="#4f46e5"/>
             <rect x="80" y="70" width="40" height="80" fill="#a5b4fc" />
             <path d="M90 150 L110 150 L120 170 L80 170 Z" fill="#ef4444" />
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">LIMBO</text>
+        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">LIMBO</text>
     </svg>
 );
 
 const JavelinIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="javelinGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#f59e0b" />
-                <stop offset="100%" stopColor="#d97706" />
-            </radialGradient>
-        </defs>
-        <circle cx="100" cy="100" r="80" fill="url(#javelinGrad)" />
+        <rect width="200" height="200" fill="transparent" />
         <g transform="translate(50, 50) scale(0.5) rotate(45)">
-            <path d="M10 100 L190 100" stroke="white" strokeWidth="8" strokeLinecap="round" />
-            <path d="M170 90 L190 100 L170 110" stroke="white" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M10 100 L190 100" stroke="#d97706" strokeWidth="8" strokeLinecap="round" />
+            <path d="M170 90 L190 100 L170 110" stroke="#d97706" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">JAVELIN</text>
+        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">JAVELIN</text>
     </svg>
 );
 
 const DragonTigerIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="dtGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#06b6d4" />
-                <stop offset="100%" stopColor="#0891b2" />
-            </radialGradient>
-        </defs>
-        <circle cx="100" cy="100" r="80" fill="url(#dtGrad)" />
+        <rect width="200" height="200" fill="transparent" />
         <g transform="translate(40, 50) scale(0.6)">
             {/* Dragon */}
             <path d="M50,20 C 20,50 40,100 80,100 C 100,100 100,80 80,70" fill="#ef4444" />
             {/* Tiger */}
             <path d="M150,120 C 180,90 160,40 120,40 C 100,40 100,60 120,70" fill="#f97316" />
         </g>
-         <text x="50%" y="85%" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">DRAGON TIGER</text>
+         <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="20" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">DRAGON TIGER</text>
     </svg>
 );
 
 const GoalIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="goalGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#16a34a" />
-                <stop offset="100%" stopColor="#15803d" />
-            </radialGradient>
-        </defs>
-        <circle cx="100" cy="100" r="80" fill="url(#goalGrad)" />
+        <rect width="200" height="200" fill="transparent" />
         <g transform="translate(50, 50) scale(0.5)">
-            <circle cx="100" cy="100" r="40" fill="white" />
-             <path d="M100,60 l19,38 h-38 Z" fill="black" transform="translate(0,-5)"/>
-             <path d="M81,98 l38,0 l-19,38 Z" fill="black" transform="translate(0,5)"/>
+            <circle cx="100" cy="100" r="40" fill="#16a34a" />
+             <path d="M100,60 l19,38 h-38 Z" fill="white" transform="translate(0,-5)"/>
+             <path d="M81,98 l38,0 l-19,38 Z" fill="white" transform="translate(0,5)"/>
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">GOAL</text>
+        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">GOAL</text>
     </svg>
 );
 
 const SnakesIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="snakesGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#0d9488" />
-                <stop offset="100%" stopColor="#0f766e" />
-            </radialGradient>
-        </defs>
-        <circle cx="100" cy="100" r="80" fill="url(#snakesGrad)" />
+        <rect width="200" height="200" fill="transparent" />
         <g transform="translate(50, 50) scale(0.5)">
-            <path d="M50 150 C 50 50, 150 50, 150 150" stroke="#fde047" strokeWidth="12" fill="none" strokeLinecap="round"/>
+            <path d="M50 150 C 50 50, 150 50, 150 150" stroke="#0d9488" strokeWidth="12" fill="none" strokeLinecap="round"/>
             <path d="M140 60 L150 50 L160 60" fill="#fde047"/>
             <circle cx="150" cy="70" r="3" fill="red" />
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">SNAKES</text>
+        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">SNAKES</text>
     </svg>
 );
 
 const DiceIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="diceGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#db2777" />
-                <stop offset="100%" stopColor="#be185d" />
-            </radialGradient>
-        </defs>
-        <circle cx="100" cy="100" r="80" fill="url(#diceGrad)" />
+        <rect width="200" height="200" fill="transparent" />
         <g transform="translate(50,50) scale(0.5) rotate(-15)">
-            <rect x="50" y="50" width="100" height="100" rx="15" fill="white"/>
-            <circle cx="75" cy="75" r="8" fill="#db2777"/>
-            <circle cx="125" cy="125" r="8" fill="#db2777"/>
-             <circle cx="75" cy="125" r="8" fill="#db2777"/>
-            <circle cx="125" cy="75" r="8" fill="#db2777"/>
+            <rect x="50" y="50" width="100" height="100" rx="15" fill="#db2777"/>
+            <circle cx="75" cy="75" r="8" fill="white"/>
+            <circle cx="125" cy="125" r="8" fill="white"/>
+             <circle cx="75" cy="125" r="8" fill="white"/>
+            <circle cx="125" cy="75" r="8" fill="white"/>
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">DICE</text>
+        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">DICE</text>
     </svg>
 );
 
@@ -278,12 +222,12 @@ export default function MiniGamePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-white pb-24 max-w-lg mx-auto">
-      <header className="sticky top-0 z-50 w-full bg-neutral-900/80 backdrop-blur supports-[backdrop-filter]:bg-neutral-900/60 p-4 flex items-center gap-4">
-        <Link href="/" className="text-white">
+    <div className="min-h-screen bg-neutral-100 text-white pb-24 max-w-lg mx-auto">
+      <header className="sticky top-0 z-50 w-full bg-neutral-100/80 backdrop-blur supports-[backdrop-filter]:bg-neutral-100/60 p-4 flex items-center gap-4">
+        <Link href="/" className="text-black">
           <ChevronLeft className="w-6 h-6" />
         </Link>
-        <h1 className="font-bold text-xl">Mini Game</h1>
+        <h1 className="font-bold text-xl text-black">Mini Game</h1>
       </header>
 
       <main className="p-4">
