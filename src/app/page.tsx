@@ -10,9 +10,19 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import Autoplay from "embla-carousel-autoplay";
 import * as React from "react";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
-  const categories = ["lobby", "mini game", "card", "sports", "casino", "fantasy", "Live bet", "All games"];
+  const categories = [
+    { name: "lobby", colors: "from-sky-400 via-blue-500 to-indigo-500" },
+    { name: "mini game", colors: "from-green-400 via-emerald-500 to-teal-500" },
+    { name: "card", colors: "from-amber-400 via-orange-500 to-red-500" },
+    { name: "sports", colors: "from-blue-400 via-cyan-500 to-sky-500" },
+    { name: "casino", colors: "from-purple-400 via-fuchsia-500 to-pink-500" },
+    { name: "fantasy", colors: "from-yellow-400 via-amber-500 to-orange-500" },
+    { name: "Live bet", colors: "from-red-500 via-rose-500 to-pink-500" },
+    { name: "All games", colors: "from-indigo-400 via-purple-500 to-violet-500" }
+  ];
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   )
@@ -39,9 +49,9 @@ export default function Home() {
         </div>
       </header>
       <main className="container mx-auto p-4">
-        <Card className="shadow-md">
+        <Card className="shadow-lg bg-card/80">
           <CardContent className="p-4">
-            <Carousel 
+            <Carousel
               plugins={[plugin.current]}
               opts={{
                 align: "start",
@@ -54,12 +64,14 @@ export default function Home() {
                   <CarouselItem key={index} className="basis-auto pl-2">
                     <div className="p-0">
                       <Button
-                        key={category}
-                        variant="outline"
-                        style={{ width: '75px', height: '25px', fontSize: '10px' }}
-                        className="capitalize w-full"
+                        key={category.name}
+                        className={cn(
+                          "capitalize w-[75px] h-[25px] text-[10px] text-white font-bold rounded-md border-b-4 border-gray-800/80 transition-all hover:border-b-2 active:border-b-0 active:translate-y-1",
+                          "bg-gradient-to-br",
+                          category.colors
+                        )}
                       >
-                        {category}
+                        {category.name}
                       </Button>
                     </div>
                   </CarouselItem>
