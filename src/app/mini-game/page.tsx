@@ -143,16 +143,179 @@ const DiceIcon = () => (
     </svg>
 );
 
+const KingAndPauperIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(50, 50) scale(0.5)">
+            <path d="M50 20 L150 20 L150 60 L100 90 L50 60Z" fill="#be123c"/>
+            <path d="M50 70 L150 70 L150 180 L50 180Z" fill="#9f1239"/>
+            <circle cx="100" cy="40" r="10" fill="#facc15"/>
+        </g>
+    </svg>
+);
+
+const HiloWaveIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(50, 50) scale(0.5)">
+            <path d="M20 100 C 40 60, 60 60, 80 100 S 120 140, 140 100 S 180 60, 200 100" stroke="#4d7c0f" strokeWidth="12" fill="none" strokeLinecap="round"/>
+            <path d="M20 120 C 40 80, 60 80, 80 120 S 120 160, 140 120 S 180 80, 200 120" stroke="#65a30d" strokeWidth="12" fill="none" strokeLinecap="round"/>
+        </g>
+    </svg>
+);
+
+const ClashOfHandsIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(50, 60) scale(0.6) rotate(-15)">
+            <path d="M20 80 Q 40 20, 80 50 T 140 80" fill="#0c4a6e"/>
+            <path d="M30 80 Q 50 30, 90 60 T 150 90" fill="#075985"/>
+        </g>
+        <g transform="translate(150, 140) scale(0.6) rotate(165)">
+            <path d="M20 80 Q 40 20, 80 50 T 140 80" fill="#0c4a6e"/>
+            <path d="M30 80 Q 50 30, 90 60 T 150 90" fill="#075985"/>
+        </g>
+    </svg>
+);
+
+const PlinkoIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(50, 50) scale(0.5)">
+            <circle cx="100" cy="100" r="60" fill="#d946ef"/>
+            <circle cx="100" cy="100" r="40" fill="#c026d3"/>
+            <circle cx="100" cy="100" r="20" fill="#a21caf"/>
+            <text x="80" y="70" fill="white" fontSize="20" fontWeight="bold">50X</text>
+        </g>
+    </svg>
+);
+
+const BombWaveIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(40, 50) scale(0.5)">
+            <circle cx="80" cy="120" r="50" fill="#1e293b"/>
+            <rect x="70" y="60" width="20" height="20" fill="#94a3b8"/>
+            <path d="M80 60 Q 120 20, 140 40" stroke="#f59e0b" strokeWidth="8" fill="none"/>
+        </g>
+         <g transform="translate(100, 80) scale(0.3)">
+            <circle cx="80" cy="120" r="50" fill="#1e293b"/>
+            <rect x="70" y="60" width="20" height="20" fill="#94a3b8"/>
+            <path d="M80 60 Q 120 20, 140 40" stroke="#f59e0b" strokeWidth="8" fill="none"/>
+        </g>
+    </svg>
+);
+
+const HiloIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(30, 50) scale(0.4) rotate(-15)">
+            <rect x="0" y="0" width="100" height="140" rx="10" fill="#e0e7ff"/>
+            <text x="10" y="30" fill="red" fontSize="30">A♥️</text>
+        </g>
+        <g transform="translate(90, 50) scale(0.4) rotate(15)">
+            <rect x="0" y="0" width="100" height="140" rx="10" fill="#e0e7ff"/>
+            <text x="10" y="30" fill="black" fontSize="30">K♠️</text>
+        </g>
+    </svg>
+);
+
+const TreasureWaveIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(50, 50) scale(0.5)">
+            <circle cx="100" cy="100" r="70" fill="#475569"/>
+            <circle cx="100" cy="100" r="50" fill="#334155"/>
+            <path d="M100 20 L120 50 L80 50 Z" fill="#ca8a04"/>
+            <path d="M100 180 L120 150 L80 150 Z" fill="#ca8a04"/>
+            <path d="M20 100 L50 120 L50 80 Z" fill="#ca8a04"/>
+            <path d="M180 100 L150 120 L150 80 Z" fill="#ca8a04"/>
+        </g>
+    </svg>
+);
+
+const HotlineIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(50, 50) scale(0.5)">
+            <path d="M20 100 L100 30 L180 100 L180 170 L20 170Z" fill="#3b82f6"/>
+            <rect x="60" y="110" width="80" height="60" fill="#93c5fd"/>
+            <path d="M90 70 L110 70 L110 90 L90 90 Z" fill="#60a5fa"/>
+            <path d="M20,90 Q 50 20, 100 50 T 180 90" stroke="#ef4444" strokeWidth="8" fill="none"/>
+        </g>
+    </svg>
+);
+
+const CryptosIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(50, 50) scale(0.5)">
+            <path d="M100 10 L140 80 L60 80Z" fill="#f59e0b"/>
+            <rect x="80" y="80" width="40" height="80" fill="#fbbf24"/>
+            <path d="M70 160 L130 160 L100 190Z" fill="#f97316"/>
+        </g>
+    </svg>
+);
+
+const SpaceDiceIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(40, 60) scale(0.4) rotate(-25)">
+            <rect x="0" y="0" width="100" height="100" rx="15" fill="#a78bfa"/>
+            <circle cx="25" cy="25" r="8" fill="white"/>
+            <circle cx="75" cy="75" r="8" fill="white"/>
+        </g>
+        <g transform="translate(100, 60) scale(0.4) rotate(15)">
+            <rect x="0" y="0" width="100" height="100" rx="15" fill="#a78bfa"/>
+            <circle cx="50" cy="50" r="8" fill="white"/>
+            <circle cx="25" cy="25" r="8" fill="white"/>
+            <circle cx="75" cy="25" r="8" fill="white"/>
+            <circle cx="25" cy="75" r="8" fill="white"/>
+            <circle cx="75" cy="75" r="8" fill="white"/>
+        </g>
+    </svg>
+);
+
+const Goal3DIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(50, 50) scale(0.5)">
+            <circle cx="100" cy="100" r="40" fill="#e2e8f0"/>
+            <path d="M100 60 L118 95 L82 95 Z" fill="black"/>
+            <path d="M100 140 L118 105 L82 105 Z" fill="black"/>
+            <path d="M70 80 L95 100 L70 120Z" fill="black"/>
+            <path d="M130 80 L105 100 L130 120Z" fill="black"/>
+        </g>
+    </svg>
+);
+
+const MiniRouletteIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="transparent"/>
+        <g transform="translate(50, 50) scale(0.5)">
+            <circle cx="100" cy="100" r="80" fill="#dc2626"/>
+            <circle cx="100" cy="100" r="70" fill="#1e293b"/>
+            <circle cx="100" cy="100" r="30" fill="#f59e0b"/>
+            <path d="M100 20 L100 180" stroke="#facc15" strokeWidth="10"/>
+            <path d="M20 100 L180 100" stroke="#facc15" strokeWidth="10"/>
+            <path d="M45 45 L155 155" stroke="#facc15" strokeWidth="10"/>
+            <path d="M45 155 L155 45" stroke="#facc15" strokeWidth="10"/>
+        </g>
+    </svg>
+);
+
 
 
 const GameCard = ({
   href,
   Icon,
-  label
+  label,
+  sublabel
 }: {
   href: string;
   Icon: React.ComponentType;
   label: string;
+  sublabel?: string;
 }) => (
   <Link href={href} className="flex flex-col gap-2 items-center text-center">
     <Card className="w-full overflow-hidden rounded-lg bg-transparent shadow-sm aspect-square">
@@ -161,6 +324,7 @@ const GameCard = ({
         </CardContent>
     </Card>
     <span className="text-sm font-bold text-white opacity-80">{label}</span>
+    {sublabel && <span className="text-xs text-white/50 -mt-2">{sublabel}</span>}
   </Link>
 );
 
@@ -228,6 +392,21 @@ export default function MiniGamePage() {
     },
   ];
 
+  const newGames = [
+      { href: "/mini-game/king-pauper", Icon: KingAndPauperIcon, label: "KING AND PAUPER" },
+      { href: "/mini-game/hilo-wave", Icon: HiloWaveIcon, label: "HILO WAVE" },
+      { href: "/mini-game/clash-of-hands", Icon: ClashOfHandsIcon, label: "CLASH OF HANDS" },
+      { href: "/mini-game/plinko", Icon: PlinkoIcon, label: "PLINKO", sublabel: "TB GAME" },
+      { href: "/mini-game/bomb-wave", Icon: BombWaveIcon, label: "BOMB WAVE", sublabel: "TB GAME" },
+      { href: "/mini-game/hilo", Icon: HiloIcon, label: "HILO", sublabel: "TB GAME" },
+      { href: "/mini-game/treasure-wave", Icon: TreasureWaveIcon, label: "TREASURE WAVE", sublabel: "TB GAME" },
+      { href: "/mini-game/hotline", Icon: HotlineIcon, label: "HOTLINE", sublabel: "TB GAME" },
+      { href: "/mini-game/cryptos", Icon: CryptosIcon, label: "CRYPTOS", sublabel: "TB GAME" },
+      { href: "/mini-game/space-dice", Icon: SpaceDiceIcon, label: "SPACE DICE", sublabel: "TB GAME" },
+      { href: "/mini-game/goal", Icon: Goal3DIcon, label: "GOAL", sublabel: "TB GAME" },
+      { href: "/mini-game/mini-roulette", Icon: MiniRouletteIcon, label: "MINI ROULETTE", sublabel: "TB GAME" },
+  ]
+
   return (
     <div className="min-h-screen bg-black text-white pb-24 max-w-lg mx-auto">
       <header className="sticky top-0 z-50 w-full bg-black/80 backdrop-blur supports-[backdrop-filter]:bg-black/60 p-4 flex items-center gap-4">
@@ -237,9 +416,14 @@ export default function MiniGamePage() {
         <h1 className="font-bold text-xl text-white">Mini Game</h1>
       </header>
 
-      <main className="p-4">
+      <main className="p-4 space-y-8">
         <div className="grid grid-cols-3 gap-4">
           {games.map((game, index) => (
+            <GameCard key={index} {...game} />
+          ))}
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          {newGames.map((game, index) => (
             <GameCard key={index} {...game} />
           ))}
         </div>
