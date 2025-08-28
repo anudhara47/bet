@@ -4,8 +4,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'SplashyLogo',
-  description: 'An application with a beautiful splash screen animation.',
+  title: 'My App',
+  description: 'A new application built in Firebase Studio',
 };
 
 export default function RootLayout({
