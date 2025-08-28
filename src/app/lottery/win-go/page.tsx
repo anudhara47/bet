@@ -36,7 +36,7 @@ const FloatingDragonIcon = () => (
 
 const ChatIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#8A8A8A" strokeWidth="1.5"/>
+        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#8A8A8A" strokeWidth="1.5"/>
         <circle cx="9" cy="12" r="1.5" fill="#8A8A8A"/>
         <circle cx="15" cy="12" r="1.5" fill="#8A8A8A"/>
     </svg>
@@ -58,16 +58,16 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100052114', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052114', number: 4, bigSmall: 'Small', colors: ['red'] },
         { period: '20250828100052113', number: 3, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052112', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
-        { period: '20250828100052111', number: 2, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052110', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052109', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100052108', number: 9, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052107', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052112', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052111', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052110', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052109', number: 9, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052108', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052107', number: 7, bigSmall: 'Big', colors: ['green'] },
         { period: '20250828100052106', number: 6, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100052105', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052105', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
@@ -84,7 +84,7 @@ export default function WinGoPage() {
             
             if (timeLeft === 1 && remaining === gameInterval) {
                  const newPeriod = BigInt(periodId) + 1n;
-                 const newNumber = Math.floor(Math.random() * 10);
+                 const newNumber = Number(newPeriod.toString().slice(-1));
                  const newColors = [];
                  if ([0,5].includes(newNumber)) newColors.push('purple');
                  if ([1,3,7,9].includes(newNumber)) newColors.push('green');
@@ -392,3 +392,5 @@ export default function WinGoPage() {
     )
 
 }
+
+    
