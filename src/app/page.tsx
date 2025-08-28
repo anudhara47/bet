@@ -20,9 +20,9 @@ export default function Home() {
         </div>
       </header>
       <main className="container mx-auto flex flex-col items-center justify-center p-4">
-        <div className="flex gap-4">
-          <Button variant="success" size="sm">Deposit</Button>
-          <Button variant="destructive" size="sm">Withdrawal</Button>
+        <div className="flex w-full justify-between">
+          <Button variant="success" size="sm" className="px-2 py-1 text-xs">Deposit</Button>
+          <Button variant="destructive" size="sm" className="px-2 py-1 text-xs">Withdrawal</Button>
         </div>
       </main>
     </div>
