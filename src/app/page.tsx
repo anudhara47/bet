@@ -17,33 +17,20 @@ export default function HomePage() {
     { name: "Fishing", icon: <Fish className="w-5 h-5" />, href: "/fishing" },
   ]
 
-  const winners = [
-    { game: 'Wickets9', user: 'Mem***BMK', amount: '₹200.00' },
-    { game: 'Wickets9', user: 'Mem***IYV', amount: '₹112.00' },
-    { game: 'Wickets9', user: 'Mem***EOQ', amount: '₹400.00' },
-    { game: 'Card365', user: 'Mem***FPA', amount: '₹235.50' },
-    { game: 'Wickets9', user: 'Mem***RW', amount: '₹200.00' },
-    { game: 'Slots', user: 'User***ABC', amount: '₹500.00' },
-    { game: 'Rummy', user: 'Player***XYZ', amount: '₹150.00' },
-    { game: 'Aviator', user: 'Flyer***123', amount: '₹300.00' },
-    { game: 'Mines', user: 'Digger***789', amount: '₹180.25' },
-    { game: 'Card365', user: 'Ace***High', amount: '₹1000.00' },
-  ];
+  const generateWinners = (count: number) => {
+    const games = ['Wickets9', 'Card365', 'Slots', 'Rummy', 'Aviator', 'Mines'];
+    const winners = [];
+    for (let i = 0; i < count; i++) {
+        const game = games[Math.floor(Math.random() * games.length)];
+        const user = `Mem***${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+        const amount = `₹${(Math.random() * 1000 + 100).toFixed(2)}`;
+        winners.push({ game, user, amount });
+    }
+    return winners;
+  };
 
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        // Reset index to 0 when it reaches the end to loop
-        if (prevIndex >= winners.length - 1) {
-          return 0;
-        }
-        return prevIndex + 1;
-      });
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [winners.length]);
+  const winners = React.useMemo(() => generateWinners(50), []);
+  const extendedWinners = React.useMemo(() => [...winners, ...winners], [winners]);
 
   const earningsChart = [
     { rank: 1, user: 'Mem***6YM', amount: '₹16,587,734.80', avatar: 'https://picsum.photos/40/40?random=31' },
@@ -284,24 +271,10 @@ export default function HomePage() {
                         <div>User</div>
                         <div>Winning amount</div>
                     </div>
-                    <div className="relative h-48 overflow-hidden">
-                        <div
-                            className="absolute w-full transition-transform duration-500 ease-in-out"
-                            style={{ transform: `translateY(-${currentIndex * 3}rem)` }}
-                        >
-                            {winners.map((winner, index) => (
+                    <div className="relative h-48 overflow-hidden group">
+                        <div className="animate-marquee-up group-hover:pause flex flex-col">
+                            {extendedWinners.map((winner, index) => (
                                 <div key={index} className="grid grid-cols-3 text-center text-xs sm:text-sm p-2 items-center h-12">
-                                    <div className="flex items-center justify-center gap-1">
-                                        <Ticket className="w-4 h-4 text-purple-500" />
-                                        <span>{winner.game}</span>
-                                    </div>
-                                    <div>{winner.user}</div>
-                                    <div className="text-red-500 font-bold">{winner.amount}</div>
-                                </div>
-                            ))}
-                             {/* Duplicate first few items to create seamless loop */}
-                            {winners.slice(0, 5).map((winner, index) => (
-                                 <div key={`clone-${index}`} className="grid grid-cols-3 text-center text-xs sm:text-sm p-2 items-center h-12">
                                     <div className="flex items-center justify-center gap-1">
                                         <Ticket className="w-4 h-4 text-purple-500" />
                                         <span>{winner.game}</span>

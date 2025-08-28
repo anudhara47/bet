@@ -1,4 +1,3 @@
-
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -91,6 +90,10 @@ export default {
           'from': { opacity: '0', transform: 'scale(0.5)' },
           'to': { opacity: '1', transform: 'scale(1)' },
         },
+        'marquee-up': {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(-50%)' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -98,10 +101,9 @@ export default {
         'logo-zoom': 'logo-zoom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards',
         'spin-slow': 'spin 20s linear infinite',
         'spin-very-slow': 'spin 60s linear infinite',
+        'marquee-up': 'marquee-up 100s linear infinite',
       },
     },
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
-
-    
