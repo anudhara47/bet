@@ -50,7 +50,7 @@ export default function Home() {
         </div>
       </header>
       <main className="container mx-auto p-4">
-        <Card className="shadow-lg bg-card/80">
+        <Card className="shadow-lg bg-white">
           <CardContent className="p-4">
             <Carousel
               plugins={[plugin.current]}
