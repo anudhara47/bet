@@ -58,16 +58,16 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100051979', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100051978', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100051955', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100051954', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100051953', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
-        { period: '20250828100051952', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100051951', number: 4, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100051950', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100051949', number: 2, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100051948', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100051990', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100051989', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100051988', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100051987', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100051986', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
+        { period: '20250828100051985', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100051984', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100051983', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100051982', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100051981', number: 1, bigSmall: 'Small', colors: ['green'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
@@ -83,16 +83,14 @@ export default function WinGoPage() {
 
         const updateTimerAndPeriod = () => {
             const istNow = getISTDate();
-            const year = istNow.getFullYear();
-            const month = (istNow.getMonth() + 1).toString().padStart(2, '0');
-            const day = istNow.getDate().toString().padStart(2, '0');
-            
-            const totalSecondsInDay = istNow.getUTCHours() * 3600 + istNow.getUTCMinutes() * 60 + istNow.getUTCSeconds();
-            const gameNumber = Math.floor(totalSecondsInDay / gameInterval) + 1;
-            
-            const currentPeriodId = `${year}${month}${day}${gameNumber.toString().padStart(5, '0')}`;
-
+            const hours = istNow.getHours();
+            const minutes = istNow.getMinutes();
             const seconds = istNow.getSeconds();
+
+            const totalSecondsInDay = hours * 3600 + minutes * 60 + seconds;
+            const gameNumber = Math.floor(totalSecondsInDay / (gameInterval / 60 * 60)) + 110051990;
+            const currentPeriodId = `${gameNumber}`;
+
             const remaining = gameInterval - (seconds % gameInterval);
             
             if (periodId !== currentPeriodId) {
