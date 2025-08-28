@@ -147,6 +147,53 @@ const CasinoIcon = () => (
     </svg>
 );
 
+const SlotsIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="slotsGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style={{stopColor: '#FBBF24', stopOpacity:1}} />
+                <stop offset="100%" style={{stopColor: '#F59E0B', stopOpacity:1}} />
+            </linearGradient>
+            <filter id="slotShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="5" dy="5" stdDeviation="5" floodColor="#000" floodOpacity="0.3"/>
+            </filter>
+        </defs>
+        <g style={{filter: 'url(#slotShadow)'}}>
+            <rect x="30" y="50" width="140" height="100" rx="20" fill="#E11D48"/>
+            <rect x="40" y="60" width="120" height="80" rx="10" fill="#1F2937"/>
+            <rect x="55" y="75" width="30" height="50" rx="5" fill="url(#slotsGrad)"/>
+            <rect x="85" y="75" width="30" height="50" rx="5" fill="url(#slotsGrad)"/>
+            <rect x="115" y="75" width="30" height="50" rx="5" fill="url(#slotsGrad)"/>
+            <text x="70" y="105" fontFamily="Arial" fontSize="30" fill="white" fontWeight="bold">7</text>
+            <text x="100" y="105" fontFamily="Arial" fontSize="30" fill="white" fontWeight="bold">7</text>
+            <text x="130" y="105" fontFamily="Arial" fontSize="30" fill="white" fontWeight="bold">7</text>
+            <circle cx="160" cy="100" r="10" fill="#FBBF24"/>
+            <path d="M160 80 L180 100 L160 120" fill="none" stroke="#FBBF24" strokeWidth="4" />
+        </g>
+    </svg>
+);
+
+
+const FishingIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <radialGradient id="waterGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#60A5FA" />
+                <stop offset="100%" stopColor="#3B82F6" />
+            </radialGradient>
+             <filter id="fishShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="3" dy="5" stdDeviation="3" floodColor="#000" floodOpacity="0.2"/>
+            </filter>
+        </defs>
+        <circle cx="100" cy="100" r="90" fill="url(#waterGrad)" />
+        <g transform="translate(100, 100) scale(0.6) rotate(-30)" style={{filter: 'url(#fishShadow)'}}>
+            <path d="M-50,0 C-50,-50 50,-50 50,0 C50,50 -50,50 -50,0 Z" fill="#F97316"/>
+            <path d="M50,0 C70,-20 70,20 50,0 Z" fill="#FB923C" />
+            <circle cx="-20" cy="-10" r="5" fill="white"/>
+            <circle cx="-20" cy="-10" r="2" fill="black"/>
+        </g>
+    </svg>
+);
 
 export default function HomePage() {
 
@@ -170,7 +217,15 @@ export default function HomePage() {
     return winners;
   };
 
-  const winners = React.useMemo(() => generateWinners(100), []);
+  const [winners, setWinners] = React.useState(generateWinners(20));
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+        setWinners(prev => [...prev, ...generateWinners(5)]);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const extendedWinners = React.useMemo(() => [...winners, ...winners], [winners]);
 
   const earningsChart = [
@@ -313,21 +368,18 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4">
             <Link href="/slots">
-                <Card className="rounded-lg overflow-hidden bg-red-400/20">
-                    <Image src="https://picsum.photos/200/200?random=13" alt="Evolution" width={200} height={200} className="w-full" data-ai-hint="woman casino" />
-                    <p className="font-bold text-red-800 text-center text-sm py-1">&gt;Evolution</p>
+                <Card className="rounded-lg overflow-hidden bg-red-400/20 aspect-square">
+                    <SlotsIcon />
                 </Card>
             </Link>
             <Link href="/slots">
-                <Card className="rounded-lg overflow-hidden bg-red-400/20">
-                    <Image src="https://picsum.photos/200/200?random=14" alt="PG" width={200} height={200} className="w-full" data-ai-hint="panda character" />
-                    <p className="font-bold text-red-800 text-center text-sm py-1">PG <span className="text-xs font-normal">POCKET GAMES SOFT</span></p>
+                <Card className="rounded-lg overflow-hidden bg-red-400/20 aspect-square">
+                    <SlotsIcon />
                 </Card>
             </Link>
             <Link href="/slots">
-                <Card className="rounded-lg overflow-hidden bg-red-400/20">
-                    <Image src="https://picsum.photos/200/200?random=15" alt="9G Game" width={200} height={200} className="w-full" data-ai-hint="woman magic" />
-                    <p className="font-bold text-red-800 text-center text-sm py-1">9G GAME</p>
+                <Card className="rounded-lg overflow-hidden bg-red-400/20 aspect-square">
+                    <SlotsIcon />
                 </Card>
             </Link>
           </div>
@@ -354,18 +406,18 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4">
             <Link href="/fishing">
-                <Card className="rounded-lg overflow-hidden">
-                    <Image src="https://picsum.photos/200/200?random=21" alt="Spirit Tide Legend" width={200} height={200} className="w-full" data-ai-hint="water dragon" />
+                <Card className="rounded-lg overflow-hidden aspect-square">
+                    <FishingIcon />
                 </Card>
             </Link>
             <Link href="/fishing">
-                <Card className="rounded-lg overflow-hidden">
-                    <Image src="https://picsum.photos/200/200?random=22" alt="Fighter Fire" width={200} height={200} className="w-full" data-ai-hint="gorilla warrior" />
+                <Card className="rounded-lg overflow-hidden aspect-square">
+                    <FishingIcon />
                 </Card>
             </Link>
             <Link href="/fishing">
-                <Card className="rounded-lg overflow-hidden">
-                    <Image src="https://picsum.photos/200/200?random=23" alt="Dragon Fishing" width={200} height={200} className="w-full" data-ai-hint="dragon fishing" />
+                <Card className="rounded-lg overflow-hidden aspect-square">
+                    <FishingIcon />
                 </Card>
             </Link>
           </div>
@@ -419,7 +471,7 @@ export default function HomePage() {
                         <div>Winning amount</div>
                     </div>
                     <div className="relative h-48 overflow-hidden group">
-                        <div className="animate-marquee-up group-hover:pause flex flex-col">
+                        <div className="animate-marquee-up group-hover:pause flex flex-col absolute top-0 left-0 w-full">
                             {extendedWinners.map((winner, index) => (
                                 <div key={index} className="grid grid-cols-3 text-center text-xs sm:text-sm p-2 items-center h-12">
                                     <div className="flex items-center justify-center gap-1">
