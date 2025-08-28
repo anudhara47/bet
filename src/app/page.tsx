@@ -1,5 +1,5 @@
 'use client';
-import { Activity, ArrowDownCircle, ArrowUpCircle, ChevronLeft, ChevronRight, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket } from "lucide-react";
+import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -23,6 +23,23 @@ export default function HomePage() {
     { game: 'Card365', user: 'Mem***FPA', amount: '₹235.50' },
     { game: 'Wickets9', user: 'Mem***RW', amount: '₹200.00' },
   ];
+
+  const earningsChart = [
+    { rank: 1, user: 'Mem***6YM', amount: '₹16,587,734.80', avatar: 'https://picsum.photos/40/40?random=31' },
+    { rank: 2, user: 'Mem***414', amount: '₹7,611,909.70', avatar: 'https://picsum.photos/40/40?random=32' },
+    { rank: 3, user: 'Mem***SNC', amount: '₹5,697,645.11', avatar: 'https://picsum.photos/40/40?random=33' },
+    { rank: 4, user: 'Mem***AL6', amount: '₹4,465,167.10', avatar: 'https://picsum.photos/40/40?random=34' },
+    { rank: 5, user: 'AVA****TAR', amount: '₹2,775,264.00', avatar: 'https://picsum.photos/40/40?random=35' },
+    { rank: 6, user: 'Mem***ZVV', amount: '₹2,627,244.10', avatar: 'https://picsum.photos/40/40?random=36' },
+    { rank: 7, user: 'Mem***EBW', amount: '₹1,810,966.40', avatar: 'https://picsum.photos/40/40?random=37' },
+    { rank: 8, user: 'Sun***ina', amount: '₹1,611,913.30', avatar: 'https://picsum.photos/40/40?random=38' },
+    { rank: 9, user: 'Mem***N52', amount: '₹1,383,809.43', avatar: 'https://picsum.photos/40/40?random=39' },
+    { rank: 10, user: 'Mem***IHA', amount: '₹1,362,900.00', avatar: 'https://picsum.photos/40/40?random=40' },
+  ];
+
+  const topEarners = earningsChart.slice(0, 3);
+  const otherEarners = earningsChart.slice(3);
+
 
   return (
     <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto">
@@ -246,16 +263,72 @@ export default function HomePage() {
             </CardContent>
           </Card>
         </div>
+        
+        <Card className="bg-card shadow-lg mt-4">
+          <CardHeader>
+            <CardTitle className="flex items-center text-md sm:text-lg font-bold"><BarChart3 className="w-5 h-5 mr-2 text-red-500" /> Today's earnings chart</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="relative flex justify-center items-end h-48">
+              {/* Rank 2 */}
+              <div className="absolute bottom-0 left-0 text-center flex flex-col items-center">
+                  <Image src={topEarners[1].avatar} alt="Winner" width={50} height={50} className="rounded-full border-2 border-orange-300" data-ai-hint="woman face" />
+                  <div className="text-sm font-bold text-orange-500">{topEarners[1].user}</div>
+                  <div className="text-xs text-muted-foreground">{topEarners[1].amount}</div>
+                  <div className="bg-orange-200/50 rounded-lg p-4 pt-8 w-24 h-20 flex flex-col justify-end items-center relative -mt-6">
+                      <div className="text-4xl font-black text-orange-400/50 absolute top-1">2</div>
+                  </div>
+              </div>
 
+              {/* Rank 1 */}
+              <div className="relative text-center flex flex-col items-center z-10">
+                  <Crown className="text-yellow-400 w-8 h-8 absolute -top-6" />
+                  <Image src={topEarners[0].avatar} alt="Winner" width={60} height={60} className="rounded-full border-2 border-red-400" data-ai-hint="woman face" />
+                  <div className="text-md font-bold text-red-500">{topEarners[0].user}</div>
+                  <div className="text-sm text-muted-foreground">{topEarners[0].amount}</div>
+                  <div className="bg-red-200/50 rounded-lg p-4 pt-10 w-28 h-24 flex flex-col justify-end items-center relative -mt-6">
+                      <div className="text-6xl font-black text-red-400/50 absolute top-1">1</div>
+                  </div>
+              </div>
+              
+              {/* Rank 3 */}
+              <div className="absolute bottom-0 right-0 text-center flex flex-col items-center">
+                  <Image src={topEarners[2].avatar} alt="Winner" width={50} height={50} className="rounded-full border-2 border-yellow-300" data-ai-hint="woman face" />
+                  <div className="text-sm font-bold text-yellow-500">{topEarners[2].user}</div>
+                  <div className="text-xs text-muted-foreground">{topEarners[2].amount}</div>
+                  <div className="bg-yellow-200/50 rounded-lg p-4 pt-8 w-24 h-20 flex flex-col justify-end items-center relative -mt-6">
+                      <div className="text-4xl font-black text-yellow-400/50 absolute top-1">3</div>
+                  </div>
+              </div>
+            </div>
+
+            <div className="space-y-2 mt-4">
+              {otherEarners.map((earner) => (
+                <div key={earner.rank} className="flex items-center justify-between p-2 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="font-bold text-lg w-6 text-center">{earner.rank}</div>
+                    <Image src={earner.avatar} alt="User" width={40} height={40} className="rounded-full" data-ai-hint="woman face" />
+                    <span className="font-semibold text-sm">{earner.user}</span>
+                  </div>
+                  <span className="font-bold text-red-500 text-sm">{earner.amount}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </main>
       
       <div className="fixed bottom-24 right-4 sm:bottom-10 space-y-2 flex flex-col items-end">
+          <Button className="rounded-full h-auto px-4 py-2 bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-lg">
+            <Image src="https://placehold.co/20x20/FFFFFF/EF4444?text=91" alt="91 Club" width={20} height={20} className="mr-2 rounded-full" />
+            <span className="text-xs font-bold">Add to Desktop</span>
+          </Button>
           <Button variant="ghost" size="icon" className="bg-white rounded-full shadow-lg">
             <Image src="https://placehold.co/40x40/FFFFFF/000000?text=C" alt="chat" width={40} height={40} className="rounded-full" data-ai-hint="chat bubble" />
           </Button>
       </div>
 
-      <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-center max-w-lg mx-auto">
+      <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-start max-w-lg mx-auto">
         <Button variant="ghost" className="flex flex-col h-auto items-center text-red-600">
           <HomeIcon className="w-6 h-6" />
           <span className="text-xs mt-1">Home</span>
@@ -265,6 +338,13 @@ export default function HomePage() {
           <span className="text-xs mt-1">Activity</span>
         </Button>
         
+        <div className="text-center">
+            <div className="relative w-16 h-16 -mt-8">
+                <Image src="https://placehold.co/80x80/FFD700/FF4500?text=GO" alt="Get 500" width={80} height={80} className="animate-spin-slow" data-ai-hint="spinning wheel prize" />
+            </div>
+            <span className="text-xs font-bold text-red-500">Get ₹500</span>
+        </div>
+
         <Button variant="ghost" className="flex flex-col h-auto items-center text-muted-foreground">
           <Percent className="w-6 h-6" />
           <span className="text-xs mt-1">Promotion</span>
@@ -276,4 +356,3 @@ export default function HomePage() {
       </footer>
     </div>
   );
-}
