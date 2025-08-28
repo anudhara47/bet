@@ -46,14 +46,14 @@ export default function Home() {
                       transform: `translateY(-140px) rotate(${-angle}deg) scale(0.6)`,
                     }}
                   >
-                    <AppLogo className="text-6xl" />
+                    <AppLogo className="text-5xl" />
                   </div>
                 </div>
               );
             })}
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <AppLogo className="text-8xl" />
+            <AppLogo className="text-7xl" />
           </div>
         </div>
         

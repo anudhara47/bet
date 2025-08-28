@@ -7,8 +7,8 @@ import { cn } from '@/lib/utils';
 
 const DOT_COUNT = 9;
 const RADIUS = 80;
-const DOT_ANIMATION_DURATION = 700;
-const DOT_ANIMATION_DELAY_STEP = 150;
+const DOT_ANIMATION_DURATION = 800; // Increased duration for smoother appearance
+const DOT_ANIMATION_DELAY_STEP = 100; // Decreased delay for faster sequence
 const ROTATION_DURATION = 3000;
 
 const DOT_COLORS = [
@@ -42,7 +42,7 @@ const SplashScreen = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background overflow-hidden">
-      <div className={cn("relative flex h-64 w-64 items-center justify-center", isRotating && "animate-spin-splash")}>
+      <div className={cn("relative flex h-64 w-64 items-center justify-center transition-transform duration-1000", isRotating && "animate-spin-splash")}>
         {Array.from({ length: DOT_COUNT }).map((_, i) => {
           const angle = (i / DOT_COUNT) * 2 * Math.PI;
           const x = RADIUS * Math.cos(angle);
@@ -51,7 +51,7 @@ const SplashScreen = () => {
           return (
             <div
               key={i}
-              className={`absolute h-5 w-5 rounded-full shadow-lg transition-all ease-[cubic-bezier(0.25,1,0.5,1)] ${DOT_COLORS[i % DOT_COLORS.length]}`}
+              className={`absolute h-5 w-5 rounded-full shadow-lg transition-all ease-[cubic-bezier(0.34, 1.56, 0.64, 1)] ${DOT_COLORS[i % DOT_COLORS.length]}`}
               style={{
                 transform: dotsVisible ? `translate(${x}px, ${y}px) scale(1)` : `translate(0px, -150px) scale(0)`,
                 opacity: dotsVisible ? 1 : 0,
@@ -64,7 +64,7 @@ const SplashScreen = () => {
 
         {logoVisible && (
           <div className="absolute animate-logo-zoom">
-            <AppLogo className="text-9xl" />
+            <AppLogo className="text-8xl" />
           </div>
         )}
       </div>
