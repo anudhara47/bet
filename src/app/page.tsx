@@ -1,6 +1,13 @@
 
 import { Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 export default function Home() {
   const categories = ["lobby", "mini game", "card", "sports", "casino", "fantasy", "Live bet", "All games"];
@@ -27,13 +34,26 @@ export default function Home() {
         </div>
       </header>
       <main className="container mx-auto p-4">
-        <div className="flex flex-wrap justify-center gap-2">
-          {categories.map((category) => (
-            <Button key={category} variant="outline" style={{ width: '90px', height: '35px', fontSize: '12px' }} className="capitalize">
-              {category}
-            </Button>
-          ))}
-        </div>
+        <Carousel className="w-full max-w-xs mx-auto">
+          <CarouselContent>
+            {categories.map((category, index) => (
+              <CarouselItem key={index} className="basis-1/3">
+                <div className="p-1">
+                  <Button
+                    key={category}
+                    variant="outline"
+                    style={{ width: '75px', height: '25px', fontSize: '10px' }}
+                    className="capitalize w-full"
+                  >
+                    {category}
+                  </Button>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </main>
     </div>
   );
