@@ -58,16 +58,16 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100051996', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100051995', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100051994', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100051993', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100051992', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
-        { period: '20250828100051991', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100051990', number: 4, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100051989', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100051988', number: 2, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100051987', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052024', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052023', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052022', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052021', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052020', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
+        { period: '20250828100052019', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052018', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052017', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052016', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052015', number: 1, bigSmall: 'Small', colors: ['green'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
@@ -83,18 +83,23 @@ export default function WinGoPage() {
 
         const updateTimerAndPeriod = () => {
             const istNow = getISTDate();
-            const seconds = istNow.getSeconds();
-            const milliseconds = istNow.getMilliseconds();
-            
-            const startOfDay = new Date(istNow);
-            startOfDay.setUTCHours(0, 0, 0, 0);
-            const secondsFromMidnight = (istNow.getTime() - startOfDay.getTime()) / 1000;
-            const gameNumber = Math.floor(secondsFromMidnight / gameInterval);
+            const year = istNow.getFullYear();
+            const month = (istNow.getMonth() + 1).toString().padStart(2, '0');
+            const day = istNow.getDate().toString().padStart(2, '0');
 
-            const basePeriod = BigInt("20250828100051996");
-            const currentPeriodId = (basePeriod + BigInt(gameNumber)).toString();
+            const startOfDay = new Date(istNow);
+            startOfDay.setHours(0, 0, 0, 0);
             
-            const remaining = gameInterval - (seconds % gameInterval) - (milliseconds/1000);
+            const secondsFromMidnight = (istNow.getTime() - startOfDay.getTime()) / 1000;
+            const gameNumber = Math.floor(secondsFromMidnight / gameInterval) + 1;
+            
+            const basePeriod = BigInt("20250828100052025");
+            const datePart = `${year}${month}${day}`;
+            const timePart = gameNumber.toString().padStart(9, '0');
+            
+            const currentPeriodId = `${datePart}${timePart}`;
+            
+            const remaining = gameInterval - (secondsFromMidnight % gameInterval);
             
             if (periodId !== currentPeriodId) {
                 if (periodId) { // Check if it's not the very first run
@@ -254,9 +259,9 @@ export default function WinGoPage() {
                             </div>
 
                             <div className="grid grid-cols-3 gap-3 my-4">
-                                <Button className="bg-green-500 hover:bg-green-600 text-white py-6 text-lg shadow-md">Green</Button>
-                                <Button className="bg-purple-500 hover:bg-purple-600 text-white py-6 text-lg shadow-md">Violet</Button>
-                                <Button className="bg-red-500 hover:bg-red-600 text-white py-6 text-lg shadow-md">Red</Button>
+                                <Button className="bg-gradient-to-b from-green-400 to-green-600 text-white py-6 text-lg font-bold shadow-lg border-b-4 border-green-700 active:border-b-0 active:mt-1">Green</Button>
+                                <Button className="bg-gradient-to-b from-purple-400 to-purple-600 text-white py-6 text-lg font-bold shadow-lg border-b-4 border-purple-700 active:border-b-0 active:mt-1">Violet</Button>
+                                <Button className="bg-gradient-to-b from-red-400 to-red-600 text-white py-6 text-lg font-bold shadow-lg border-b-4 border-red-700 active:border-b-0 active:mt-1">Red</Button>
                             </div>
 
                             <div className="grid grid-cols-5 gap-2">
@@ -266,17 +271,17 @@ export default function WinGoPage() {
                                     const hasRed = btn.colors.includes('red');
                                     
                                     return(
-                                        <Button key={btn.num} variant="outline" className="p-0 h-14 w-14 rounded-full border-2 relative overflow-hidden shadow-sm">
-                                            {hasViolet && hasGreen && <><span className="absolute top-0 left-0 w-full h-1/2 bg-green-500"></span><span className="absolute bottom-0 left-0 w-full h-1/2 bg-purple-500"></span></>}
-                                            {hasViolet && hasRed && <><span className="absolute top-0 left-0 w-full h-1/2 bg-red-500"></span><span className="absolute bottom-0 left-0 w-full h-1/2 bg-purple-500"></span></>}
-                                            {!hasViolet && hasGreen && !hasRed && <span className="absolute inset-0 bg-green-500"></span>}
-                                            {!hasViolet && !hasGreen && hasRed && <span className="absolute inset-0 bg-red-500"></span>}
-                                            <span className="relative text-white font-bold text-2xl">{btn.num}</span>
+                                        <Button key={btn.num} variant="outline" className="p-0 h-14 w-14 rounded-full border-2 relative overflow-hidden shadow-md active:mt-0.5">
+                                            {hasViolet && hasGreen && <div className="absolute inset-0"><span className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-br from-green-400 to-green-600"></span><span className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-br from-purple-400 to-purple-600"></span></div>}
+                                            {hasViolet && hasRed && <div className="absolute inset-0"><span className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-br from-red-400 to-red-600"></span><span className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-br from-purple-400 to-purple-600"></span></div>}
+                                            {!hasViolet && hasGreen && !hasRed && <span className="absolute inset-0 bg-gradient-to-b from-green-400 to-green-600"></span>}
+                                            {!hasViolet && !hasGreen && hasRed && <span className="absolute inset-0 bg-gradient-to-b from-red-400 to-red-600"></span>}
+                                            <span className="relative text-white font-bold text-2xl" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)'}}>{btn.num}</span>
                                         </Button>
                                     )
                                 })}
-                                <Button variant="outline" className="p-0 h-14 w-14 rounded-full border-2 relative overflow-hidden shadow-sm">
-                                    <span className="absolute inset-0 bg-green-500"></span>
+                                <Button variant="outline" className="p-0 h-14 w-14 rounded-full border-2 relative overflow-hidden shadow-md active:mt-0.5">
+                                    <span className="absolute inset-0 bg-gradient-to-b from-green-400 to-green-600"></span>
                                     <DragonIcon />
                                 </Button>
                             </div>
@@ -292,8 +297,8 @@ export default function WinGoPage() {
                              </div>
                              
                             <div className="flex items-center justify-between gap-2 relative">
-                                <Button className="w-full bg-orange-400 hover:bg-orange-500 text-white py-6 text-lg shadow-md rounded-l-full rounded-r-none">Big</Button>
-                                <Button className="w-full bg-blue-400 hover:bg-blue-500 text-white py-6 text-lg shadow-md rounded-r-full rounded-l-none">Small</Button>
+                                <Button className="w-full bg-gradient-to-b from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-600 text-white py-6 text-lg font-bold shadow-lg border-b-4 border-orange-700 active:border-b-0 active:mt-1 rounded-l-full rounded-r-none">Big</Button>
+                                <Button className="w-full bg-gradient-to-b from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-600 text-white py-6 text-lg font-bold shadow-lg border-b-4 border-blue-700 active:border-b-0 active:mt-1 rounded-r-full rounded-l-none">Small</Button>
                             </div>
 
                         </TabsContent>
@@ -387,4 +392,3 @@ export default function WinGoPage() {
 
 }
 
-    
