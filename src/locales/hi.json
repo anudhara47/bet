@@ -1,0 +1,48 @@
+
+{
+    "account_page": {
+      "last_login": "अंतिम लॉगिन",
+      "total_balance": "कुल शेष",
+      "enter_wallet": "वॉलेट दर्ज करें",
+      "ar_wallet": "एआरवॉलेट",
+      "deposit": "जमा",
+      "withdraw": "निकालें",
+      "vip": "वीआईपी",
+      "game_history": {
+        "title": "खेल इतिहास",
+        "description": "मेरा खेल इतिहास"
+      },
+      "transaction": {
+        "title": "लेन-देन",
+        "description": "मेरा लेन-देन इतिहास"
+      },
+      "deposit_history": {
+        "title": "जमा",
+        "description": "मेरा जमा इतिहास"
+      },
+      "withdraw_history": {
+        "title": "निकालें",
+        "description": "मेरा निकासी इतिहास"
+      },
+      "notification": "अधिसूचना",
+      "gifts": "उपहार",
+      "game_statistics": "खेल आँकड़े",
+      "language": "भाषा",
+      "service_center": {
+        "title": "सेवा केंद्र",
+        "settings": "सेटिंग्स",
+        "feedback": "प्रतिक्रिया",
+        "announcement": "घोषणा",
+        "customer_service": "ग्राहक सेवा",
+        "beginners_guide": "शुरुआती गाइड",
+        "about_us": "हमारे बारे में"
+      },
+      "log_out": "लॉग आउट",
+      "footer": {
+        "home": "होम",
+        "activity": "गतिविधि",
+        "promotion": "पदोन्नति",
+        "account": "खाता"
+      }
+    }
+  }

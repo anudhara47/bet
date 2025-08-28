@@ -1,0 +1,48 @@
+
+{
+    "account_page": {
+      "last_login": "শেষ লগইন",
+      "total_balance": "মোট ব্যালেন্স",
+      "enter_wallet": "ওয়ালেট প্রবেশ করুন",
+      "ar_wallet": "এআরওয়ালেট",
+      "deposit": "জমা",
+      "withdraw": "প্রত্যাহার",
+      "vip": "ভিআইপি",
+      "game_history": {
+        "title": "খেলার ইতিহাস",
+        "description": "আমার খেলার ইতিহাস"
+      },
+      "transaction": {
+        "title": "লেনদেন",
+        "description": "আমার লেনদেনের ইতিহাস"
+      },
+      "deposit_history": {
+        "title": "জমা",
+        "description": "আমার জমার ইতিহাস"
+      },
+      "withdraw_history": {
+        "title": "প্রত্যাহার",
+        "description": "আমার প্রত্যাহারের ইতিহাস"
+      },
+      "notification": "বিজ্ঞপ্তি",
+      "gifts": "উপহার",
+      "game_statistics": "খেলা পরিসংখ্যান",
+      "language": "ভাষা",
+      "service_center": {
+        "title": "পরিষেবা কেন্দ্র",
+        "settings": "সেটিংস",
+        "feedback": "প্রতিক্রিয়া",
+        "announcement": "ঘোষণা",
+        "customer_service": "গ্রাহক পরিষেবা",
+        "beginners_guide": "শিক্ষানবিশদের জন্য নির্দেশিকা",
+        "about_us": "আমাদের সম্পর্কে"
+      },
+      "log_out": "লগ আউট",
+      "footer": {
+        "home": "হোম",
+        "activity": "কার্যকলাপ",
+        "promotion": "প্রচার",
+        "account": "অ্যাকাউন্ট"
+      }
+    }
+}

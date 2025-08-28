@@ -1,0 +1,48 @@
+
+{
+    "account_page": {
+      "last_login": "शेवटचे लॉगिन",
+      "total_balance": "एकूण शिल्लक",
+      "enter_wallet": "वॉलेट प्रविष्ट करा",
+      "ar_wallet": "एआरवॉलेट",
+      "deposit": "ठेव",
+      "withdraw": "काढून घेणे",
+      "vip": "व्हीआयपी",
+      "game_history": {
+        "title": "खेळाचा इतिहास",
+        "description": "माझ्या खेळाचा इतिहास"
+      },
+      "transaction": {
+        "title": "व्यवहार",
+        "description": "माझ्या व्यवहाराचा इतिहास"
+      },
+      "deposit_history": {
+        "title": "ठेव",
+        "description": "माझ्या ठेवीचा इतिहास"
+      },
+      "withdraw_history": {
+        "title": "काढून घेणे",
+        "description": "माझ्या काढण्याचा इतिहास"
+      },
+      "notification": "सूचना",
+      "gifts": "भेटवस्तू",
+      "game_statistics": "खेळाची आकडेवारी",
+      "language": "भाषा",
+      "service_center": {
+        "title": "सेवा केंद्र",
+        "settings": "सेटिंग्ज",
+        "feedback": "अभिप्रాయ",
+        "announcement": "घोषणा",
+        "customer_service": "ग्राहक सेवा",
+        "beginners_guide": "नवशिक्यांसाठी मार्गदर्शक",
+        "about_us": "आमच्याबद्दल"
+      },
+      "log_out": "लॉग आउट",
+      "footer": {
+        "home": "होम",
+        "activity": "क्रियाकलाप",
+        "promotion": "प्रमोशन",
+        "account": "खाते"
+      }
+    }
+}

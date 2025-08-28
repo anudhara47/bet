@@ -8,6 +8,7 @@ import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIc
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
+import { useLanguage } from "@/context/language-context";
 
 const ArWalletIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -79,15 +80,22 @@ const WithdrawHistoryIcon = () => (
 
 
 export default function AccountPage() {
+  const { language, setLanguage, translations } = useLanguage();
+
+  const t = translations.account_page;
+
   const serviceCenterItems = [
-    { icon: <Settings className="text-red-500" />, label: "Settings", href: "/settings" },
-    { icon: <FileQuestion className="text-red-500" />, label: "Feedback" },
-    { icon: <Megaphone className="text-red-500" />, label: "Announcement" },
-    { icon: <MessageCircle className="text-red-500" />, label: "Customer Service" },
-    { icon: <BookOpen className="text-red-500" />, label: "Beginner's Guide" },
-    { icon: <Building className="text-red-500" />, label: "About us" },
+    { icon: <Settings className="text-red-500" />, label: t.service_center.settings, href: "/settings" },
+    { icon: <FileQuestion className="text-red-500" />, label: t.service_center.feedback },
+    { icon: <Megaphone className="text-red-500" />, label: t.service_center.announcement },
+    { icon: <MessageCircle className="text-red-500" />, label: t.service_center.customer_service },
+    { icon: <BookOpen className="text-red-500" />, label: t.service_center.beginners_guide },
+    { icon: <Building className="text-red-500" />, label: t.service_center.about_us },
   ];
-  const [language, setLanguage] = React.useState("English");
+
+  if (!t) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-neutral-100 text-foreground pb-40 max-w-lg mx-auto relative">
@@ -106,7 +114,7 @@ export default function AccountPage() {
               <span>UID: 927417</span>
               <Button variant="ghost" size="icon" className="w-6 h-6"><Copy className="w-4 h-4" /></Button>
             </div>
-            <p className="text-xs mt-1">Last login: 2025-08-28 16:55:53</p>
+            <p className="text-xs mt-1">{t.last_login}: 2025-08-28 16:55:53</p>
           </div>
         </div>
       </div>
@@ -115,28 +123,28 @@ export default function AccountPage() {
         <Card className="rounded-xl shadow-lg">
           <CardContent className="p-4 flex justify-between items-center">
             <div>
-              <p className="text-sm text-muted-foreground">Total balance</p>
+              <p className="text-sm text-muted-foreground">{t.total_balance}</p>
               <p className="text-2xl font-bold flex items-center gap-2">₹305.77 <RefreshCw className="w-4 h-4 text-muted-foreground" /></p>
             </div>
-            <Button className="bg-red-500 hover:bg-red-600 text-white rounded-full px-6">Enter wallet</Button>
+            <Button className="bg-red-500 hover:bg-red-600 text-white rounded-full px-6">{t.enter_wallet}</Button>
           </CardContent>
           <Separator />
           <div className="grid grid-cols-4 gap-2 p-4 text-center">
             <div className="flex flex-col items-center gap-1">
                 <ArWalletIcon/>
-                <span className="text-xs font-medium">ARWallet</span>
+                <span className="text-xs font-medium">{t.ar_wallet}</span>
             </div>
             <div className="flex flex-col items-center gap-1">
                 <DepositIcon/>
-                <span className="text-xs font-medium">Deposit</span>
+                <span className="text-xs font-medium">{t.deposit}</span>
             </div>
             <div className="flex flex-col items-center gap-1">
                 <WithdrawIcon/>
-                <span className="text-xs font-medium">Withdraw</span>
+                <span className="text-xs font-medium">{t.withdraw}</span>
             </div>
             <div className="flex flex-col items-center gap-1">
                 <VipIcon/>
-                <span className="text-xs font-medium">VIP</span>
+                <span className="text-xs font-medium">{t.vip}</span>
             </div>
           </div>
         </Card>
@@ -146,8 +154,8 @@ export default function AccountPage() {
                 <CardContent className="p-4 flex items-center gap-4">
                     <GameHistoryIcon/>
                     <div>
-                        <p className="font-semibold">Game History</p>
-                        <p className="text-xs text-muted-foreground">My game history</p>
+                        <p className="font-semibold">{t.game_history.title}</p>
+                        <p className="text-xs text-muted-foreground">{t.game_history.description}</p>
                     </div>
                 </CardContent>
             </Card>
@@ -155,8 +163,8 @@ export default function AccountPage() {
                 <CardContent className="p-4 flex items-center gap-4">
                     <TransactionIcon/>
                     <div>
-                        <p className="font-semibold">Transaction</p>
-                        <p className="text-xs text-muted-foreground">My transaction history</p>
+                        <p className="font-semibold">{t.transaction.title}</p>
+                        <p className="text-xs text-muted-foreground">{t.transaction.description}</p>
                     </div>
                 </CardContent>
             </Card>
@@ -164,8 +172,8 @@ export default function AccountPage() {
                 <CardContent className="p-4 flex items-center gap-4">
                     <DepositHistoryIcon/>
                     <div>
-                        <p className="font-semibold">Deposit</p>
-                        <p className="text-xs text-muted-foreground">My deposit history</p>
+                        <p className="font-semibold">{t.deposit_history.title}</p>
+                        <p className="text-xs text-muted-foreground">{t.deposit_history.description}</p>
                     </div>
                 </CardContent>
             </Card>
@@ -173,8 +181,8 @@ export default function AccountPage() {
                 <CardContent className="p-4 flex items-center gap-4">
                     <WithdrawHistoryIcon/>
                     <div>
-                        <p className="font-semibold">Withdraw</p>
-                        <p className="text-xs text-muted-foreground">My withdraw history</p>
+                        <p className="font-semibold">{t.withdraw_history.title}</p>
+                        <p className="text-xs text-muted-foreground">{t.withdraw_history.description}</p>
                     </div>
                 </CardContent>
             </Card>
@@ -185,7 +193,7 @@ export default function AccountPage() {
                 <div className="flex items-center justify-between p-4">
                     <div className="flex items-center gap-3">
                         <Bell className="text-red-500" />
-                        <span className="font-semibold">Notification</span>
+                        <span className="font-semibold">{t.notification}</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">23</span>
@@ -196,7 +204,7 @@ export default function AccountPage() {
                 <div className="flex items-center justify-between p-4">
                     <div className="flex items-center gap-3">
                         <Gift className="text-red-500" />
-                        <span className="font-semibold">Gifts</span>
+                        <span className="font-semibold">{t.gifts}</span>
                     </div>
                     <ChevronRight className="text-muted-foreground" />
                 </div>
@@ -204,7 +212,7 @@ export default function AccountPage() {
                 <div className="flex items-center justify-between p-4">
                     <div className="flex items-center gap-3">
                         <BarChart className="text-red-500" />
-                        <span className="font-semibold">Game statistics</span>
+                        <span className="font-semibold">{t.game_statistics}</span>
                     </div>
                     <ChevronRight className="text-muted-foreground" />
                 </div>
@@ -212,18 +220,18 @@ export default function AccountPage() {
                  <div className="flex items-center justify-between p-4">
                     <div className="flex items-center gap-3">
                         <Globe className="text-red-500" />
-                        <span className="font-semibold">Language</span>
+                        <span className="font-semibold">{t.language}</span>
                     </div>
-                    <Select value={language} onValueChange={setLanguage}>
+                    <Select value={language} onValueChange={(value) => setLanguage(value as 'en' | 'hi' | 'bn' | 'te' | 'mr')}>
                         <SelectTrigger className="w-auto border-none focus:ring-0 p-0 text-muted-foreground text-sm">
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="English">English</SelectItem>
-                            <SelectItem value="Hindi">हिन्दी</SelectItem>
-                            <SelectItem value="Bengali">বাংলা</SelectItem>
-                            <SelectItem value="Telugu">తెలుగు</SelectItem>
-                            <SelectItem value="Marathi">मराठी</SelectItem>
+                            <SelectItem value="en">English</SelectItem>
+                            <SelectItem value="hi">हिन्दी</SelectItem>
+                            <SelectItem value="bn">বাংলা</SelectItem>
+                            <SelectItem value="te">తెలుగు</SelectItem>
+                            <SelectItem value="mr">मराठी</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
@@ -232,7 +240,7 @@ export default function AccountPage() {
 
         <Card className="rounded-xl shadow-lg mt-4">
             <CardContent className="p-4">
-                <h2 className="font-semibold mb-4">Service center</h2>
+                <h2 className="font-semibold mb-4">{t.service_center.title}</h2>
                 <div className="grid grid-cols-3 gap-4 text-center">
                     {serviceCenterItems.map((item, index) => {
                       const content = (
@@ -255,26 +263,26 @@ export default function AccountPage() {
 
         <Button variant="outline" className="w-full mt-4 bg-card border-red-300 text-red-500 font-bold flex items-center gap-2 rounded-full py-6 text-lg">
             <LogOut className="w-6 h-6" />
-            Log out
+            {t.log_out}
         </Button>
       </div>
 
       <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-start max-w-lg mx-auto">
         <Link href="/" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
           <HomeIcon className="w-6 h-6" />
-          <span className="text-xs mt-1">Home</span>
+          <span className="text-xs mt-1">{t.footer.home}</span>
         </Link>
         <Link href="/activity" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
           <Activity className="w-6 h-6" />
-          <span className="text-xs mt-1">Activity</span>
+          <span className="text-xs mt-1">{t.footer.activity}</span>
         </Link>
         <Link href="/promotion" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
           <Landmark className="w-6 h-6" />
-          <span className="text-xs mt-1">Promotion</span>
+          <span className="text-xs mt-1">{t.footer.promotion}</span>
         </Link>
         <Link href="/account" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-red-600")}>
           <User className="w-6 h-6" />
-          <span className="text-xs mt-1">Account</span>
+          <span className="text-xs mt-1">{t.footer.account}</span>
         </Link>
       </footer>
     </div>

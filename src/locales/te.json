@@ -1,0 +1,48 @@
+
+{
+    "account_page": {
+      "last_login": "చివరి లాగిన్",
+      "total_balance": "మొత్తం బ్యాలెన్స్",
+      "enter_wallet": "వాలెట్‌ను నమోదు చేయండి",
+      "ar_wallet": "ఏఆర్‌వాలెట్",
+      "deposit": "డిపాజిట్",
+      "withdraw": "ఉపసంహరించు",
+      "vip": "విఐపి",
+      "game_history": {
+        "title": "గేమ్ చరిత్ర",
+        "description": "నా గేమ్ చరిత్ర"
+      },
+      "transaction": {
+        "title": "లావాదేవీ",
+        "description": "నా లావాదేవీ చరిత్ర"
+      },
+      "deposit_history": {
+        "title": "డిపాజిట్",
+        "description": "నా డిపాజిట్ చరిత్ర"
+      },
+      "withdraw_history": {
+        "title": "ఉపసంహరించు",
+        "description": "నా ఉపసంహరణ చరిత్ర"
+      },
+      "notification": "ప్రకటన",
+      "gifts": "బహుమతులు",
+      "game_statistics": "గేమ్ గణాంకాలు",
+      "language": "భాష",
+      "service_center": {
+        "title": "సేవా కేంద్రం",
+        "settings": "సెట్టింగ్‌లు",
+        "feedback": "అభిప్రాయం",
+        "announcement": "ప్రకటన",
+        "customer_service": "వినియోగదారుల సేవ",
+        "beginners_guide": "ప్రారంభకుల కోసం గైడ్",
+        "about_us": "మా గురించి"
+      },
+      "log_out": "లాగ్ అవుట్",
+      "footer": {
+        "home": "హోమ్",
+        "activity": "కార్యకలాపం",
+        "promotion": "ప్రమోషన్",
+        "account": "ఖాతా"
+      }
+    }
+}

@@ -1,0 +1,48 @@
+
+{
+  "account_page": {
+    "last_login": "Last login",
+    "total_balance": "Total balance",
+    "enter_wallet": "Enter wallet",
+    "ar_wallet": "ARWallet",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "vip": "VIP",
+    "game_history": {
+      "title": "Game History",
+      "description": "My game history"
+    },
+    "transaction": {
+      "title": "Transaction",
+      "description": "My transaction history"
+    },
+    "deposit_history": {
+      "title": "Deposit",
+      "description": "My deposit history"
+    },
+    "withdraw_history": {
+      "title": "Withdraw",
+      "description": "My withdraw history"
+    },
+    "notification": "Notification",
+    "gifts": "Gifts",
+    "game_statistics": "Game statistics",
+    "language": "Language",
+    "service_center": {
+      "title": "Service center",
+      "settings": "Settings",
+      "feedback": "Feedback",
+      "announcement": "Announcement",
+      "customer_service": "Customer Service",
+      "beginners_guide": "Beginner's Guide",
+      "about_us": "About us"
+    },
+    "log_out": "Log out",
+    "footer": {
+      "home": "Home",
+      "activity": "Activity",
+      "promotion": "Promotion",
+      "account": "Account"
+    }
+  }
+}
