@@ -34,7 +34,13 @@ export default function HomePage() {
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % winners.length);
+      setCurrentIndex((prevIndex) => {
+        // Reset index to 0 when it reaches the end to loop
+        if (prevIndex >= winners.length - 1) {
+          return 0;
+        }
+        return prevIndex + 1;
+      });
     }, 2000);
     return () => clearInterval(interval);
   }, [winners.length]);
