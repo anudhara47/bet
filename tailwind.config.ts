@@ -102,7 +102,7 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'logo-zoom': 'logo-zoom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards',
-        'spin-slow': 'spin 20s linear infinite',
+        'spin-slow': 'spin 40s linear infinite',
         'spin-splash': 'spin-splash 3s linear forwards',
       },
     },
