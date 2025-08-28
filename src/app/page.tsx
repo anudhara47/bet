@@ -1,7 +1,7 @@
 'use client';
-import { Activity, ArrowDownCircle, ArrowUpCircle, ChevronLeft, ChevronRight, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy } from "lucide-react";
+import { Activity, ArrowDownCircle, ArrowUpCircle, ChevronLeft, ChevronRight, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import * as React from "react";
@@ -15,6 +15,14 @@ export default function HomePage() {
     { name: "Card", icon: <Heart className="w-5 h-5" /> },
     { name: "Fishing", icon: <Fish className="w-5 h-5" /> },
   ]
+
+  const winners = [
+    { game: 'Wickets9', user: 'Mem***BMK', amount: '₹200.00' },
+    { game: 'Wickets9', user: 'Mem***IYV', amount: '₹112.00' },
+    { game: 'Wickets9', user: 'Mem***EOQ', amount: '₹400.00' },
+    { game: 'Card365', user: 'Mem***FPA', amount: '₹235.50' },
+    { game: 'Wickets9', user: 'Mem***RW', amount: '₹200.00' },
+  ];
 
   return (
     <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto">
@@ -61,13 +69,27 @@ export default function HomePage() {
             <Image src="https://picsum.photos/600/200?random=1" alt="Moto Racing" width={600} height={200} className="rounded-lg" data-ai-hint="motorcycle racing" />
         </div>
 
-        <div className="flex justify-around bg-card p-1 rounded-full shadow-inner">
-          {navItems.map((item, index) => (
-             <Button key={item.name} variant={index === 0 ? "secondary" : "ghost"} className={cn("flex-col h-auto p-2 rounded-full text-xs", index === 0 && "bg-red-100 text-red-600 font-bold")}>
-               {item.icon}
-               <span className="mt-1">{item.name}</span>
-             </Button>
-          ))}
+        <div className="grid grid-cols-5 gap-1">
+          <Button variant="secondary" className="flex-col h-auto p-2 rounded-lg bg-red-100 text-red-600 font-bold">
+            <Image src="https://placehold.co/24x24/FEE2E2/EF4444?text=L" alt="Lobby" width={24} height={24} className="rounded-full" />
+            <span className="mt-1 text-xs">Lobby</span>
+          </Button>
+          <Button variant="ghost" className="flex-col h-auto p-2 rounded-lg">
+            <Gamepad2 className="w-5 h-5 text-muted-foreground" />
+            <span className="mt-1 text-xs">Mini Game</span>
+          </Button>
+          <Button variant="ghost" className="flex-col h-auto p-2 rounded-lg">
+             <Image src="https://placehold.co/24x24/000000/FFFFFF?text=7" alt="7" width={24} height={24} className="rounded-full" />
+            <span className="mt-1 text-xs">Slots</span>
+          </Button>
+          <Button variant="ghost" className="flex-col h-auto p-2 rounded-lg">
+            <Heart className="w-5 h-5 text-muted-foreground" />
+            <span className="mt-1 text-xs">Card</span>
+          </Button>
+          <Button variant="ghost" className="flex-col h-auto p-2 rounded-lg">
+            <Fish className="w-5 h-5 text-muted-foreground" />
+            <span className="mt-1 text-xs">Fishing</span>
+          </Button>
         </div>
         
         <div>
@@ -93,15 +115,7 @@ export default function HomePage() {
         <div>
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Gamepad2 className="text-blue-500" /> Mini game</h2>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="text-xs">Detail</Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
+            <Button variant="outline" size="sm" className="text-xs">All</Button>
           </div>
           <div className="grid grid-cols-3 gap-2">
             <Card className="overflow-hidden rounded-lg bg-blue-400/20">
@@ -130,20 +144,12 @@ export default function HomePage() {
         <div>
            <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Image src="https://placehold.co/24x24/FEE2E2/EF4444?text=7" alt="7" width={24} height={24} className="rounded-full" /> Slots</h2>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="text-xs">Detail</Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
+            <Button variant="outline" size="sm" className="text-xs">All</Button>
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4">
             <Card className="rounded-lg overflow-hidden bg-red-400/20">
                 <Image src="https://picsum.photos/200/200?random=13" alt="Evolution" width={200} height={200} className="w-full" data-ai-hint="woman casino" />
-                 <p className="font-bold text-red-800 text-center text-sm py-1">>Evolution</p>
+                 <p className="font-bold text-red-800 text-center text-sm py-1">&gt;Evolution</p>
             </Card>
             <Card className="rounded-lg overflow-hidden bg-red-400/20">
                 <Image src="https://picsum.photos/200/200?random=14" alt="PG" width={200} height={200} className="w-full" data-ai-hint="panda character" />
@@ -159,15 +165,7 @@ export default function HomePage() {
         <div>
            <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><HeartCrack className="text-red-500" /> Rummy</h2>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="text-xs">Detail</Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
+            <Button variant="outline" size="sm" className="text-xs">All</Button>
           </div>
           <div className="grid grid-cols-1 gap-2 sm:gap-4">
             <Card className="rounded-lg overflow-hidden">
@@ -179,15 +177,7 @@ export default function HomePage() {
         <div>
            <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Fish className="text-cyan-500" /> Fishing</h2>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="text-xs">Detail</Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
+            <Button variant="outline" size="sm" className="text-xs">All</Button>
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4">
             <Card className="rounded-lg overflow-hidden">
@@ -205,15 +195,7 @@ export default function HomePage() {
         <div>
            <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Star className="text-pink-500" /> Casino</h2>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="text-xs">Detail</Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
+             <Button variant="outline" size="sm" className="text-xs">All</Button>
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4">
             <Card className="rounded-lg overflow-hidden">
@@ -231,15 +213,7 @@ export default function HomePage() {
         <div>
            <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Gamepad2 className="text-purple-500" /> Sports</h2>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="text-xs">Detail</Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
+            <Button variant="outline" size="sm" className="text-xs">All</Button>
           </div>
           <div className="grid grid-cols-1 gap-2 sm:gap-4">
             <Card className="rounded-lg overflow-hidden">
@@ -247,13 +221,35 @@ export default function HomePage() {
             </Card>
           </div>
         </div>
+        
+        <div>
+          <h2 className="text-md sm:text-lg font-bold flex items-center gap-2 mb-2"><Ticket className="text-red-500" /> Winning information</h2>
+          <Card>
+            <CardContent className="p-0">
+              <div className="grid grid-cols-3 text-center text-xs sm:text-sm font-semibold bg-muted/50 p-2">
+                <div>Game</div>
+                <div>User</div>
+                <div>Winning amount</div>
+              </div>
+              <div className="divide-y">
+                {winners.map((winner, index) => (
+                  <div key={index} className="grid grid-cols-3 text-center text-xs sm:text-sm p-2 items-center">
+                    <div className="flex items-center justify-center gap-1">
+                      <Ticket className="w-4 h-4 text-purple-500" /> 
+                      <span>{winner.game}</span>
+                    </div>
+                    <div>{winner.user}</div>
+                    <div className="text-red-500 font-bold">{winner.amount}</div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
       </main>
       
       <div className="fixed bottom-24 right-4 sm:bottom-10 space-y-2 flex flex-col items-end">
-          <Button className="rounded-full bg-red-500 hover:bg-red-600 text-white shadow-lg">
-            <Image src="https://placehold.co/24x24/FFFFFF/EF4444?text=91" alt="91 Club" width={24} height={24} className="rounded-full" />
-            <span className="ml-2">Add to Desktop</span>
-          </Button>
           <Button variant="ghost" size="icon" className="bg-white rounded-full shadow-lg">
             <Image src="https://placehold.co/40x40/FFFFFF/000000?text=C" alt="chat" width={40} height={40} className="rounded-full" data-ai-hint="chat bubble" />
           </Button>
@@ -268,9 +264,7 @@ export default function HomePage() {
           <Activity className="w-6 h-6" />
           <span className="text-xs mt-1">Activity</span>
         </Button>
-        <div className="relative">
-           <Image src="https://picsum.photos/80/80?random=99" alt="Fortune wheel" width={80} height={80} className="absolute -top-12 left-1/2 -translate-x-1/2" data-ai-hint="fortune wheel" />
-        </div>
+        
         <Button variant="ghost" className="flex flex-col h-auto items-center text-muted-foreground">
           <Percent className="w-6 h-6" />
           <span className="text-xs mt-1">Promotion</span>
