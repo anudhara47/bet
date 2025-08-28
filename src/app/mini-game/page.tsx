@@ -29,7 +29,6 @@ const AviatorIcon = () => (
         <path d="M-30,-20 L-70,20 L-50,30 L-20,0 Z" fill="#de2d2d" transform="translate(-10,-50)" />
         <path d="M30,-20 L70,20 L50,30 L20,0 Z" fill="#de2d2d" transform="translate(-10,-50)" />
       </g>
-       <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">AVIATOR</text>
     </svg>
 );
 
@@ -41,7 +40,6 @@ const CricketIcon = () => (
             <path d="M90 130 L100 120 L100 30 L90 20 Z" fill="#eab308" />
             <circle cx="100" cy="90" r="15" fill="#ef4444" />
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">CRICKET</text>
     </svg>
 );
 
@@ -55,7 +53,6 @@ const ChickenRoadIcon = () => (
             <path d="M100 110 C 105 120, 95 120, 100 110" fill="none" stroke="black" strokeWidth="2"/>
             <path d="M95 100 L105 105 L95 110 Z" fill="#f97316" />
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="18" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">CHICKEN ROAD</text>
     </svg>
 );
 
@@ -75,7 +72,6 @@ const MinesIcon = () => (
         <path d="M55 10 L100 10 L125 50 L100 90 L55 90 L30 50 Z" fill="#FBBF24" stroke="#FDE68A" strokeWidth="5"/>
         <path d="M77.5 25 L105 50 L77.5 75 L50 50 Z" fill="#a855f7" />
       </g>
-      <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">MINES</text>
     </svg>
 );
 
@@ -87,7 +83,6 @@ const LimboIcon = () => (
             <rect x="80" y="70" width="40" height="80" fill="#a5b4fc" />
             <path d="M90 150 L110 150 L120 170 L80 170 Z" fill="#ef4444" />
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">LIMBO</text>
     </svg>
 );
 
@@ -98,7 +93,6 @@ const JavelinIcon = () => (
             <path d="M10 100 L190 100" stroke="#d97706" strokeWidth="8" strokeLinecap="round" />
             <path d="M170 90 L190 100 L170 110" stroke="#d97706" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">JAVELIN</text>
     </svg>
 );
 
@@ -111,7 +105,6 @@ const DragonTigerIcon = () => (
             {/* Tiger */}
             <path d="M150,120 C 180,90 160,40 120,40 C 100,40 100,60 120,70" fill="#f97316" />
         </g>
-         <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="20" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">DRAGON TIGER</text>
     </svg>
 );
 
@@ -123,7 +116,6 @@ const GoalIcon = () => (
              <path d="M100,60 l19,38 h-38 Z" fill="white" transform="translate(0,-5)"/>
              <path d="M81,98 l38,0 l-19,38 Z" fill="white" transform="translate(0,5)"/>
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">GOAL</text>
     </svg>
 );
 
@@ -135,7 +127,6 @@ const SnakesIcon = () => (
             <path d="M140 60 L150 50 L160 60" fill="#fde047"/>
             <circle cx="150" cy="70" r="3" fill="red" />
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">SNAKES</text>
     </svg>
 );
 
@@ -149,7 +140,6 @@ const DiceIcon = () => (
              <circle cx="75" cy="125" r="8" fill="white"/>
             <circle cx="125" cy="75" r="8" fill="white"/>
         </g>
-        <text x="50%" y="85%" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold" className="opacity-80 drop-shadow-lg tracking-wider">DICE</text>
     </svg>
 );
 
@@ -158,14 +148,19 @@ const DiceIcon = () => (
 const GameCard = ({
   href,
   Icon,
+  label
 }: {
   href: string;
   Icon: React.ComponentType;
+  label: string;
 }) => (
-  <Link href={href}>
-    <div className="aspect-square">
-        <Icon />
-    </div>
+  <Link href={href} className="flex flex-col gap-2 items-center text-center">
+    <Card className="w-full overflow-hidden rounded-lg bg-card shadow-sm aspect-square">
+        <CardContent className="p-0 h-full w-full">
+            <Icon />
+        </CardContent>
+    </Card>
+    <span className="text-sm font-bold text-black opacity-80">{label}</span>
   </Link>
 );
 
@@ -174,50 +169,62 @@ export default function MiniGamePage() {
     {
       href: "/mini-game/aviator-bonus",
       Icon: AviatorIcon,
+      label: "AVIATOR BONUS"
     },
     {
       href: "/mini-game/cricket",
       Icon: CricketIcon,
+      label: "CRICKET"
     },
     {
       href: "/mini-game/chicken-road",
       Icon: ChickenRoadIcon,
+      label: "CHICKEN ROAD"
     },
     {
       href: "/mini-game/aviator",
       Icon: AviatorIcon,
+      label: "AVIATOR"
     },
     {
       href: "/mini-game/mines",
       Icon: MinesIcon,
+      label: "MINES"
     },
     {
       href: "/mini-game/mines-pro",
       Icon: MinesIcon,
+      label: "MINES PRO"
     },
     {
       href: "/mini-game/limbo",
       Icon: LimboIcon,
+      label: "LIMBO"
     },
     {
       href: "/mini-game/javelin",
       Icon: JavelinIcon,
+      label: "JAVELIN"
     },
     {
       href: "/mini-game/dragon-tiger",
       Icon: DragonTigerIcon,
+      label: "DRAGON TIGER"
     },
     {
         href: "/mini-game/goal",
         Icon: GoalIcon,
+        label: "GOAL"
     },
     {
         href: "/mini-game/snakes",
         Icon: SnakesIcon,
+        label: "SNAKES"
     },
     {
         href: "/mini-game/dice",
         Icon: DiceIcon,
+        label: "DICE"
     },
   ];
 
