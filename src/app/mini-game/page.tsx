@@ -155,12 +155,12 @@ const GameCard = ({
   label: string;
 }) => (
   <Link href={href} className="flex flex-col gap-2 items-center text-center">
-    <Card className="w-full overflow-hidden rounded-lg bg-card shadow-sm aspect-square">
+    <Card className="w-full overflow-hidden rounded-lg bg-transparent shadow-sm aspect-square">
         <CardContent className="p-0 h-full w-full">
             <Icon />
         </CardContent>
     </Card>
-    <span className="text-sm font-bold text-black opacity-80">{label}</span>
+    <span className="text-sm font-bold text-white opacity-80">{label}</span>
   </Link>
 );
 
@@ -229,12 +229,12 @@ export default function MiniGamePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-100 text-white pb-24 max-w-lg mx-auto">
-      <header className="sticky top-0 z-50 w-full bg-neutral-100/80 backdrop-blur supports-[backdrop-filter]:bg-neutral-100/60 p-4 flex items-center gap-4">
-        <Link href="/" className="text-black">
+    <div className="min-h-screen bg-black text-white pb-24 max-w-lg mx-auto">
+      <header className="sticky top-0 z-50 w-full bg-black/80 backdrop-blur supports-[backdrop-filter]:bg-black/60 p-4 flex items-center gap-4">
+        <Link href="/" className="text-white">
           <ChevronLeft className="w-6 h-6" />
         </Link>
-        <h1 className="font-bold text-xl text-black">Mini Game</h1>
+        <h1 className="font-bold text-xl text-white">Mini Game</h1>
       </header>
 
       <main className="p-4">
