@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -101,7 +102,7 @@ export default {
         'logo-zoom': 'logo-zoom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards',
         'spin-slow': 'spin 20s linear infinite',
         'spin-very-slow': 'spin 60s linear infinite',
-        'marquee-up': 'marquee-up 200s linear infinite',
+        'marquee-up-slow': 'marquee-up 200s linear infinite',
       },
     },
   },

@@ -1,3 +1,4 @@
+
 'use client';
 import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle, Landmark, Bot } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -194,6 +195,103 @@ const MinesIcon = () => (
       </g>
     </svg>
   );
+  
+const WinGoIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="winGoGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#f87171" />
+                <stop offset="100%" stopColor="#ef4444" />
+            </linearGradient>
+            <filter id="winGoShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="5" dy="5" stdDeviation="5" floodColor="#000" floodOpacity="0.2" />
+            </filter>
+        </defs>
+        <g style={{filter: 'url(#winGoShadow)'}}>
+            <circle cx="100" cy="100" r="80" fill="url(#winGoGrad)" />
+            <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="50" fontWeight="bold">
+                GO
+            </text>
+        </g>
+    </svg>
+);
+
+const K3Icon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="k3Grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#60a5fa" />
+                <stop offset="100%" stopColor="#3b82f6" />
+            </linearGradient>
+             <filter id="k3Shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="5" dy="5" stdDeviation="5" floodColor="#000" floodOpacity="0.2" />
+            </filter>
+        </defs>
+        <g transform="translate(30 30) scale(0.7) rotate(-15)" style={{filter: 'url(#k3Shadow)'}}>
+             <rect x="0" y="0" width="100" height="100" rx="15" fill="white"/>
+             <circle cx="50" cy="50" r="8" fill="#3b82f6"/>
+        </g>
+         <g transform="translate(70 50) scale(0.7) rotate(10)" style={{filter: 'url(#k3Shadow)'}}>
+             <rect x="0" y="0" width="100" height="100" rx="15" fill="white"/>
+             <circle cx="30" cy="30" r="8" fill="#3b82f6"/>
+             <circle cx="70" cy="70" r="8" fill="#3b82f6"/>
+        </g>
+    </svg>
+);
+
+const FiveDIcon = () => (
+     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="fiveDGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#fbbf24" />
+                <stop offset="100%" stopColor="#f59e0b" />
+            </linearGradient>
+            <filter id="fiveDShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="5" dy="5" stdDeviation="5" floodColor="#000" floodOpacity="0.2" />
+            </filter>
+        </defs>
+        <g style={{filter: 'url(#fiveDShadow)'}}>
+            <circle cx="100" cy="100" r="80" fill="url(#fiveDGrad)" />
+            <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="90" fontWeight="bold" transform="skewX(-10)">
+                5D
+            </text>
+        </g>
+    </svg>
+);
+
+const TrxWingoIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="trxGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#4ade80" />
+                <stop offset="100%" stopColor="#22c55e" />
+            </linearGradient>
+            <filter id="trxShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="5" dy="5" stdDeviation="5" floodColor="#000" floodOpacity="0.2" />
+            </filter>
+        </defs>
+        <g style={{filter: 'url(#trxShadow)'}}>
+             <path d="M100 20 L180 60 L180 140 L100 180 L20 140 L20 60 Z" fill="url(#trxGrad)"/>
+             <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="30" fontWeight="bold">
+                TRX
+            </text>
+        </g>
+    </svg>
+);
+
+
+const LotteryCard = ({ href, Icon, label }: { href: string, Icon: React.ComponentType, label: string }) => (
+    <Link href={href}>
+        <Card className="rounded-lg overflow-hidden bg-card shadow-sm aspect-square flex flex-col">
+            <div className="flex-grow p-2 sm:p-4">
+                <Icon />
+            </div>
+            <CardContent className="p-2 text-center bg-muted/20">
+                <p className="font-bold text-foreground text-xs sm:text-sm">{label}</p>
+            </CardContent>
+        </Card>
+    </Link>
+);
 
 export default function HomePage() {
 
@@ -205,9 +303,10 @@ export default function HomePage() {
     { name: "Fishing", icon: <Fish className="w-5 h-5" />, href: "/fishing" },
   ]
 
-  const generateWinners = React.useCallback((count: number) => {
+  const generateWinners = React.useCallback(() => {
     const games = ['Wickets9', 'Card365', 'Slots', 'Rummy', 'Aviator', 'Mines'];
     const winners = [];
+    const count = 100;
     for (let i = 0; i < count; i++) {
         const game = games[Math.floor(Math.random() * games.length)];
         const user = `Mem***${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
@@ -220,23 +319,13 @@ export default function HomePage() {
   const [winners, setWinners] = React.useState<{ game: string; user: string; amount: string; }[]>([]);
 
   React.useEffect(() => {
-    setWinners(generateWinners(100));
-
-    const interval = setInterval(() => {
-        setWinners(prev => [...prev, ...generateWinners(1)]);
-    }, 2000);
-    return () => clearInterval(interval);
+    setWinners(generateWinners());
   }, [generateWinners]);
 
   const extendedWinners = React.useMemo(() => {
-    // We need a stable list on the client for the animation to be smooth.
-    // If the list is empty, we can't repeat it, so we'll just have an empty list.
     if (winners.length === 0) {
       return [];
     }
-  
-    // To ensure the animation is smooth, we need to have enough items to fill the marquee.
-    // We'll repeat the list until we have at least 50 items.
     const repeated = [];
     while (repeated.length < 50) {
       repeated.push(...winners);
@@ -345,39 +434,11 @@ export default function HomePage() {
               <h2 className="text-md sm:text-lg font-bold">Lottery</h2>
           </div>
           <p className="text-xs text-muted-foreground mb-2">The games are independently developed by our team, fun, fair, and safe</p>
-          <div className="grid grid-cols-2 gap-4">
-              <Link href="/lottery/win-go">
-                  <Card className="rounded-lg overflow-hidden relative aspect-video">
-                      <Image src="https://picsum.photos/300/150?random=61" alt="Win Go" layout="fill" objectFit="cover" data-ai-hint="lottery balls win go"/>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-2 flex flex-col justify-end">
-                          <h3 className="text-white font-bold text-lg">WIN GO</h3>
-                      </div>
-                  </Card>
-              </Link>
-              <Link href="/lottery/k3">
-                  <Card className="rounded-lg overflow-hidden relative aspect-video">
-                      <Image src="https://picsum.photos/300/150?random=62" alt="K3" layout="fill" objectFit="cover" data-ai-hint="dice game k3"/>
-                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-2 flex flex-col justify-end">
-                          <h3 className="text-white font-bold text-lg">K3</h3>
-                      </div>
-                  </Card>
-              </Link>
-              <Link href="/lottery/5d">
-                  <Card className="rounded-lg overflow-hidden relative aspect-video">
-                      <Image src="https://picsum.photos/300/150?random=63" alt="5D" layout="fill" objectFit="cover" data-ai-hint="lottery game 5d"/>
-                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-2 flex flex-col justify-end">
-                          <h3 className="text-white font-bold text-lg">5D</h3>
-                      </div>
-                  </Card>
-              </Link>
-              <Link href="/lottery/trx-wingo">
-                  <Card className="rounded-lg overflow-hidden relative aspect-video">
-                      <Image src="https://picsum.photos/300/150?random=64" alt="TRX Wingo" layout="fill" objectFit="cover" data-ai-hint="crypto lottery trx"/>
-                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-2 flex flex-col justify-end">
-                          <h3 className="text-white font-bold text-lg">TRX WINGO</h3>
-                      </div>
-                  </Card>
-              </Link>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+              <LotteryCard href="/lottery/win-go" Icon={WinGoIcon} label="WIN GO" />
+              <LotteryCard href="/lottery/k3" Icon={K3Icon} label="K3" />
+              <LotteryCard href="/lottery/5d" Icon={FiveDIcon} label="5D" />
+              <LotteryCard href="/lottery/trx-wingo" Icon={TrxWingoIcon} label="TRX WINGO" />
           </div>
         </div>
 
@@ -532,7 +593,7 @@ export default function HomePage() {
                         <div>Winning amount</div>
                     </div>
                     <div className="relative h-48 overflow-hidden group">
-                        <div className="animate-marquee-up group-hover:pause flex flex-col absolute top-0 left-0 w-full">
+                        <div className="animate-marquee-up-slow group-hover:pause flex flex-col absolute top-0 left-0 w-full">
                             {extendedWinners.map((winner, index) => (
                                 <div key={index} className="grid grid-cols-3 text-center text-xs sm:text-sm p-2 items-center h-12">
                                     <div className="flex items-center justify-center gap-1">
