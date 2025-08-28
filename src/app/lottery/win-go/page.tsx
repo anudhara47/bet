@@ -26,7 +26,7 @@ const DragonIcon = () => (
 );
 
 const FloatingDragonIcon = () => (
-    <svg width="32" height="32" viewBox="0-0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="16" cy="16" r="16" fill="white" />
         <path d="M20.2667 15.6C20.6 14.9333 20.5333 14.1333 20.0667 13.6C19.6 13.0667 18.9 12.8 18.2 12.8H16.0667C15.3667 12.8 14.7333 13.0333 14.2 13.5C13.6667 13.9667 13.4 14.5667 13.4 15.2C13.4 15.8667 13.6667 16.4667 14.2 16.9333C14.7333 17.4 15.3667 17.6333 16.0667 17.6333H16.6C17.0667 17.6333 17.4667 17.5 17.7333 17.2333C18 16.9667 18.1333 16.6333 18.1333 16.2C18.1333 15.7667 18 15.4333 17.7333 15.1667C17.4667 14.9 17.0667 14.7667 16.5333 14.7667H16.4" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M11.6933 21.06C11.4194 20.3155 11.2889 19.5312 11.3104 18.745C11.3318 17.9588 11.5048 17.1853 11.8208 16.4639C12.1368 15.7424 12.5901 15.0872 13.1581 14.5367C13.7262 13.9863 14.4001 13.5517 15.1402 13.2642C15.8803 12.9767 16.6713 12.8427 17.4658 12.871C18.2604 12.8993 19.0422 13.0894 19.7699 13.4312C20.4975 13.773 21.159 14.2598 21.7206 14.8631C22.2822 15.4664 22.7328 16.1751 23.0487 16.9535C23.3646 17.7319 23.5401 18.5678 23.5649 19.4187C23.5897 20.2696 23.4635 21.1166 23.1933 21.9133" stroke="#F87171" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -35,15 +35,15 @@ const FloatingDragonIcon = () => (
 
 
 const ChatIcon = () => (
-    <svg width="24" height="24" viewBox="0-0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#8A8A8A" strokeWidth="1.5"/>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#8A8A8A" strokeWidth="1.5"/>
         <circle cx="9" cy="12" r="1.5" fill="#8A8A8A"/>
         <circle cx="15" cy="12" r="1.5" fill="#8A8A8A"/>
     </svg>
 );
 
 const FloatingChatIcon = () => (
-    <svg width="32" height="32" viewBox="0-0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="16" cy="16" r="16" fill="white" />
         <path d="M16 26C22.0914 26 27 21.0914 27 15C27 8.90861 22.0914 4 16 4C9.90861 4 5 8.90861 5 15C5 21.0914 9.90861 26 16 26Z" stroke="#8A8A8A" strokeWidth="1.5" />
         <circle cx="12" cy="15" r="2" fill="#8A8A8A" />
@@ -58,16 +58,16 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100052094', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052093', number: 4, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052092', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100052091', number: 9, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052090', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
-        { period: '20250828100052089', number: 3, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052088', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052087', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100052086', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052085', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052114', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052113', number: 3, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052112', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
+        { period: '20250828100052111', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052110', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052109', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052108', number: 9, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052107', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052106', number: 6, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052105', number: 4, bigSmall: 'Small', colors: ['red'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
