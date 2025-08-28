@@ -53,6 +53,7 @@ const FloatingChatIcon = () => (
 
 export default function WinGoPage() {
     const [timeLeft, setTimeLeft] = React.useState(0);
+    const [periodId, setPeriodId] = React.useState('');
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     const [gameInterval, setGameInterval] = React.useState(30);
 
@@ -70,20 +71,31 @@ export default function WinGoPage() {
     ];
 
     React.useEffect(() => {
-        const updateTimer = () => {
-            // Get current time in IST (UTC+5:30)
+        const getISTDate = () => {
             const now = new Date();
             const utcOffset = now.getTimezoneOffset() * 60000;
             const istOffset = 5.5 * 3600000;
-            const istNow = new Date(now.getTime() + utcOffset + istOffset);
+            return new Date(now.getTime() + utcOffset + istOffset);
+        }
+
+        const updateTimerAndPeriod = () => {
+            const istNow = getISTDate();
+            const year = istNow.getFullYear();
+            const month = (istNow.getMonth() + 1).toString().padStart(2, '0');
+            const day = istNow.getDate().toString().padStart(2, '0');
+            
+            const totalSecondsInDay = istNow.getHours() * 3600 + istNow.getMinutes() * 60 + istNow.getSeconds();
+            const gameNumber = Math.floor(totalSecondsInDay / gameInterval) + 1;
+            
+            setPeriodId(`${year}${month}${day}${gameNumber.toString().padStart(5, '0')}`);
 
             const seconds = istNow.getSeconds();
             const remaining = gameInterval - (seconds % gameInterval);
             setTimeLeft(remaining);
         };
     
-        updateTimer(); // Initial call
-        const timer = setInterval(updateTimer, 1000);
+        updateTimerAndPeriod(); // Initial call
+        const timer = setInterval(updateTimerAndPeriod, 1000);
     
         return () => clearInterval(timer);
     }, [gameInterval]);
@@ -225,7 +237,7 @@ export default function WinGoPage() {
                                             )
                                         })}
                                     </div>
-                                    <p className="text-sm font-mono">20250828100051978</p>
+                                    <p className="text-sm font-mono">{periodId}</p>
                                 </div>
                             </div>
 
@@ -346,4 +358,4 @@ export default function WinGoPage() {
         </div>
     )
 
-    
+}
