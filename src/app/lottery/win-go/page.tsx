@@ -51,8 +51,9 @@ const FloatingChatIcon = () => (
 );
 
 export default function WinGoPage() {
-    const [timeLeft, setTimeLeft] = React.useState(73);
+    const [timeLeft, setTimeLeft] = React.useState(0);
     const [isRefreshing, setIsRefreshing] = React.useState(false);
+    const [gameInterval, setGameInterval] = React.useState(30);
 
     const gameHistory = [
         { period: '20250828100051955', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
@@ -68,12 +69,24 @@ export default function WinGoPage() {
     ];
 
     React.useEffect(() => {
-        if (timeLeft === 0) return;
-        const timer = setInterval(() => {
-            setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
-        }, 1000);
+        const updateTimer = () => {
+            // Get current time in IST (UTC+5:30)
+            const now = new Date();
+            const utcOffset = now.getTimezoneOffset() * 60000;
+            const istOffset = 5.5 * 3600000;
+            const istNow = new Date(now.getTime() + utcOffset + istOffset);
+
+            const seconds = istNow.getSeconds();
+            const remaining = gameInterval - (seconds % gameInterval);
+            setTimeLeft(remaining);
+        };
+    
+        updateTimer(); // Initial call
+        const timer = setInterval(updateTimer, 1000);
+    
         return () => clearInterval(timer);
-    }, [timeLeft]);
+    }, [gameInterval]);
+
 
     const formatTime = (seconds: number) => {
         const minutes = Math.floor(seconds / 60);
@@ -148,7 +161,12 @@ export default function WinGoPage() {
                 </div>
 
                 <div className="px-2">
-                    <Tabs defaultValue="30sec" className="w-full">
+                    <Tabs defaultValue="30sec" className="w-full" onValueChange={(value) => {
+                        if (value === '30sec') setGameInterval(30);
+                        if (value === '1min') setGameInterval(60);
+                        if (value === '3min') setGameInterval(180);
+                        if (value === '5min') setGameInterval(300);
+                    }}>
                         <TabsList className="grid grid-cols-4 bg-transparent p-0 h-auto gap-2">
                             <TabsTrigger value="30sec" className="data-[state=active]:bg-white data-[state=active]:text-red-500 data-[state=active]:shadow-md rounded-t-lg bg-red-400 text-white border-b-2 border-red-500 data-[state=active]:border-transparent py-3">
                                 WinGo 30sec
@@ -174,7 +192,7 @@ export default function WinGoPage() {
                                 <div className="flex justify-between items-center mt-2">
                                     <p className="font-bold text-lg">WinGo 30sec</p>
                                     <div className="flex items-center gap-1 font-mono text-2xl font-bold">
-                                        <span className="bg-gray-800 text-white rounded-md px-2 py-1">0</span>
+                                        <span className="bg-gray-800 text-white rounded-md px-2 py-1">{minutes[0]}</span>
                                         <span className="bg-gray-800 text-white rounded-md px-2 py-1">{minutes[1]}</span>
                                         <span className="text-gray-800">:</span>
                                         <span className="bg-gray-800 text-white rounded-md px-2 py-1">{seconds[0]}</span>
