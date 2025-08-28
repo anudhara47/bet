@@ -34,11 +34,17 @@ export default function Home() {
         </div>
       </header>
       <main className="container mx-auto p-4">
-        <Carousel className="w-full max-w-xs mx-auto">
-          <CarouselContent>
+        <Carousel 
+          opts={{
+            align: "start",
+            duration: 20,
+          }}
+          className="w-full max-w-sm mx-auto"
+        >
+          <CarouselContent className="-ml-2">
             {categories.map((category, index) => (
-              <CarouselItem key={index} className="basis-1/3">
-                <div className="p-1">
+              <CarouselItem key={index} className="basis-auto pl-2">
+                <div className="p-0">
                   <Button
                     key={category}
                     variant="outline"
