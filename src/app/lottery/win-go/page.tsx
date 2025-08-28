@@ -86,44 +86,22 @@ export default function WinGoPage() {
             const seconds = istNow.getSeconds();
             const milliseconds = istNow.getMilliseconds();
             
-            const totalSecondsInDay = istNow.getHours() * 3600 + istNow.getMinutes() * 60 + seconds;
-            const gamesToday = Math.floor(totalSecondsInDay / (gameInterval));
-            
-            const year = istNow.getFullYear();
-            const month = (istNow.getMonth() + 1).toString().padStart(2, '0');
-            const day = istNow.getDate().toString().padStart(2, '0');
-            const dateString = `${year}${month}${day}`;
-
-            const basePeriod = 20250828100051996 - (24 * 60 * 60 / 30); // Approximate base for the day
-            const dailyCycle = (istNow.getHours()*120 + istNow.getMinutes()*2 + Math.floor(istNow.getSeconds()/30));
-            const baseForToday = BigInt(dateString + "000000000".substring(0, 9-dailyCycle.toString().length));
-            const currentPeriodId = (baseForToday + BigInt(dailyCycle)).toString();
-
-            const gamesInInterval = 60 / gameInterval;
-            const currentMinuteGame = Math.floor(seconds / gameInterval);
-            const remaining = gameInterval - (seconds % gameInterval) - (milliseconds/1000);
-            
-            const periodBaseStr = "20250828";
-            const timePart = istNow.getHours().toString().padStart(2, '0') +
-                           istNow.getMinutes().toString().padStart(2, '0') +
-                           (Math.floor(istNow.getSeconds() / gameInterval)).toString().padStart(2, '0');
-            const newPeriodId = periodBaseStr + (parseInt(timePart, 10)).toString().padStart(9, '0');
-            
             const startOfDay = new Date(istNow);
-            startOfDay.setHours(0, 0, 0, 0);
+            startOfDay.setUTCHours(0, 0, 0, 0);
             const secondsFromMidnight = (istNow.getTime() - startOfDay.getTime()) / 1000;
             const gameNumber = Math.floor(secondsFromMidnight / gameInterval);
-            const periodString = `${dateString}${gameNumber.toString().padStart(5, '0')}`;
+
+            const basePeriod = BigInt("20250828100051996");
+            const currentPeriodId = (basePeriod + BigInt(gameNumber)).toString();
             
-            const currentPeriodIdFinal = (BigInt("20250828100051996") + BigInt(gameNumber)).toString();
-
-
-            if (periodId !== periodString) {
+            const remaining = gameInterval - (seconds % gameInterval) - (milliseconds/1000);
+            
+            if (periodId !== currentPeriodId) {
                 if (periodId) { // Check if it's not the very first run
                     const newResult = { period: periodId, number: Math.floor(Math.random() * 10), bigSmall: Math.random() > 0.5 ? 'Big' : 'Small', colors: [['red'], ['green'],['red', 'purple'],['green','purple']][Math.floor(Math.random()*4)] };
                     setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
                 }
-                setPeriodId(periodString);
+                setPeriodId(currentPeriodId);
             }
             setTimeLeft(remaining > 0 ? remaining : 0);
         };
@@ -322,45 +300,60 @@ export default function WinGoPage() {
                     </Tabs>
                 </div>
                 <div className="px-2 mt-4 relative">
-                    <Card>
-                        <CardContent className="p-0">
-                            <div className="grid grid-cols-4 bg-red-500 text-white text-center text-sm py-2 rounded-t-lg">
-                                <div>Period</div>
-                                <div>Number</div>
-                                <div>Big Small</div>
-                                <div>Color</div>
-                            </div>
-                            <div>
-                                {gameHistory.map((item, index) => (
-                                    <div key={index} className="grid grid-cols-4 text-center items-center py-3 border-b">
-                                        <div className="text-xs text-muted-foreground">{item.period}</div>
-                                        <div className={cn("font-bold text-lg", getNumberColor(item.number))}>
-                                            {item.number}
-                                        </div>
-                                        <div className="text-sm">{item.bigSmall}</div>
-                                        <div className="flex justify-center items-center gap-1">
-                                            {item.colors.map(color => (
-                                                <span key={color} className={cn("w-3 h-3 rounded-full", {
-                                                    'bg-red-500': color === 'red',
-                                                    'bg-green-500': color === 'green',
-                                                    'bg-purple-500': color === 'purple',
-                                                })}></span>
-                                            ))}
-                                        </div>
+                    <Tabs defaultValue="results" className="w-full">
+                        <TabsList className="grid w-full grid-cols-2">
+                            <TabsTrigger value="results">Game Result</TabsTrigger>
+                            <TabsTrigger value="my-bets">My Bets</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="results">
+                             <Card>
+                                <CardContent className="p-0">
+                                    <div className="grid grid-cols-4 bg-red-500 text-white text-center text-sm py-2 rounded-t-lg">
+                                        <div>Period</div>
+                                        <div>Number</div>
+                                        <div>Big Small</div>
+                                        <div>Color</div>
                                     </div>
-                                ))}
-                            </div>
-                            <div className="flex justify-center items-center p-4 gap-4">
-                                <Button variant="outline" size="icon" className="rounded-md bg-gray-200">
-                                    <ChevronLeft />
-                                </Button>
-                                <span className="text-sm font-medium">1 / 50</span>
-                                <Button variant="destructive" size="icon" className="rounded-md">
-                                    <ChevronRight />
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
+                                    <div>
+                                        {gameHistory.map((item, index) => (
+                                            <div key={index} className="grid grid-cols-4 text-center items-center py-3 border-b">
+                                                <div className="text-xs text-muted-foreground">{item.period}</div>
+                                                <div className={cn("font-bold text-lg", getNumberColor(item.number))}>
+                                                    {item.number}
+                                                </div>
+                                                <div className="text-sm">{item.bigSmall}</div>
+                                                <div className="flex justify-center items-center gap-1">
+                                                    {item.colors.map(color => (
+                                                        <span key={color} className={cn("w-3 h-3 rounded-full", {
+                                                            'bg-red-500': color === 'red',
+                                                            'bg-green-500': color === 'green',
+                                                            'bg-purple-500': color === 'purple',
+                                                        })}></span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="flex justify-center items-center p-4 gap-4">
+                                        <Button variant="outline" size="icon" className="rounded-md bg-gray-200">
+                                            <ChevronLeft />
+                                        </Button>
+                                        <span className="text-sm font-medium">1 / 50</span>
+                                        <Button variant="destructive" size="icon" className="rounded-md">
+                                            <ChevronRight />
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent value="my-bets">
+                            <Card>
+                                <CardContent className="p-4 text-center text-muted-foreground">
+                                    You have no bets yet.
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                    </Tabs>
 
                     <div className="absolute right-0 bottom-16 space-y-2">
                         <Button variant="ghost" size="icon" className="p-0 h-auto w-auto">
@@ -393,3 +386,5 @@ export default function WinGoPage() {
     )
 
 }
+
+    
