@@ -160,9 +160,6 @@ export default function HomePage() {
       </main>
       
       <div className="fixed bottom-24 right-4 sm:bottom-10 space-y-2 flex flex-col items-end">
-        <Button className="bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg h-10 px-4 text-xs sm:text-sm">
-           Add to Desktop
-        </Button>
         <Button variant="ghost" size="icon" className="bg-white rounded-full shadow-lg">
           <Image src="https://placehold.co/40x40/FFFFFF/000000?text=C" alt="chat" width={40} height={40} className="rounded-full" data-ai-hint="chat bubble" />
         </Button>
