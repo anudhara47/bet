@@ -1,16 +1,20 @@
 
+'use client';
 import { Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay";
+import * as React from "react";
 
 export default function Home() {
   const categories = ["lobby", "mini game", "card", "sports", "casino", "fantasy", "Live bet", "All games"];
+  const plugin = React.useRef(
+    Autoplay({ delay: 1000, stopOnInteraction: true })
+  )
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -35,9 +39,10 @@ export default function Home() {
       </header>
       <main className="container mx-auto p-4">
         <Carousel 
+          plugins={[plugin.current]}
           opts={{
             align: "start",
-            duration: 20,
+            loop: true,
           }}
           className="w-full max-w-sm mx-auto"
         >
@@ -57,8 +62,6 @@ export default function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
         </Carousel>
       </main>
     </div>
