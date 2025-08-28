@@ -254,10 +254,10 @@ export default function AccountPage() {
           <HomeIcon className="w-6 h-6" />
           <span className="text-xs mt-1">Home</span>
         </Link>
-        <Button variant="ghost" className="flex flex-col h-auto items-center text-muted-foreground">
+        <Link href="/activity" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
           <Activity className="w-6 h-6" />
           <span className="text-xs mt-1">Activity</span>
-        </Button>
+        </Link>
         
         <div className="text-center">
              <div className="relative w-16 h-16 -mt-8">
@@ -266,10 +266,10 @@ export default function AccountPage() {
             <span className="text-xs font-bold text-red-500">Get ₹500</span>
         </div>
 
-        <Button variant="ghost" className="flex flex-col h-auto items-center text-muted-foreground">
+        <Link href="/promotion" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
           <Landmark className="w-6 h-6" />
           <span className="text-xs mt-1">Promotion</span>
-        </Button>
+        </Link>
         <Link href="/account" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-red-600")}>
           <User className="w-6 h-6" />
           <span className="text-xs mt-1">Account</span>
