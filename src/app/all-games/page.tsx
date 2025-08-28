@@ -3,15 +3,18 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 
 export default function AllGamesPage() {
   return (
     <div className="min-h-screen bg-background text-foreground p-4">
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 mb-4">
         <div className="container flex h-14 items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 text-primary">
-              <ArrowLeft />
-              Back
+            <Link href="/" passHref>
+              <Button variant="outline">
+                <ArrowLeft />
+                Back
+              </Button>
             </Link>
             <h1 className="text-2xl font-bold capitalize">All Games</h1>
             <div />
