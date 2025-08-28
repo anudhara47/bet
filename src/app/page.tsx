@@ -1,3 +1,5 @@
+import { Wallet } from "lucide-react";
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -10,6 +12,9 @@ export default function Home() {
                 <span className="text-foreground">X</span>
               </div>
             </a>
+          </div>
+          <div className="flex flex-1 items-center justify-end">
+            <Wallet className="h-8 w-8 text-yellow-400" />
           </div>
         </div>
       </header>
