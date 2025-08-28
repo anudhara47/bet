@@ -58,16 +58,16 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100052039', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100052038', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100052037', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100052036', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100052035', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
-        { period: '20250828100052034', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052033', number: 4, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052032', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052031', number: 2, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052030', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052049', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052048', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052047', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052046', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052045', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052044', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
+        { period: '20250828100052043', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052042', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052041', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052040', number: 8, bigSmall: 'Big', colors: ['red'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
@@ -81,7 +81,7 @@ export default function WinGoPage() {
             return new Date(now.getTime() + utcOffset + istOffset);
         };
     
-        const basePeriod = BigInt("20250828100052040");
+        const basePeriod = BigInt("20250828100052050");
         let lastKnownPeriod = BigInt(periodId || "0");
         if (lastKnownPeriod === 0n) {
              lastKnownPeriod = basePeriod - 1n;
@@ -101,7 +101,7 @@ export default function WinGoPage() {
                  if ([2,4,6,8,0].includes(newNumber)) newColors.push('red');
 
                  const newResult = { 
-                    period: lastKnownPeriod.toString(), 
+                    period: newPeriod.toString(), 
                     number: newNumber, 
                     bigSmall: newNumber > 4 ? 'Big' : 'Small', 
                     colors: newColors
