@@ -36,33 +36,6 @@ const AviatorIcon = () => (
   </svg>
 );
 
-const MinesIcon = () => (
-  <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="minesGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-        <stop offset="0%" style={{stopColor: 'rgba(192, 132, 252, 1)', stopOpacity: 1}} />
-        <stop offset="100%" style={{stopColor: 'rgba(168, 85, 247, 1)', stopOpacity: 1}} />
-      </radialGradient>
-       <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
-        <feMerge>
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    </defs>
-    <circle cx="100" cy="100" r="90" fill="url(#minesGrad)"/>
-    <g transform="translate(45, 45) scale(0.7)" filter="url(#glow)">
-      <path d="M55 10 L100 10 L125 50 L100 90 L55 90 L30 50 Z" fill="#FBBF24" stroke="#FDE68A" strokeWidth="5"/>
-      <path d="M77.5 25 L105 50 L77.5 75 L50 50 Z" fill="white" />
-    </g>
-     <g transform="translate(100, 105) scale(0.3)" filter="url(#glow)">
-      <path d="M55 10 L100 10 L125 50 L100 90 L55 90 L30 50 Z" fill="#A78BFA" stroke="white" strokeWidth="8"/>
-       <path d="M77.5 25 L105 50 L77.5 75 L50 50 Z" fill="white" />
-    </g>
-  </svg>
-);
-
 const RummyIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -195,6 +168,33 @@ const FishingIcon = () => (
     </svg>
 );
 
+const MinesIcon = () => (
+    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="minesGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+          <stop offset="0%" style={{stopColor: 'rgba(192, 132, 252, 1)', stopOpacity: 1}} />
+          <stop offset="100%" style={{stopColor: 'rgba(168, 85, 247, 1)', stopOpacity: 1}} />
+        </radialGradient>
+         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <circle cx="100" cy="100" r="90" fill="url(#minesGrad)"/>
+      <g transform="translate(45, 45) scale(0.7)" filter="url(#glow)">
+        <path d="M55 10 L100 10 L125 50 L100 90 L55 90 L30 50 Z" fill="#FBBF24" stroke="#FDE68A" strokeWidth="5"/>
+        <path d="M77.5 25 L105 50 L77.5 75 L50 50 Z" fill="white" />
+      </g>
+       <g transform="translate(100, 105) scale(0.3)" filter="url(#glow)">
+        <path d="M55 10 L100 10 L125 50 L100 90 L55 90 L30 50 Z" fill="#A78BFA" stroke="white" strokeWidth="8"/>
+         <path d="M77.5 25 L105 50 L77.5 75 L50 50 Z" fill="white" />
+      </g>
+    </svg>
+  );
+
 export default function HomePage() {
 
   const navItems = [
@@ -216,17 +216,19 @@ export default function HomePage() {
     }
     return winners;
   };
-
-  const [winners, setWinners] = React.useState(generateWinners(20));
+  
+  const [winners, setWinners] = React.useState<{ game: string; user: string; amount: string; }[]>([]);
 
   React.useEffect(() => {
+    setWinners(generateWinners(100));
+
     const interval = setInterval(() => {
         setWinners(prev => [...prev, ...generateWinners(5)]);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
 
-  const extendedWinners = React.useMemo(() => [...winners, ...winners], [winners]);
+  const extendedWinners = React.useMemo(() => winners.length > 0 ? [...winners, ...winners] : [], [winners]);
 
   const earningsChart = [
     { rank: 1, user: 'Mem***6YM', amount: '₹16,587,734.80', avatar: 'https://picsum.photos/40/40?random=31' },
@@ -578,3 +580,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    
