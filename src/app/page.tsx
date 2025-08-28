@@ -7,7 +7,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel"
-import { Card, CardContent } from "@/components/ui/card";
 import Autoplay from "embla-carousel-autoplay";
 import * as React from "react";
 import { cn } from "@/lib/utils";
@@ -50,38 +49,34 @@ export default function Home() {
         </div>
       </header>
       <main className="container mx-auto p-4">
-        <Card className="shadow-lg bg-white shadow-white">
-          <CardContent className="p-4">
-            <Carousel
-              plugins={[plugin.current]}
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-2">
-                {categories.map((category) => (
-                  <CarouselItem key={category.name} className="basis-auto pl-2">
-                    <div className="p-0">
-                      <Link href={category.path}>
-                        <Button
-                          className={cn(
-                            "capitalize w-[60px] h-[50px] text-[10px] text-white font-bold rounded-md border-b-4 border-gray-800/80 transition-all hover:border-b-2 active:border-b-0 active:translate-y-1",
-                            "bg-gradient-to-br",
-                            category.colors
-                          )}
-                        >
-                          {category.name}
-                        </Button>
-                      </Link>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-          </CardContent>
-        </Card>
+        <Carousel
+          plugins={[plugin.current]}
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-2">
+            {categories.map((category) => (
+              <CarouselItem key={category.name} className="basis-auto pl-2">
+                <div className="p-0">
+                  <Link href={category.path}>
+                    <Button
+                      className={cn(
+                        "capitalize w-[60px] h-[50px] text-[10px] text-white font-bold rounded-md border-b-4 border-gray-800/80 transition-all hover:border-b-2 active:border-b-0 active:translate-y-1",
+                        "bg-gradient-to-br",
+                        category.colors
+                      )}
+                    >
+                      {category.name}
+                    </Button>
+                  </Link>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
       </main>
     </div>
   );
