@@ -7,13 +7,14 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel"
+import { Card, CardContent } from "@/components/ui/card";
 import Autoplay from "embla-carousel-autoplay";
 import * as React from "react";
 
 export default function Home() {
   const categories = ["lobby", "mini game", "card", "sports", "casino", "fantasy", "Live bet", "All games"];
   const plugin = React.useRef(
-    Autoplay({ delay: 1000, stopOnInteraction: true })
+    Autoplay({ delay: 2000, stopOnInteraction: true })
   )
 
   return (
@@ -38,31 +39,35 @@ export default function Home() {
         </div>
       </header>
       <main className="container mx-auto p-4">
-        <Carousel 
-          plugins={[plugin.current]}
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full max-w-sm mx-auto"
-        >
-          <CarouselContent className="-ml-2">
-            {categories.map((category, index) => (
-              <CarouselItem key={index} className="basis-auto pl-2">
-                <div className="p-0">
-                  <Button
-                    key={category}
-                    variant="outline"
-                    style={{ width: '75px', height: '25px', fontSize: '10px' }}
-                    className="capitalize w-full"
-                  >
-                    {category}
-                  </Button>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+        <Card>
+          <CardContent className="p-2">
+            <Carousel 
+              plugins={[plugin.current]}
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-2">
+                {categories.map((category, index) => (
+                  <CarouselItem key={index} className="basis-auto pl-2">
+                    <div className="p-0">
+                      <Button
+                        key={category}
+                        variant="outline"
+                        style={{ width: '75px', height: '25px', fontSize: '10px' }}
+                        className="capitalize w-full"
+                      >
+                        {category}
+                      </Button>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </CardContent>
+        </Card>
       </main>
     </div>
   );
