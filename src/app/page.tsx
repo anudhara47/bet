@@ -25,6 +25,9 @@ export default function HomePage() {
     { game: 'Wickets9', user: 'Mem***RW', amount: '₹200.00' },
     { game: 'Slots', user: 'User***ABC', amount: '₹500.00' },
     { game: 'Rummy', user: 'Player***XYZ', amount: '₹150.00' },
+    { game: 'Aviator', user: 'Flyer***123', amount: '₹300.00' },
+    { game: 'Mines', user: 'Digger***789', amount: '₹180.25' },
+    { game: 'Card365', user: 'Ace***High', amount: '₹1000.00' },
   ];
 
   const [currentIndex, setCurrentIndex] = React.useState(0);
