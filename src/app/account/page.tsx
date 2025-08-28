@@ -79,7 +79,7 @@ const WithdrawHistoryIcon = () => (
 
 export default function AccountPage() {
   const serviceCenterItems = [
-    { icon: <Settings className="text-red-500" />, label: "Settings" },
+    { icon: <Settings className="text-red-500" />, label: "Settings", href: "/settings" },
     { icon: <FileQuestion className="text-red-500" />, label: "Feedback" },
     { icon: <Megaphone className="text-red-500" />, label: "Announcement" },
     { icon: <MessageCircle className="text-red-500" />, label: "Customer Service" },
@@ -224,14 +224,21 @@ export default function AccountPage() {
             <CardContent className="p-4">
                 <h2 className="font-semibold mb-4">Service center</h2>
                 <div className="grid grid-cols-3 gap-4 text-center">
-                    {serviceCenterItems.map((item, index) => (
+                    {serviceCenterItems.map((item, index) => {
+                      const content = (
                         <div key={index} className="flex flex-col items-center gap-2">
                             <div className="bg-red-100 p-3 rounded-full">
                                 {item.icon}
                             </div>
                             <span className="text-xs text-muted-foreground">{item.label}</span>
                         </div>
-                    ))}
+                      );
+                      
+                      if ('href' in item && item.href) {
+                        return <Link href={item.href}>{content}</Link>;
+                      }
+                      return content;
+                    })}
                 </div>
             </CardContent>
         </Card>
