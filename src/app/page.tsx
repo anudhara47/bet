@@ -23,7 +23,18 @@ export default function HomePage() {
     { game: 'Wickets9', user: 'Mem***EOQ', amount: '₹400.00' },
     { game: 'Card365', user: 'Mem***FPA', amount: '₹235.50' },
     { game: 'Wickets9', user: 'Mem***RW', amount: '₹200.00' },
+    { game: 'Slots', user: 'User***ABC', amount: '₹500.00' },
+    { game: 'Rummy', user: 'Player***XYZ', amount: '₹150.00' },
   ];
+
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % winners.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [winners.length]);
 
   const earningsChart = [
     { rank: 1, user: 'Mem***6YM', amount: '₹16,587,734.80', avatar: 'https://picsum.photos/40/40?random=31' },
@@ -256,28 +267,44 @@ export default function HomePage() {
         </div>
         
         <div>
-          <h2 className="text-md sm:text-lg font-bold flex items-center gap-2 mb-2"><Ticket className="text-red-500" /> Winning information</h2>
-          <Card>
-            <CardContent className="p-0">
-              <div className="grid grid-cols-3 text-center text-xs sm:text-sm font-semibold bg-muted/50 p-2">
-                <div>Game</div>
-                <div>User</div>
-                <div>Winning amount</div>
-              </div>
-              <div className="divide-y">
-                {winners.map((winner, index) => (
-                  <div key={index} className="grid grid-cols-3 text-center text-xs sm:text-sm p-2 items-center">
-                    <div className="flex items-center justify-center gap-1">
-                      <Ticket className="w-4 h-4 text-purple-500" /> 
-                      <span>{winner.game}</span>
+            <h2 className="text-md sm:text-lg font-bold flex items-center gap-2 mb-2"><Ticket className="text-red-500" /> Winning information</h2>
+            <Card>
+                <CardContent className="p-0">
+                    <div className="grid grid-cols-3 text-center text-xs sm:text-sm font-semibold bg-muted/50 p-2">
+                        <div>Game</div>
+                        <div>User</div>
+                        <div>Winning amount</div>
                     </div>
-                    <div>{winner.user}</div>
-                    <div className="text-red-500 font-bold">{winner.amount}</div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                    <div className="relative h-48 overflow-hidden">
+                        <div
+                            className="absolute w-full transition-transform duration-500 ease-in-out"
+                            style={{ transform: `translateY(-${currentIndex * 3}rem)` }}
+                        >
+                            {winners.map((winner, index) => (
+                                <div key={index} className="grid grid-cols-3 text-center text-xs sm:text-sm p-2 items-center h-12">
+                                    <div className="flex items-center justify-center gap-1">
+                                        <Ticket className="w-4 h-4 text-purple-500" />
+                                        <span>{winner.game}</span>
+                                    </div>
+                                    <div>{winner.user}</div>
+                                    <div className="text-red-500 font-bold">{winner.amount}</div>
+                                </div>
+                            ))}
+                             {/* Duplicate first few items to create seamless loop */}
+                            {winners.slice(0, 5).map((winner, index) => (
+                                 <div key={`clone-${index}`} className="grid grid-cols-3 text-center text-xs sm:text-sm p-2 items-center h-12">
+                                    <div className="flex items-center justify-center gap-1">
+                                        <Ticket className="w-4 h-4 text-purple-500" />
+                                        <span>{winner.game}</span>
+                                    </div>
+                                    <div>{winner.user}</div>
+                                    <div className="text-red-500 font-bold">{winner.amount}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
         
         <Card className="bg-card shadow-lg mt-4">
