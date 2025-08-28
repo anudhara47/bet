@@ -1,7 +1,19 @@
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 items-center">
+          <div className="mr-4 flex">
+            <a href="/" className="mr-6 flex items-center space-x-2">
+              <div className="text-2xl font-bold">
+                <span className="text-primary">9</span>
+                <span className="text-foreground">X</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </header>
+      <main className="container mx-auto flex flex-col items-center justify-center p-4">
         {/* You can start building your page here */}
       </main>
     </div>
