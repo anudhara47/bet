@@ -226,7 +226,7 @@ export default function AccountPage() {
                 <div className="grid grid-cols-3 gap-4 text-center">
                     {serviceCenterItems.map((item, index) => {
                       const content = (
-                        <div key={index} className="flex flex-col items-center gap-2">
+                        <div className="flex flex-col items-center gap-2">
                             <div className="bg-red-100 p-3 rounded-full">
                                 {item.icon}
                             </div>
@@ -235,9 +235,9 @@ export default function AccountPage() {
                       );
                       
                       if ('href' in item && item.href) {
-                        return <Link href={item.href}>{content}</Link>;
+                        return <Link key={index} href={item.href}>{content}</Link>;
                       }
-                      return content;
+                      return <div key={index}>{content}</div>;
                     })}
                 </div>
             </CardContent>
