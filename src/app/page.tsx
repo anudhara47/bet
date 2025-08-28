@@ -14,16 +14,14 @@ export default function Home() {
               </div>
             </a>
           </div>
-          <div className="flex flex-1 items-center justify-end pr-24">
+          <div className="flex flex-1 items-center justify-end space-x-4">
+            <Button variant="success" size="sm" className="px-2 py-1 text-xs">Deposit</Button>
+            <Button variant="destructive" size="sm" className="px-2 py-1 text-xs">Withdrawal</Button>
             <Wallet className="h-5 w-5" />
           </div>
         </div>
       </header>
       <main className="container mx-auto flex flex-col items-center justify-center p-4">
-        <div className="flex w-full justify-between">
-          <Button variant="success" size="sm" className="px-2 py-1 text-xs">Deposit</Button>
-          <Button variant="destructive" size="sm" className="px-2 py-1 text-xs">Withdrawal</Button>
-        </div>
       </main>
     </div>
   );
