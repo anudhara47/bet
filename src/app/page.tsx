@@ -10,11 +10,11 @@ import Link from "next/link";
 export default function HomePage() {
 
   const navItems = [
-    { name: "Lobby", icon: <Image src="https://placehold.co/24x24/FEE2E2/EF4444?text=L" alt="Lobby" width={24} height={24} className="rounded-full" /> },
-    { name: "Mini Game", icon: <Gamepad2 className="w-5 h-5" /> },
-    { name: "Slots", icon: <Image src="https://placehold.co/24x24/FEE2E2/EF4444?text=7" alt="7" width={24} height={24} className="rounded-full" /> },
-    { name: "Card", icon: <Heart className="w-5 h-5" /> },
-    { name: "Fishing", icon: <Fish className="w-5 h-5" /> },
+    { name: "Lobby", icon: <Landmark className="w-5 h-5" />, href: "/lobby", active: true },
+    { name: "Mini Game", icon: <Gamepad2 className="w-5 h-5" />, href: "/mini-game" },
+    { name: "Slots", icon: <Trophy className="w-5 h-5" />, href: "/slots" },
+    { name: "Card", icon: <Heart className="w-5 h-5" />, href: "/card" },
+    { name: "Fishing", icon: <Fish className="w-5 h-5" />, href: "/fishing" },
   ]
 
   const winners = [
@@ -46,12 +46,12 @@ export default function HomePage() {
     <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto">
       <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 items-center justify-between">
-          <div className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <div className="bg-red-600 w-8 h-8 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-lg">9</span>
             </div>
             <span className="font-bold text-xl md:text-2xl text-red-600">9XBETCLUB</span>
-          </div>
+          </Link>
         </div>
       </header>
 
@@ -68,14 +68,14 @@ export default function HomePage() {
                 </div>
             </div>
             <div className="flex gap-2 w-full sm:w-auto">
-              <Button className="bg-gradient-to-br from-yellow-400 to-orange-500 text-white flex-1 sm:flex-none text-xs sm:text-sm">
+              <Link href="/withdraw" className={cn(buttonVariants(), "bg-gradient-to-br from-yellow-400 to-orange-500 text-white flex-1 sm:flex-none text-xs sm:text-sm")}>
                 <ArrowUpCircle className="w-4 h-4 mr-1" />
                 Withdraw
-              </Button>
-              <Button className="bg-gradient-to-br from-red-500 to-red-700 text-white flex-1 sm:flex-none text-xs sm:text-sm">
+              </Link>
+              <Link href="/deposit" className={cn(buttonVariants(), "bg-gradient-to-br from-red-500 to-red-700 text-white flex-1 sm:flex-none text-xs sm:text-sm")}>
                 <ArrowDownCircle className="w-4 h-4 mr-1" />
                 Deposit
-              </Button>
+              </Link>
             </div>
           </CardContent>
         </Card>
@@ -85,161 +85,173 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-5 gap-1">
-          <Button variant="secondary" className="flex-col h-auto p-2 rounded-lg bg-red-100 text-red-600 font-bold">
-            <Landmark className="w-5 h-5" />
-            <span className="mt-1 text-xs">Lobby</span>
-          </Button>
-          <Button variant="ghost" className="flex-col h-auto p-2 rounded-lg">
-            <Gamepad2 className="w-5 h-5 text-muted-foreground" />
-            <span className="mt-1 text-xs">Mini Game</span>
-          </Button>
-          <Button variant="ghost" className="flex-col h-auto p-2 rounded-lg">
-             <Trophy className="w-5 h-5 text-muted-foreground" />
-            <span className="mt-1 text-xs">Slots</span>
-          </Button>
-          <Button variant="ghost" className="flex-col h-auto p-2 rounded-lg">
-            <Heart className="w-5 h-5 text-muted-foreground" />
-            <span className="mt-1 text-xs">Card</span>
-          </Button>
-          <Button variant="ghost" className="flex-col h-auto p-2 rounded-lg">
-            <Fish className="w-5 h-5 text-muted-foreground" />
-            <span className="mt-1 text-xs">Fishing</span>
-          </Button>
+          {navItems.map((item) => (
+            <Link key={item.name} href={item.href} className={cn(
+              buttonVariants({ variant: item.active ? "secondary" : "ghost" }),
+              "flex-col h-auto p-2 rounded-lg",
+              item.active ? "bg-red-100 text-red-600 font-bold" : "text-muted-foreground"
+            )}>
+              {item.icon}
+              <span className="mt-1 text-xs">{item.name}</span>
+            </Link>
+          ))}
         </div>
         
         <div>
            <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Trophy className="text-yellow-500" /> Super Jackpot</h2>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="text-xs">Detail</Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="h-6 w-6">
-                <ChevronRight className="w-4 h-4" />
-              </Button>
+              <Link href="/super-jackpot" className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), "text-xs")}>Detail</Link>
             </div>
           </div>
            <div className="grid grid-cols-1 gap-2 sm:gap-4">
-             <Card className="rounded-lg overflow-hidden relative h-36">
-                 <Image src="https://picsum.photos/400/150?random=50" alt="Super Jackpot" layout="fill" objectFit="cover" className="w-full h-full" data-ai-hint="gold coins treasure" />
-                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <div className="text-center text-white p-4">
-                        <h3 className="text-2xl font-bold">SUPER JACKPOT</h3>
-                        <p className="text-sm mt-1">Play now for a chance to win big!</p>
+             <Link href="/super-jackpot">
+                <Card className="rounded-lg overflow-hidden relative h-36">
+                    <Image src="https://picsum.photos/600/250?random=51" alt="Super Jackpot" layout="fill" objectFit="cover" className="w-full h-full" data-ai-hint="gold coins treasure chest" />
+                    <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center">
+                        <h3 className="text-3xl font-bold text-white tracking-widest">SUPER JACKPOT</h3>
+                        <p className="text-yellow-300 text-sm mt-2">Play games to win massive prizes!</p>
                     </div>
-                 </div>
-             </Card>
+                </Card>
+            </Link>
            </div>
         </div>
 
         <div>
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Gamepad2 className="text-blue-500" /> Mini game</h2>
-            <Button variant="outline" size="sm" className="text-xs">All</Button>
+            <Link href="/all-games" className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), "text-xs")}>All</Link>
           </div>
           <div className="grid grid-cols-3 gap-2">
-            <Card className="overflow-hidden rounded-lg bg-blue-400/20">
-              <Image src="https://picsum.photos/200/200?random=10" alt="Aviator" width={200} height={200} data-ai-hint="aviator game" />
-              <CardContent className="p-1 sm:p-2 text-center">
-                <p className="font-bold text-blue-800 text-xs sm:text-sm">AVIATOR</p>
-              </CardContent>
-            </Card>
-            <Card className="overflow-hidden rounded-lg bg-purple-400/20">
-              <Image src="https://picsum.photos/200/200?random=11" alt="Mines" width={200} height={200} data-ai-hint="mines game" />
-              <CardContent className="p-1 sm:p-2 text-center">
-                <p className="font-bold text-purple-800 text-xs sm:text-sm">MINES</p>
-                <p className="text-xs text-purple-600">TB GAME</p>
-              </CardContent>
-            </Card>
-            <Card className="overflow-hidden rounded-lg bg-purple-400/20">
-              <Image src="https://picsum.photos/200/200?random=12" alt="Mines Pro" width={200} height={200} data-ai-hint="mines game explosion" />
-               <CardContent className="p-1 sm:p-2 text-center">
-                <p className="font-bold text-purple-800 text-xs sm:text-sm">MINES PRO</p>
-                <p className="text-xs text-purple-600">TB GAME</p>
-              </CardContent>
-            </Card>
+            <Link href="/mini-game">
+                <Card className="overflow-hidden rounded-lg bg-blue-400/20">
+                <Image src="https://picsum.photos/200/200?random=10" alt="Aviator" width={200} height={200} data-ai-hint="aviator game" />
+                <CardContent className="p-1 sm:p-2 text-center">
+                    <p className="font-bold text-blue-800 text-xs sm:text-sm">AVIATOR</p>
+                </CardContent>
+                </Card>
+            </Link>
+            <Link href="/mini-game">
+                <Card className="overflow-hidden rounded-lg bg-purple-400/20">
+                <Image src="https://picsum.photos/200/200?random=11" alt="Mines" width={200} height={200} data-ai-hint="mines game" />
+                <CardContent className="p-1 sm:p-2 text-center">
+                    <p className="font-bold text-purple-800 text-xs sm:text-sm">MINES</p>
+                    <p className="text-xs text-purple-600">TB GAME</p>
+                </CardContent>
+                </Card>
+            </Link>
+            <Link href="/mini-game">
+                <Card className="overflow-hidden rounded-lg bg-purple-400/20">
+                <Image src="https://picsum.photos/200/200?random=12" alt="Mines Pro" width={200} height={200} data-ai-hint="mines game explosion" />
+                <CardContent className="p-1 sm:p-2 text-center">
+                    <p className="font-bold text-purple-800 text-xs sm:text-sm">MINES PRO</p>
+                    <p className="text-xs text-purple-600">TB GAME</p>
+                </CardContent>
+                </Card>
+            </Link>
           </div>
         </div>
         
         <div>
            <div className="flex justify-between items-center mb-2">
-            <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Image src="https://placehold.co/24x24/FEE2E2/EF4444?text=7" alt="7" width={24} height={24} className="rounded-full" /> Slots</h2>
-            <Button variant="outline" size="sm" className="text-xs">All</Button>
+            <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Trophy className="text-green-500" /> Slots</h2>
+            <Link href="/slots" className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), "text-xs")}>All</Link>
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4">
-            <Card className="rounded-lg overflow-hidden bg-red-400/20">
-                <Image src="https://picsum.photos/200/200?random=13" alt="Evolution" width={200} height={200} className="w-full" data-ai-hint="woman casino" />
-                 <p className="font-bold text-red-800 text-center text-sm py-1">&gt;Evolution</p>
-            </Card>
-            <Card className="rounded-lg overflow-hidden bg-red-400/20">
-                <Image src="https://picsum.photos/200/200?random=14" alt="PG" width={200} height={200} className="w-full" data-ai-hint="panda character" />
-                <p className="font-bold text-red-800 text-center text-sm py-1">PG <span className="text-xs font-normal">POCKET GAMES SOFT</span></p>
-            </Card>
-            <Card className="rounded-lg overflow-hidden bg-red-400/20">
-                <Image src="https://picsum.photos/200/200?random=15" alt="9G Game" width={200} height={200} className="w-full" data-ai-hint="woman magic" />
-                <p className="font-bold text-red-800 text-center text-sm py-1">9G GAME</p>
-            </Card>
+            <Link href="/slots">
+                <Card className="rounded-lg overflow-hidden bg-red-400/20">
+                    <Image src="https://picsum.photos/200/200?random=13" alt="Evolution" width={200} height={200} className="w-full" data-ai-hint="woman casino" />
+                    <p className="font-bold text-red-800 text-center text-sm py-1">&gt;Evolution</p>
+                </Card>
+            </Link>
+            <Link href="/slots">
+                <Card className="rounded-lg overflow-hidden bg-red-400/20">
+                    <Image src="https://picsum.photos/200/200?random=14" alt="PG" width={200} height={200} className="w-full" data-ai-hint="panda character" />
+                    <p className="font-bold text-red-800 text-center text-sm py-1">PG <span className="text-xs font-normal">POCKET GAMES SOFT</span></p>
+                </Card>
+            </Link>
+            <Link href="/slots">
+                <Card className="rounded-lg overflow-hidden bg-red-400/20">
+                    <Image src="https://picsum.photos/200/200?random=15" alt="9G Game" width={200} height={200} className="w-full" data-ai-hint="woman magic" />
+                    <p className="font-bold text-red-800 text-center text-sm py-1">9G GAME</p>
+                </Card>
+            </Link>
           </div>
         </div>
 
         <div>
            <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><HeartCrack className="text-red-500" /> Rummy</h2>
-            <Button variant="outline" size="sm" className="text-xs">All</Button>
+            <Link href="/card" className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), "text-xs")}>All</Link>
           </div>
           <div className="grid grid-cols-1 gap-2 sm:gap-4">
-            <Card className="rounded-lg overflow-hidden">
-                <Image src="https://picsum.photos/400/150?random=16" alt="Rummy" width={400} height={150} className="w-full" data-ai-hint="man cards" />
-            </Card>
+            <Link href="/card">
+                <Card className="rounded-lg overflow-hidden">
+                    <Image src="https://picsum.photos/400/150?random=16" alt="Rummy" width={400} height={150} className="w-full" data-ai-hint="man cards" />
+                </Card>
+            </Link>
           </div>
         </div>
 
         <div>
            <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Fish className="text-cyan-500" /> Fishing</h2>
-            <Button variant="outline" size="sm" className="text-xs">All</Button>
+            <Link href="/fishing" className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), "text-xs")}>All</Link>
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4">
-            <Card className="rounded-lg overflow-hidden">
-                <Image src="https://picsum.photos/200/200?random=21" alt="Spirit Tide Legend" width={200} height={200} className="w-full" data-ai-hint="water dragon" />
-            </Card>
-            <Card className="rounded-lg overflow-hidden">
-                <Image src="https://picsum.photos/200/200?random=22" alt="Fighter Fire" width={200} height={200} className="w-full" data-ai-hint="gorilla warrior" />
-            </Card>
-            <Card className="rounded-lg overflow-hidden">
-                <Image src="https://picsum.photos/200/200?random=23" alt="Dragon Fishing" width={200} height={200} className="w-full" data-ai-hint="dragon fishing" />
-            </Card>
+            <Link href="/fishing">
+                <Card className="rounded-lg overflow-hidden">
+                    <Image src="https://picsum.photos/200/200?random=21" alt="Spirit Tide Legend" width={200} height={200} className="w-full" data-ai-hint="water dragon" />
+                </Card>
+            </Link>
+            <Link href="/fishing">
+                <Card className="rounded-lg overflow-hidden">
+                    <Image src="https://picsum.photos/200/200?random=22" alt="Fighter Fire" width={200} height={200} className="w-full" data-ai-hint="gorilla warrior" />
+                </Card>
+            </Link>
+            <Link href="/fishing">
+                <Card className="rounded-lg overflow-hidden">
+                    <Image src="https://picsum.photos/200/200?random=23" alt="Dragon Fishing" width={200} height={200} className="w-full" data-ai-hint="dragon fishing" />
+                </Card>
+            </Link>
           </div>
         </div>
 
         <div>
            <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Star className="text-pink-500" /> Casino</h2>
-             <Button variant="outline" size="sm" className="text-xs">All</Button>
+             <Link href="/casino" className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), "text-xs")}>All</Link>
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4">
-            <Card className="rounded-lg overflow-hidden">
-                <Image src="https://picsum.photos/200/200?random=24" alt="Evo" width={200} height={200} className="w-full" data-ai-hint="woman gold" />
-            </Card>
-            <Card className="rounded-lg overflow-hidden">
-                <Image src="https://picsum.photos/200/200?random=25" alt="Playace" width={200} height={200} className="w-full" data-ai-hint="woman cards traditional" />
-            </Card>
-            <Card className="rounded-lg overflow-hidden">
-                <Image src="https://picsum.photos/200/200?random=26" alt="MG Live Grand" width={200} height={200} className="w-full" data-ai-hint="woman fire" />
-            </Card>
+            <Link href="/casino">
+                <Card className="rounded-lg overflow-hidden">
+                    <Image src="https://picsum.photos/200/200?random=24" alt="Evo" width={200} height={200} className="w-full" data-ai-hint="woman gold" />
+                </Card>
+            </Link>
+            <Link href="/casino">
+                <Card className="rounded-lg overflow-hidden">
+                    <Image src="https://picsum.photos/200/200?random=25" alt="Playace" width={200} height={200} className="w-full" data-ai-hint="woman cards traditional" />
+                </Card>
+            </Link>
+            <Link href="/casino">
+                <Card className="rounded-lg overflow-hidden">
+                    <Image src="https://picsum.photos/200/200?random=26" alt="MG Live Grand" width={200} height={200} className="w-full" data-ai-hint="woman fire" />
+                </Card>
+            </Link>
           </div>
         </div>
 
         <div>
            <div className="flex justify-between items-center mb-2">
             <h2 className="text-md sm:text-lg font-bold flex items-center gap-2"><Gamepad2 className="text-purple-500" /> Sports</h2>
-            <Button variant="outline" size="sm" className="text-xs">All</Button>
+            <Link href="/sports" className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), "text-xs")}>All</Link>
           </div>
           <div className="grid grid-cols-1 gap-2 sm:gap-4">
-            <Card className="rounded-lg overflow-hidden">
-                <Image src="https://picsum.photos/400/200?random=27" alt="Sports" width={400} height={200} className="w-full" data-ai-hint="baseball player" />
-            </Card>
+            <Link href="/sports">
+                <Card className="rounded-lg overflow-hidden">
+                    <Image src="https://picsum.photos/400/200?random=27" alt="Sports" width={400} height={200} className="w-full" data-ai-hint="baseball player" />
+                </Card>
+            </Link>
           </div>
         </div>
         
