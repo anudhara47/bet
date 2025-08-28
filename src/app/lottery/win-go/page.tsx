@@ -79,34 +79,31 @@ export default function WinGoPage() {
             const utcOffset = now.getTimezoneOffset() * 60000;
             const istOffset = 5.5 * 3600000;
             return new Date(now.getTime() + utcOffset + istOffset);
+        };
+    
+        const basePeriod = BigInt("20250828100052025");
+        let lastKnownPeriod = BigInt(periodId || "0");
+        if (lastKnownPeriod === 0n) {
+             lastKnownPeriod = basePeriod - 1n;
         }
 
         const updateTimerAndPeriod = () => {
             const istNow = getISTDate();
-            const year = istNow.getFullYear();
-            const month = (istNow.getMonth() + 1).toString().padStart(2, '0');
-            const day = istNow.getDate().toString().padStart(2, '0');
-
-            const startOfDay = new Date(istNow);
-            startOfDay.setHours(0, 0, 0, 0);
-            
-            const secondsFromMidnight = (istNow.getTime() - startOfDay.getTime()) / 1000;
-            const gameNumber = Math.floor(secondsFromMidnight / gameInterval) + 1;
-            
-            const basePeriod = BigInt("20250828100052025");
-            const datePart = `${year}${month}${day}`;
-            const timePart = gameNumber.toString().padStart(9, '0');
-            
-            const currentPeriodId = `${datePart}${timePart}`;
-            
-            const remaining = gameInterval - (secondsFromMidnight % gameInterval);
-            
-            if (periodId !== currentPeriodId) {
-                if (periodId) { // Check if it's not the very first run
-                    const newResult = { period: periodId, number: Math.floor(Math.random() * 10), bigSmall: Math.random() > 0.5 ? 'Big' : 'Small', colors: [['red'], ['green'],['red', 'purple'],['green','purple']][Math.floor(Math.random()*4)] };
-                    setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
-                }
-                setPeriodId(currentPeriodId);
+            const secondsInDay = istNow.getUTCHours() * 3600 + istNow.getUTCMinutes() * 60 + istNow.getUTCSeconds();
+            const remaining = gameInterval - (secondsInDay % gameInterval);
+    
+            if (timeLeft === 1 && remaining === gameInterval) {
+                 const newPeriod = lastKnownPeriod + 1n;
+                 const newResult = { 
+                    period: lastKnownPeriod.toString(), 
+                    number: Math.floor(Math.random() * 10), 
+                    bigSmall: Math.random() > 0.5 ? 'Big' : 'Small', 
+                    colors: [['red'], ['green'],['red', 'purple'],['green','purple']][Math.floor(Math.random()*4)] 
+                 };
+                 setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
+                 setPeriodId(newPeriod.toString());
+            } else if (periodId === '') {
+                 setPeriodId(basePeriod.toString());
             }
             setTimeLeft(remaining > 0 ? remaining : 0);
         };
@@ -115,7 +112,7 @@ export default function WinGoPage() {
         const timer = setInterval(updateTimerAndPeriod, 1000);
     
         return () => clearInterval(timer);
-    }, [gameInterval, periodId]);
+    }, [gameInterval, timeLeft, periodId]);
 
 
     const formatTime = (seconds: number) => {
@@ -391,4 +388,3 @@ export default function WinGoPage() {
     )
 
 }
-
