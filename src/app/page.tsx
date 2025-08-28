@@ -1,6 +1,6 @@
 'use client';
 import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle, Landmark } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -52,9 +52,6 @@ export default function HomePage() {
             </div>
             <span className="font-bold text-xl md:text-2xl text-red-600">9XBETCLUB</span>
           </div>
-          <Button variant="ghost" size="icon">
-            <Download className="h-6 w-6" />
-          </Button>
         </div>
       </header>
 
@@ -89,7 +86,7 @@ export default function HomePage() {
 
         <div className="grid grid-cols-5 gap-1">
           <Button variant="secondary" className="flex-col h-auto p-2 rounded-lg bg-red-100 text-red-600 font-bold">
-            <Image src="https://placehold.co/24x24/FEE2E2/EF4444?text=L" alt="Lobby" width={24} height={24} className="rounded-full" />
+            <Landmark className="w-5 h-5" />
             <span className="mt-1 text-xs">Lobby</span>
           </Button>
           <Button variant="ghost" className="flex-col h-auto p-2 rounded-lg">
@@ -97,7 +94,7 @@ export default function HomePage() {
             <span className="mt-1 text-xs">Mini Game</span>
           </Button>
           <Button variant="ghost" className="flex-col h-auto p-2 rounded-lg">
-             <Image src="https://placehold.co/24x24/000000/FFFFFF?text=7" alt="7" width={24} height={24} className="rounded-full" />
+             <Trophy className="w-5 h-5 text-muted-foreground" />
             <span className="mt-1 text-xs">Slots</span>
           </Button>
           <Button variant="ghost" className="flex-col h-auto p-2 rounded-lg">
@@ -334,20 +331,20 @@ export default function HomePage() {
       </main>
       
       <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-start max-w-lg mx-auto">
-        <Link href="/" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-red-600")}>
+        <Link href="/" className={cn('flex flex-col h-auto items-center text-red-600', 'p-2')}>
           <HomeIcon className="w-6 h-6" />
           <span className="text-xs mt-1">Home</span>
         </Link>
-        <Link href="/activity" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
+        <Link href="/activity" className={cn('flex flex-col h-auto items-center text-muted-foreground', 'p-2')}>
           <Activity className="w-6 h-6" />
           <span className="text-xs mt-1">Activity</span>
         </Link>
         
-        <Link href="/promotion" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
+        <Link href="/promotion" className={cn('flex flex-col h-auto items-center text-muted-foreground', 'p-2')}>
           <Landmark className="w-6 h-6" />
           <span className="text-xs mt-1">Promotion</span>
         </Link>
-        <Link href="/account" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
+        <Link href="/account" className={cn('flex flex-col h-auto items-center text-muted-foreground', 'p-2')}>
           <User className="w-6 h-6" />
           <span className="text-xs mt-1">Account</span>
         </Link>
