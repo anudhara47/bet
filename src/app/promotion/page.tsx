@@ -3,7 +3,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Activity, ArrowRight, BarChart, ChevronRight, Copy, DollarSign, Filter, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent, Settings, MessageCircle, LogOut, FileQuestion, Megaphone, BookOpen, Building, Users, Calendar, Clipboard, FileBarChart } from "lucide-react";
+import { Activity, ArrowRight, BarChart, ChevronRight, Copy, DollarSign, Filter, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent, Settings, MessageCircle, LogOut, FileQuestion, Megaphone, BookOpen, Building, Users, Calendar, Clipboard, FileBarChart, Headset } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
@@ -29,6 +29,25 @@ const InvitationRulesIcon = () => (
     </svg>
 );
 
+const RebateRatioIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" fill="#FCA5A5" stroke="#F87171" strokeWidth="1.5"/>
+        <path d="M15 9H9V15H15V9Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 9V15" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M15 12H9" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+const PromotionDataIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="6" width="16" height="14" rx="2" fill="#FDBA74"/>
+    <path d="M8 6V4C8 2.89543 8.89543 2 10 2H14C15.1046 2 16 2.89543 16 4V6" stroke="#F97316" strokeWidth="2"/>
+    <path d="M12 11V15" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M9 13H15" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+);
+
+
 export default function PromotionPage() {
 
   const subordinateStats = {
@@ -38,12 +57,21 @@ export default function PromotionPage() {
     firstDeposit: 0,
   }
 
+  const promotionData = {
+    thisWeek: 0.71,
+    totalCommission: 4669.6,
+    directSubordinates: 31,
+    teamSubordinates: 4,
+  }
+
   const menuItems = [
       { icon: <PartnerRewardsIcon />, label: "Partner rewards", href: "#"},
       { icon: <Clipboard className="text-red-500" />, label: "Copy invitation code", value: "67464927417", copy: true },
       { icon: <Calendar className="text-red-500" />, label: "Subordinate data", href: "#"},
       { icon: <DollarSign className="text-red-500" />, label: "Commission detail", href: "#"},
       { icon: <InvitationRulesIcon />, label: "Invitation rules", href: "#"},
+      { icon: <Headset className="text-red-500" />, label: "Agent line customer service", href: "#"},
+      { icon: <RebateRatioIcon />, label: "Rebate ratio", href: "#"},
   ]
 
   return (
@@ -148,7 +176,35 @@ export default function PromotionPage() {
                 ))}
             </CardContent>
         </Card>
+
+        <Card className="rounded-xl shadow-lg mt-4">
+            <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-4">
+                    <PromotionDataIcon />
+                    <h2 className="font-semibold">Promotion data</h2>
+                </div>
+                <div className="grid grid-cols-2 gap-y-4 text-center">
+                    <div>
+                        <p className="text-xl font-bold">{promotionData.thisWeek}</p>
+                        <p className="text-xs text-muted-foreground">This Week</p>
+                    </div>
+                    <div>
+                        <p className="text-xl font-bold">{promotionData.totalCommission}</p>
+                        <p className="text-xs text-muted-foreground">Total commission</p>
+                    </div>
+                    <div>
+                        <p className="text-xl font-bold">{promotionData.directSubordinates}</p>
+                        <p className="text-xs text-muted-foreground">direct subordinate</p>
+                    </div>
+                    <div>
+                        <p className="text-xl font-bold">{promotionData.teamSubordinates}</p>
+                        <p className="text-xs text-muted-foreground">Total number of subordinates</p>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
       </div>
+
 
       <div className="fixed bottom-24 right-4">
           <Button variant="ghost" size="icon" className="bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg h-14 w-14">
