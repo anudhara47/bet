@@ -58,16 +58,16 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100052094', number: 9, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052093', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052092', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052094', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052093', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052092', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
         { period: '20250828100052091', number: 9, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052090', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052090', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
         { period: '20250828100052089', number: 3, bigSmall: 'Small', colors: ['green'] },
         { period: '20250828100052088', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052087', number: 6, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052087', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
         { period: '20250828100052086', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052085', number: 9, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052085', number: 4, bigSmall: 'Small', colors: ['red'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
