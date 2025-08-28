@@ -1,0 +1,245 @@
+'use client';
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import * as React from "react";
+
+const ArWalletIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 7V17C4 18.1046 4.89543 19 6 19H18C19.1046 19 20 18.1046 20 17V7C20 5.89543 19.1046 5 18 5H6C4.89543 5 4 5.89543 4 7Z" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M16 3V7" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 3V7" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M4 11H20" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+const DepositIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#FDBA74" stroke="#FB923C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12 8V16" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 12H16" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+  
+const WithdrawIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="7" width="18" height="11" rx="2" stroke="#60A5FA" strokeWidth="1.5"/>
+    <rect x="7" y="12" width="4" height="2" rx="1" fill="#60A5FA"/>
+    </svg>
+);
+
+const VipIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2L14.09 8.26L21 9.27L16.5 13.97L17.63 21L12 17.77L6.37 21L7.5 13.97L3 9.27L9.91 8.26L12 2Z" fill="#34D399" stroke="#10B981" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M10 12L11 14L14 11" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+const GameHistoryIcon = () => (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="4" width="24" height="24" rx="4" fill="#60A5FA"/>
+    <path d="M12 12H20" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M12 18H20" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M16 24C18.2091 24 20 22.2091 20 20C20 17.7909 18.2091 16 16 16C13.7909 16 12 17.7909 12 20C12 22.2091 13.7909 24 16 24Z" fill="#3B82F6"/>
+    <path d="M16 22V20" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+);
+
+const TransactionIcon = () => (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="4" width="24" height="24" rx="4" fill="#34D399"/>
+    <path d="M12 12H20" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M12 18H20" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M10 18L8 16L10 14" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M22 12L24 14L22 16" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+);
+
+const DepositHistoryIcon = () => (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="7" y="9" width="18" height="14" rx="2" fill="#FCA5A5" />
+        <path d="M7 13H25" stroke="white" strokeWidth="2" />
+        <path d="M11 17H15" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+);
+
+const WithdrawHistoryIcon = () => (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 10C7 8.89543 7.89543 8 9 8H23C24.1046 8 25 8.89543 25 10V20C25 21.1046 24.1046 22 23 22H9C7.89543 22 7 21.1046 7 20V10Z" fill="#FDBA74"/>
+    <path d="M10 15H14" stroke="#F97316" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M19 19C20.6569 19 22 17.6569 22 16C22 14.3431 20.6569 13 19 13C17.3431 13 16 14.3431 16 16C16 17.6569 17.3431 19 19 19Z" fill="white"/>
+    <path d="M19 17L18 16L19 15" stroke="#F97316" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+
+export default function AccountPage() {
+  return (
+    <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto">
+      <div className="bg-gradient-to-b from-red-400 to-red-500 text-white p-4">
+        <div className="flex items-center gap-4">
+          <Image src="https://picsum.photos/80/80" width={80} height={80} alt="User Avatar" className="rounded-full border-2 border-white" data-ai-hint="woman face" />
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl font-bold">DEVIL47K</h1>
+              <span className="bg-yellow-400 text-red-800 text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1">
+                <ShieldCheck className="w-4 h-4" />
+                VIP1
+              </span>
+            </div>
+            <div className="flex items-center gap-2 mt-1 text-sm">
+              <span>UID: 927417</span>
+              <Button variant="ghost" size="icon" className="w-6 h-6"><Copy className="w-4 h-4" /></Button>
+            </div>
+            <p className="text-xs mt-1">Last login: 2025-08-28 16:55:53</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-4 transform -translate-y-4">
+        <Card className="rounded-xl shadow-lg">
+          <CardContent className="p-4 flex justify-between items-center">
+            <div>
+              <p className="text-sm text-muted-foreground">Total balance</p>
+              <p className="text-2xl font-bold flex items-center gap-2">₹305.77 <RefreshCw className="w-4 h-4 text-muted-foreground" /></p>
+            </div>
+            <Button className="bg-red-500 hover:bg-red-600 text-white rounded-full px-6">Enter wallet</Button>
+          </CardContent>
+          <Separator />
+          <div className="grid grid-cols-4 gap-2 p-4 text-center">
+            <div className="flex flex-col items-center gap-1">
+                <ArWalletIcon/>
+                <span className="text-xs font-medium">ARWallet</span>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+                <DepositIcon/>
+                <span className="text-xs font-medium">Deposit</span>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+                <WithdrawIcon/>
+                <span className="text-xs font-medium">Withdraw</span>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+                <VipIcon/>
+                <span className="text-xs font-medium">VIP</span>
+            </div>
+          </div>
+        </Card>
+
+        <div className="grid grid-cols-2 gap-4 mt-4">
+            <Card className="rounded-xl shadow-lg">
+                <CardContent className="p-4 flex items-center gap-4">
+                    <GameHistoryIcon/>
+                    <div>
+                        <p className="font-semibold">Game History</p>
+                        <p className="text-xs text-muted-foreground">My game history</p>
+                    </div>
+                </CardContent>
+            </Card>
+            <Card className="rounded-xl shadow-lg">
+                <CardContent className="p-4 flex items-center gap-4">
+                    <TransactionIcon/>
+                    <div>
+                        <p className="font-semibold">Transaction</p>
+                        <p className="text-xs text-muted-foreground">My transaction history</p>
+                    </div>
+                </CardContent>
+            </Card>
+            <Card className="rounded-xl shadow-lg">
+                <CardContent className="p-4 flex items-center gap-4">
+                    <DepositHistoryIcon/>
+                    <div>
+                        <p className="font-semibold">Deposit</p>
+                        <p className="text-xs text-muted-foreground">My deposit history</p>
+                    </div>
+                </CardContent>
+            </Card>
+            <Card className="rounded-xl shadow-lg">
+                <CardContent className="p-4 flex items-center gap-4">
+                    <WithdrawHistoryIcon/>
+                    <div>
+                        <p className="font-semibold">Withdraw</p>
+                        <p className="text-xs text-muted-foreground">My withdraw history</p>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+
+        <Card className="rounded-xl shadow-lg mt-4">
+            <CardContent className="p-0">
+                <div className="flex items-center justify-between p-4">
+                    <div className="flex items-center gap-3">
+                        <Bell className="text-red-500" />
+                        <span className="font-semibold">Notification</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">23</span>
+                        <ChevronRight className="text-muted-foreground" />
+                    </div>
+                </div>
+                <Separator />
+                <div className="flex items-center justify-between p-4">
+                    <div className="flex items-center gap-3">
+                        <Gift className="text-red-500" />
+                        <span className="font-semibold">Gifts</span>
+                    </div>
+                    <ChevronRight className="text-muted-foreground" />
+                </div>
+                <Separator />
+                <div className="flex items-center justify-between p-4">
+                    <div className="flex items-center gap-3">
+                        <BarChart className="text-red-500" />
+                        <span className="font-semibold">Game statistics</span>
+                    </div>
+                    <ChevronRight className="text-muted-foreground" />
+                </div>
+                 <Separator />
+                <div className="flex items-center justify-between p-4">
+                    <div className="flex items-center gap-3">
+                        <Globe className="text-red-500" />
+                        <span className="font-semibold">Language</span>
+                    </div>
+                     <div className="flex items-center gap-2">
+                        <span className="text-muted-foreground text-sm">English</span>
+                        <ChevronRight className="text-muted-foreground" />
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+      </div>
+
+
+      <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-start max-w-lg mx-auto">
+        <Link href="/" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
+          <HomeIcon className="w-6 h-6" />
+          <span className="text-xs mt-1">Home</span>
+        </Link>
+        <Button variant="ghost" className="flex flex-col h-auto items-center text-muted-foreground">
+          <Activity className="w-6 h-6" />
+          <span className="text-xs mt-1">Activity</span>
+        </Button>
+        
+        <div className="text-center">
+             <div className="relative w-16 h-16 -mt-8">
+                <Image src="https://placehold.co/80x80/FFD700/FF4500?text=GO" alt="Spin wheel" width={80} height={80} className="animate-spin-slow" data-ai-hint="spinning wheel prize" />
+            </div>
+            <span className="text-xs font-bold text-red-500">Get ₹500</span>
+        </div>
+
+        <Button variant="ghost" className="flex flex-col h-auto items-center text-muted-foreground">
+          <Landmark className="w-6 h-6" />
+          <span className="text-xs mt-1">Promotion</span>
+        </Button>
+        <Link href="/account" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-red-600")}>
+          <User className="w-6 h-6" />
+          <span className="text-xs mt-1">Account</span>
+        </Link>
+      </footer>
+    </div>
+  );
+}
+

@@ -1,10 +1,11 @@
 'use client';
-import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle, Landmark } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import Link from "next/link";
 
 export default function HomePage() {
 
@@ -347,10 +348,10 @@ export default function HomePage() {
       </div>
 
       <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-start max-w-lg mx-auto">
-        <Button variant="ghost" className="flex flex-col h-auto items-center text-red-600">
+        <Link href="/" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-red-600")}>
           <HomeIcon className="w-6 h-6" />
           <span className="text-xs mt-1">Home</span>
-        </Button>
+        </Link>
         <Button variant="ghost" className="flex flex-col h-auto items-center text-muted-foreground">
           <Activity className="w-6 h-6" />
           <span className="text-xs mt-1">Activity</span>
@@ -364,13 +365,13 @@ export default function HomePage() {
         </div>
 
         <Button variant="ghost" className="flex flex-col h-auto items-center text-muted-foreground">
-          <Percent className="w-6 h-6" />
+          <Landmark className="w-6 h-6" />
           <span className="text-xs mt-1">Promotion</span>
         </Button>
-        <Button variant="ghost" className="flex flex-col h-auto items-center text-muted-foreground">
+        <Link href="/account" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-muted-foreground")}>
           <User className="w-6 h-6" />
           <span className="text-xs mt-1">Account</span>
-        </Button>
+        </Link>
       </footer>
     </div>
   );
