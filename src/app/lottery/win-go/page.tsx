@@ -58,16 +58,16 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100052092', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052094', number: 9, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052093', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052092', number: 8, bigSmall: 'Big', colors: ['red'] },
         { period: '20250828100052091', number: 9, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052090', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
-        { period: '20250828100052089', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052090', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052089', number: 3, bigSmall: 'Small', colors: ['green'] },
         { period: '20250828100052088', number: 1, bigSmall: 'Small', colors: ['green'] },
         { period: '20250828100052087', number: 6, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100052086', number: 3, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052085', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052084', number: 4, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052083', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052086', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052085', number: 9, bigSmall: 'Big', colors: ['green'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
@@ -87,13 +87,13 @@ export default function WinGoPage() {
                  const newNumber = Math.floor(Math.random() * 10);
                  const newColors = [];
                  if ([0,5].includes(newNumber)) newColors.push('purple');
-                 if ([1,3,7,9,5].includes(newNumber)) newColors.push('green');
+                 if ([1,3,7,9].includes(newNumber)) newColors.push('green');
                  if ([2,4,6,8,0].includes(newNumber)) newColors.push('red');
 
                  const newResult = { 
                     period: newPeriod.toString(), 
                     number: newNumber, 
-                    bigSmall: newNumber > 4 ? 'Big' : 'Small', 
+                    bigSmall: newNumber >= 5 ? 'Big' : 'Small', 
                     colors: newColors
                  };
                  setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
@@ -133,12 +133,12 @@ export default function WinGoPage() {
         { num: 9, colors: ['green'] }
     ];
 
-    const getNumberColor = (num: number) => {
-        if ([0, 5].includes(num)) return 'text-purple-500';
+    const getNumberColorClass = (num: number) => {
+        if ([0, 5].includes(num)) return 'text-purple-600'; // Special case for 0 and 5
         if ([1, 3, 7, 9].includes(num)) return 'text-green-500';
         if ([2, 4, 6, 8].includes(num)) return 'text-red-500';
         return 'text-gray-800';
-    }
+    };
 
 
     return (
@@ -299,9 +299,10 @@ export default function WinGoPage() {
                 </div>
                 <div className="px-2 mt-4 relative">
                     <Tabs defaultValue="results" className="w-full">
-                        <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="results">Game Result</TabsTrigger>
-                            <TabsTrigger value="my-bets">My Bets</TabsTrigger>
+                        <TabsList className="grid w-full grid-cols-3">
+                            <TabsTrigger value="results">Game history</TabsTrigger>
+                            <TabsTrigger value="chart">Chart</TabsTrigger>
+                            <TabsTrigger value="my-bets">Follow Strategy</TabsTrigger>
                         </TabsList>
                         <TabsContent value="results">
                              <Card>
@@ -316,7 +317,7 @@ export default function WinGoPage() {
                                         {gameHistory.map((item, index) => (
                                             <div key={index} className="grid grid-cols-4 text-center items-center py-3 border-b">
                                                 <div className="text-xs text-muted-foreground">{item.period}</div>
-                                                <div className={cn("font-bold text-lg", getNumberColor(item.number))}>
+                                                <div className={cn("font-bold text-lg", getNumberColorClass(item.number))}>
                                                     {item.number}
                                                 </div>
                                                 <div className="text-sm">{item.bigSmall}</div>
@@ -341,6 +342,13 @@ export default function WinGoPage() {
                                             <ChevronRight />
                                         </Button>
                                     </div>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent value="chart">
+                             <Card>
+                                <CardContent className="p-4 text-center text-muted-foreground">
+                                    Chart will be displayed here.
                                 </CardContent>
                             </Card>
                         </TabsContent>
@@ -384,5 +392,3 @@ export default function WinGoPage() {
     )
 
 }
-
-    
