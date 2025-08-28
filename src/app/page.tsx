@@ -1,5 +1,5 @@
 'use client';
-import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle, Landmark } from "lucide-react";
+import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle, Landmark, Bot } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -205,7 +205,7 @@ export default function HomePage() {
     { name: "Fishing", icon: <Fish className="w-5 h-5" />, href: "/fishing" },
   ]
 
-  const generateWinners = (count: number) => {
+  const generateWinners = React.useCallback((count: number) => {
     const games = ['Wickets9', 'Card365', 'Slots', 'Rummy', 'Aviator', 'Mines'];
     const winners = [];
     for (let i = 0; i < count; i++) {
@@ -215,7 +215,7 @@ export default function HomePage() {
         winners.push({ game, user, amount });
     }
     return winners;
-  };
+  }, []);
   
   const [winners, setWinners] = React.useState<{ game: string; user: string; amount: string; }[]>([]);
 
@@ -223,12 +223,22 @@ export default function HomePage() {
     setWinners(generateWinners(100));
 
     const interval = setInterval(() => {
-        setWinners(prev => [...prev, ...generateWinners(5)]);
-    }, 5000);
+        setWinners(prev => [...prev, ...generateWinners(1)]);
+    }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [generateWinners]);
 
-  const extendedWinners = React.useMemo(() => winners.length > 0 ? [...winners, ...winners] : [], [winners]);
+  const extendedWinners = React.useMemo(() => {
+    if (winners.length > 50) {
+        return [...winners];
+    }
+    const repeated = [];
+    while (repeated.length < 50) {
+        repeated.push(...winners);
+    }
+    return repeated;
+  }, [winners]);
+
 
   const earningsChart = [
     { rank: 1, user: 'Mem***6YM', amount: '₹16,587,734.80', avatar: 'https://picsum.photos/40/40?random=31' },
@@ -320,6 +330,50 @@ export default function HomePage() {
                 </Card>
             </Link>
            </div>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+              <div className="bg-red-500 w-6 h-6 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">8</span>
+              </div>
+              <h2 className="text-md sm:text-lg font-bold">Lottery</h2>
+          </div>
+          <p className="text-xs text-muted-foreground mb-2">The games are independently developed by our team, fun, fair, and safe</p>
+          <div className="grid grid-cols-2 gap-4">
+              <Link href="/lottery/win-go">
+                  <Card className="rounded-lg overflow-hidden relative aspect-video">
+                      <Image src="https://picsum.photos/300/150?random=61" alt="Win Go" layout="fill" objectFit="cover" data-ai-hint="lottery balls win go"/>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-2 flex flex-col justify-end">
+                          <h3 className="text-white font-bold text-lg">WIN GO</h3>
+                      </div>
+                  </Card>
+              </Link>
+              <Link href="/lottery/k3">
+                  <Card className="rounded-lg overflow-hidden relative aspect-video">
+                      <Image src="https://picsum.photos/300/150?random=62" alt="K3" layout="fill" objectFit="cover" data-ai-hint="dice game k3"/>
+                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-2 flex flex-col justify-end">
+                          <h3 className="text-white font-bold text-lg">K3</h3>
+                      </div>
+                  </Card>
+              </Link>
+              <Link href="/lottery/5d">
+                  <Card className="rounded-lg overflow-hidden relative aspect-video">
+                      <Image src="https://picsum.photos/300/150?random=63" alt="5D" layout="fill" objectFit="cover" data-ai-hint="lottery game 5d"/>
+                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-2 flex flex-col justify-end">
+                          <h3 className="text-white font-bold text-lg">5D</h3>
+                      </div>
+                  </Card>
+              </Link>
+              <Link href="/lottery/trx-wingo">
+                  <Card className="rounded-lg overflow-hidden relative aspect-video">
+                      <Image src="https://picsum.photos/300/150?random=64" alt="TRX Wingo" layout="fill" objectFit="cover" data-ai-hint="crypto lottery trx"/>
+                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-2 flex flex-col justify-end">
+                          <h3 className="text-white font-bold text-lg">TRX WINGO</h3>
+                      </div>
+                  </Card>
+              </Link>
+          </div>
         </div>
 
         <div>
