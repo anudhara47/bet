@@ -93,17 +93,13 @@ export default {
           'from': { opacity: '0', transform: 'scale(0.5)' },
           'to': { opacity: '1', transform: 'scale(1)' },
         },
-        'spin-splash': {
-          from: { transform: 'rotate(0deg)' },
-          to: { transform: 'rotate(360deg)' },
-        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'logo-zoom': 'logo-zoom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards',
-        'spin-slow': 'spin 40s linear infinite',
-        'spin-splash': 'spin-splash 3s linear forwards',
+        'spin-slow': 'spin 20s linear infinite',
+        'spin-very-slow': 'spin 60s linear infinite',
       },
     },
   },

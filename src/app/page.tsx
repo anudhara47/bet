@@ -11,7 +11,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsSplashVisible(false);
-    }, 7000); // Splash screen visible for 7 seconds
+    }, 8000); // Splash screen visible for 8 seconds to accomodate new animation
 
     return () => clearTimeout(timer);
   }, []);
@@ -29,7 +29,7 @@ export default function Home() {
         </h1>
         
         <div className="relative h-80 w-80">
-          <div className="absolute inset-0 animate-spin-slow">
+          <div className="absolute inset-0 animate-spin-very-slow">
             {Array.from({ length: 9 }).map((_, i) => {
               const angle = (i / 9) * 360;
               return (
