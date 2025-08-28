@@ -58,16 +58,16 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100052082', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100052081', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100052080', number: 3, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052079', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
-        { period: '20250828100052078', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052077', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052076', number: 2, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052075', number: 6, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100052074', number: 4, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052073', number: 9, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052092', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052091', number: 9, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052090', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
+        { period: '20250828100052089', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052088', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052087', number: 6, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052086', number: 3, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052085', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052084', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052083', number: 8, bigSmall: 'Big', colors: ['red'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
@@ -384,3 +384,5 @@ export default function WinGoPage() {
     )
 
 }
+
+    
