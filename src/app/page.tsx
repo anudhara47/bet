@@ -11,6 +11,8 @@ import Autoplay from "embla-carousel-autoplay";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 
 export default function Home() {
   const categories = [
@@ -77,6 +79,18 @@ export default function Home() {
             ))}
           </CarouselContent>
         </Carousel>
+        <div className="mt-8">
+            <h2 className="text-2xl font-bold mb-4">Recommended Games</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <Card key={index} className="w-[100px] h-[100px] shadow-lg overflow-hidden">
+                  <CardContent className="p-0">
+                    <Image src={`https://picsum.photos/100/100?random=${index + 200}`} alt={`Game ${index + 1}`} width={100} height={100} data-ai-hint="recommended game" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
       </main>
     </div>
   );
