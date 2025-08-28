@@ -67,7 +67,7 @@ export default function Home() {
                       <Link href={category.path}>
                         <Button
                           className={cn(
-                            "capitalize w-[90px] h-[20px] text-[10px] text-white font-bold rounded-md border-b-4 border-gray-800/80 transition-all hover:border-b-2 active:border-b-0 active:translate-y-1",
+                            "capitalize w-[60px] h-[50px] text-[10px] text-white font-bold rounded-md border-b-4 border-gray-800/80 transition-all hover:border-b-2 active:border-b-0 active:translate-y-1",
                             "bg-gradient-to-br",
                             category.colors
                           )}
