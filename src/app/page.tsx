@@ -1,5 +1,5 @@
 'use client';
-import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket } from "lucide-react";
+import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -316,15 +316,33 @@ export default function HomePage() {
             </div>
           </CardContent>
         </Card>
+        
+        <Card className="bg-card shadow-lg mt-4">
+            <CardContent className="p-4 text-xs text-muted-foreground space-y-3">
+                <div className="flex justify-end">
+                    <div className="w-8 h-8 rounded-full border-2 border-red-500 flex items-center justify-center text-red-500 font-bold text-sm">
+                        +18
+                    </div>
+                </div>
+                <p>• The platform advocates fairness, justice, and openness. We mainly operate fair lottery, blockchain games, live casinos, and slot machine games.</p>
+                <p>• 91club works with more than 10,000 online live game dealers and slot games, all of which are verified fair games.</p>
+                <p>• 91club supports fast deposit and withdrawal, and look forward to your joining. Gambling can be addictive, please play rationally. 91club only accepts users over the age of 18.</p>
+            </CardContent>
+        </Card>
+
       </main>
       
       <div className="fixed bottom-24 right-4 sm:bottom-10 space-y-2 flex flex-col items-end">
           <Button className="rounded-full h-auto px-4 py-2 bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-lg">
-            <Image src="https://placehold.co/20x20/FFFFFF/EF4444?text=91" alt="91 Club" width={20} height={20} className="mr-2 rounded-full" />
+            <div className="bg-white w-5 h-5 rounded-full flex items-center justify-center mr-2">
+                <div className="bg-red-600 w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">9</span>
+                </div>
+            </div>
             <span className="text-xs font-bold">Add to Desktop</span>
           </Button>
-          <Button variant="ghost" size="icon" className="bg-white rounded-full shadow-lg">
-            <Image src="https://placehold.co/40x40/FFFFFF/000000?text=C" alt="chat" width={40} height={40} className="rounded-full" data-ai-hint="chat bubble" />
+          <Button variant="ghost" size="icon" className="bg-white rounded-full shadow-lg h-12 w-12">
+            <MessageCircle className="w-8 h-8 text-red-500" />
           </Button>
       </div>
 
@@ -339,8 +357,8 @@ export default function HomePage() {
         </Button>
         
         <div className="text-center">
-            <div className="relative w-16 h-16 -mt-8">
-                <Image src="https://placehold.co/80x80/FFD700/FF4500?text=GO" alt="Get 500" width={80} height={80} className="animate-spin-slow" data-ai-hint="spinning wheel prize" />
+             <div className="relative w-16 h-16 -mt-8">
+                <Image src="https://placehold.co/80x80/FFD700/FF4500?text=GO" alt="Spin wheel" width={80} height={80} className="animate-spin-slow" data-ai-hint="spinning wheel prize" />
             </div>
             <span className="text-xs font-bold text-red-500">Get ₹500</span>
         </div>
@@ -356,3 +374,4 @@ export default function HomePage() {
       </footer>
     </div>
   );
+}
