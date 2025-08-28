@@ -3,7 +3,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent } from "lucide-react";
+import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent, Settings, MessageCircle, LogOut, FileQuestion, Megaphone, BookOpen, Building } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
@@ -78,8 +78,17 @@ const WithdrawHistoryIcon = () => (
 
 
 export default function AccountPage() {
+  const serviceCenterItems = [
+    { icon: <Settings className="text-red-500" />, label: "Settings" },
+    { icon: <FileQuestion className="text-red-500" />, label: "Feedback" },
+    { icon: <Megaphone className="text-red-500" />, label: "Announcement" },
+    { icon: <MessageCircle className="text-red-500" />, label: "Customer Service" },
+    { icon: <BookOpen className="text-red-500" />, label: "Beginner's Guide" },
+    { icon: <Building className="text-red-500" />, label: "About us" },
+  ];
+
   return (
-    <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto">
+    <div className="min-h-screen bg-neutral-100 text-foreground pb-40 max-w-lg mx-auto relative">
       <div className="bg-gradient-to-b from-red-400 to-red-500 text-white p-4">
         <div className="flex items-center gap-4">
           <Image src="https://picsum.photos/80/80" width={80} height={80} alt="User Avatar" className="rounded-full border-2 border-white" data-ai-hint="woman face" />
@@ -210,6 +219,33 @@ export default function AccountPage() {
                 </div>
             </CardContent>
         </Card>
+
+        <Card className="rounded-xl shadow-lg mt-4">
+            <CardContent className="p-4">
+                <h2 className="font-semibold mb-4">Service center</h2>
+                <div className="grid grid-cols-3 gap-4 text-center">
+                    {serviceCenterItems.map((item, index) => (
+                        <div key={index} className="flex flex-col items-center gap-2">
+                            <div className="bg-red-100 p-3 rounded-full">
+                                {item.icon}
+                            </div>
+                            <span className="text-xs text-muted-foreground">{item.label}</span>
+                        </div>
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
+
+        <Button variant="outline" className="w-full mt-4 bg-card border-red-300 text-red-500 font-bold flex items-center gap-2 rounded-full py-6 text-lg">
+            <LogOut className="w-6 h-6" />
+            Log out
+        </Button>
+      </div>
+
+      <div className="fixed bottom-24 right-4">
+          <Button variant="ghost" size="icon" className="bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg h-14 w-14">
+            <MessageCircle className="w-8 h-8" />
+          </Button>
       </div>
 
 
@@ -242,4 +278,3 @@ export default function AccountPage() {
     </div>
   );
 }
-
