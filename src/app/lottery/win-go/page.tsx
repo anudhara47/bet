@@ -58,6 +58,8 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
+        { period: '20250828100051979', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100051978', number: 8, bigSmall: 'Big', colors: ['red'] },
         { period: '20250828100051955', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
         { period: '20250828100051954', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
         { period: '20250828100051953', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
@@ -66,7 +68,6 @@ export default function WinGoPage() {
         { period: '20250828100051950', number: 7, bigSmall: 'Big', colors: ['green'] },
         { period: '20250828100051949', number: 2, bigSmall: 'Small', colors: ['red'] },
         { period: '20250828100051948', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100051947', number: 3, bigSmall: 'Small', colors: ['green'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
@@ -97,7 +98,7 @@ export default function WinGoPage() {
             setTimeLeft(remaining);
             
             if (remaining === gameInterval) { // New game starts
-                const newResult = { period: '20250828100051978', number: 8, bigSmall: 'Big', colors: ['red'] };
+                const newResult = { period: currentPeriodId, number: Math.floor(Math.random() * 10), bigSmall: Math.random() > 0.5 ? 'Big' : 'Small', colors: [['red'], ['green'],['red', 'purple'],['green','purple']][Math.floor(Math.random()*4)] };
                 setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
             }
         };
