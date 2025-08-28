@@ -1,7 +1,10 @@
+
 import { Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
+  const categories = ["lobby", "mini game", "card", "sports", "casino", "fantasy", "Live bet", "All games"];
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -23,7 +26,14 @@ export default function Home() {
           </div>
         </div>
       </header>
-      <main className="container mx-auto flex flex-col items-center justify-center p-4">
+      <main className="container mx-auto p-4">
+        <div className="flex flex-wrap justify-center gap-2">
+          {categories.map((category) => (
+            <Button key={category} variant="outline" style={{ width: '90px', height: '35px', fontSize: '12px' }} className="capitalize">
+              {category}
+            </Button>
+          ))}
+        </div>
       </main>
     </div>
   );
