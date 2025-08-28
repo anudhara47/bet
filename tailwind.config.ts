@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -10,8 +11,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        body: ['Poppins', 'sans-serif'],
+        headline: ['Poppins', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
@@ -88,10 +89,16 @@ export default {
             height: '0',
           },
         },
+        'logo-zoom': {
+          'from': { opacity: '0', transform: 'scale(0.5)' },
+          'to': { opacity: '1', transform: 'scale(1)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'logo-zoom': 'logo-zoom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards',
+        'spin-slow': 'spin 20s linear infinite',
       },
     },
   },
