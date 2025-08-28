@@ -1,5 +1,5 @@
 'use client';
-import { Award, ChevronLeft, ChevronRight, Download, Gamepad2, Heart, House, Search, Send, Star, User, Wallet, Flame, Home, Activity, Percent } from "lucide-react";
+import { Award, ChevronLeft, ChevronRight, Download, Gamepad2, Heart, House, Search, Send, Star, User, Wallet, Flame, Home as HomeIcon, Activity, Percent } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
@@ -145,7 +145,7 @@ export default function HomePage() {
 
       <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-center">
         <Button variant="ghost" className="flex flex-col h-auto items-center text-red-600">
-          <Home className="w-6 h-6" />
+          <HomeIcon className="w-6 h-6" />
           <span className="text-xs">Home</span>
         </Button>
         <Button variant="ghost" className="flex flex-col h-auto items-center text-muted-foreground">
@@ -254,46 +254,6 @@ function ArrowDownCircleIcon(props: React.SVGProps<SVGSVGElement>) {
         <circle cx="12" cy="12" r="10" />
         <path d="m8 12 4 4 4-4" />
         <path d="M12 8v8" />
-      </svg>
-    )
-}
-
-function ActivityIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-    </svg>
-  )
-}
-
-function PercentIcon(props: React.SVGProps<SVGSVGElement>) {
-    return (
-      <svg
-        {...props}
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <line x1="19" x2="5" y1="5" y2="19" />
-        <circle cx="6.5" cy="6.5" r="2.5" />
-        <circle cx="17.5" cy="17.5" r="2.5" />
       </svg>
     )
 }
