@@ -23,9 +23,9 @@ const PartnerRewardsIcon = () => (
 
 const InvitationRulesIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 22V8C4 5.79086 5.79086 4 8 4H16C18.2091 4 20 5.79086 20 8V22L12 18L4 22Z" fill="#FCA5A5" stroke="#F87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M8 10H16" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        <path d="M8 14H12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <path d="M4 22V8C4 5.79086 5.79086 4 8 4H16C18.2091 4 20 5.79086 20 8V22L12 18L4 22Z" fill="#FCA5A5" stroke="#F87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M8 10H16" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M8 14H12" stroke="white" strokeWidth="2" strokeLinecap="round"/>
     </svg>
 );
 
@@ -242,3 +242,5 @@ export default function PromotionPage() {
     </div>
   );
 }
+
+    
