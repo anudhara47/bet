@@ -53,7 +53,7 @@ const FloatingChatIcon = () => (
 
 export default function WinGoPage() {
     const [timeLeft, setTimeLeft] = React.useState(0);
-    const [periodId, setPeriodId] = React.useState('');
+    const [periodId, setPeriodId] = React.useState('20250828100052114');
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     const [gameInterval, setGameInterval] = React.useState(30);
 
@@ -75,40 +75,41 @@ export default function WinGoPage() {
 
     React.useEffect(() => {
         let timer: NodeJS.Timeout;
-        const basePeriod = BigInt(gameHistory[0].period);
 
         const updateTimerAndPeriod = () => {
             const now = new Date();
             const seconds = now.getSeconds();
             const remaining = gameInterval - (seconds % gameInterval);
+            setTimeLeft(remaining);
+
+            if (remaining === gameInterval && timeLeft !== gameInterval) {
+                 // New period starts
+                 setPeriodId(prev => (BigInt(prev) + 1n).toString());
+            }
             
-            if (timeLeft === 1 && remaining === gameInterval) {
-                 const newPeriod = BigInt(periodId) + 1n;
-                 const newNumber = Number(newPeriod.toString().slice(-1));
+            if (timeLeft === 1) {
+                 // Generate new result for the just-ended period
+                 const lastPeriodId = periodId;
+                 const newNumber = Math.floor(Math.random() * 10);
                  const newColors = [];
                  if ([0,5].includes(newNumber)) newColors.push('purple');
-                 if ([1,3,7,9].includes(newNumber)) newColors.push('green');
+                 if ([1,3,7,9].includes(newNumber) || newNumber === 5) newColors.push('green');
                  if ([2,4,6,8,0].includes(newNumber)) newColors.push('red');
 
                  const newResult = { 
-                    period: newPeriod.toString(), 
+                    period: lastPeriodId, 
                     number: newNumber, 
                     bigSmall: newNumber >= 5 ? 'Big' : 'Small', 
-                    colors: newColors
+                    colors: [...new Set(newColors)]
                  };
                  setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
-                 setPeriodId(newPeriod.toString());
-            } else if (periodId === '') {
-                 setPeriodId((basePeriod + 1n).toString());
             }
-            setTimeLeft(remaining > 0 ? remaining : 0);
         };
     
-        updateTimerAndPeriod(); 
         timer = setInterval(updateTimerAndPeriod, 1000);
     
         return () => clearInterval(timer);
-    }, [gameInterval, timeLeft, periodId, gameHistory]);
+    }, [gameInterval, timeLeft, periodId]);
 
 
     const formatTime = (seconds: number) => {
@@ -302,7 +303,7 @@ export default function WinGoPage() {
                         <TabsList className="grid w-full grid-cols-3">
                             <TabsTrigger value="results">Game history</TabsTrigger>
                             <TabsTrigger value="chart">Chart</TabsTrigger>
-                            <TabsTrigger value="my-bets">Follow Strategy</TabsTrigger>
+                            <TabsTrigger value="my-bets">My Bets</TabsTrigger>
                         </TabsList>
                         <TabsContent value="results">
                              <Card>
@@ -392,5 +393,7 @@ export default function WinGoPage() {
     )
 
 }
+
+    
 
     
