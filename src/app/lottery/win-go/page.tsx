@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, RefreshCw, History, BarChart2, TrendingUp, Volume2, HelpCircle, Headset, CircleHelp } from "lucide-react";
+import { ChevronLeft, RefreshCw, History, BarChart2, TrendingUp, Volume2, HelpCircle, Headset, CircleHelp, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
@@ -24,6 +24,15 @@ const DragonIcon = () => (
     </svg>
 );
 
+const FloatingDragonIcon = () => (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="16" fill="white" />
+        <path d="M20.2667 15.6C20.6 14.9333 20.5333 14.1333 20.0667 13.6C19.6 13.0667 18.9 12.8 18.2 12.8H16.0667C15.3667 12.8 14.7333 13.0333 14.2 13.5C13.6667 13.9667 13.4 14.5667 13.4 15.2C13.4 15.8667 13.6667 16.4667 14.2 16.9333C14.7333 17.4 15.3667 17.6333 16.0667 17.6333H16.6C17.0667 17.6333 17.4667 17.5 17.7333 17.2333C18 16.9667 18.1333 16.6333 18.1333 16.2C18.1333 15.7667 18 15.4333 17.7333 15.1667C17.4667 14.9 17.0667 14.7667 16.5333 14.7667H16.4" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M11.6933 21.06C11.4194 20.3155 11.2889 19.5312 11.3104 18.745C11.3318 17.9588 11.5048 17.1853 11.8208 16.4639C12.1368 15.7424 12.5901 15.0872 13.1581 14.5367C13.7262 13.9863 14.4001 13.5517 15.1402 13.2642C15.8803 12.9767 16.6713 12.8427 17.4658 12.871C18.2604 12.8993 19.0422 13.0894 19.7699 13.4312C20.4975 13.773 21.159 14.2598 21.7206 14.8631C22.2822 15.4664 22.7328 16.1751 23.0487 16.9535C23.3646 17.7319 23.5401 18.5678 23.5649 19.4187C23.5897 20.2696 23.4635 21.1166 23.1933 21.9133" stroke="#F87171" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+
 const ChatIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#8A8A8A" strokeWidth="1.5"/>
@@ -32,15 +41,36 @@ const ChatIcon = () => (
     </svg>
 );
 
+const FloatingChatIcon = () => (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="16" fill="white" />
+        <path d="M16 26C22.0914 26 27 21.0914 27 15C27 8.90861 22.0914 4 16 4C9.90861 4 5 8.90861 5 15C5 21.0914 9.90861 26 16 26Z" stroke="#8A8A8A" strokeWidth="1.5" />
+        <circle cx="12" cy="15" r="2" fill="#8A8A8A" />
+        <circle cx="20" cy="15" r="2" fill="#8A8A8A" />
+    </svg>
+);
 
 export default function WinGoPage() {
     const [timeLeft, setTimeLeft] = React.useState(73);
     const [isRefreshing, setIsRefreshing] = React.useState(false);
 
+    const gameHistory = [
+        { period: '20250828100051955', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100051954', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100051953', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
+        { period: '20250828100051952', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100051951', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100051950', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100051949', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100051948', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100051947', number: 3, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100051946', number: 7, bigSmall: 'Big', colors: ['green'] },
+    ];
+
     React.useEffect(() => {
         if (timeLeft === 0) return;
         const timer = setInterval(() => {
-            setTimeLeft(prev => prev - 1);
+            setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
         }, 1000);
         return () => clearInterval(timer);
     }, [timeLeft]);
@@ -67,8 +97,16 @@ export default function WinGoPage() {
         { num: 9, colors: ['green'] }
     ];
 
+    const getNumberColor = (num: number) => {
+        if ([0, 5].includes(num)) return 'text-purple-500';
+        if ([1, 3, 7, 9].includes(num)) return 'text-green-500';
+        if ([2, 4, 6, 8].includes(num)) return 'text-red-500';
+        return 'text-gray-800';
+    }
+
+
     return (
-        <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto">
+        <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative">
             <header className="bg-[#FE3A60] text-white p-4 flex items-center justify-between sticky top-0 z-10">
                 <Link href="/" className="text-white">
                     <ChevronLeft className="w-6 h-6" />
@@ -146,18 +184,24 @@ export default function WinGoPage() {
                                 <Separator className="my-3"/>
                                 <div className="flex justify-between items-center">
                                     <div className="flex items-center gap-1">
-                                        {[0,0,5,1,4].map((n, i) => {
+                                        {[5,6,7,8,9].map((n, i) => {
                                             const isViolet = n === 0 || n === 5;
                                             const isGreen = [1,3,7,9].includes(n) || (n===5);
-                                            const isRed = [2,4,6,8].includes(n) || (n===0);
+                                            const isRed = [2,4,6,8].includes(n) || (n===0) || (n===6);
                                             return (
-                                                <div key={i} className={cn(
-                                                    "w-6 h-6 rounded-full flex items-center justify-center text-white font-bold text-sm",
-                                                    isGreen && "bg-green-500",
-                                                    isRed && "bg-red-500",
-                                                    isViolet && "bg-purple-500"
-                                                )}>
-                                                    {n}
+                                                <div key={i} className={cn("relative w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-inner")}>
+                                                    <div className={cn("absolute inset-0 rounded-full",
+                                                        isGreen && "bg-green-400",
+                                                        isRed && "bg-red-400"
+                                                    )}></div>
+                                                     <div className="absolute inset-1 rounded-full bg-white"></div>
+                                                     <div className={cn("relative w-6 h-6 rounded-full flex items-center justify-center text-white",
+                                                        isGreen && "bg-green-500",
+                                                        isRed && "bg-red-500",
+                                                        isViolet && "bg-gradient-to-br from-red-500 to-purple-500"
+                                                     )}>
+                                                        {n}
+                                                     </div>
                                                 </div>
                                             )
                                         })}
@@ -180,8 +224,8 @@ export default function WinGoPage() {
                                     
                                     return(
                                         <Button key={btn.num} variant="outline" className="p-0 h-14 w-14 rounded-full border-2 relative overflow-hidden shadow-sm">
-                                            {hasViolet && <span className="absolute top-0 left-0 w-full h-1/2 bg-purple-500"></span>}
-                                            {hasGreen && hasRed && <><span className="absolute top-0 left-0 w-1/2 h-full bg-green-500"></span><span className="absolute top-0 right-0 w-1/2 h-full bg-red-500"></span></>}
+                                            {hasViolet && hasGreen && <><span className="absolute top-0 left-0 w-full h-1/2 bg-green-500"></span><span className="absolute bottom-0 left-0 w-full h-1/2 bg-purple-500"></span></>}
+                                            {hasViolet && hasRed && <><span className="absolute top-0 left-0 w-full h-1/2 bg-red-500"></span><span className="absolute bottom-0 left-0 w-full h-1/2 bg-purple-500"></span></>}
                                             {!hasViolet && hasGreen && !hasRed && <span className="absolute inset-0 bg-green-500"></span>}
                                             {!hasViolet && !hasGreen && hasRed && <span className="absolute inset-0 bg-red-500"></span>}
                                             <span className="relative text-white font-bold text-2xl">{btn.num}</span>
@@ -194,26 +238,77 @@ export default function WinGoPage() {
                                 </Button>
                             </div>
 
-                             <div className="grid grid-cols-6 gap-2 my-4 items-center">
+                             <div className="grid grid-cols-7 gap-2 my-4 items-center">
                                 <Button variant="outline" className="text-red-500 border-red-300">Random</Button>
                                 <Button className="bg-green-500 text-white shadow-md">X1</Button>
                                 <Button variant="outline" className="border-gray-300">X5</Button>
                                 <Button variant="outline" className="border-gray-300">X10</Button>
                                 <Button variant="outline" className="border-gray-300">X20</Button>
                                 <Button variant="outline" className="border-gray-300">X50</Button>
+                                <Button variant="outline" className="border-gray-300">X100</Button>
                              </div>
                              
                             <div className="flex items-center justify-between gap-2 relative">
-                                <Button className="w-full bg-orange-400 hover:bg-orange-500 text-white py-6 text-lg shadow-md">Big</Button>
-                                <Button className="w-full bg-blue-400 hover:bg-blue-500 text-white py-6 text-lg shadow-md">Small</Button>
-                                <Button size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-red-500 h-12 w-12 shadow-lg"><ChatIcon /></Button>
+                                <Button className="w-full bg-orange-400 hover:bg-orange-500 text-white py-6 text-lg shadow-md rounded-l-full rounded-r-none">Big</Button>
+                                <Button className="w-full bg-blue-400 hover:bg-blue-500 text-white py-6 text-lg shadow-md rounded-r-full rounded-l-none">Small</Button>
                             </div>
 
                         </TabsContent>
                     </Tabs>
                 </div>
-            </main>
+                <div className="px-2 mt-4 relative">
+                    <Card>
+                        <CardContent className="p-0">
+                            <div className="grid grid-cols-4 bg-red-500 text-white text-center text-sm py-2 rounded-t-lg">
+                                <div>Period</div>
+                                <div>Number</div>
+                                <div>Big Small</div>
+                                <div>Color</div>
+                            </div>
+                            <div>
+                                {gameHistory.map((item, index) => (
+                                    <div key={index} className="grid grid-cols-4 text-center items-center py-3 border-b">
+                                        <div className="text-xs text-muted-foreground">{item.period}</div>
+                                        <div className={cn("font-bold text-lg", getNumberColor(item.number))}>
+                                            {item.number}
+                                        </div>
+                                        <div className="text-sm">{item.bigSmall}</div>
+                                        <div className="flex justify-center items-center gap-1">
+                                            {item.colors.map(color => (
+                                                <span key={color} className={cn("w-3 h-3 rounded-full", {
+                                                    'bg-red-500': color === 'red',
+                                                    'bg-green-500': color === 'green',
+                                                    'bg-purple-500': color === 'purple',
+                                                })}></span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex justify-center items-center p-4 gap-4">
+                                <Button variant="outline" size="icon" className="rounded-md bg-gray-200">
+                                    <ChevronLeft />
+                                </Button>
+                                <span className="text-sm font-medium">1 / 50</span>
+                                <Button variant="destructive" size="icon" className="rounded-md">
+                                    <ChevronRight />
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
 
+                    <div className="absolute right-0 bottom-16 space-y-2">
+                        <Button variant="ghost" size="icon" className="p-0 h-auto w-auto">
+                            <FloatingDragonIcon />
+                        </Button>
+                         <Button variant="ghost" size="icon" className="p-0 h-auto w-auto">
+                            <FloatingChatIcon />
+                        </Button>
+                    </div>
+
+                </div>
+            </main>
+            
             <footer className="fixed bottom-0 left-0 right-0 bg-white border-t p-2 flex justify-around items-center max-w-lg mx-auto shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
                 <Button variant="ghost" className="flex flex-col h-auto items-center text-red-500">
                   <History className="w-6 h-6" />
