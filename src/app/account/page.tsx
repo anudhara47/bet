@@ -1,6 +1,7 @@
 'use client';
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent, Settings, MessageCircle, LogOut, FileQuestion, Megaphone, BookOpen, Building } from "lucide-react";
@@ -86,6 +87,7 @@ export default function AccountPage() {
     { icon: <BookOpen className="text-red-500" />, label: "Beginner's Guide" },
     { icon: <Building className="text-red-500" />, label: "About us" },
   ];
+  const [language, setLanguage] = React.useState("English");
 
   return (
     <div className="min-h-screen bg-neutral-100 text-foreground pb-40 max-w-lg mx-auto relative">
@@ -207,15 +209,23 @@ export default function AccountPage() {
                     <ChevronRight className="text-muted-foreground" />
                 </div>
                  <Separator />
-                <div className="flex items-center justify-between p-4">
+                 <div className="flex items-center justify-between p-4">
                     <div className="flex items-center gap-3">
                         <Globe className="text-red-500" />
                         <span className="font-semibold">Language</span>
                     </div>
-                     <div className="flex items-center gap-2">
-                        <span className="text-muted-foreground text-sm">English</span>
-                        <ChevronRight className="text-muted-foreground" />
-                    </div>
+                    <Select value={language} onValueChange={setLanguage}>
+                        <SelectTrigger className="w-auto border-none focus:ring-0 p-0 text-muted-foreground text-sm">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="English">English</SelectItem>
+                            <SelectItem value="Hindi">हिन्दी</SelectItem>
+                            <SelectItem value="Bengali">বাংলা</SelectItem>
+                            <SelectItem value="Telugu">తెలుగు</SelectItem>
+                            <SelectItem value="Marathi">मराठी</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
             </CardContent>
         </Card>
