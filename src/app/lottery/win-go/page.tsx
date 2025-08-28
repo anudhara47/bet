@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -35,7 +36,7 @@ const FloatingDragonIcon = () => (
 
 const ChatIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#8A8A8A" strokeWidth="1.5"/>
+        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#8A8A8A" strokeWidth="1.5"/>
         <circle cx="9" cy="12" r="1.5" fill="#8A8A8A"/>
         <circle cx="15" cy="12" r="1.5" fill="#8A8A8A"/>
     </svg>
@@ -224,7 +225,7 @@ export default function WinGoPage() {
                                             )
                                         })}
                                     </div>
-                                    <p className="text-sm font-mono">20250828100051956</p>
+                                    <p className="text-sm font-mono">20250828100051978</p>
                                 </div>
                             </div>
 
@@ -344,4 +345,5 @@ export default function WinGoPage() {
 
         </div>
     )
-}
+
+    
