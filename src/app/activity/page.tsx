@@ -47,11 +47,11 @@ const InviteWheelIcon = () => (
 export default function ActivityPage() {
 
     const activities = [
-        { icon: <InvitationBonusIcon />, label: "Invitation bonus" },
-        { icon: <BettingRebateIcon />, label: "Betting rebate" },
-        { icon: <SuperJackpotIcon />, label: "Super Jackpot" },
-        { icon: <FirstGiftIcon />, label: "First gift" },
-        { icon: <InviteWheelIcon />, label: "Invite Wheel" },
+        { icon: <InvitationBonusIcon />, label: "Invitation bonus", href: "/invitation-bonus" },
+        { icon: <BettingRebateIcon />, label: "Betting rebate", href: "/betting-rebate" },
+        { icon: <SuperJackpotIcon />, label: "Super Jackpot", href: "/super-jackpot" },
+        { icon: <FirstGiftIcon />, label: "First gift", href: "/first-gift" },
+        { icon: <InviteWheelIcon />, label: "Invite Wheel", href: "/invite-wheel" },
     ];
 
 
@@ -74,44 +74,50 @@ export default function ActivityPage() {
       <main className="p-4 space-y-6">
         <div className="grid grid-cols-5 gap-2 text-center">
             {activities.map((activity, index) => (
-                <div key={index} className="flex flex-col items-center gap-2">
+                <Link href={activity.href} key={index} className="flex flex-col items-center gap-2 cursor-pointer hover:bg-gray-50 rounded-lg p-1">
                     {activity.icon}
                     <span className="text-xs text-muted-foreground font-medium">{activity.label}</span>
-                </div>
+                </Link>
             ))}
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-            <Card className="rounded-xl shadow-lg overflow-hidden">
-                <CardContent className="p-0">
-                    <div className="bg-red-200 h-24 flex items-center justify-center">
-                        <Image src="https://picsum.photos/150/100" width={150} height={100} alt="Gifts" className="object-cover" data-ai-hint="red envelopes" />
-                    </div>
-                    <div className="p-3">
-                        <h3 className="font-bold">Gifts</h3>
-                        <p className="text-xs text-muted-foreground mt-1">Enter the redemption code to receive gift rewards</p>
-                    </div>
-                </CardContent>
-            </Card>
-            <Card className="rounded-xl shadow-lg overflow-hidden">
-                <CardContent className="p-0">
-                    <div className="bg-yellow-100 h-24 flex items-center justify-center">
-                        <Image src="https://picsum.photos/150/100" width={150} height={100} alt="Attendance bonus" className="object-cover" data-ai-hint="calendar gift" />
-                    </div>
-                    <div className="p-3">
-                        <h3 className="font-bold">Attendance bonus</h3>
-                        <p className="text-xs text-muted-foreground mt-1">The more consecutive days you sign in, the higher the reward will be.</p>
-                    </div>
-                </CardContent>
-            </Card>
+            <Link href="/gifts-activity">
+                <Card className="rounded-xl shadow-lg overflow-hidden h-full">
+                    <CardContent className="p-0">
+                        <div className="bg-red-200 h-24 flex items-center justify-center">
+                            <Image src="https://picsum.photos/150/100" width={150} height={100} alt="Gifts" className="object-cover" data-ai-hint="red envelopes" />
+                        </div>
+                        <div className="p-3">
+                            <h3 className="font-bold">Gifts</h3>
+                            <p className="text-xs text-muted-foreground mt-1">Enter the redemption code to receive gift rewards</p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </Link>
+            <Link href="/attendance-bonus">
+                <Card className="rounded-xl shadow-lg overflow-hidden h-full">
+                    <CardContent className="p-0">
+                        <div className="bg-yellow-100 h-24 flex items-center justify-center">
+                            <Image src="https://picsum.photos/150/100" width={150} height={100} alt="Attendance bonus" className="object-cover" data-ai-hint="calendar gift" />
+                        </div>
+                        <div className="p-3">
+                            <h3 className="font-bold">Attendance bonus</h3>
+                            <p className="text-xs text-muted-foreground mt-1">The more consecutive days you sign in, the higher the reward will be.</p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </Link>
         </div>
 
-        <Card className="rounded-xl shadow-lg overflow-hidden">
-            <Image src="https://picsum.photos/600/250" width={600} height={250} alt="Cross-the-road challenge" className="w-full" data-ai-hint="chicken game event" />
-            <CardContent className="p-3">
-                <h3 className="font-semibold text-center">CROSS-THE-ROAD CHALLENGE</h3>
-            </CardContent>
-        </Card>
+        <Link href="/cross-the-road-challenge">
+            <Card className="rounded-xl shadow-lg overflow-hidden">
+                <Image src="https://picsum.photos/600/250" width={600} height={250} alt="Cross-the-road challenge" className="w-full" data-ai-hint="chicken game event" />
+                <CardContent className="p-3">
+                    <h3 className="font-semibold text-center">CROSS-THE-ROAD CHALLENGE</h3>
+                </CardContent>
+            </Card>
+        </Link>
 
       </main>
 
