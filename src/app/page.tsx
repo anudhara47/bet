@@ -14,15 +14,15 @@ export default function Home() {
               </div>
             </a>
           </div>
-          <div className="flex flex-1 items-center justify-end">
-            <Wallet className="h-5 w-5 mr-4" />
+          <div className="flex flex-1 items-center justify-end pr-24">
+            <Wallet className="h-5 w-5" />
           </div>
         </div>
       </header>
       <main className="container mx-auto flex flex-col items-center justify-center p-4">
         <div className="flex gap-4">
-          <Button>Deposit</Button>
-          <Button>Withdrawal</Button>
+          <Button variant="success" size="sm">Deposit</Button>
+          <Button variant="destructive" size="sm">Withdrawal</Button>
         </div>
       </main>
     </div>
