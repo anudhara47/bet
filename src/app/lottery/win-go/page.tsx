@@ -53,21 +53,21 @@ const FloatingChatIcon = () => (
 
 export default function WinGoPage() {
     const [timeLeft, setTimeLeft] = React.useState(0);
-    const [periodId, setPeriodId] = React.useState('20250828100052115');
+    const [periodId, setPeriodId] = React.useState('20250828100052148');
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100052114', number: 4, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052113', number: 3, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052112', number: 2, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052111', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052110', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100052109', number: 9, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052108', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100052107', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052106', number: 6, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100052105', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
+        { period: '20250828100052147', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052146', number: 6, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052145', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
+        { period: '20250828100052144', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052143', number: 3, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052142', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052141', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052140', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052139', number: 9, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052138', number: 8, bigSmall: 'Big', colors: ['red'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
