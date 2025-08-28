@@ -58,16 +58,16 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100052072', number: 9, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052071', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052070', number: 4, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052069', number: 9, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052068', number: 6, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100052067', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100052066', number: 2, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100052065', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
-        { period: '20250828100052064', number: 9, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100052063', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052082', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052081', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100052080', number: 3, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052079', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
+        { period: '20250828100052078', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100052077', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100052076', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052075', number: 6, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100052074', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100052073', number: 9, bigSmall: 'Big', colors: ['green'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
