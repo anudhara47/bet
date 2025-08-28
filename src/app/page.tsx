@@ -1,6 +1,6 @@
 'use client';
 import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle, Landmark } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -121,8 +121,14 @@ export default function HomePage() {
             </div>
           </div>
            <div className="grid grid-cols-1 gap-2 sm:gap-4">
-             <Card className="rounded-lg overflow-hidden">
-                 <Image src="https://picsum.photos/400/150?random=20" alt="Super Jackpot" width={400} height={150} className="w-full" data-ai-hint="jackpot winner" />
+             <Card className="rounded-lg overflow-hidden relative">
+                 <Image src="https://picsum.photos/400/150?random=50" alt="Super Jackpot" width={400} height={150} className="w-full" data-ai-hint="gold coins treasure" />
+                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div className="text-center text-white p-4">
+                        <h3 className="text-2xl font-bold">SUPER JACKPOT</h3>
+                        <p className="text-sm mt-1">Play now for a chance to win big!</p>
+                    </div>
+                 </div>
              </Card>
            </div>
         </div>
