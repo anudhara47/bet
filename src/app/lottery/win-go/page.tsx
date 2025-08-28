@@ -53,7 +53,7 @@ const FloatingChatIcon = () => (
 
 export default function WinGoPage() {
     const [timeLeft, setTimeLeft] = React.useState(0);
-    const [periodId, setPeriodId] = React.useState('20250828100052114');
+    const [periodId, setPeriodId] = React.useState('20250828100052115');
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     const [gameInterval, setGameInterval] = React.useState(30);
 
@@ -75,25 +75,25 @@ export default function WinGoPage() {
 
     React.useEffect(() => {
         let timer: NodeJS.Timeout;
-
+    
         const updateTimerAndPeriod = () => {
             const now = new Date();
             const seconds = now.getSeconds();
             const remaining = gameInterval - (seconds % gameInterval);
             setTimeLeft(remaining);
-
+    
             if (remaining === gameInterval && timeLeft !== gameInterval) {
-                 // New period starts
-                 setPeriodId(prev => (BigInt(prev) + 1n).toString());
+                // New period starts
+                setPeriodId(prev => (BigInt(prev) + 1n).toString());
             }
             
-            if (timeLeft === 1) {
+            if (timeLeft === 1 && remaining === gameInterval) {
                  // Generate new result for the just-ended period
                  const lastPeriodId = periodId;
                  const newNumber = Math.floor(Math.random() * 10);
                  const newColors = [];
                  if ([0,5].includes(newNumber)) newColors.push('purple');
-                 if ([1,3,7,9].includes(newNumber) || newNumber === 5) newColors.push('green');
+                 if ([1,3,7,9,5].includes(newNumber)) newColors.push('green');
                  if ([2,4,6,8,0].includes(newNumber)) newColors.push('red');
 
                  const newResult = { 
@@ -393,7 +393,3 @@ export default function WinGoPage() {
     )
 
 }
-
-    
-
-    
