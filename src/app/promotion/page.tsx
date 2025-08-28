@@ -7,6 +7,8 @@ import { Activity, ArrowRight, BarChart, ChevronRight, Copy, DollarSign, Filter,
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
+import { useToast } from "@/hooks/use-toast";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const PartnerRewardsIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,6 +51,7 @@ const PromotionDataIcon = () => (
 
 
 export default function PromotionPage() {
+  const { toast } = useToast();
 
   const subordinateStats = {
     register: 0,
@@ -57,6 +60,13 @@ export default function PromotionPage() {
     firstDeposit: 0,
   }
 
+  const teamSubordinateStats = {
+    register: 0,
+    depositNumber: 0,
+    depositAmount: 0,
+    firstDeposit: 0,
+  };
+
   const promotionData = {
     thisWeek: 0.71,
     totalCommission: 4669.6,
@@ -64,15 +74,45 @@ export default function PromotionPage() {
     teamSubordinates: 4,
   }
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({ title: "Invitation code copied!" });
+  };
+
+  const downloadQRCode = () => {
+    toast({ title: "QR Code download started." });
+  }
+
   const menuItems = [
-      { icon: <PartnerRewardsIcon />, label: "Partner rewards", href: "#"},
+      { icon: <PartnerRewardsIcon />, label: "Partner rewards", href: "/partner-rewards"},
       { icon: <Clipboard className="text-red-500" />, label: "Copy invitation code", value: "67464927417", copy: true },
-      { icon: <Calendar className="text-red-500" />, label: "Subordinate data", href: "#"},
-      { icon: <DollarSign className="text-red-500" />, label: "Commission detail", href: "#"},
-      { icon: <InvitationRulesIcon />, label: "Invitation rules", href: "#"},
-      { icon: <Headset className="text-red-500" />, label: "Agent line customer service", href: "#"},
-      { icon: <RebateRatioIcon />, label: "Rebate ratio", href: "#"},
+      { icon: <Calendar className="text-red-500" />, label: "Subordinate data", href: "/subordinate-data"},
+      { icon: <DollarSign className="text-red-500" />, label: "Commission detail", href: "/commission-detail"},
+      { icon: <InvitationRulesIcon />, label: "Invitation rules", href: "/invitation-rules"},
+      { icon: <Headset className="text-red-500" />, label: "Agent line customer service", href: "/agent-support"},
+      { icon: <RebateRatioIcon />, label: "Rebate ratio", href: "/rebate-ratio"},
   ]
+
+  const SubordinateStatsView = ({ stats }: { stats: typeof subordinateStats}) => (
+    <div className="p-2 space-y-2">
+        <div>
+          <p className="text-lg font-bold">{stats.register}</p>
+          <p className="text-xs text-muted-foreground">number of register</p>
+        </div>
+        <div>
+          <p className="text-lg font-bold text-green-500">{stats.depositNumber}</p>
+          <p className="text-xs text-muted-foreground">Deposit number</p>
+        </div>
+        <div>
+          <p className="text-lg font-bold text-yellow-500">{stats.depositAmount}</p>
+          <p className="text-xs text-muted-foreground">Deposit amount</p>
+        </div>
+        <div>
+          <p className="text-lg font-bold">{stats.firstDeposit}</p>
+          <p className="text-xs text-muted-foreground">Number of people making first deposit</p>
+        </div>
+    </div>
+  )
 
   return (
     <div className="min-h-screen bg-neutral-100 text-foreground pb-40 max-w-lg mx-auto relative">
@@ -99,57 +139,32 @@ export default function PromotionPage() {
       <div className="p-4 transform -translate-y-6">
         <Card className="rounded-xl shadow-lg">
           <CardContent className="p-0">
-            <div className="grid grid-cols-2 text-center">
-              <div className="p-4 border-r">
-                <h3 className="font-semibold text-sm">Direct subordinates</h3>
-              </div>
-              <div className="p-4 bg-red-50">
-                <h3 className="font-semibold text-sm">Team subordinates</h3>
-              </div>
-            </div>
-            <Separator />
-            <div className="grid grid-cols-2 text-center text-sm">
-              <div className="p-2 border-r space-y-2">
-                <div>
-                  <p className="text-lg font-bold">{subordinateStats.register}</p>
-                  <p className="text-xs text-muted-foreground">number of register</p>
+            <Tabs defaultValue="direct" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 rounded-b-none">
+                <TabsTrigger value="direct">Direct subordinates</TabsTrigger>
+                <TabsTrigger value="team">Team subordinates</TabsTrigger>
+              </TabsList>
+              <TabsContent value="direct">
+                <div className="grid grid-cols-2 text-center text-sm">
+                    <SubordinateStatsView stats={subordinateStats} />
+                    <div className="p-2 space-y-2 bg-red-50/50 border-l">
+                      {/* Empty placeholder for right side if needed, or another component */}
+                    </div>
                 </div>
-                <div>
-                  <p className="text-lg font-bold text-green-500">{subordinateStats.depositNumber}</p>
-                  <p className="text-xs text-muted-foreground">Deposit number</p>
+              </TabsContent>
+              <TabsContent value="team">
+                <div className="grid grid-cols-2 text-center text-sm">
+                    <SubordinateStatsView stats={teamSubordinateStats} />
+                    <div className="p-2 space-y-2 bg-red-50/50 border-l">
+                      {/* Empty placeholder for right side if needed, or another component */}
+                    </div>
                 </div>
-                <div>
-                  <p className="text-lg font-bold text-yellow-500">{subordinateStats.depositAmount}</p>
-                  <p className="text-xs text-muted-foreground">Deposit amount</p>
-                </div>
-                <div>
-                  <p className="text-lg font-bold">{subordinateStats.firstDeposit}</p>
-                  <p className="text-xs text-muted-foreground">Number of people making first deposit</p>
-                </div>
-              </div>
-              <div className="p-2 space-y-2 bg-red-50/50">
-                <div>
-                  <p className="text-lg font-bold">{subordinateStats.register}</p>
-                  <p className="text-xs text-muted-foreground">number of register</p>
-                </div>
-                <div>
-                  <p className="text-lg font-bold text-green-500">{subordinateStats.depositNumber}</p>
-                  <p className="text-xs text-muted-foreground">Deposit number</p>
-                </div>
-                <div>
-                   <p className="text-lg font-bold text-yellow-500">{subordinateStats.depositAmount}</p>
-                  <p className="text-xs text-muted-foreground">Deposit amount</p>
-                </div>
-                <div>
-                  <p className="text-lg font-bold">{subordinateStats.firstDeposit}</p>
-                  <p className="text-xs text-muted-foreground">Number of people making first deposit</p>
-                </div>
-              </div>
-            </div>
+              </TabsContent>
+            </Tabs>
           </CardContent>
         </Card>
 
-        <Button className="w-full mt-4 bg-gradient-to-r from-red-500 to-orange-400 text-white font-bold py-6 text-lg rounded-full">
+        <Button onClick={downloadQRCode} className="w-full mt-4 bg-gradient-to-r from-red-500 to-orange-400 text-white font-bold py-6 text-lg rounded-full">
             Download QR Code
         </Button>
 
@@ -157,13 +172,21 @@ export default function PromotionPage() {
             <CardContent className="p-0">
                 {menuItems.map((item, index) => (
                     <React.Fragment key={index}>
-                        <div className="flex items-center justify-between p-4">
+                         <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50"
+                           onClick={() => item.copy && item.value && copyToClipboard(item.value)}
+                         >
                             <div className="flex items-center gap-3">
                                 {item.icon}
-                                <span className="font-semibold">{item.label}</span>
+                                {item.href ? (
+                                  <Link href={item.href} className="font-semibold">{item.label}</Link>
+                                ) : (
+                                  <span className="font-semibold">{item.label}</span>
+                                )}
                             </div>
                             {item.href ? (
-                                 <ChevronRight className="text-muted-foreground" />
+                                 <Link href={item.href}>
+                                  <ChevronRight className="text-muted-foreground" />
+                                 </Link>
                             ) : item.copy ? (
                                 <div className="flex items-center gap-2">
                                     <span className="text-muted-foreground font-mono">{item.value}</span>
