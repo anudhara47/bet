@@ -58,16 +58,16 @@ export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
-        { period: '20250828100051990', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100051989', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250828100051988', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100051987', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250828100051986', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
-        { period: '20250828100051985', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250828100051984', number: 4, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100051983', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250828100051982', number: 2, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250828100051981', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100051996', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100051995', number: 8, bigSmall: 'Big', colors: ['red'] },
+        { period: '20250828100051994', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100051993', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
+        { period: '20250828100051992', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
+        { period: '20250828100051991', number: 1, bigSmall: 'Small', colors: ['green'] },
+        { period: '20250828100051990', number: 4, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100051989', number: 7, bigSmall: 'Big', colors: ['green'] },
+        { period: '20250828100051988', number: 2, bigSmall: 'Small', colors: ['red'] },
+        { period: '20250828100051987', number: 1, bigSmall: 'Small', colors: ['green'] },
     ];
     
     const [gameHistory, setGameHistory] = React.useState(initialHistory);
@@ -83,24 +83,49 @@ export default function WinGoPage() {
 
         const updateTimerAndPeriod = () => {
             const istNow = getISTDate();
-            const hours = istNow.getHours();
-            const minutes = istNow.getMinutes();
             const seconds = istNow.getSeconds();
-
-            const totalSecondsInDay = hours * 3600 + minutes * 60 + seconds;
-            const gameNumber = Math.floor(totalSecondsInDay / (gameInterval / 60 * 60)) + 110051990;
-            const currentPeriodId = `${gameNumber}`;
-
-            const remaining = gameInterval - (seconds % gameInterval);
+            const milliseconds = istNow.getMilliseconds();
             
-            if (periodId !== currentPeriodId) {
-                setPeriodId(currentPeriodId);
+            const totalSecondsInDay = istNow.getHours() * 3600 + istNow.getMinutes() * 60 + seconds;
+            const gamesToday = Math.floor(totalSecondsInDay / (gameInterval));
+            
+            const year = istNow.getFullYear();
+            const month = (istNow.getMonth() + 1).toString().padStart(2, '0');
+            const day = istNow.getDate().toString().padStart(2, '0');
+            const dateString = `${year}${month}${day}`;
+
+            const basePeriod = 20250828100051996 - (24 * 60 * 60 / 30); // Approximate base for the day
+            const dailyCycle = (istNow.getHours()*120 + istNow.getMinutes()*2 + Math.floor(istNow.getSeconds()/30));
+            const baseForToday = BigInt(dateString + "000000000".substring(0, 9-dailyCycle.toString().length));
+            const currentPeriodId = (baseForToday + BigInt(dailyCycle)).toString();
+
+            const gamesInInterval = 60 / gameInterval;
+            const currentMinuteGame = Math.floor(seconds / gameInterval);
+            const remaining = gameInterval - (seconds % gameInterval) - (milliseconds/1000);
+            
+            const periodBaseStr = "20250828";
+            const timePart = istNow.getHours().toString().padStart(2, '0') +
+                           istNow.getMinutes().toString().padStart(2, '0') +
+                           (Math.floor(istNow.getSeconds() / gameInterval)).toString().padStart(2, '0');
+            const newPeriodId = periodBaseStr + (parseInt(timePart, 10)).toString().padStart(9, '0');
+            
+            const startOfDay = new Date(istNow);
+            startOfDay.setHours(0, 0, 0, 0);
+            const secondsFromMidnight = (istNow.getTime() - startOfDay.getTime()) / 1000;
+            const gameNumber = Math.floor(secondsFromMidnight / gameInterval);
+            const periodString = `${dateString}${gameNumber.toString().padStart(5, '0')}`;
+            
+            const currentPeriodIdFinal = (BigInt("20250828100051996") + BigInt(gameNumber)).toString();
+
+
+            if (periodId !== periodString) {
                 if (periodId) { // Check if it's not the very first run
                     const newResult = { period: periodId, number: Math.floor(Math.random() * 10), bigSmall: Math.random() > 0.5 ? 'Big' : 'Small', colors: [['red'], ['green'],['red', 'purple'],['green','purple']][Math.floor(Math.random()*4)] };
                     setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
                 }
+                setPeriodId(periodString);
             }
-            setTimeLeft(remaining);
+            setTimeLeft(remaining > 0 ? remaining : 0);
         };
     
         updateTimerAndPeriod(); // Initial call
@@ -112,7 +137,7 @@ export default function WinGoPage() {
 
     const formatTime = (seconds: number) => {
         const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
+        const remainingSeconds = Math.floor(seconds % 60);
         return {
             minutes: minutes.toString().padStart(2, '0'),
             seconds: remainingSeconds.toString().padStart(2, '0')
