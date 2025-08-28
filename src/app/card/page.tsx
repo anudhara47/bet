@@ -13,7 +13,6 @@ export default function CardGamePage() {
             <Link href="/" passHref>
               <Button variant="outline">
                 <ArrowLeft />
-                Back
               </Button>
             </Link>
             <h1 className="text-2xl font-bold capitalize">Card Games</h1>
