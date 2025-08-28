@@ -87,27 +87,29 @@ export default function WinGoPage() {
             const month = (istNow.getMonth() + 1).toString().padStart(2, '0');
             const day = istNow.getDate().toString().padStart(2, '0');
             
-            const totalSecondsInDay = istNow.getHours() * 3600 + istNow.getMinutes() * 60 + istNow.getSeconds();
+            const totalSecondsInDay = istNow.getUTCHours() * 3600 + istNow.getUTCMinutes() * 60 + istNow.getUTCSeconds();
             const gameNumber = Math.floor(totalSecondsInDay / gameInterval) + 1;
             
             const currentPeriodId = `${year}${month}${day}${gameNumber.toString().padStart(5, '0')}`;
-            setPeriodId(currentPeriodId);
 
             const seconds = istNow.getSeconds();
             const remaining = gameInterval - (seconds % gameInterval);
-            setTimeLeft(remaining);
             
-            if (remaining === gameInterval) { // New game starts
-                const newResult = { period: currentPeriodId, number: Math.floor(Math.random() * 10), bigSmall: Math.random() > 0.5 ? 'Big' : 'Small', colors: [['red'], ['green'],['red', 'purple'],['green','purple']][Math.floor(Math.random()*4)] };
-                setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
+            if (periodId !== currentPeriodId) {
+                setPeriodId(currentPeriodId);
+                if (periodId) { // Check if it's not the very first run
+                    const newResult = { period: periodId, number: Math.floor(Math.random() * 10), bigSmall: Math.random() > 0.5 ? 'Big' : 'Small', colors: [['red'], ['green'],['red', 'purple'],['green','purple']][Math.floor(Math.random()*4)] };
+                    setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
+                }
             }
+            setTimeLeft(remaining);
         };
     
         updateTimerAndPeriod(); // Initial call
         const timer = setInterval(updateTimerAndPeriod, 1000);
     
         return () => clearInterval(timer);
-    }, [gameInterval]);
+    }, [gameInterval, periodId]);
 
 
     const formatTime = (seconds: number) => {
