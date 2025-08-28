@@ -229,12 +229,17 @@ export default function HomePage() {
   }, [generateWinners]);
 
   const extendedWinners = React.useMemo(() => {
-    if (winners.length > 50) {
-        return [...winners];
+    // We need a stable list on the client for the animation to be smooth.
+    // If the list is empty, we can't repeat it, so we'll just have an empty list.
+    if (winners.length === 0) {
+      return [];
     }
+  
+    // To ensure the animation is smooth, we need to have enough items to fill the marquee.
+    // We'll repeat the list until we have at least 50 items.
     const repeated = [];
     while (repeated.length < 50) {
-        repeated.push(...winners);
+      repeated.push(...winners);
     }
     return repeated;
   }, [winners]);
@@ -331,7 +336,7 @@ export default function HomePage() {
             </Link>
            </div>
         </div>
-
+        
         <div>
           <div className="flex items-center gap-2 mb-2">
               <div className="bg-red-500 w-6 h-6 rounded-full flex items-center justify-center">
@@ -634,5 +639,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-    
