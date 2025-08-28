@@ -14,7 +14,7 @@ export default function Home() {
             </a>
           </div>
           <div className="flex flex-1 items-center justify-end">
-            <Wallet className="h-8 w-8 text-yellow-400" />
+            <Wallet className="h-6 w-6 mr-4 text-yellow-400" />
           </div>
         </div>
       </header>
