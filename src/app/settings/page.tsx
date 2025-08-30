@@ -16,6 +16,19 @@ export default function SettingsPage() {
   const [nickname, setNickname] = React.useState("DEVIL47K");
   const [avatar, setAvatar] = React.useState<string | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [uid, setUid] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    // This code runs only on the client
+    const storedUid = localStorage.getItem('user-uid');
+    if (storedUid) {
+      setUid(storedUid);
+    } else {
+      // In a real app, you'd probably redirect to login or handle this case differently
+      setUid('N/A');
+    }
+  }, []);
+
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -53,8 +66,10 @@ export default function SettingsPage() {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText("927417");
-    toast({ title: "UID copied to clipboard!" });
+    if (uid && uid !== 'N/A') {
+        navigator.clipboard.writeText(uid);
+        toast({ title: "UID copied to clipboard!" });
+    }
   };
 
 
@@ -123,7 +138,7 @@ export default function SettingsPage() {
             <div className="flex items-center justify-between p-4">
               <span className="text-muted-foreground">UID</span>
               <div className="flex items-center gap-2">
-                <span className="font-semibold">927417</span>
+                <span className="font-semibold">{uid || '...'}</span>
                 <Copy className="w-4 h-4 text-muted-foreground cursor-pointer" onClick={copyToClipboard} />
               </div>
             </div>

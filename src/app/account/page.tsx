@@ -87,12 +87,28 @@ export default function AccountPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [isRefreshing, setIsRefreshing] = React.useState(false);
+  const [uid, setUid] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    // This code runs only on the client
+    const storedUid = localStorage.getItem('user-uid');
+    if (storedUid) {
+      setUid(storedUid);
+    } else {
+      // Generate a new UID if one doesn't exist
+      const newUid = Math.floor(100000 + Math.random() * 900000).toString();
+      localStorage.setItem('user-uid', newUid);
+      setUid(newUid);
+    }
+  }, []);
 
   const t = translations.account_page;
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText("927417");
-    toast({ title: "UID copied to clipboard!" });
+    if(uid) {
+        navigator.clipboard.writeText(uid);
+        toast({ title: "UID copied to clipboard!" });
+    }
   };
 
   const handleRefresh = () => {
@@ -157,7 +173,7 @@ export default function AccountPage() {
               </span>
             </div>
             <div className="flex items-center gap-2 mt-1 text-sm">
-              <span>UID: 927417</span>
+              <span>UID: {uid || '...'}</span>
               <Button variant="ghost" size="icon" className="w-6 h-6" onClick={copyToClipboard}><Copy className="w-4 h-4" /></Button>
             </div>
             <p className="text-xs mt-1">{t.last_login}: 2025-08-28 16:55:53</p>
