@@ -97,6 +97,12 @@ export default function AccountPage() {
   const adminEmail = 'bdhara47@gmail.com';
 
   React.useEffect(() => {
+    if (!uid) {
+        router.replace('/login');
+    }
+  }, [uid, router]);
+
+  React.useEffect(() => {
     addNotification({
         type: 'login',
         title: 'Login Successful',
@@ -141,7 +147,7 @@ export default function AccountPage() {
   const handleLogout = () => {
     logout();
     toast({ title: "Logged out successfully" });
-    router.push("/");
+    router.push("/login");
   }
 
   const baseServiceItems = [
@@ -180,7 +186,7 @@ export default function AccountPage() {
       { icon: <BarChart className="text-primary" />, label: t.game_statistics, href: "/statistics" },
   ];
 
-  if (!t) {
+  if (!t || !uid) {
     return null;
   }
   
