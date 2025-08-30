@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -82,7 +81,7 @@ export default function WinGoPage() {
     
     // Using a fixed date in the past to avoid issues with client/server time differences
     const [baseTime] = React.useState(new Date("2025-08-30T00:00:00.000Z").getTime());
-    const [basePeriod] = React.useState(BigInt("20250830100051475"));
+    const [basePeriod] = React.useState(BigInt("20250830100050750"));
 
     // Function to calculate the current period ID
     const calculateCurrentPeriod = React.useCallback((interval: number) => {
