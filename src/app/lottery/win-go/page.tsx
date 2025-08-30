@@ -51,65 +51,78 @@ const FloatingChatIcon = () => (
     </svg>
 );
 
+// Simple pseudo-random number generator for consistent results based on period
+const pseudoRandom = (seed: bigint) => {
+    const x = Math.sin(Number(seed)) * 10000;
+    return Math.floor((x - Math.floor(x)) * 10);
+};
+
+const getResultForPeriod = (periodId: string) => {
+    const periodBigInt = BigInt(periodId);
+    const newNumber = pseudoRandom(periodBigInt);
+    const newColors = [];
+    if ([0, 5].includes(newNumber)) newColors.push('purple');
+    if ([1, 3, 7, 9, 5].includes(newNumber)) newColors.push('green');
+    if ([2, 4, 6, 8, 0].includes(newNumber)) newColors.push('red');
+
+    return {
+        period: periodId,
+        number: newNumber,
+        bigSmall: newNumber >= 5 ? 'Big' : 'Small',
+        colors: [...new Set(newColors)]
+    };
+};
+
 export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
-    const [timeLeft, setTimeLeft] = React.useState(gameInterval);
-    const [periodId, setPeriodId] = React.useState('20250830100050660');
+    const [timeLeft, setTimeLeft] = React.useState(0);
+    const [periodId, setPeriodId] = React.useState('');
+    const [gameHistory, setGameHistory] = React.useState<ReturnType<typeof getResultForPeriod>[]>([]);
     const [isRefreshing, setIsRefreshing] = React.useState(false);
-
-    const initialHistory = [
-        { period: '20250830100050659', number: 8, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250830100050658', number: 1, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250830100050657', number: 0, bigSmall: 'Small', colors: ['red', 'purple'] },
-        { period: '20250830100050656', number: 9, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250830100050655', number: 5, bigSmall: 'Big', colors: ['green', 'purple'] },
-        { period: '20250830100050654', number: 2, bigSmall: 'Small', colors: ['red'] },
-        { period: '20250830100050653', number: 7, bigSmall: 'Big', colors: ['green'] },
-        { period: '20250830100050652', number: 3, bigSmall: 'Small', colors: ['green'] },
-        { period: '20250830100050651', number: 6, bigSmall: 'Big', colors: ['red'] },
-        { period: '20250830100050650', number: 4, bigSmall: 'Small', colors: ['red'] },
-    ];
     
-    const [gameHistory, setGameHistory] = React.useState(initialHistory);
+    // Function to calculate the current period ID
+    const calculateCurrentPeriod = React.useCallback((interval: number) => {
+        const basePeriod = BigInt("20250830100050737");
+        // Using a fixed date in the past to avoid issues with client/server time differences
+        const baseTime = new Date("2025-08-30T00:00:00.000Z").getTime();
+        const now = Date.now();
+        const diffInSeconds = Math.floor((now - baseTime) / 1000);
+        const periodsPassed = Math.floor(diffInSeconds / interval);
+        const currentPeriodId = basePeriod + BigInt(periodsPassed);
+        
+        const secondsIntoCurrentPeriod = diffInSeconds % interval;
+        const newTimeLeft = interval - secondsIntoCurrentPeriod;
 
+        return { currentPeriodId: currentPeriodId.toString(), newTimeLeft };
+    }, []);
 
+    // Effect for initializing and updating the timer
     React.useEffect(() => {
-        setTimeLeft(gameInterval);
-    }, [gameInterval]);
+        const { currentPeriodId, newTimeLeft } = calculateCurrentPeriod(gameInterval);
+        setPeriodId(currentPeriodId);
+        setTimeLeft(newTimeLeft);
 
-    React.useEffect(() => {
         const timer = setInterval(() => {
-            setTimeLeft(prevTime => {
-                if (prevTime > 1) {
-                    return prevTime - 1;
-                } else {
-                    // Time's up, generate new result for the current period
-                    const newNumber = Math.floor(Math.random() * 10);
-                    const newColors = [];
-                    if ([0,5].includes(newNumber)) newColors.push('purple');
-                    if ([1,3,7,9,5].includes(newNumber)) newColors.push('green');
-                    if ([2,4,6,8,0].includes(newNumber)) newColors.push('red');
-                    
-                    const newResult = { 
-                        period: periodId, 
-                        number: newNumber, 
-                        bigSmall: newNumber >= 5 ? 'Big' : 'Small', 
-                        colors: [...new Set(newColors)]
-                    };
-
-                    setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
-
-                    // Start next period
-                    setPeriodId(prev => (BigInt(prev) + 1n).toString());
-                    
-                    // Reset timer
-                    return gameInterval;
-                }
-            });
+             const { currentPeriodId, newTimeLeft } = calculateCurrentPeriod(gameInterval);
+             setPeriodId(currentPeriodId);
+             setTimeLeft(newTimeLeft);
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [gameInterval, periodId]);
+    }, [gameInterval, calculateCurrentPeriod]);
+    
+    // Effect for updating game history when period changes
+    React.useEffect(() => {
+        if (!periodId) return;
+
+        const history = [];
+        const currentPeriodBigInt = BigInt(periodId);
+        for (let i = 0; i < 10; i++) {
+            const pastPeriodId = (currentPeriodBigInt - BigInt(i + 1)).toString();
+            history.push(getResultForPeriod(pastPeriodId));
+        }
+        setGameHistory(history);
+    }, [periodId]);
 
 
     const formatTime = (seconds: number) => {
@@ -394,4 +407,5 @@ export default function WinGoPage() {
 
 }
 
+    
     
