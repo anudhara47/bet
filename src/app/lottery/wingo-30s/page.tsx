@@ -74,7 +74,7 @@ export default function Wingo30sPage() {
     const [isClient, setIsClient] = React.useState(false);
     const [lastResult, setLastResult] = React.useState<ReturnType<typeof getResultForPeriod> | null>(null);
 
-    const basePeriod = BigInt("20250830100050857");
+    const basePeriod = BigInt("20250830100050825");
     const baseTime = 1724985600000; 
 
     React.useEffect(() => {
@@ -343,3 +343,4 @@ export default function Wingo30sPage() {
     )
 }
 
+    
