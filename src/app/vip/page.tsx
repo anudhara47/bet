@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@/context/user-context";
 import { ChevronLeft, CheckCircle, Diamond, Gift, Star, Gem, Crown, MessageCircle } from "lucide-react";
 import Image from "next/image";
@@ -26,6 +27,16 @@ const BenefitIcon = ({ children, color = 'bg-yellow-400' }: { children: React.Re
         {children}
     </div>
 );
+
+const HistoryChatIcon = () => (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="10" fill="#FEE2E2"/>
+    <path d="M7 14.5C7 14.5 8.5 12.5 12 12.5C15.5 12.5 17 14.5 17 14.5" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round"/>
+    <circle cx="9.5" cy="10.5" r="1" fill="#EF4444"/>
+    <circle cx="14.5" cy="10.5" r="1" fill="#EF4444"/>
+    </svg>
+);
+
 
 export default function VipPage() {
     const { nickname, avatar } = useUser();
@@ -56,6 +67,13 @@ export default function VipPage() {
             value: "0.05%",
             isCurrency: false
         }
+    ];
+
+    const experienceHistory = [
+        { title: "Experience Bonus", type: "Betting EXP", date: "2025-08-30 07:32:45", amount: "119.8 EXP" },
+        { title: "Experience Bonus", type: "Betting EXP", date: "2025-08-30 07:27:46", amount: "83.1 EXP" },
+        { title: "Experience Bonus", type: "Betting EXP", date: "2025-08-30 07:25:11", amount: "95.2 EXP" },
+        { title: "Experience Bonus", type: "Betting EXP", date: "2025-08-30 07:22:03", amount: "204.5 EXP" },
     ];
 
     return (
@@ -198,6 +216,38 @@ export default function VipPage() {
                     </div>
                 </div>
 
+                <div className="px-4">
+                    <Tabs defaultValue="history" className="w-full">
+                        <TabsList className="grid w-full grid-cols-2 bg-transparent border-b">
+                            <TabsTrigger value="history" className="data-[state=active]:border-b-2 data-[state=active]:border-red-500 data-[state=active]:text-red-500 rounded-none pb-2">History</TabsTrigger>
+                            <TabsTrigger value="rules" className="data-[state=active]:border-b-2 data-[state=active]:border-red-500 data-[state=active]:text-red-500 rounded-none pb-2">Rules</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="history" className="pt-4">
+                            <div className="space-y-4">
+                                {experienceHistory.map((item, index) => (
+                                    <div key={index} className="flex justify-between items-center">
+                                        <div>
+                                            <p className="font-semibold text-blue-600">{item.title}</p>
+                                            <p className="text-xs text-muted-foreground">{item.type}</p>
+                                            <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
+                                        </div>
+                                        <div className="text-right flex items-center gap-2">
+                                           <div>
+                                             <p className="font-bold text-green-600">{item.amount}</p>
+                                             <HistoryChatIcon/>
+                                           </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </TabsContent>
+                        <TabsContent value="rules" className="pt-4">
+                           <p className="text-center text-muted-foreground">VIP rules will be displayed here.</p>
+                        </TabsContent>
+                    </Tabs>
+                </div>
+
+
             </main>
              <div className="fixed bottom-20 right-4">
                 <Button className="rounded-full w-14 h-14 bg-red-500/80 backdrop-blur-sm shadow-lg hover:bg-red-500">
@@ -206,4 +256,5 @@ export default function VipPage() {
             </div>
         </div>
     );
-}
+
+    
