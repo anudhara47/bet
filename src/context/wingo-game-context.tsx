@@ -62,7 +62,7 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
   const [myBets, setMyBets] = useState<Bet[]>([]);
   
   const basePeriod = BigInt("20250830100050967");
-  const [baseTime, setBaseTime] = useState<number>(Date.now());
+  const baseTime = 1724985600000; // A fixed timestamp in the past
 
   useEffect(() => {
     setIsClient(true);
@@ -79,6 +79,23 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
 
     return { currentPeriodId: currentPeriodId.toString(), newTimeLeft };
   }, [basePeriod, baseTime, gameInterval]);
+
+
+  useEffect(() => {
+    if (!isClient) return;
+    
+    const updateTimer = () => {
+        const { currentPeriodId, newTimeLeft } = calculateCurrentPeriod();
+        setPeriodId(currentPeriodId);
+        setTimeLeft(newTimeLeft);
+    };
+
+    updateTimer(); // Initial call
+    const timer = setInterval(updateTimer, 1000); // Update every second
+
+    return () => clearInterval(timer);
+  }, [isClient, gameInterval, calculateCurrentPeriod]);
+
 
   const checkBetStatus = useCallback((bet: Bet, result: GameResult): 'Win' | 'Loss' => {
       if (bet.selection.toLowerCase() === result.size.toLowerCase()) return 'Win';
