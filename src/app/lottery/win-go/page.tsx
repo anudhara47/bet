@@ -52,10 +52,10 @@ const FloatingChatIcon = () => (
 );
 
 export default function WinGoPage() {
-    const [timeLeft, setTimeLeft] = React.useState(0);
+    const [gameInterval, setGameInterval] = React.useState(30);
+    const [timeLeft, setTimeLeft] = React.useState(gameInterval);
     const [periodId, setPeriodId] = React.useState('20250830100050660');
     const [isRefreshing, setIsRefreshing] = React.useState(false);
-    const [gameInterval, setGameInterval] = React.useState(30);
 
     const initialHistory = [
         { period: '20250830100050659', number: 8, bigSmall: 'Big', colors: ['red'] },
@@ -74,42 +74,42 @@ export default function WinGoPage() {
 
 
     React.useEffect(() => {
-        let timer: NodeJS.Timeout;
-    
-        const updateTimerAndPeriod = () => {
-            const now = new Date();
-            const seconds = now.getSeconds();
-            const remaining = gameInterval - (seconds % gameInterval);
-            setTimeLeft(remaining);
-    
-            if (remaining === gameInterval && timeLeft !== gameInterval) {
-                // New period starts
-                setPeriodId(prev => (BigInt(prev) + 1n).toString());
-            }
-            
-            if (timeLeft === 1 && remaining === gameInterval) {
-                 // Generate new result for the just-ended period
-                 const lastPeriodId = periodId;
-                 const newNumber = Math.floor(Math.random() * 10);
-                 const newColors = [];
-                 if ([0,5].includes(newNumber)) newColors.push('purple');
-                 if ([1,3,7,9,5].includes(newNumber)) newColors.push('green');
-                 if ([2,4,6,8,0].includes(newNumber)) newColors.push('red');
+        setTimeLeft(gameInterval);
+    }, [gameInterval]);
 
-                 const newResult = { 
-                    period: lastPeriodId, 
-                    number: newNumber, 
-                    bigSmall: newNumber >= 5 ? 'Big' : 'Small', 
-                    colors: [...new Set(newColors)]
-                 };
-                 setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
-            }
-        };
-    
-        timer = setInterval(updateTimerAndPeriod, 1000);
-    
+    React.useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft(prevTime => {
+                if (prevTime > 1) {
+                    return prevTime - 1;
+                } else {
+                    // Time's up, generate new result for the current period
+                    const newNumber = Math.floor(Math.random() * 10);
+                    const newColors = [];
+                    if ([0,5].includes(newNumber)) newColors.push('purple');
+                    if ([1,3,7,9,5].includes(newNumber)) newColors.push('green');
+                    if ([2,4,6,8,0].includes(newNumber)) newColors.push('red');
+                    
+                    const newResult = { 
+                        period: periodId, 
+                        number: newNumber, 
+                        bigSmall: newNumber >= 5 ? 'Big' : 'Small', 
+                        colors: [...new Set(newColors)]
+                    };
+
+                    setGameHistory(prev => [newResult, ...prev.slice(0, 9)]);
+
+                    // Start next period
+                    setPeriodId(prev => (BigInt(prev) + 1n).toString());
+                    
+                    // Reset timer
+                    return gameInterval;
+                }
+            });
+        }, 1000);
+
         return () => clearInterval(timer);
-    }, [gameInterval, timeLeft, periodId]);
+    }, [gameInterval, periodId]);
 
 
     const formatTime = (seconds: number) => {
@@ -393,3 +393,5 @@ export default function WinGoPage() {
     )
 
 }
+
+    
