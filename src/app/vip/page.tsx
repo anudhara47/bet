@@ -10,17 +10,27 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-const VipBadge = ({ level = 0 }: { level: number }) => (
-    <div className="relative w-12 h-12 flex items-center justify-center">
+const VipBadge = ({ level = 0, size = 'md' }: { level: number, size?: 'sm' | 'md' }) => {
+    const sizeClasses = {
+        sm: "w-8 h-8",
+        md: "w-12 h-12"
+    }
+    const textSizeClasses = {
+        sm: "text-xs",
+        md: "text-sm"
+    }
+
+    return (
+    <div className={`relative flex items-center justify-center ${sizeClasses[size]}`}>
         <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
             <polygon points="50,5 61,39 98,39 68,62 79,96 50,75 21,96 32,62 2,39 39,39" fill="#4a5568"/>
             <polygon points="50,10 59,39 90,39 65,58 74,88 50,70 26,88 35,58 10,39 41,39" fill="#718096"/>
             <polygon points="50,15 58,40 85,40 65,55 71,80 50,65 29,80 35,55 15,40 42,40" fill="#a0aec0"/>
             <polygon points="50,20 57,40 80,40 65,53 69,75 50,62 31,75 35,53 20,40 43,40" fill="#e2e8f0"/>
         </svg>
-        <span className="relative text-gray-800 font-bold text-sm z-10">V{level}</span>
+        <span className={`relative text-gray-800 font-bold z-10 ${textSizeClasses[size]}`}>V{level}</span>
     </div>
-);
+)};
 
 const BenefitIcon = ({ children, color = 'bg-yellow-400' }: { children: React.ReactNode, color?: string }) => (
     <div className={`w-14 h-14 rounded-xl ${color} flex items-center justify-center`}>
@@ -97,9 +107,9 @@ export default function VipPage() {
                         </div>
                         <div>
                             <div className="flex items-center gap-1">
-                               <div className="bg-blue-900/50 border border-blue-400 rounded-full px-2 py-0.5 text-xs flex items-center gap-1">
+                               <div className="bg-blue-900/50 border border-blue-400 rounded-full pl-0.5 pr-2 py-0.5 text-xs flex items-center gap-1">
                                     <VipBadge level={0} />
-                                    <span className="ml-[-10px]">VIP0</span>
+                                    <span>VIP0</span>
                                </div>
                             </div>
                              <h2 className="text-lg font-bold mt-1">{nickname}</h2>
@@ -256,4 +266,5 @@ export default function VipPage() {
             </div>
         </div>
     );
-}
+
+    
