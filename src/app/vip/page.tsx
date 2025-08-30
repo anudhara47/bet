@@ -12,7 +12,7 @@ import * as React from "react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 
 
-const VipBadge = ({ level = 1, size = 'md' }: { level: number, size?: 'sm' | 'md' }) => {
+const VipBadge = ({ level = 0, size = 'md' }: { level: number, size?: 'sm' | 'md' }) => {
     const sizeClasses = {
         sm: "w-12 h-6",
         md: "w-16 h-8"
@@ -78,9 +78,9 @@ const HistoryChatIcon = () => (
 const vipLevels = Array.from({ length: 10 }, (_, i) => ({
     level: i + 1,
     expRequired: (i + 1) * 30000,
-    levelUpReward: (i + 1) * 180,
-    monthlyReward: (i + 1) * 9,
-    rebateRate: `${((i + 1) * 0.1).toFixed(1)}%`,
+    levelUpReward: 0,
+    monthlyReward: 0,
+    rebateRate: `0%`,
 }));
 
 export default function VipPage() {
@@ -132,6 +132,25 @@ export default function VipPage() {
             benefitsApi.off("select", handleBenefitsSelect);
         };
     }, [mainApi, benefitsApi]);
+
+    const vipRules = [
+        {
+            title: "Upgrade standard",
+            content: "The IP member's experience points (valid bet amount) that meet the requirements of the corresponding rank will be promoted to the corresponding VIP level, the member's VIP data statistics period starts from 00:00:00 days VIP system launched. VIP level calculation is refreshed every 10 minutes! The corresponding experience level is calculated according to valid odds 1:1 !"
+        },
+        {
+            title: "Upgrade order",
+            content: "The VIP level that meets the corresponding requirements can be promoted by one level every day, but the VIP level cannot be promoted by leapfrogging."
+        },
+        {
+            title: "Level maintenance",
+            content: "VIP members need to complete the maintenance requirements of the corresponding level within 30 days after the 'VIP level change'; if the promotion is completed during this period, the maintenance requirements will be calculated according to the current level."
+        },
+        {
+            title: "Downgrade standard",
+            content: "If a VIP member fails to complete the corresponding level maintenance requirements within 30 days, the system will automatically deduct the experience points corresponding to the level. If the experience points are insufficient, the level will be downgraded, and the corresponding discounts will be adjusted to the downgraded level accordingly."
+        }
+    ]
 
     return (
         <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto relative">
@@ -366,8 +385,17 @@ export default function VipPage() {
                                 ))}
                             </div>
                         </TabsContent>
-                        <TabsContent value="rules" className="pt-4">
-                           <p className="text-center text-muted-foreground">VIP rules will be displayed here.</p>
+                        <TabsContent value="rules" className="pt-4 space-y-4">
+                            {vipRules.map((rule, index) => (
+                                <Card key={index} className="bg-white shadow-md">
+                                    <CardContent className="p-4">
+                                        <div className="flex items-center mb-2">
+                                            <div className="bg-red-500 text-white font-bold text-sm px-4 py-1 rounded-r-full -ml-4">{rule.title}</div>
+                                        </div>
+                                        <p className="text-sm text-muted-foreground">{rule.content}</p>
+                                    </CardContent>
+                                </Card>
+                            ))}
                         </TabsContent>
                     </Tabs>
                 </div>
@@ -381,4 +409,5 @@ export default function VipPage() {
             </div>
         </div>
     );
-}
+
+    
