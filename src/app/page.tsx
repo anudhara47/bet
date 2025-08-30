@@ -195,7 +195,7 @@ const MinesIcon = () => (
     </svg>
   );
   
-const WinGoIcon = () => (
+const Wingo30sIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient id="winGoGrad" x1="0" y1="0" x2="1" y2="1">
@@ -208,8 +208,8 @@ const WinGoIcon = () => (
         </defs>
         <g style={{filter: 'url(#winGoShadow)'}}>
             <circle cx="100" cy="100" r="80" fill="url(#winGoGrad)" />
-            <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="50" fontWeight="bold">
-                GO
+            <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="40" fontWeight="bold">
+                30s
             </text>
         </g>
     </svg>
@@ -253,26 +253,6 @@ const FiveDIcon = () => (
             <circle cx="100" cy="100" r="80" fill="url(#fiveDGrad)" />
             <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="90" fontWeight="bold" transform="skewX(-10)">
                 5D
-            </text>
-        </g>
-    </svg>
-);
-
-const TrxWingoIcon = () => (
-    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="trxGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#4ade80" />
-                <stop offset="100%" stopColor="#22c55e" />
-            </linearGradient>
-            <filter id="trxShadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="5" dy="5" stdDeviation="5" floodColor="#000" floodOpacity="0.2" />
-            </filter>
-        </defs>
-        <g style={{filter: 'url(#trxShadow)'}}>
-             <path d="M100 20 L180 60 L180 140 L100 180 L20 140 L20 60 Z" fill="url(#trxGrad)"/>
-             <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="30" fontWeight="bold">
-                TRX
             </text>
         </g>
     </svg>
@@ -434,6 +414,7 @@ export default function HomePage() {
           </div>
           <p className="text-xs text-muted-foreground mb-2">The games are independently developed by our team, fun, fair, and safe</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+              <LotteryCard href="/lottery/wingo-30s" Icon={Wingo30sIcon} label="Wingo 30s" />
               <LotteryCard href="/lottery/k3" Icon={K3Icon} label="K3" />
               <LotteryCard href="/lottery/5d" Icon={FiveDIcon} label="5D" />
           </div>
