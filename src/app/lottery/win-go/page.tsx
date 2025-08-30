@@ -51,15 +51,9 @@ const FloatingChatIcon = () => (
     </svg>
 );
 
-// Simple pseudo-random number generator for consistent results based on period
-const pseudoRandom = (seed: bigint) => {
-    const x = Math.sin(Number(seed)) * 10000;
-    return Math.floor((x - Math.floor(x)) * 10);
-};
-
 const getResultForPeriod = (periodId: string) => {
-    const periodBigInt = BigInt(periodId);
-    const newNumber = pseudoRandom(periodBigInt);
+    // Using a client-side RNG
+    const newNumber = Math.floor(Math.random() * 10);
     const newColors = [];
     if ([0, 5].includes(newNumber)) newColors.push('purple');
     if ([1, 3, 7, 9, 5].includes(newNumber)) newColors.push('green');
@@ -83,8 +77,10 @@ export default function WinGoPage() {
     // Using a fixed date now to avoid issues with client/server time differences
     const [baseTime, setBaseTime] = React.useState<number | null>(null);
     const [basePeriod, setBasePeriod] = React.useState<bigint | null>(null);
+    const [isClient, setIsClient] = React.useState(false);
 
     React.useEffect(() => {
+        setIsClient(true);
         // Set the base time and period only once on the client
         if (baseTime === null || basePeriod === null) {
             setBaseTime(Date.now());
@@ -125,7 +121,7 @@ export default function WinGoPage() {
     
     // Effect for updating game history when period changes
     React.useEffect(() => {
-        if (!periodId || periodId === "0") return;
+        if (!periodId || periodId === "0" || !isClient) return;
 
         const history = [];
         const currentPeriodBigInt = BigInt(periodId);
@@ -137,7 +133,7 @@ export default function WinGoPage() {
              }
         }
         setGameHistory(history);
-    }, [periodId]);
+    }, [periodId, isClient]);
 
 
     const formatTime = (seconds: number) => {
