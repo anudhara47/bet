@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent, Settings, MessageCircle, LogOut, FileQuestion, Megaphone, BookOpen, Building, ShieldAlert, ArrowDownCircle, ArrowUpCircle } from "lucide-react";
+import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent, Settings, MessageCircle, LogOut, FileQuestion, Megaphone, BookOpen, Building, ShieldAlert, ArrowDownCircle, ArrowUpCircle, View } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 import { useLanguage } from "@/context/language-context";
@@ -340,6 +340,15 @@ export default function AccountPage() {
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
+
+        {email === adminEmail && (
+            <Link href="/admin/deposits">
+                <Button variant="outline" className="w-full mt-4 bg-blue-500 text-white font-bold flex items-center gap-2 rounded-full py-6 text-lg hover:bg-blue-600">
+                    <View className="w-6 h-6" />
+                    Admin Panel
+                </Button>
+            </Link>
+        )}
       </div>
 
       <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-start max-w-lg mx-auto">
@@ -363,3 +372,5 @@ export default function AccountPage() {
     </div>
   );
 }
+
+    
