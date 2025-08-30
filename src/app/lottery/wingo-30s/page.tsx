@@ -45,17 +45,16 @@ const NumberButton = ({ number, color }: { number: number, color: string }) => {
     )
 }
 
-// This function generates a predictable result based on the period ID
+// This function generates a random result
 const generateHistoryResult = (pId: string) => {
-     const lastDigit = parseInt(pId.slice(-1));
-     const number = lastDigit;
+     const number = Math.floor(Math.random() * 10);
      let color: 'green' | 'violet' | 'red' | string = 'gray';
      let size: 'Big' | 'Small' = 'Small';
 
      if ([1, 3, 7, 9].includes(number)) color = 'green';
-     if ([2, 4, 6, 8].includes(number)) color = 'red';
-     if (number === 5) color = 'green-violet';
-     if (number === 0) color = 'red-violet';
+     else if ([2, 4, 6, 8].includes(number)) color = 'red';
+     else if (number === 5) color = 'green-violet';
+     else if (number === 0) color = 'red-violet';
 
      if (number >= 5) size = 'Big';
      else size = 'Small';
@@ -349,3 +348,5 @@ export default function Wingo30sPage() {
         </div>
     )
 }
+
+    
