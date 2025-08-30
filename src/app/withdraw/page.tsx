@@ -1,17 +1,300 @@
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
 
-export default function PlaceholderPage() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
-      <div className="max-w-lg mx-auto text-center p-4">
-        <h1 className="text-4xl font-bold mb-4">Withdraw Page</h1>
-        <p className="text-lg mb-8">This page is under construction.</p>
-        <Link href="/account" className="flex items-center justify-center text-red-500 hover:text-red-700">
-          <ChevronLeft className="w-6 h-6" />
-          Go Back to Account
-        </Link>
-      </div>
-    </div>
-  );
+'use client';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/context/user-context";
+import { ChevronLeft, Landmark, Wallet, CircleUser, Phone, Hash, Pencil, AlertTriangle, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import * as React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+interface BankDetails {
+    bankName: string;
+    accountNumber: string;
+    holderName: string;
+    phone: string;
+    ifsc: string;
 }
+
+interface UpiDetails {
+    holderName: string;
+    upiId: string;
+}
+
+type Inputs = {
+    amount: number;
+    password:  string;
+}
+
+export default function WithdrawPage() {
+    const { balance, setBalance } = useUser();
+    const router = useRouter();
+    const { toast } = useToast();
+    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+
+    const [bankDetails, setBankDetails] = React.useState<BankDetails | null>(null);
+    const [upiDetails, setUpiDetails] = React.useState<UpiDetails | null>(null);
+
+    // Load saved details from localStorage
+    React.useEffect(() => {
+        const savedBankDetails = localStorage.getItem('bankDetails');
+        if (savedBankDetails) {
+            setBankDetails(JSON.parse(savedBankDetails));
+        }
+        const savedUpiDetails = localStorage.getItem('upiDetails');
+        if (savedUpiDetails) {
+            setUpiDetails(JSON.parse(savedUpiDetails));
+        }
+    }, []);
+
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+        if (data.amount > balance) {
+            toast({ title: "Insufficient balance", variant: 'destructive' });
+            return;
+        }
+        if (data.amount < 100) {
+            toast({ title: "Minimum withdrawal is ₹100", variant: 'destructive' });
+            return;
+        }
+        // This is a dummy password check
+        if (data.password !== 'password') {
+            toast({ title: "Invalid password", variant: 'destructive' });
+            return;
+        }
+
+        const withdrawalRequest = {
+            id: `WDR-${Date.now()}`,
+            amount: data.amount,
+            method: 'bank', // This would depend on the active tab
+            timestamp: Date.now(),
+            status: 'pending',
+        };
+
+        const existingRequests = JSON.parse(localStorage.getItem('withdrawalRequests') || '[]');
+        localStorage.setItem('withdrawalRequests', JSON.stringify([withdrawalRequest, ...existingRequests]));
+
+        toast({
+            title: "Withdrawal Request Submitted",
+            description: "Your request is under review. Please wait for admin approval.",
+        });
+        
+        router.push('/account');
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative">
+            <header className="bg-red-500 text-white p-4 flex items-center gap-4 sticky top-0 z-10">
+                <Link href="/account" className="text-white">
+                    <ChevronLeft className="w-6 h-6" />
+                </Link>
+                <h1 className="font-bold text-xl">Withdraw</h1>
+            </header>
+
+            <main className="p-4 space-y-4">
+                <Card>
+                    <CardContent className="p-4">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <p className="text-sm text-muted-foreground">Balance</p>
+                                <p className="text-2xl font-bold">₹{balance.toFixed(2)}</p>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Tabs defaultValue="bank" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2 bg-red-100/80 text-red-900 rounded-lg">
+                        <TabsTrigger value="bank" className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-md">Bank Account</TabsTrigger>
+                        <TabsTrigger value="upi" className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-md">UPI</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="bank" className="mt-4">
+                        {bankDetails ? <SavedBankCard details={bankDetails} /> : <AddBankCardForm setBankDetails={setBankDetails} />}
+                    </TabsContent>
+                    <TabsContent value="upi" className="mt-4">
+                        {upiDetails ? <SavedUpiCard details={upiDetails} /> : <AddUpiForm setUpiDetails={setUpiDetails} />}
+                    </TabsContent>
+                </Tabs>
+                
+                <Card>
+                    <CardContent className="p-6">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                            <div>
+                                <Label htmlFor="amount">Amount</Label>
+                                <Input 
+                                    id="amount" 
+                                    type="number" 
+                                    placeholder="Enter withdrawal amount"
+                                    {...register("amount", { required: "Amount is required", valueAsNumber: true })}
+                                />
+                                {errors.amount && <p className="text-red-500 text-xs mt-1">{errors.amount.message}</p>}
+                            </div>
+                            <div>
+                                <Label htmlFor="password">Login Password</Label>
+                                <Input 
+                                    id="password" 
+                                    type="password" 
+                                    placeholder="Enter your login password"
+                                     {...register("password", { required: "Password is required" })}
+                                />
+                                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+                            </div>
+                            <Button type="submit" className="w-full bg-red-500 hover:bg-red-600 py-6 text-lg">
+                                Withdraw
+                            </Button>
+                        </form>
+                    </CardContent>
+                </Card>
+            </main>
+        </div>
+    );
+}
+
+// Components for Bank/UPI cards
+const AddBankCardForm = ({ setBankDetails }: { setBankDetails: (details: BankDetails) => void }) => {
+    const { register, handleSubmit } = useForm<BankDetails>();
+    const { toast } = useToast();
+
+    const onSave: SubmitHandler<BankDetails> = (data) => {
+        localStorage.setItem('bankDetails', JSON.stringify(data));
+        setBankDetails(data);
+        toast({ title: "Bank account saved successfully!" });
+    };
+
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>Add Bank Account</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <form onSubmit={handleSubmit(onSave)} className="space-y-4">
+                    <div className="space-y-1">
+                        <Label htmlFor="holderName">Holder Name</Label>
+                        <Input id="holderName" {...register("holderName", { required: true })} />
+                    </div>
+                    <div className="space-y-1">
+                        <Label htmlFor="bankName">Bank Name</Label>
+                        <Input id="bankName" {...register("bankName", { required: true })} />
+                    </div>
+                    <div className="space-y-1">
+                        <Label htmlFor="accountNumber">Account Number</Label>
+                        <Input id="accountNumber" {...register("accountNumber", { required: true })} />
+                    </div>
+                    <div className="space-y-1">
+                        <Label htmlFor="phone">Phone Number</Label>
+                        <Input id="phone" {...register("phone", { required: true })} />
+                    </div>
+                    <div className="space-y-1">
+                        <Label htmlFor="ifsc">IFSC Code</Label>
+                        <Input id="ifsc" {...register("ifsc", { required: true })} />
+                    </div>
+                    <Button type="submit" className="w-full">Save Bank Card</Button>
+                </form>
+            </CardContent>
+        </Card>
+    );
+}
+
+const SavedBankCard = ({ details }: { details: BankDetails }) => (
+    <Card className="bg-gradient-to-br from-blue-500 to-indigo-600 text-white">
+        <CardContent className="p-4 space-y-3">
+            <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                    <Landmark className="w-6 h-6" />
+                    <p className="font-bold text-lg">{details.bankName}</p>
+                </div>
+                 <Pencil className="w-4 h-4 opacity-70" />
+            </div>
+            <p className="font-mono text-xl tracking-wider text-center">{details.accountNumber.replace(/\d(?=\d{4})/g, "*")}</p>
+            <div className="flex justify-between text-sm pt-2">
+                <div>
+                    <p className="opacity-80">Holder Name</p>
+                    <p className="font-semibold">{details.holderName}</p>
+                </div>
+                <div>
+                    <p className="opacity-80">IFSC</p>
+                    <p className="font-semibold">{details.ifsc}</p>
+                </div>
+            </div>
+            <div className="flex items-center gap-2 p-2 bg-white/10 rounded-md text-xs mt-2">
+                <AlertTriangle className="w-4 h-4 text-yellow-300"/>
+                <p>To change details, please contact customer support.</p>
+            </div>
+        </CardContent>
+    </Card>
+);
+
+const AddUpiForm = ({ setUpiDetails }: { setUpiDetails: (details: UpiDetails) => void }) => {
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<UpiDetails & { confirmUpiId: string }>();
+    const { toast } = useToast();
+    const upiId = watch("upiId");
+
+    const onSave: SubmitHandler<UpiDetails> = (data) => {
+        localStorage.setItem('upiDetails', JSON.stringify(data));
+        setUpiDetails(data);
+        toast({ title: "UPI ID saved successfully!" });
+    };
+
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>Add UPI Account</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <form onSubmit={handleSubmit(onSave)} className="space-y-4">
+                     <div className="space-y-1">
+                        <Label htmlFor="holderName">Holder Name</Label>
+                        <Input id="holderName" {...register("holderName", { required: true })} />
+                    </div>
+                    <div className="space-y-1">
+                        <Label htmlFor="upiId">UPI ID</Label>
+                        <Input id="upiId" {...register("upiId", { required: "UPI ID is required" })} />
+                        {errors.upiId && <p className="text-red-500 text-xs mt-1">{errors.upiId.message}</p>}
+                    </div>
+                    <div className="space-y-1">
+                        <Label htmlFor="confirmUpiId">Confirm UPI ID</Label>
+                        <Input 
+                            id="confirmUpiId" 
+                            {...register("confirmUpiId", { 
+                                required: "Please confirm your UPI ID",
+                                validate: value => value === upiId || "UPI IDs do not match"
+                            })} 
+                        />
+                         {errors.confirmUpiId && <p className="text-red-500 text-xs mt-1">{errors.confirmUpiId.message}</p>}
+                    </div>
+                    <Button type="submit" className="w-full">Save UPI ID</Button>
+                </form>
+            </CardContent>
+        </Card>
+    );
+};
+
+
+const SavedUpiCard = ({ details }: { details: UpiDetails }) => (
+    <Card className="bg-gradient-to-br from-green-500 to-teal-600 text-white">
+        <CardContent className="p-4 space-y-3">
+            <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                     <Wallet className="w-6 h-6" />
+                    <p className="font-bold text-lg">UPI</p>
+                </div>
+                <Pencil className="w-4 h-4 opacity-70" />
+            </div>
+            <p className="font-mono text-lg text-center">{details.upiId}</p>
+            <div className="text-sm pt-2">
+                <p className="opacity-80">Holder Name</p>
+                <p className="font-semibold">{details.holderName}</p>
+            </div>
+             <div className="flex items-center gap-2 p-2 bg-white/10 rounded-md text-xs mt-2">
+                <AlertTriangle className="w-4 h-4 text-yellow-300"/>
+                <p>To change details, please contact customer support.</p>
+            </div>
+        </CardContent>
+    </Card>
+);
+
+    
