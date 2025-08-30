@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/context/user-context";
@@ -11,7 +12,7 @@ import { ChevronLeft, Landmark, Wallet, CircleUser, Phone, Hash, Pencil, AlertTr
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 interface BankDetails {
     bankName: string;
@@ -30,6 +31,29 @@ type Inputs = {
     amount: number;
     password:  string;
 }
+
+const bankList = [
+    "State Bank of India",
+    "HDFC Bank",
+    "ICICI Bank",
+    "Punjab National Bank",
+    "Axis Bank",
+    "Kotak Mahindra Bank",
+    "Bank of Baroda",
+    "Canara Bank",
+    "Union Bank of India",
+    "IDBI Bank",
+    "Bank of India",
+    "IndusInd Bank",
+    "Yes Bank",
+    "Central Bank of India",
+    "Indian Bank",
+    "Federal Bank",
+    "UCO Bank",
+    "Bank of Maharashtra",
+    "Punjab & Sind Bank",
+    "South Indian Bank"
+];
 
 export default function WithdrawPage() {
     const { balance, setBalance } = useUser();
@@ -156,7 +180,7 @@ export default function WithdrawPage() {
 
 // Components for Bank/UPI cards
 const AddBankCardForm = ({ setBankDetails }: { setBankDetails: (details: BankDetails) => void }) => {
-    const { register, handleSubmit } = useForm<BankDetails>();
+    const { register, handleSubmit, control } = useForm<BankDetails>();
     const { toast } = useToast();
 
     const onSave: SubmitHandler<BankDetails> = (data) => {
@@ -178,7 +202,23 @@ const AddBankCardForm = ({ setBankDetails }: { setBankDetails: (details: BankDet
                     </div>
                     <div className="space-y-1">
                         <Label htmlFor="bankName">Bank Name</Label>
-                        <Input id="bankName" {...register("bankName", { required: true })} />
+                        <Controller
+                            name="bankName"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a bank" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {bankList.map(bank => (
+                                            <SelectItem key={bank} value={bank}>{bank}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
                     </div>
                     <div className="space-y-1">
                         <Label htmlFor="accountNumber">Account Number</Label>
@@ -296,5 +336,3 @@ const SavedUpiCard = ({ details }: { details: UpiDetails }) => (
         </CardContent>
     </Card>
 );
-
-    
