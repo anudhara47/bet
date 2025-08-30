@@ -9,10 +9,8 @@ import { ChevronLeft, Gift } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
-const VALID_CODES = ['ADMIN50', 'WELCOME100', 'BONUS20', 'SPECIAL150', 'FREEBIE'];
-
 export default function GiftsPage() {
-    const { balance, setBalance, usedCodes, addUsedCode } = useUser();
+    const { balance, setBalance, usedCodes, addUsedCode, redeemGlobalCode } = useUser();
     const [giftCode, setGiftCode] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
     const { toast } = useToast();
@@ -21,16 +19,20 @@ export default function GiftsPage() {
         setIsLoading(true);
 
         setTimeout(() => {
+            const validCodes = JSON.parse(localStorage.getItem('validGiftCodes') || '[]');
+
             if (usedCodes.includes(giftCode.toUpperCase())) {
                 toast({
                     title: "Gift code already used",
                     description: "You have already redeemed this gift code.",
                     variant: "destructive",
                 });
-            } else if (VALID_CODES.includes(giftCode.toUpperCase())) {
-                const bonusAmount = Math.floor(Math.random() * 101) + 50; // Random bonus between 50 and 150
+            } else if (validCodes.includes(giftCode.toUpperCase())) {
+                const bonusAmount = Math.floor(Math.random() * (200 - 10 + 1)) + 10;
                 setBalance(balance + bonusAmount);
-                addUsedCode(giftCode.toUpperCase());
+                addUsedCode(giftCode.toUpperCase()); // Track that this user has used this code
+                redeemGlobalCode(giftCode.toUpperCase()); // Remove from global list
+
                 toast({
                     title: "Success!",
                     description: `You have received a bonus of ₹${bonusAmount.toFixed(2)}.`,
@@ -38,7 +40,7 @@ export default function GiftsPage() {
                 setGiftCode("");
             } else {
                 toast({
-                    title: "Invalid Gift Code",
+                    title: "Invalid or Expired Gift Code",
                     description: "The code you entered is not valid. Please check and try again.",
                     variant: "destructive",
                 });
@@ -94,7 +96,7 @@ export default function GiftsPage() {
                         <li>Obtain a gift code from official announcements or customer service.</li>
                         <li>Enter the code exactly as provided in the input field above.</li>
                         <li>Click "Redeem Now" to claim your bonus.</li>
-                        <li>Each gift code can only be used once per account.</li>
+                        <li>Each gift code can only be used once.</li>
                         <li>Bonuses are credited to your main wallet balance immediately.</li>
                     </ul>
                 </CardContent>

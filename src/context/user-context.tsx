@@ -49,6 +49,7 @@ interface UserContextType {
   addExperience: (amount: number, reason: string) => void;
   usedCodes: string[];
   addUsedCode: (code: string) => void;
+  redeemGlobalCode: (code: string) => void;
   hasClaimedLevel: (level: number) => boolean;
   addClaimedLevel: (level: number) => void;
   expHistory: ExpHistoryItem[];
@@ -253,6 +254,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setUsedCodes(newCodes);
         localStorage.setItem('user-used-codes', JSON.stringify(newCodes));
     }
+    const redeemGlobalCode = (code: string) => {
+        const validCodes = JSON.parse(localStorage.getItem('validGiftCodes') || '[]');
+        const updatedCodes = validCodes.filter((c: string) => c.toUpperCase() !== code.toUpperCase());
+        localStorage.setItem('validGiftCodes', JSON.stringify(updatedCodes));
+    };
     const hasClaimedLevel = (level: number) => claimedLevels.includes(level);
     const addClaimedLevel = (level: number) => {
         if (!claimedLevels.includes(level)) {
@@ -297,6 +303,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         addExperience,
         usedCodes,
         addUsedCode,
+        redeemGlobalCode,
         hasClaimedLevel,
         addClaimedLevel,
         expHistory,
