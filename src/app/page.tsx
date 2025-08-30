@@ -10,7 +10,7 @@ import Link from "next/link";
 import * as React from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
 const MarqueeItem = ({ text }: { text: string }) => (
@@ -44,6 +44,15 @@ export default function HomePage() {
         { icon: <Sailboat className="w-8 h-8 text-purple-500" />, label: "Fishing", href: "/fishing" },
         { icon: <Swords className="w-8 h-8 text-gray-500" />, label: "Sports", href: "/sports" },
     ]
+
+    const recommendedGames = [
+        { href: "/lottery/wingo-30s", imageSrc: "https://picsum.photos/300/200?random=1", label: "Win Go", dataAiHint: "lottery balls" },
+        { href: "/lottery/k3", imageSrc: "https://picsum.photos/300/200?random=2", label: "K3", dataAiHint: "dice game" },
+        { href: "/mini-game", imageSrc: "https://picsum.photos/300/200?random=3", label: "Aviator", dataAiHint: "airplane sky" },
+        { href: "/slots", imageSrc: "https://picsum.photos/300/200?random=4", label: "Fruit Slots", dataAiHint: "slot machine fruits" },
+        { href: "/casino", imageSrc: "https://picsum.photos/300/200?random=5", label: "Live Casino", dataAiHint: "casino roulette" },
+    ];
+
 
   return (
     <div className="min-h-screen bg-neutral-100 text-foreground pb-40 max-w-lg mx-auto relative">
@@ -99,6 +108,26 @@ export default function HomePage() {
                      </Link>
                 ))}
             </div>
+        </div>
+
+        <div className="px-4">
+            <div className="flex justify-between items-center mb-2">
+                 <h2 className="font-bold text-lg">Recommended Games</h2>
+                 <Link href="/all-games" className="text-sm text-red-500 flex items-center">
+                    All <ChevronRight className="w-4 h-4" />
+                 </Link>
+            </div>
+            <Carousel opts={{ align: "start", loop: true }} className="w-full">
+                <CarouselContent>
+                    {recommendedGames.map((game, index) => (
+                        <CarouselItem key={index} className="basis-1/2 md:basis-1/3">
+                            <GameCard {...game} />
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                 <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 text-gray-800 hover:bg-white" />
+                 <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/70 text-gray-800 hover:bg-white" />
+            </Carousel>
         </div>
 
         <div className="px-4">
