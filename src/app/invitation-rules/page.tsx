@@ -1,7 +1,7 @@
 
 'use client';
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
@@ -27,6 +27,15 @@ const RebateLevelIcon = ({ level }: { level: number }) => (
         </svg>
         <span className="font-bold text-sm text-yellow-600">L{level}</span>
     </div>
+);
+
+const FinalTermIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="10" fill="#FEE2E2"/>
+    <path d="M7 14.5C7 14.5 8.5 12.5 12 12.5C15.5 12.5 17 14.5 17 14.5" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round"/>
+    <circle cx="9.5" cy="10.5" r="1" fill="#EF4444"/>
+    <circle cx="14.5" cy="10.5" r="1" fill="#EF4444"/>
+    </svg>
 );
 
 
@@ -122,10 +131,28 @@ export default function InvitationRulesPage() {
                 </Card>
 
                 <RuleCard number="06">
-                    <p className="text-sm leading-relaxed">The commission amounts are automatically sent to the member's account the next day.</p>
+                    <div className="text-sm leading-relaxed space-y-2">
+                        <p>The commission percentage depends on the membership level. The higher the membership level, the higher the bonus percentage. Different game types also have different payout percentages.</p>
+                        <p>The commission rate is specifically explained as follows</p>
+                        <Link href="/rebate-ratio" className="text-red-500 font-bold flex items-center">
+                            View rebate ratio <ChevronRight className="w-4 h-4" />
+                        </Link>
+                    </div>
+                </RuleCard>
+                
+                <RuleCard number="07">
+                    <p className="text-sm leading-relaxed">TOP20 commission rankings will be randomly awarded with a separate bonus</p>
+                </RuleCard>
+
+                <RuleCard number="08">
+                    <div className="flex justify-between items-center">
+                        <p className="text-sm leading-relaxed">The final interpretation of this activity belongs to</p>
+                        <FinalTermIcon />
+                    </div>
                 </RuleCard>
 
             </main>
         </div>
     );
 }
+
