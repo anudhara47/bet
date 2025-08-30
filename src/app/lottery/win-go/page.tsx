@@ -163,23 +163,23 @@ export default function WinGoPage() {
             <main className="space-y-4">
                 <div className="bg-[#FE3A60] p-4 pt-2">
                     <Card className="rounded-xl shadow-lg">
-                        <CardContent className="p-3 flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-muted-foreground flex items-center gap-1"><WalletIcon/> Wallet balance</p>
+                        <CardContent className="p-3 flex flex-col sm:flex-row items-center justify-between gap-2">
+                            <div className="w-full sm:w-auto">
+                                <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1"><WalletIcon/> Wallet balance</p>
                                 <div className="flex items-center gap-2">
-                                    <p className="text-2xl font-bold">₹304.82</p>
+                                    <p className="text-xl sm:text-2xl font-bold">₹304.82</p>
                                     <RefreshCw className={cn("w-4 h-4 text-muted-foreground cursor-pointer", isRefreshing && "animate-spin")} onClick={handleRefresh}/>
                                 </div>
                             </div>
-                            <div className="flex gap-2">
-                                <Button className="bg-gradient-to-r from-red-400 to-red-500 text-white rounded-md px-6 shadow-md">Withdraw</Button>
-                                <Button className="bg-gradient-to-r from-green-400 to-green-500 text-white rounded-md px-6 shadow-md">Deposit</Button>
+                            <div className="flex gap-2 w-full sm:w-auto">
+                                <Button className="bg-gradient-to-r from-red-400 to-red-500 text-white rounded-md px-4 sm:px-6 py-2 text-xs sm:text-sm shadow-md flex-1">Withdraw</Button>
+                                <Button className="bg-gradient-to-r from-green-400 to-green-500 text-white rounded-md px-4 sm:px-6 py-2 text-xs sm:text-sm shadow-md flex-1">Deposit</Button>
                             </div>
                         </CardContent>
                     </Card>
                     <div className="flex items-center bg-red-400/80 text-white rounded-lg p-2 mt-3 text-xs">
                         <Volume2 className="w-5 h-5 mr-2"/>
-                        <p>if you experience slow performance or login issues, please ensure a stable internet co</p>
+                        <p className="truncate">if you experience slow performance or login issues, please ensure a stable internet co</p>
                         <Button variant="ghost" className="ml-auto text-white h-auto p-1 text-xs">Detail</Button>
                     </div>
                 </div>
@@ -191,39 +191,39 @@ export default function WinGoPage() {
                         if (value === '3min') setGameInterval(180);
                         if (value === '5min') setGameInterval(300);
                     }}>
-                        <TabsList className="grid grid-cols-4 bg-transparent p-0 h-auto gap-2">
-                            <TabsTrigger value="30sec" className="data-[state=active]:bg-white data-[state=active]:text-red-500 data-[state=active]:shadow-md rounded-t-lg bg-red-400 text-white border-b-2 border-red-500 data-[state=active]:border-transparent py-3">
-                                WinGo 30sec
+                        <TabsList className="grid grid-cols-4 bg-transparent p-0 h-auto gap-1 sm:gap-2">
+                            <TabsTrigger value="30sec" className="data-[state=active]:bg-white data-[state=active]:text-red-500 data-[state=active]:shadow-md rounded-t-lg bg-red-400 text-white border-b-2 border-red-500 data-[state=active]:border-transparent py-2 sm:py-3 text-xs sm:text-sm">
+                                WinGo 30s
                             </TabsTrigger>
-                            <TabsTrigger value="1min" className="data-[state=active]:bg-white data-[state=active]:text-red-500 data-[state=active]:shadow-md rounded-t-lg bg-gray-200 text-gray-500 py-3">
-                                WinGo 1 Min
+                            <TabsTrigger value="1min" className="data-[state=active]:bg-white data-[state=active]:text-red-500 data-[state=active]:shadow-md rounded-t-lg bg-gray-200 text-gray-500 py-2 sm:py-3 text-xs sm:text-sm">
+                                WinGo 1m
                             </TabsTrigger>
-                            <TabsTrigger value="3min" className="data-[state=active]:bg-white data-[state=active]:text-red-500 data-[state=active]:shadow-md rounded-t-lg bg-gray-200 text-gray-500 py-3">
-                                WinGo 3 Min
+                            <TabsTrigger value="3min" className="data-[state=active]:bg-white data-[state=active]:text-red-500 data-[state=active]:shadow-md rounded-t-lg bg-gray-200 text-gray-500 py-2 sm:py-3 text-xs sm:text-sm">
+                                WinGo 3m
                             </TabsTrigger>
-                            <TabsTrigger value="5min" className="data-[state=active]:bg-white data-[state=active]:text-red-500 data-[state=active]:shadow-md rounded-t-lg bg-gray-200 text-gray-500 py-3">
-                                WinGo 5 Min
+                            <TabsTrigger value="5min" className="data-[state=active]:bg-white data-[state=active]:text-red-500 data-[state=active]:shadow-md rounded-t-lg bg-gray-200 text-gray-500 py-2 sm:py-3 text-xs sm:text-sm">
+                                WinGo 5m
                             </TabsTrigger>
                         </TabsList>
-                        <TabsContent value="30sec" className="bg-white p-4 rounded-b-lg shadow-md -mt-1">
-                            <div className="bg-red-100/50 border border-red-200 rounded-lg p-3">
+                        <TabsContent value="30sec" className="bg-white p-2 sm:p-4 rounded-b-lg shadow-md -mt-1">
+                            <div className="bg-red-100/50 border border-red-200 rounded-lg p-2 sm:p-3">
                                 <div className="flex justify-between items-center">
                                     <Button variant="outline" className="text-red-500 border-red-500 h-6 text-xs px-2"><HelpCircle className="w-3 h-3 mr-1"/>How to play</Button>
                                     <div className="text-right">
-                                        <p className="text-sm text-muted-foreground">Time remaining</p>
+                                        <p className="text-xs sm:text-sm text-muted-foreground">Time remaining</p>
                                     </div>
                                 </div>
                                 <div className="flex justify-between items-center mt-2">
-                                    <p className="font-bold text-lg">WinGo 30sec</p>
-                                    <div className="flex items-center gap-1 font-mono text-2xl font-bold">
-                                        <span className="bg-gray-800 text-white rounded-md px-2 py-1">{minutes[0]}</span>
-                                        <span className="bg-gray-800 text-white rounded-md px-2 py-1">{minutes[1]}</span>
+                                    <p className="font-bold text-base sm:text-lg">WinGo 30sec</p>
+                                    <div className="flex items-center gap-1 font-mono text-xl sm:text-2xl font-bold">
+                                        <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{minutes[0]}</span>
+                                        <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{minutes[1]}</span>
                                         <span className="text-gray-800">:</span>
-                                        <span className="bg-gray-800 text-white rounded-md px-2 py-1">{seconds[0]}</span>
-                                        <span className="bg-gray-800 text-white rounded-md px-2 py-1">{seconds[1]}</span>
+                                        <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{seconds[0]}</span>
+                                        <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{seconds[1]}</span>
                                     </div>
                                 </div>
-                                <Separator className="my-3"/>
+                                <Separator className="my-2 sm:my-3"/>
                                 <div className="flex justify-between items-center">
                                     <div className="flex items-center gap-1">
                                         {[5,6,7,8,9].map((n, i) => {
@@ -231,13 +231,13 @@ export default function WinGoPage() {
                                             const isGreen = [1,3,7,9].includes(n) || (n===5);
                                             const isRed = [2,4,6,8].includes(n) || (n===0) || (n===6);
                                             return (
-                                                <div key={i} className={cn("relative w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-inner")}>
+                                                <div key={i} className={cn("relative w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-inner")}>
                                                     <div className={cn("absolute inset-0 rounded-full",
                                                         isGreen && "bg-green-400",
                                                         isRed && "bg-red-400"
                                                     )}></div>
-                                                     <div className="absolute inset-1 rounded-full bg-white"></div>
-                                                     <div className={cn("relative w-6 h-6 rounded-full flex items-center justify-center text-white",
+                                                     <div className="absolute inset-0.5 sm:inset-1 rounded-full bg-white"></div>
+                                                     <div className={cn("relative w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-white",
                                                         isGreen && "bg-green-500",
                                                         isRed && "bg-red-500",
                                                         isViolet && "bg-gradient-to-br from-red-500 to-purple-500"
@@ -248,51 +248,51 @@ export default function WinGoPage() {
                                             )
                                         })}
                                     </div>
-                                    <p className="text-sm font-mono">{periodId}</p>
+                                    <p className="text-xs sm:text-sm font-mono">{periodId}</p>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-3 my-4">
-                                <Button className="bg-gradient-to-b from-green-400 to-green-600 text-white py-6 text-lg font-bold shadow-lg border-b-4 border-green-700 active:border-b-0 active:mt-1">Green</Button>
-                                <Button className="bg-gradient-to-b from-purple-400 to-purple-600 text-white py-6 text-lg font-bold shadow-lg border-b-4 border-purple-700 active:border-b-0 active:mt-1">Violet</Button>
-                                <Button className="bg-gradient-to-b from-red-400 to-red-600 text-white py-6 text-lg font-bold shadow-lg border-b-4 border-red-700 active:border-b-0 active:mt-1">Red</Button>
+                            <div className="grid grid-cols-3 gap-2 sm:gap-3 my-3 sm:my-4">
+                                <Button className="bg-gradient-to-b from-green-400 to-green-600 text-white py-4 sm:py-6 text-base sm:text-lg font-bold shadow-lg border-b-4 border-green-700 active:border-b-0 active:mt-1">Green</Button>
+                                <Button className="bg-gradient-to-b from-purple-400 to-purple-600 text-white py-4 sm:py-6 text-base sm:text-lg font-bold shadow-lg border-b-4 border-purple-700 active:border-b-0 active:mt-1">Violet</Button>
+                                <Button className="bg-gradient-to-b from-red-400 to-red-600 text-white py-4 sm:py-6 text-base sm:text-lg font-bold shadow-lg border-b-4 border-red-700 active:border-b-0 active:mt-1">Red</Button>
                             </div>
 
-                            <div className="grid grid-cols-5 gap-2">
+                            <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
                                 {numberButtons.map(btn => {
                                     const hasViolet = btn.colors.includes('violet');
                                     const hasGreen = btn.colors.includes('green');
                                     const hasRed = btn.colors.includes('red');
                                     
                                     return(
-                                        <Button key={btn.num} variant="outline" className="p-0 h-14 w-14 rounded-full border-2 relative overflow-hidden shadow-md active:mt-0.5">
+                                        <Button key={btn.num} variant="outline" className="p-0 h-12 w-12 sm:h-14 sm:w-14 rounded-full border-2 relative overflow-hidden shadow-md active:mt-0.5">
                                             {hasViolet && hasGreen && <div className="absolute inset-0"><span className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-br from-green-400 to-green-600"></span><span className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-br from-purple-400 to-purple-600"></span></div>}
                                             {hasViolet && hasRed && <div className="absolute inset-0"><span className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-br from-red-400 to-red-600"></span><span className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-br from-purple-400 to-purple-600"></span></div>}
                                             {!hasViolet && hasGreen && !hasRed && <span className="absolute inset-0 bg-gradient-to-b from-green-400 to-green-600"></span>}
                                             {!hasViolet && !hasGreen && hasRed && <span className="absolute inset-0 bg-gradient-to-b from-red-400 to-red-600"></span>}
-                                            <span className="relative text-white font-bold text-2xl" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)'}}>{btn.num}</span>
+                                            <span className="relative text-white font-bold text-xl sm:text-2xl" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)'}}>{btn.num}</span>
                                         </Button>
                                     )
                                 })}
-                                <Button variant="outline" className="p-0 h-14 w-14 rounded-full border-2 relative overflow-hidden shadow-md active:mt-0.5">
+                                <Button variant="outline" className="p-0 h-12 w-12 sm:h-14 sm:w-14 rounded-full border-2 relative overflow-hidden shadow-md active:mt-0.5">
                                     <span className="absolute inset-0 bg-gradient-to-b from-green-400 to-green-600"></span>
                                     <DragonIcon />
                                 </Button>
                             </div>
 
-                             <div className="grid grid-cols-7 gap-2 my-4 items-center">
-                                <Button variant="outline" className="text-red-500 border-red-300">Random</Button>
-                                <Button className="bg-green-500 text-white shadow-md">X1</Button>
-                                <Button variant="outline" className="border-gray-300">X5</Button>
-                                <Button variant="outline" className="border-gray-300">X10</Button>
-                                <Button variant="outline" className="border-gray-300">X20</Button>
-                                <Button variant="outline" className="border-gray-300">X50</Button>
-                                <Button variant="outline" className="border-gray-300">X100</Button>
+                             <div className="grid grid-cols-7 gap-1 sm:gap-2 my-3 sm:my-4 items-center">
+                                <Button variant="outline" className="text-red-500 border-red-300 text-xs px-1 h-8 sm:h-auto sm:px-2">Random</Button>
+                                <Button className="bg-green-500 text-white shadow-md text-xs px-1 h-8 sm:h-auto sm:px-2">X1</Button>
+                                <Button variant="outline" className="border-gray-300 text-xs px-1 h-8 sm:h-auto sm:px-2">X5</Button>
+                                <Button variant="outline" className="border-gray-300 text-xs px-1 h-8 sm:h-auto sm:px-2">X10</Button>
+                                <Button variant="outline" className="border-gray-300 text-xs px-1 h-8 sm:h-auto sm:px-2">X20</Button>
+                                <Button variant="outline" className="border-gray-300 text-xs px-1 h-8 sm:h-auto sm:px-2">X50</Button>
+                                <Button variant="outline" className="border-gray-300 text-xs px-1 h-8 sm:h-auto sm:px-2">X100</Button>
                              </div>
                              
                             <div className="flex items-center justify-between gap-2 relative">
-                                <Button className="w-full bg-gradient-to-b from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-600 text-white py-6 text-lg font-bold shadow-lg border-b-4 border-orange-700 active:border-b-0 active:mt-1 rounded-l-full rounded-r-none">Big</Button>
-                                <Button className="w-full bg-gradient-to-b from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-600 text-white py-6 text-lg font-bold shadow-lg border-b-4 border-blue-700 active:border-b-0 active:mt-1 rounded-r-full rounded-l-none">Small</Button>
+                                <Button className="w-full bg-gradient-to-b from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-600 text-white py-4 sm:py-6 text-base sm:text-lg font-bold shadow-lg border-b-4 border-orange-700 active:border-b-0 active:mt-1 rounded-l-full rounded-r-none">Big</Button>
+                                <Button className="w-full bg-gradient-to-b from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-600 text-white py-4 sm:py-6 text-base sm:text-lg font-bold shadow-lg border-b-4 border-blue-700 active:border-b-0 active:mt-1 rounded-r-full rounded-l-none">Small</Button>
                             </div>
 
                         </TabsContent>
@@ -317,7 +317,7 @@ export default function WinGoPage() {
                                     <div>
                                         {gameHistory.map((item, index) => (
                                             <div key={index} className="grid grid-cols-4 text-center items-center py-3 border-b">
-                                                <div className="text-xs text-muted-foreground">{item.period}</div>
+                                                <div className="text-xs text-muted-foreground">{item.period.slice(-6)}</div>
                                                 <div className={cn("font-bold text-lg", getNumberColorClass(item.number))}>
                                                     {item.number}
                                                 </div>
