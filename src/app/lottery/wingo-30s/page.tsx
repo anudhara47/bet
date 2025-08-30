@@ -47,8 +47,8 @@ const NumberButton = ({ number, color }: { number: number, color: string }) => {
 
 // This function generates a predictable result based on the period ID
 const generateHistoryResult = (pId: string) => {
-     const seed = parseInt(pId.slice(-5)); // Use last 5 digits for some variation
-     const number = (seed * 13 + 7) % 10; // Simple pseudo-random logic
+     const lastDigit = parseInt(pId.slice(-1));
+     const number = lastDigit;
      let color: 'green' | 'violet' | 'red' | string = 'gray';
      let size: 'Big' | 'Small' = 'Small';
 
@@ -58,6 +58,7 @@ const generateHistoryResult = (pId: string) => {
      if (number === 0) color = 'red-violet';
 
      if (number >= 5) size = 'Big';
+     else size = 'Small';
      
      return { period: pId, number, size, color };
 }
