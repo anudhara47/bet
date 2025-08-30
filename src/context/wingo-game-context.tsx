@@ -10,6 +10,15 @@ interface GameResult {
     color: string;
 }
 
+export interface Bet {
+    period: string;
+    selection: string; // e.g., 'Red', '5', 'Big'
+    amount: number;
+    status: 'Win' | 'Loss' | 'Pending';
+    result?: GameResult;
+}
+
+
 interface WingoGameContextType {
   gameInterval: number;
   setGameInterval: (interval: number) => void;
@@ -18,6 +27,8 @@ interface WingoGameContextType {
   gameHistory: GameResult[];
   isRefreshing: boolean;
   handleRefresh: () => void;
+  placeBet: (selection: string, amount: number) => void;
+  myBets: Bet[];
 }
 
 // This function generates a random result
@@ -46,6 +57,7 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
   const [gameHistory, setGameHistory] = useState<GameResult[]>([]);
   const [isRefreshing, setIsRefreshing] = React.useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [myBets, setMyBets] = useState<Bet[]>([]);
   
   const basePeriod = BigInt("20250830100050967");
   const [baseTime, setBaseTime] = useState<number>(Date.now());
@@ -66,38 +78,54 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
     return { currentPeriodId: currentPeriodId.toString(), newTimeLeft };
   }, [basePeriod, baseTime, gameInterval]);
 
-  useEffect(() => {
-    if (!isClient) return;
+  const checkBetStatus = useCallback((bet: Bet, result: GameResult): 'Win' | 'Loss' => {
+      if (bet.selection.toLowerCase() === result.size.toLowerCase()) return 'Win';
+      if (result.color.toLowerCase().includes(bet.selection.toLowerCase())) return 'Win';
+      if (bet.selection === result.number.toString()) return 'Win';
 
-    const updateTimer = () => {
-        const { currentPeriodId, newTimeLeft } = calculateCurrentPeriod();
-        if (periodId !== currentPeriodId) {
-             setPeriodId(currentPeriodId);
-        }
-        setTimeLeft(newTimeLeft);
-    };
+      return 'Loss';
+  }, []);
 
-    updateTimer();
-    const timer = setInterval(updateTimer, 1000);
 
-    return () => clearInterval(timer);
-  }, [isClient, gameInterval, periodId, calculateCurrentPeriod]);
-  
   useEffect(() => {
       if (!periodId || !isClient) return;
 
-      const history = [];
+      const newHistory: GameResult[] = [];
+      const last10Periods: string[] = [];
       const currentPeriodBigInt = BigInt(periodId);
-
+      
       for (let i = 1; i <= 10; i++) {
-           const pastPeriodId = (currentPeriodBigInt - BigInt(i)).toString();
-           if (BigInt(pastPeriodId) > 0) {
-               history.push(generateHistoryResult(pastPeriodId));
+           const pastPeriodId = (currentPeriodBigInt - BigInt(i));
+           if (pastPeriodId > 0) {
+               last10Periods.push(pastPeriodId.toString());
+               newHistory.push(generateHistoryResult(pastPeriodId.toString()));
            }
       }
-      setGameHistory(history);
+      setGameHistory(newHistory);
+
+      // Update status of pending bets
+      setMyBets(prevBets => {
+          return prevBets.map(bet => {
+              if (bet.status === 'Pending' && last10Periods.includes(bet.period)) {
+                  const result = newHistory.find(r => r.period === bet.period);
+                  if (result) {
+                      return { ...bet, status: checkBetStatus(bet, result), result: result };
+                  }
+              }
+              return bet;
+          });
+      });
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [periodId, isClient]);
+  }, [periodId, isClient, checkBetStatus]);
+
+  const placeBet = (selection: string, amount: number) => {
+    if (periodId && timeLeft > 3) { // Prevent betting in last 3 seconds
+        setMyBets(prevBets => [...prevBets, { period: periodId, selection, amount, status: 'Pending' }]);
+    } else {
+        console.log("Betting is closed for this period.");
+    }
+  };
 
   const handleRefresh = () => {
       setIsRefreshing(true);
@@ -112,6 +140,8 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
     gameHistory,
     isRefreshing,
     handleRefresh,
+    placeBet,
+    myBets
   };
 
   return (

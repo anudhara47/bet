@@ -9,6 +9,7 @@ import { ChevronLeft, RefreshCw, History, BarChart2, TrendingUp, Volume2, HelpCi
 import Link from "next/link";
 import * as React from "react";
 import { useWingoGame } from "@/context/wingo-game-context";
+import { useToast } from "@/hooks/use-toast";
 
 const WalletIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500">
@@ -29,7 +30,7 @@ const ResultDot = ({ color }: { color: 'green' | 'violet' | 'red' | string }) =>
     return <div className={cn("w-2.5 h-2.5 rounded-full", colorClass)}></div>;
 }
 
-const NumberButton = ({ number, color }: { number: number, color: string }) => {
+const NumberButton = ({ number, color, onClick }: { number: number, color: string, onClick: () => void }) => {
     let colorClasses = '';
     if (color === 'red') colorClasses = 'bg-gradient-to-br from-red-400 to-red-600 border-red-700';
     if (color === 'green') colorClasses = 'bg-gradient-to-br from-green-400 to-green-600 border-green-700';
@@ -38,7 +39,7 @@ const NumberButton = ({ number, color }: { number: number, color: string }) => {
     if (color === 'green-violet') colorClasses = 'bg-gradient-to-br from-green-400 via-purple-500 to-green-600 border-purple-700';
 
     return (
-        <Button className={cn("relative w-12 h-12 rounded-full text-white font-bold text-xl shadow-lg border-b-4 active:border-b-0 active:mt-1", colorClasses)}>
+        <Button onClick={onClick} className={cn("relative w-12 h-12 rounded-full text-white font-bold text-xl shadow-lg border-b-4 active:border-b-0 active:mt-1", colorClasses)}>
             <div className="absolute inset-0 bg-black/10 rounded-full"></div>
             {number}
         </Button>
@@ -53,8 +54,27 @@ export default function Wingo30sPage() {
         isRefreshing, 
         handleRefresh,
         gameInterval,
-        setGameInterval 
+        setGameInterval,
+        placeBet,
+        myBets
     } = useWingoGame();
+    const { toast } = useToast();
+    const [betAmount, setBetAmount] = React.useState(1);
+    const [activeBetAmount, setActiveBetAmount] = React.useState(1);
+
+    const handleBet = (selection: string) => {
+        if (timeLeft > 3) {
+            placeBet(selection, betAmount);
+            toast({ title: `Bet placed on ${selection} for ${betAmount}`});
+        } else {
+            toast({ title: "Betting is closed for this period.", variant: "destructive" });
+        }
+    }
+
+    const handleAmountButtonClick = (amount: number) => {
+        setBetAmount(amount);
+        setActiveBetAmount(amount);
+    }
 
     const formatTime = (seconds: number) => {
         const m = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -159,37 +179,37 @@ export default function Wingo30sPage() {
                             </div>
                             
                             <div className="grid grid-cols-3 gap-2 my-4">
-                                <Button className="bg-gradient-to-b from-green-400 to-green-600 text-white py-3 text-md font-bold shadow-lg border-b-4 border-green-700 active:border-b-0 active:mt-1">Green</Button>
-                                <Button className="bg-gradient-to-b from-purple-400 to-purple-600 text-white py-3 text-md font-bold shadow-lg border-b-4 border-purple-700 active:border-b-0 active:mt-1">Violet</Button>
-                                <Button className="bg-gradient-to-b from-red-400 to-red-600 text-white py-3 text-md font-bold shadow-lg border-b-4 border-red-700 active:border-b-0 active:mt-1">Red</Button>
+                                <Button onClick={() => handleBet('Green')} className="bg-gradient-to-b from-green-400 to-green-600 text-white py-3 text-md font-bold shadow-lg border-b-4 border-green-700 active:border-b-0 active:mt-1">Green</Button>
+                                <Button onClick={() => handleBet('Violet')} className="bg-gradient-to-b from-purple-400 to-purple-600 text-white py-3 text-md font-bold shadow-lg border-b-4 border-purple-700 active:border-b-0 active:mt-1">Violet</Button>
+                                <Button onClick={() => handleBet('Red')} className="bg-gradient-to-b from-red-400 to-red-600 text-white py-3 text-md font-bold shadow-lg border-b-4 border-red-700 active:border-b-0 active:mt-1">Red</Button>
                             </div>
 
                             <div className="grid grid-cols-5 gap-2 my-4">
-                               <NumberButton number={0} color="red-violet" />
-                               <NumberButton number={1} color="green" />
-                               <NumberButton number={2} color="red" />
-                               <NumberButton number={3} color="green" />
-                               <NumberButton number={4} color="red" />
-                               <NumberButton number={5} color="green-violet" />
-                               <NumberButton number={6} color="red" />
-                               <NumberButton number={7} color="green" />
-                               <NumberButton number={8} color="red" />
-                               <NumberButton number={9} color="green" />
+                               <NumberButton onClick={() => handleBet('0')} number={0} color="red-violet" />
+                               <NumberButton onClick={() => handleBet('1')} number={1} color="green" />
+                               <NumberButton onClick={() => handleBet('2')} number={2} color="red" />
+                               <NumberButton onClick={() => handleBet('3')} number={3} color="green" />
+                               <NumberButton onClick={() => handleBet('4')} number={4} color="red" />
+                               <NumberButton onClick={() => handleBet('5')} number={5} color="green-violet" />
+                               <NumberButton onClick={() => handleBet('6')} number={6} color="red" />
+                               <NumberButton onClick={() => handleBet('7')} number={7} color="green" />
+                               <NumberButton onClick={() => handleBet('8')} number={8} color="red" />
+                               <NumberButton onClick={() => handleBet('9')} number={9} color="green" />
                             </div>
 
                              <div className="grid grid-cols-7 gap-1 sm:gap-2 my-3 sm:my-4 items-center">
                                 <Button variant="outline" className="text-gray-700 border-gray-300 text-xs px-1 h-8 sm:h-9">Random</Button>
-                                <Button className="bg-red-500 text-white shadow-md text-xs px-1 h-8 sm:h-9">X1</Button>
-                                <Button variant="outline" className="border-gray-300 text-gray-500 text-xs px-1 h-8 sm:h-9">X5</Button>
-                                <Button variant="outline" className="border-gray-300 text-gray-500 text-xs px-1 h-8 sm:h-9">X10</Button>
-                                <Button variant="outline" className="border-gray-300 text-gray-500 text-xs px-1 h-8 sm:h-9">X20</Button>
-                                <Button variant="outline" className="border-gray-300 text-gray-500 text-xs px-1 h-8 sm:h-9">X50</Button>
-                                <Button variant="outline" className="border-gray-300 text-gray-500 text-xs px-1 h-8 sm:h-9">X100</Button>
+                                <Button onClick={() => handleAmountButtonClick(1)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 1 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X1</Button>
+                                <Button onClick={() => handleAmountButtonClick(5)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 5 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X5</Button>
+                                <Button onClick={() => handleAmountButtonClick(10)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 10 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X10</Button>
+                                <Button onClick={() => handleAmountButtonClick(20)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 20 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X20</Button>
+                                <Button onClick={() => handleAmountButtonClick(50)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 50 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X50</Button>
+                                <Button onClick={() => handleAmountButtonClick(100)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 100 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X100</Button>
                              </div>
 
                              <div className="grid grid-cols-2 gap-3 mb-4">
-                               <Button className="bg-gradient-to-b from-orange-400 to-orange-500 text-white py-3 text-lg font-bold shadow-lg border-b-4 border-orange-600 active:border-b-0 active:mt-1">Big</Button>
-                               <Button className="bg-gradient-to-b from-blue-400 to-blue-500 text-white py-3 text-lg font-bold shadow-lg border-b-4 border-blue-600 active:border-b-0 active:mt-1">Small</Button>
+                               <Button onClick={() => handleBet('Big')} className="bg-gradient-to-b from-orange-400 to-orange-500 text-white py-3 text-lg font-bold shadow-lg border-b-4 border-orange-600 active:border-b-0 active:mt-1">Big</Button>
+                               <Button onClick={() => handleBet('Small')} className="bg-gradient-to-b from-blue-400 to-blue-500 text-white py-3 text-lg font-bold shadow-lg border-b-4 border-blue-600 active:border-b-0 active:mt-1">Small</Button>
                             </div>
                         </TabsContent>
                     </Tabs>
@@ -245,8 +265,34 @@ export default function Wingo30sPage() {
                         </TabsContent>
                         <TabsContent value="my-bets">
                             <Card>
-                                <CardContent className="p-4 text-center text-muted-foreground">
-                                    You have no bets yet.
+                                <CardContent className="p-0">
+                                   <div className="grid grid-cols-4 bg-red-500 text-white text-center text-sm py-2 rounded-t-lg">
+                                        <div>Period</div>
+                                        <div>Selection</div>
+                                        <div>Amount</div>
+                                        <div>Status</div>
+                                    </div>
+                                    {myBets.length > 0 ? (
+                                    <div>
+                                        {myBets.slice().reverse().map((bet, index) => (
+                                            <div key={index} className="grid grid-cols-4 text-center items-center py-3 border-b">
+                                                <div className="text-xs text-muted-foreground">{bet.period}</div>
+                                                <div className="font-semibold">{bet.selection}</div>
+                                                <div className="font-semibold">{bet.amount}</div>
+                                                <div className={cn("font-bold", 
+                                                    bet.status === 'Win' ? 'text-green-500' : 
+                                                    bet.status === 'Loss' ? 'text-red-500' :
+                                                    'text-gray-500'
+                                                )}>
+                                                    {bet.status}
+                                                    {bet.status !== 'Pending' && `(${bet.result?.number})`}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                     ) : (
+                                        <div className="p-4 text-center text-muted-foreground">You have no bets yet.</div>
+                                    )}
                                 </CardContent>
                             </Card>
                         </TabsContent>
