@@ -78,7 +78,7 @@ const HistoryChatIcon = () => (
 );
 
 const vipLevels = [
-    { level: 1, expRequired: 0, levelUpReward: 0, monthlyReward: 30, rebateRate: `0%` },
+    { level: 1, expRequired: 0, levelUpReward: 60, monthlyReward: 30, rebateRate: `0%` },
     { level: 2, expRequired: 20000, levelUpReward: 160, monthlyReward: 80, rebateRate: `0%` },
     { level: 3, expRequired: 70000, levelUpReward: 360, monthlyReward: 120, rebateRate: `0%` },
     { level: 4, expRequired: 100000, levelUpReward: 666, monthlyReward: 200, rebateRate: `0%` },
@@ -91,7 +91,7 @@ const vipLevels = [
 ];
 
 export default function VipPage() {
-    const { nickname, avatar, experience, setBalance, addClaimedLevel, hasClaimedLevel, expHistory } = useUser();
+    const { nickname, avatar, experience, setBalance, addClaimedLevel, hasClaimedLevel, expHistory, lastMonthlyClaim, claimMonthlyReward } = useUser();
     const { toast } = useToast();
     
     const [mainApi, setMainApi] = React.useState<CarouselApi>()
@@ -102,7 +102,7 @@ export default function VipPage() {
     const currentLevel = currentLevelInfo.level;
     const nextLevelInfo = vipLevels.find(l => l.level === currentLevel + 1);
 
-    const canClaimLevelUpReward = currentLevelInfo.levelUpReward > 0 && !hasClaimedLevel(currentLevelInfo.level);
+    const canClaimLevelUpReward = currentLevelInfo.level > 1 && !hasClaimedLevel(currentLevelInfo.level);
 
     const handleClaimLevelUpReward = () => {
         if(canClaimLevelUpReward) {
@@ -115,15 +115,36 @@ export default function VipPage() {
         }
     };
     
+    const now = new Date();
+    const isFirstDayOfMonth = now.getDate() === 1;
+    const hasClaimedThisMonth = lastMonthlyClaim ? 
+        now.getFullYear() === new Date(lastMonthlyClaim).getFullYear() &&
+        now.getMonth() === new Date(lastMonthlyClaim).getMonth()
+        : false;
+
+    const canClaimMonthlyReward = isFirstDayOfMonth && !hasClaimedThisMonth;
+
+    const handleClaimMonthlyReward = () => {
+        if(canClaimMonthlyReward) {
+            const rewardAmount = currentLevelInfo.monthlyReward;
+            setBalance(prev => prev + rewardAmount);
+            claimMonthlyReward();
+            toast({
+                title: "Monthly Reward Claimed!",
+                description: `You have received your monthly bonus of ₹${rewardAmount.toFixed(2)}.`
+            });
+        }
+    };
+
+
     React.useEffect(() => {
-        const now = new Date();
         const year = now.getFullYear();
         const month = now.getMonth();
         const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
         const currentDayOfMonth = now.getDate();
         const daysRemaining = totalDaysInMonth - currentDayOfMonth;
         setPayoutDays(daysRemaining);
-    }, []);
+    }, [now]);
     
     React.useEffect(() => {
         if (!mainApi || !benefitsApi) return;
@@ -241,18 +262,18 @@ export default function VipPage() {
                     >
                     <CarouselContent>
                         {vipLevels.map((vip, index) => {
-                            const prevVipLevelExp = vip.expRequired;
-                            const nextVipLevel = vipLevels[index + 1];
-                            const nextVipLevelExp = nextVipLevel?.expRequired ?? prevVipLevelExp;
-                            
-                            const expInCurrentLevel = experience - prevVipLevelExp;
-                            const expForNextLevel = nextVipLevelExp - prevVipLevelExp;
+                            const currentVipExp = vip.expRequired;
+                            const nextVip = vipLevels[index + 1];
+                            const nextVipExp = nextVip?.expRequired ?? currentVipExp;
 
+                            const expInCurrentLevel = experience - currentVipExp;
+                            const expForNextLevel = nextVipExp - currentVipExp;
+                            
                             const progress = expForNextLevel > 0 
                                 ? Math.min(100, (expInCurrentLevel / expForNextLevel) * 100)
-                                : (experience >= prevVipLevelExp ? 100 : 0);
+                                : (experience >= currentVipExp ? 100 : 0);
                             
-                            const remainingExp = Math.max(0, nextVipLevelExp - experience);
+                            const remainingExp = Math.max(0, nextVipExp - experience);
 
                             return (
                             <CarouselItem key={index} className="basis-11/12">
@@ -272,13 +293,13 @@ export default function VipPage() {
                                             <div className="mt-4">
                                                 <Progress value={progress} className="h-2 mt-2 bg-white/50" indicatorClassName="bg-yellow-600" />
                                                 <div className="flex justify-between items-center text-xs mt-1">
-                                                    <p className="opacity-80">{prevVipLevelExp.toLocaleString()}/{nextVipLevelExp.toLocaleString()}</p>
+                                                    <p className="opacity-80">{currentVipExp.toLocaleString()}/{nextVipExp.toLocaleString()}</p>
                                                     <p>Total bet amount</p>
                                                 </div>
                                             </div>
-                                            {nextVipLevel && experience < nextVipLevelExp && (
+                                            {nextVip && experience < nextVipExp && (
                                                 <div className="text-center text-xs mt-2 text-yellow-800">
-                                                    Need <span className="font-bold">{remainingExp.toLocaleString()}</span> more EXP to reach VIP{nextVipLevel.level}
+                                                    Need <span className="font-bold">{remainingExp.toLocaleString()}</span> more EXP to reach VIP{nextVip.level}
                                                 </div>
                                             )}
                                         </CardContent>
@@ -308,8 +329,6 @@ export default function VipPage() {
                     >
                         <CarouselContent>
                             {vipLevels.map((vip, index) => {
-                                const nextVipLevel = vipLevels.find(l => l.level === vip.level + 1);
-
                                 return(
                                 <CarouselItem key={index} className="basis-11/12">
                                     <div className="px-1">
@@ -376,7 +395,7 @@ export default function VipPage() {
                              <div className="p-3 text-white">
                                 <p className="font-bold">Level up rewards</p>
                                 <Button size="sm" className="w-full mt-2 bg-white text-primary hover:bg-gray-100" onClick={handleClaimLevelUpReward} disabled={!canClaimLevelUpReward}>
-                                    {canClaimLevelUpReward ? 'Claim' : (hasClaimedLevel(currentLevelInfo.level) ? 'Claimed' : 'Locked')}
+                                    {hasClaimedLevel(currentLevelInfo.level) ? 'Claimed' : (canClaimLevelUpReward ? 'Claim' : 'Locked')}
                                 </Button>
                              </div>
                            </CardContent>
@@ -388,7 +407,9 @@ export default function VipPage() {
                              </div>
                              <div className="p-3 text-white">
                                 <p className="font-bold">Monthly Bonus</p>
-                                <Button size="sm" className="w-full mt-2 bg-white text-primary hover:bg-gray-100">Claim</Button>
+                                <Button size="sm" className="w-full mt-2 bg-white text-primary hover:bg-gray-100" onClick={handleClaimMonthlyReward} disabled={!canClaimMonthlyReward}>
+                                     {hasClaimedThisMonth ? 'Claimed' : (canClaimMonthlyReward ? 'Claim' : 'Locked')}
+                                </Button>
                              </div>
                            </CardContent>
                         </Card>

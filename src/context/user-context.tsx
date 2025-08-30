@@ -27,6 +27,8 @@ interface UserContextType {
   hasClaimedLevel: (level: number) => boolean;
   addClaimedLevel: (level: number) => void;
   expHistory: ExpHistoryItem[];
+  lastMonthlyClaim: number | null;
+  claimMonthlyReward: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -41,6 +43,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [usedCodes, setUsedCodes] = useState<string[]>([]);
     const [claimedLevels, setClaimedLevels] = useState<number[]>([]);
     const [expHistory, setExpHistory] = useState<ExpHistoryItem[]>([]);
+    const [lastMonthlyClaim, setLastMonthlyClaim] = useState<number | null>(null);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     // Load from localStorage on initial render
@@ -95,6 +98,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             setExpHistory(JSON.parse(storedExpHistory));
         }
 
+        const storedLastMonthlyClaim = localStorage.getItem('user-last-monthly-claim');
+        if (storedLastMonthlyClaim) {
+            setLastMonthlyClaim(JSON.parse(storedLastMonthlyClaim));
+        }
 
         setIsInitialLoad(false);
     }, []);
@@ -139,6 +146,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('user-exp-history', JSON.stringify(expHistory));
     }, [expHistory, isInitialLoad]);
 
+    useEffect(() => {
+        if (isInitialLoad) return;
+        if(lastMonthlyClaim) {
+            localStorage.setItem('user-last-monthly-claim', JSON.stringify(lastMonthlyClaim));
+        } else {
+            localStorage.removeItem('user-last-monthly-claim');
+        }
+    }, [lastMonthlyClaim, isInitialLoad]);
+
 
     const handleSetNickname = (name: string) => {
         setNickname(name);
@@ -173,6 +189,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         }
     }
 
+    const claimMonthlyReward = () => {
+        setLastMonthlyClaim(Date.now());
+    };
+
 
     const value = {
         uid,
@@ -189,7 +209,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         addUsedCode,
         hasClaimedLevel,
         addClaimedLevel,
-        expHistory
+        expHistory,
+        lastMonthlyClaim,
+        claimMonthlyReward
     };
 
     return (
