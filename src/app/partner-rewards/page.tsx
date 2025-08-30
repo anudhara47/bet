@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { ChevronLeft, Copy, ChevronRight } from "lucide-react";
+import { ChevronLeft, Copy, ChevronRight, Diamond } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
@@ -28,6 +28,15 @@ export default function PartnerRewardsPage() {
         { condition: "₹500 ≤ Amount < ₹1,200 and Turnover ≥ ₹1,500", bonus: 68 },
         { condition: "₹1,200 ≤ Amount < ₹5,000 and Turnover ≥ ₹3,600", bonus: 128 },
         { condition: "₹5,000 ≤ Amount < ₹12,000 and Turnover ≥ ₹15,000", bonus: 328 },
+        { condition: "₹12,000 ≤ Amount < ₹60,000 and Turnover ≥ ₹36,000", bonus: 528 },
+        { condition: "Amount ≥ ₹60,000 and Turnover ≥ ₹180,000", bonus: 1888 },
+    ];
+
+    const additionalRules = [
+        "*Each deposit can only get one bonus.",
+        "eg: Player A 1st deposit ₹99.00 and turnover ₹300.00, you can't get bonus",
+        "the reward has no limitation, the more you in the more rewards you will get it",
+        "If the conditions are met the rewards will be automatically credited to player's balance"
     ];
 
     return (
@@ -115,6 +124,21 @@ export default function PartnerRewardsPage() {
                             </div>
                         </CardContent>
                     </Card>
+
+                    <div className="mt-4 space-y-2">
+                        {additionalRules.map((rule, index) => (
+                             <div key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
+                                {rule.startsWith('*') ? 
+                                    <span className="text-red-500">{rule}</span> :
+                                    <>
+                                        <Diamond className="w-3 h-3 text-red-500 mt-1.5 flex-shrink-0" fill="currentColor"/>
+                                        <p>{rule}</p>
+                                    </>
+                                }
+                            </div>
+                        ))}
+                    </div>
+
                 </div>
             </main>
         </div>
