@@ -78,16 +78,16 @@ const HistoryChatIcon = () => (
 );
 
 const vipLevels = [
-    { level: 1, expRequired: 0, levelUpReward: 0, monthlyReward: 30, rebateRate: `0%` },
-    { level: 2, expRequired: 10000, levelUpReward: 60, monthlyReward: 80, rebateRate: `0%` },
-    { level: 3, expRequired: 30000, levelUpReward: 160, monthlyReward: 40, rebateRate: `0%` },
-    { level: 4, expRequired: 70000, levelUpReward: 200, monthlyReward: 60, rebateRate: `0%` },
-    { level: 5, expRequired: 100000, levelUpReward: 500, monthlyReward: 100, rebateRate: `0%` },
-    { level: 6, expRequired: 300000, levelUpReward: 1200, monthlyReward: 250, rebateRate: `0%` },
-    { level: 7, expRequired: 700000, levelUpReward: 2500, monthlyReward: 500, rebateRate: `0%` },
-    { level: 8, expRequired: 1000000, levelUpReward: 5000, monthlyReward: 1000, rebateRate: `0%` },
-    { level: 9, expRequired: 3000000, levelUpReward: 15000, monthlyReward: 3000, rebateRate: `0%` },
-    { level: 10, expRequired: 7000000, levelUpReward: 35000, monthlyReward: 8000, rebateRate: `0%` },
+    { level: 1, expRequired: 0, levelUpReward: 60, monthlyReward: 30, rebateRate: `0%` },
+    { level: 2, expRequired: 10000, levelUpReward: 160, monthlyReward: 80, rebateRate: `0%` },
+    { level: 3, expRequired: 30000, levelUpReward: 360, monthlyReward: 120, rebateRate: `0%` },
+    { level: 4, expRequired: 70000, levelUpReward: 666, monthlyReward: 200, rebateRate: `0%` },
+    { level: 5, expRequired: 100000, levelUpReward: 999, monthlyReward: 299, rebateRate: `0%` },
+    { level: 6, expRequired: 300000, levelUpReward: 1655, monthlyReward: 355, rebateRate: `0%` },
+    { level: 7, expRequired: 700000, levelUpReward: 3000, monthlyReward: 589, rebateRate: `0%` },
+    { level: 8, expRequired: 1000000, levelUpReward: 7000, monthlyReward: 1999, rebateRate: `0%` },
+    { level: 9, expRequired: 3000000, levelUpReward: 11000, monthlyReward: 3655, rebateRate: `0%` },
+    { level: 10, expRequired: 7000000, levelUpReward: 30000, monthlyReward: 6000, rebateRate: `0%` },
 ];
 
 export default function VipPage() {
@@ -240,7 +240,6 @@ export default function VipPage() {
                     >
                     <CarouselContent>
                         {vipLevels.map((vip, index) => {
-                            const isCurrentLevel = vip.level === currentLevel;
                             const nextLevel = vipLevels.find(l => l.level === vip.level + 1);
                             
                             const expForThisLevel = vip.expRequired;
@@ -248,7 +247,7 @@ export default function VipPage() {
 
                             const progress = expForNextLevel > expForThisLevel && experience >= expForThisLevel
                                 ? ((experience - expForThisLevel) / (expForNextLevel - expForThisLevel)) * 100
-                                : (experience >= expForThisLevel ? 100 : 0);
+                                : (experience >= expForThisLevel ? 100 : (experience / expForThisLevel) * 100);
                             
                             const isAchieved = experience >= vip.expRequired;
 
@@ -276,7 +275,7 @@ export default function VipPage() {
                                             <div className="mt-4">
                                                 <Progress value={progress} className="h-2 mt-2 bg-white/50" indicatorClassName="bg-yellow-600" />
                                                 <div className="flex justify-between items-center text-xs mt-1">
-                                                    <p className="opacity-80">{isAchieved ? experience.toLocaleString() : expForThisLevel.toLocaleString()}/{expForNextLevel.toLocaleString()}</p>
+                                                    <p className="opacity-80">{experience.toLocaleString()}/{expForNextLevel.toLocaleString()}</p>
                                                     <p>Total bet amount</p>
                                                 </div>
                                             </div>
