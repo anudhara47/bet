@@ -63,7 +63,7 @@ const RebateRateIcon = () => (
             <path d="M12 16C11.4477 16 11 16.4477 11 17V18C11 18.5523 11.4477 19 12 19C12.5523 19 13 18.5523 13 18V17C13 16.4477 12.5523 16 12 16Z" fill="#F97316"/>
             <path d="M16 12C16 11.4477 16.4477 11 17 11H18C18.5523 11 19 11.4477 19 12C19 12.5523 18.5523 13 18 13H17C16.4477 13 16 12.5523 16 12Z" fill="#F97316"/>
             <path d="M5 12C5 11.4477 5.44772 11 6 11H7C7.55228 11 8 11.4477 8 12C8 12.5523 7.55228 13 7 13H6C5.44772 13 5 12.5523 5 12Z" fill="#F97316"/>
-        </svg>
+            </svg>
     </div>
 );
 
@@ -358,7 +358,7 @@ export default function VipPage() {
                         <Card className="rounded-xl shadow-lg bg-primary overflow-hidden">
                            <CardContent className="p-0">
                              <div className="h-24 bg-red-300 flex items-center justify-center">
-                               <Image src="https://picsum.photos/200/100?random=3" width={200} height={100} alt="Benefit 1" className="object-cover w-full h-full" data-ai-hint="gift box"/>
+                               <Image src="https://picsum.photos/200/100?random=1" width={200} height={100} alt="Benefit 1" className="object-cover w-full h-full" data-ai-hint="gift box"/>
                              </div>
                              <div className="p-3 text-white">
                                 <p className="font-bold">Weekly Bonus</p>
@@ -431,4 +431,5 @@ export default function VipPage() {
     );
 
     
+
 
