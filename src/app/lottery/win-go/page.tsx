@@ -81,11 +81,23 @@ export default function WinGoPage() {
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     
     // Using a fixed date now to avoid issues with client/server time differences
-    const [baseTime] = React.useState(1724996918000); // A fixed timestamp in the past for 20250830100050768
-    const [basePeriod] = React.useState(BigInt("20250830100050768"));
+    const [baseTime, setBaseTime] = React.useState<number | null>(null);
+    const [basePeriod, setBasePeriod] = React.useState<bigint | null>(null);
+
+    React.useEffect(() => {
+        // Set the base time and period only once on the client
+        if (baseTime === null || basePeriod === null) {
+            setBaseTime(Date.now());
+            setBasePeriod(BigInt("20250830100050768"));
+        }
+    }, [baseTime, basePeriod]);
+    
 
     // Function to calculate the current period ID
     const calculateCurrentPeriod = React.useCallback((interval: number) => {
+        if (baseTime === null || basePeriod === null) {
+            return { currentPeriodId: "0", newTimeLeft: interval };
+        }
         const now = Date.now();
         const diffInSeconds = Math.floor((now - baseTime) / 1000);
         const periodsPassed = Math.floor(diffInSeconds / interval);
@@ -113,7 +125,7 @@ export default function WinGoPage() {
     
     // Effect for updating game history when period changes
     React.useEffect(() => {
-        if (!periodId) return;
+        if (!periodId || periodId === "0") return;
 
         const history = [];
         const currentPeriodBigInt = BigInt(periodId);
