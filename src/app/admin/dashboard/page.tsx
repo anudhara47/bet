@@ -12,6 +12,7 @@ export default function AdminDashboardPage() {
         { label: "Deposit Requests", icon: <ArrowDownCircle className="w-6 h-6 text-primary" />, href: "/admin/deposits" },
         { label: "Withdrawal Requests", icon: <ArrowUpCircle className="w-6 h-6 text-primary" />, href: "/admin/withdrawals" },
         { label: "User Information", icon: <Users className="w-6 h-6 text-primary" />, href: "/admin/user-information" },
+        { label: "User Balance", icon: <Wallet className="w-6 h-6 text-primary" />, href: "/admin/user-balance" },
         { label: "Game History", icon: <List className="w-6 h-6 text-primary" />, href: "/admin/game-history" },
         { label: "Control Panel", icon: <Compass className="w-6 h-6 text-primary" />, href: "/admin/control-panel" },
         { label: "Gift Code Generate", icon: <Gift className="w-6 h-6 text-primary" />, href: "/admin/gift-code" },
