@@ -15,8 +15,8 @@ import { useLanguage } from "@/context/language-context";
 
 const GameIcon = ({ Icon, label, href }: { Icon: LucideIcon, label: string, href: string }) => (
     <Link href={href} className="flex flex-col items-center gap-2">
-        <div className="bg-white/20 p-4 rounded-full">
-            <Icon className="w-8 h-8 text-white" />
+        <div className="bg-red-100 p-4 rounded-full">
+            <Icon className="w-8 h-8 text-primary" />
         </div>
         <span className="font-semibold">{label}</span>
     </Link>
@@ -45,10 +45,10 @@ export default function HomePage() {
     ]
 
     return (
-        <div className="min-h-screen bg-neutral-900 text-white pb-40 max-w-lg mx-auto">
-            <header className="p-4 flex justify-between items-center sticky top-0 z-10 bg-neutral-900/80 backdrop-blur-sm">
+        <div className="min-h-screen bg-neutral-100 text-gray-800 pb-40 max-w-lg mx-auto">
+            <header className="p-4 flex justify-between items-center sticky top-0 z-10 bg-red-500/90 backdrop-blur-sm text-white">
                 <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-2xl">
+                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary font-bold text-2xl">
                         9
                     </div>
                     <span className="font-bold text-xl">91CLUB</span>
@@ -56,12 +56,13 @@ export default function HomePage() {
                 {uid ? (
                     <div className="flex items-center gap-2 text-sm">
                         <span>{nickname}</span>
-                        <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
                             <User className="w-5 h-5"/>
                         </div>
                     </div>
                 ) : (
-                    <Link href="/login" className={cn(buttonVariants({variant: 'default'}))}>Login</Link>
+                    <Link href="/login" className={cn(buttonVariants({variant: 'outline'}))}
+                    style={{color: 'white', borderColor: 'white'}}>Login</Link>
                 )}
             </header>
 
@@ -88,7 +89,7 @@ export default function HomePage() {
                     </CardContent>
                 </Card>
 
-                <div className="flex items-center gap-2 bg-white/10 p-2 rounded-lg text-sm">
+                <div className="flex items-center gap-2 bg-red-100 text-red-700 p-2 rounded-lg text-sm">
                     <Volume2 className="text-primary w-5 h-5"/>
                     <p className="truncate">Welcome to 91Club! Enjoy the best gaming experience.</p>
                 </div>
@@ -96,8 +97,8 @@ export default function HomePage() {
                 <div className="my-6 grid grid-cols-3 gap-y-6">
                     {gameIcons.map((game, i) => <GameIcon key={i} {...game} />)}
                      <Link href="/all-games" className="flex flex-col items-center gap-2">
-                        <div className="bg-white/10 p-4 rounded-full">
-                            <Menu className="w-8 h-8 text-white" />
+                        <div className="bg-gray-200 p-4 rounded-full">
+                            <Menu className="w-8 h-8 text-gray-500" />
                         </div>
                         <span className="font-semibold">All Games</span>
                     </Link>
@@ -121,7 +122,7 @@ export default function HomePage() {
                             {recommendedGames.map((game, index) => (
                                 <CarouselItem key={index} className="basis-1/2 md:basis-1/3">
                                     <Link href={game.href}>
-                                        <Card className="rounded-xl overflow-hidden bg-gray-800 border-none">
+                                        <Card className="rounded-xl overflow-hidden bg-white border-none shadow-md">
                                             <Image src={`https://picsum.photos/300/200?random=${10+index}`} alt={game.name} width={300} height={200} className="w-full h-auto" data-ai-hint="casino game"/>
                                             <p className="p-2 text-center text-sm font-semibold">{game.name}</p>
                                         </Card>
@@ -134,7 +135,7 @@ export default function HomePage() {
 
             </main>
             
-             <footer className="fixed bottom-0 left-0 right-0 bg-neutral-800/90 backdrop-blur-sm border-t border-white/10 p-2 flex justify-around items-start max-w-lg mx-auto">
+             <footer className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t p-2 flex justify-around items-start max-w-lg mx-auto">
                 <Link href="/home" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-primary")}>
                 <HomeIcon className="w-6 h-6" />
                 <span className="text-xs mt-1">{t?.home || 'Home'}</span>
