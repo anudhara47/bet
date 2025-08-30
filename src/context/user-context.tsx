@@ -12,6 +12,8 @@ interface UserContextType {
   setAvatar: (url: string | null) => void;
   balance: number;
   setBalance: React.Dispatch<React.SetStateAction<number>>;
+  experience: number;
+  addExperience: (amount: number) => void;
   usedCodes: string[];
   addUsedCode: (code: string) => void;
 }
@@ -24,6 +26,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [nickname, setNickname] = useState('DEVIL47K');
     const [avatar, setAvatar] = useState<string | null>(null);
     const [balance, setBalance] = useState(305.77);
+    const [experience, setExperience] = useState(0);
     const [usedCodes, setUsedCodes] = useState<string[]>([]);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
@@ -53,6 +56,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         const storedBalance = localStorage.getItem('user-balance');
         if (storedBalance) {
             setBalance(parseFloat(storedBalance));
+        }
+        
+        // Experience
+        const storedExperience = localStorage.getItem('user-experience');
+        if (storedExperience) {
+            setExperience(parseInt(storedExperience, 10));
         }
 
         // Used Codes
@@ -87,6 +96,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         if (isInitialLoad) return;
+        localStorage.setItem('user-experience', experience.toString());
+    }, [experience, isInitialLoad]);
+
+    useEffect(() => {
+        if (isInitialLoad) return;
         localStorage.setItem('user-used-codes', JSON.stringify(usedCodes));
     }, [usedCodes, isInitialLoad]);
 
@@ -97,6 +111,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     const handleSetAvatar = (url: string | null) => {
         setAvatar(url);
+    };
+
+    const addExperience = (amount: number) => {
+        setExperience(prev => prev + amount);
     };
 
     const addUsedCode = (code: string) => {
@@ -112,6 +130,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setAvatar: handleSetAvatar,
         balance,
         setBalance,
+        experience,
+        addExperience,
         usedCodes,
         addUsedCode
     };

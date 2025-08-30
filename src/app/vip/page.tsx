@@ -84,14 +84,13 @@ const vipLevels = Array.from({ length: 10 }, (_, i) => ({
 }));
 
 export default function VipPage() {
-    const { nickname, avatar } = useUser();
+    const { nickname, avatar, experience } = useUser();
     
     const [mainApi, setMainApi] = React.useState<CarouselApi>()
     const [benefitsApi, setBenefitsApi] = React.useState<CarouselApi>()
     
-    const currentLevel = 1;
-    const currentExp = 13796;
-    const payoutDays = 2;
+    const currentLevel = vipLevels.find(l => experience < l.expRequired)?.level || 10;
+    const payoutDays = 0;
 
     const experienceHistory = [
         { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
@@ -154,7 +153,7 @@ export default function VipPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-4 mt-4 text-center">
                         <Card className="bg-white text-red-500 rounded-lg py-2">
-                           <p className="text-xl font-bold">{currentExp} EXP</p>
+                           <p className="text-xl font-bold">{experience} EXP</p>
                            <p className="text-xs text-muted-foreground">My experience</p>
                         </Card>
                         <Card className="bg-white text-red-500 rounded-lg py-2">
@@ -178,9 +177,10 @@ export default function VipPage() {
                     <CarouselContent>
                         {vipLevels.map((vip, index) => {
                             const isCurrentLevel = vip.level === currentLevel;
+                            const nextLevel = vipLevels[currentLevel];
+                            const progress = nextLevel ? (experience / nextLevel.expRequired) * 100 : (vip.level <= currentLevel ? 100 : 0);
+                            const requiredForUpgrade = nextLevel ? nextLevel.expRequired - experience : 0;
                             const isNextLevel = vip.level === currentLevel + 1;
-                            const progress = isNextLevel ? (currentExp / vip.expRequired) * 100 : (vip.level <= currentLevel ? 100 : 0);
-                            const requiredForUpgrade = vip.expRequired - currentExp;
 
                             return (
                             <CarouselItem key={index} className="basis-11/12">
@@ -209,7 +209,7 @@ export default function VipPage() {
                                                         <Button size="sm" variant="outline" className="bg-white/50 border-white/80 text-yellow-800">Bet ₹1=1EXP</Button>
                                                         <Progress value={progress} className="h-2 mt-2 bg-white/50" indicatorClassName="bg-yellow-600" />
                                                         <div className="flex justify-between items-center text-xs mt-1">
-                                                            <p className="opacity-80">{currentExp}/{vip.expRequired}</p>
+                                                            <p className="opacity-80">{experience}/{vip.expRequired}</p>
                                                             <p>{vip.expRequired} EXP can be leveled up</p>
                                                         </div>
                                                     </div>

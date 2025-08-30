@@ -1,6 +1,7 @@
 
 'use client';
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { useUser } from './user-context';
 
 // Types
 interface GameResult {
@@ -51,6 +52,7 @@ const generateHistoryResult = (pId: string): GameResult => {
 const WingoGameContext = createContext<WingoGameContextType | undefined>(undefined);
 
 export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
+  const { addExperience } = useUser();
   const [gameInterval, setGameInterval] = useState(30);
   const [timeLeft, setTimeLeft] = useState(0);
   const [periodId, setPeriodId] = useState<string | null>(null);
@@ -109,7 +111,11 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
               if (bet.status === 'Pending' && last10Periods.includes(bet.period)) {
                   const result = newHistory.find(r => r.period === bet.period);
                   if (result) {
-                      return { ...bet, status: checkBetStatus(bet, result), result: result };
+                      const status = checkBetStatus(bet, result);
+                      if (status === 'Win') {
+                          addExperience(bet.amount);
+                      }
+                      return { ...bet, status: status, result: result };
                   }
               }
               return bet;
