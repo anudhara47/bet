@@ -78,7 +78,7 @@ const HistoryChatIcon = () => (
 );
 
 const vipLevels = [
-    { level: 1, expRequired: 0, levelUpReward: 60, monthlyReward: 30, rebateRate: `0%` },
+    { level: 1, expRequired: 0, levelUpReward: 0, monthlyReward: 30, rebateRate: `0%` },
     { level: 2, expRequired: 20000, levelUpReward: 160, monthlyReward: 80, rebateRate: `0%` },
     { level: 3, expRequired: 70000, levelUpReward: 360, monthlyReward: 120, rebateRate: `0%` },
     { level: 4, expRequired: 100000, levelUpReward: 666, monthlyReward: 200, rebateRate: `0%` },
@@ -102,15 +102,15 @@ export default function VipPage() {
     const currentLevel = currentLevelInfo.level;
     const nextLevelInfo = vipLevels.find(l => l.level === currentLevel + 1);
 
-    const canClaimLevelUpReward = nextLevelInfo && experience >= nextLevelInfo.expRequired && !hasClaimedLevel(nextLevelInfo.level);
+    const canClaimLevelUpReward = currentLevelInfo.levelUpReward > 0 && !hasClaimedLevel(currentLevelInfo.level);
 
     const handleClaimLevelUpReward = () => {
-        if(canClaimLevelUpReward && nextLevelInfo) {
-            setBalance(prev => prev + nextLevelInfo.levelUpReward);
-            addClaimedLevel(nextLevelInfo.level);
+        if(canClaimLevelUpReward) {
+            setBalance(prev => prev + currentLevelInfo.levelUpReward);
+            addClaimedLevel(currentLevelInfo.level);
             toast({
                 title: "Reward Claimed!",
-                description: `You have received ₹${nextLevelInfo.levelUpReward.toFixed(2)} for reaching VIP ${nextLevelInfo.level}.`
+                description: `You have received ₹${currentLevelInfo.levelUpReward.toFixed(2)} for reaching VIP ${currentLevelInfo.level}.`
             });
         }
     };
@@ -241,12 +241,17 @@ export default function VipPage() {
                     >
                     <CarouselContent>
                         {vipLevels.map((vip, index) => {
+                            const prevVipLevelExp = vip.expRequired;
                             const nextVipLevel = vipLevels[index + 1];
-                            const currentVipLevelExp = vip.expRequired;
-                            const nextVipLevelExp = nextVipLevel?.expRequired ?? currentVipLevelExp;
-                            const progress = nextVipLevelExp > currentVipLevelExp
-                                ? Math.min(100, ((experience - currentVipLevelExp) / (nextVipLevelExp - currentVipLevelExp)) * 100)
-                                : 100;
+                            const nextVipLevelExp = nextVipLevel?.expRequired ?? prevVipLevelExp;
+                            
+                            const expInCurrentLevel = experience - prevVipLevelExp;
+                            const expForNextLevel = nextVipLevelExp - prevVipLevelExp;
+
+                            const progress = expForNextLevel > 0 
+                                ? Math.min(100, (expInCurrentLevel / expForNextLevel) * 100)
+                                : (experience >= prevVipLevelExp ? 100 : 0);
+                            
                             const remainingExp = Math.max(0, nextVipLevelExp - experience);
 
                             return (
@@ -267,11 +272,11 @@ export default function VipPage() {
                                             <div className="mt-4">
                                                 <Progress value={progress} className="h-2 mt-2 bg-white/50" indicatorClassName="bg-yellow-600" />
                                                 <div className="flex justify-between items-center text-xs mt-1">
-                                                    <p className="opacity-80">{experience.toLocaleString()}/{nextVipLevelExp.toLocaleString()}</p>
+                                                    <p className="opacity-80">{prevVipLevelExp.toLocaleString()}/{nextVipLevelExp.toLocaleString()}</p>
                                                     <p>Total bet amount</p>
                                                 </div>
                                             </div>
-                                            {nextVipLevel && (
+                                            {nextVipLevel && experience < nextVipLevelExp && (
                                                 <div className="text-center text-xs mt-2 text-yellow-800">
                                                     Need <span className="font-bold">{remainingExp.toLocaleString()}</span> more EXP to reach VIP{nextVipLevel.level}
                                                 </div>
@@ -371,7 +376,7 @@ export default function VipPage() {
                              <div className="p-3 text-white">
                                 <p className="font-bold">Level up rewards</p>
                                 <Button size="sm" className="w-full mt-2 bg-white text-primary hover:bg-gray-100" onClick={handleClaimLevelUpReward} disabled={!canClaimLevelUpReward}>
-                                    {canClaimLevelUpReward ? 'Claim' : (hasClaimedLevel(nextLevelInfo?.level || 0) ? 'Claimed' : 'Locked')}
+                                    {canClaimLevelUpReward ? 'Claim' : (hasClaimedLevel(currentLevelInfo.level) ? 'Claimed' : 'Locked')}
                                 </Button>
                              </div>
                            </CardContent>
