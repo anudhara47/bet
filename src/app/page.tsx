@@ -1,11 +1,12 @@
 
 'use client';
-import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle, Landmark, Bot } from "lucide-react";
+import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle, Landmark, Bot, ShieldAlert } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import Link from "next/link";
+import { useUser } from "@/context/user-context";
 
 const AviatorIcon = () => (
   <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -273,6 +274,7 @@ const LotteryCard = ({ href, Icon, label }: { href: string, Icon: React.Componen
 );
 
 export default function HomePage() {
+  const { balance } = useUser();
 
   const navItems = [
     { name: "Lobby", icon: <Landmark className="w-5 h-5" />, href: "/lobby", active: true },
@@ -314,16 +316,16 @@ export default function HomePage() {
 
 
   const earningsChart = [
-    { rank: 1, user: 'Mem***6YM', amount: '₹16,587,734.80', avatar: 'https://picsum.photos/40/40?random=31' },
-    { rank: 2, user: 'Mem***414', amount: '₹7,611,909.70', avatar: 'https://picsum.photos/40/40?random=32' },
-    { rank: 3, user: 'Mem***SNC', amount: '₹5,697,645.11', avatar: 'https://picsum.photos/40/40?random=33' },
-    { rank: 4, user: 'Mem***AL6', amount: '₹4,465,167.10', avatar: 'https://picsum.photos/40/40?random=34' },
-    { rank: 5, user: 'AVA****TAR', amount: '₹2,775,264.00', avatar: 'https://picsum.photos/40/40?random=35' },
-    { rank: 6, user: 'Mem***ZVV', amount: '₹2,627,244.10', avatar: 'https://picsum.photos/40/40?random=36' },
-    { rank: 7, user: 'Mem***EBW', amount: '₹1,810,966.40', avatar: 'https://picsum.photos/40/40?random=37' },
-    { rank: 8, user: 'Sun***ina', amount: '₹1,611,913.30', avatar: 'https://picsum.photos/40/40?random=38' },
-    { rank: 9, user: 'Mem***N52', amount: '₹1,383,809.43', avatar: 'https://picsum.photos/40/40?random=39' },
-    { rank: 10, user: 'Mem***IHA', amount: '₹1,362,900.00', avatar: 'https://picsum.photos/40/40?random=40' },
+    { rank: 1, user: 'Mem***6YM', amount: '₹16,587,734.80' },
+    { rank: 2, user: 'Mem***414', amount: '₹7,611,909.70' },
+    { rank: 3, user: 'Mem***SNC', amount: '₹5,697,645.11' },
+    { rank: 4, user: 'Mem***AL6', amount: '₹4,465,167.10' },
+    { rank: 5, user: 'AVA****TAR', amount: '₹2,775,264.00' },
+    { rank: 6, user: 'Mem***ZVV', amount: '₹2,627,244.10' },
+    { rank: 7, user: 'Mem***EBW', amount: '₹1,810,966.40' },
+    { rank: 8, user: 'Sun***ina', amount: '₹1,611,913.30' },
+    { rank: 9, user: 'Mem***N52', amount: '₹1,383,809.43' },
+    { rank: 10, user: 'Mem***IHA', amount: '₹1,362,900.00' },
   ];
 
   const topEarners = earningsChart.slice(0, 3);
@@ -340,6 +342,10 @@ export default function HomePage() {
             </div>
             <span className="font-bold text-xl md:text-2xl text-red-600">9XBETCLUB</span>
           </Link>
+           <Link href="/admin/deposits" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+              <ShieldAlert className="w-4 h-4 mr-2"/>
+              Admin
+          </Link>
         </div>
       </header>
 
@@ -350,7 +356,7 @@ export default function HomePage() {
                 <div>
                     <p className="text-xs sm:text-sm text-muted-foreground">Wallet balance</p>
                     <div className="flex items-center gap-2">
-                        <p className="text-xl sm:text-2xl font-bold">₹305.77</p>
+                        <p className="text-xl sm:text-2xl font-bold">₹{balance.toFixed(2)}</p>
                         <RefreshCw className="w-4 h-4 text-muted-foreground" />
                     </div>
                 </div>
@@ -369,7 +375,7 @@ export default function HomePage() {
         </Card>
 
         <div className="relative h-40 bg-gray-200 rounded-lg flex items-center justify-center">
-            <span className="text-muted-foreground">Image Removed</span>
+            <span className="text-muted-foreground">Promotional Banner</span>
         </div>
 
         <div className="grid grid-cols-5 gap-1">

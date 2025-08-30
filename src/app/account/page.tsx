@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent, Settings, MessageCircle, LogOut, FileQuestion, Megaphone, BookOpen, Building } from "lucide-react";
+import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent, Settings, MessageCircle, LogOut, FileQuestion, Megaphone, BookOpen, Building, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 import { useLanguage } from "@/context/language-context";
@@ -131,6 +131,7 @@ export default function AccountPage() {
     { icon: <MessageCircle className="text-red-500" />, label: t.service_center.customer_service, href: "/customer-service" },
     { icon: <BookOpen className="text-red-500" />, label: t.service_center.beginners_guide, href: "/guide" },
     { icon: <Building className="text-red-500" />, label: t.service_center.about_us, href: "/about" },
+    { icon: <ShieldAlert className="text-red-500" />, label: "Admin Panel", href: "/admin/deposits" },
   ];
   
   const mainWalletActions = [
@@ -156,7 +157,7 @@ export default function AccountPage() {
   if (!t) {
     return null;
   }
-
+  
   return (
     <div className="min-h-screen bg-neutral-100 text-foreground pb-40 max-w-lg mx-auto relative">
       <div className="bg-gradient-to-b from-red-400 to-red-500 text-white p-4">
@@ -269,13 +270,13 @@ export default function AccountPage() {
         <Card className="rounded-xl shadow-lg mt-4">
             <CardContent className="p-4">
                 <h2 className="font-semibold mb-4">{t.service_center.title}</h2>
-                <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="grid grid-cols-4 gap-4 text-center">
                     {serviceCenterItems.map((item, index) => (
                        <Link key={index} href={item.href || "#"} className="flex flex-col items-center gap-2 cursor-pointer hover:bg-red-50 rounded-lg p-2">
                            <div className="bg-red-100 p-3 rounded-full">
                                {item.icon}
                            </div>
-                           <span className="text-xs text-muted-foreground">{item.label}</span>
+                           <span className="text-xs text-muted-foreground text-center">{item.label}</span>
                        </Link>
                     ))}
                 </div>
