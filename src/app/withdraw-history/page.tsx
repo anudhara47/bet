@@ -5,40 +5,27 @@ import { cn } from "@/lib/utils";
 import { ChevronLeft, ArrowUpFromLine } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
+import { useUser } from "@/context/user-context";
 
-interface Transaction {
+interface WithdrawalRequest {
     id: string;
+    userId: string;
     amount: number;
-    status: 'Successful' | 'Pending' | 'Failed';
-    date: string;
-    type: 'deposit' | 'withdrawal';
+    timestamp: number;
+    status: 'pending' | 'approved' | 'rejected';
 }
 
-const generateRandomTransaction = (date: Date): Transaction => {
-    const statuses: ('Successful' | 'Pending' | 'Failed')[] = ['Successful', 'Successful', 'Successful', 'Pending', 'Failed'];
-    const status = statuses[Math.floor(Math.random() * statuses.length)];
-    const amount = Math.floor(Math.random() * 1000) + 50;
-    const id = `WDR-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
-    
-    return {
-        id,
-        amount,
-        status,
-        date: date.toLocaleString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', ''),
-        type: 'withdrawal',
-    };
-};
-
-const TransactionStatusBadge = ({ status }: { status: Transaction['status'] }) => {
+const TransactionStatusBadge = ({ status }: { status: WithdrawalRequest['status'] }) => {
     const statusClasses = {
-        'Successful': 'bg-green-100 text-green-700',
-        'Pending': 'bg-yellow-100 text-yellow-700',
-        'Failed': 'bg-red-100 text-red-700'
+        'approved': 'bg-green-100 text-green-700',
+        'pending': 'bg-yellow-100 text-yellow-700',
+        'rejected': 'bg-red-100 text-red-700'
     };
-    return <span className={cn('px-2 py-1 text-xs font-semibold rounded-full', statusClasses[status])}>{status}</span>;
+    const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+    return <span className={cn('px-2 py-1 text-xs font-semibold rounded-full', statusClasses[status])}>{statusText}</span>;
 }
 
-const TransactionRow = ({ transaction }: { transaction: Transaction }) => {
+const TransactionRow = ({ transaction }: { transaction: WithdrawalRequest }) => {
     return (
         <Card className="mb-3 shadow-md">
             <CardContent className="p-4 flex justify-between items-center">
@@ -53,7 +40,7 @@ const TransactionRow = ({ transaction }: { transaction: Transaction }) => {
                 </div>
                 <div className="text-right">
                     <TransactionStatusBadge status={transaction.status} />
-                    <p className="text-xs text-muted-foreground mt-2">{transaction.date}</p>
+                    <p className="text-xs text-muted-foreground mt-2">{new Date(transaction.timestamp).toLocaleString()}</p>
                 </div>
             </CardContent>
         </Card>
@@ -61,32 +48,17 @@ const TransactionRow = ({ transaction }: { transaction: Transaction }) => {
 }
 
 export default function WithdrawHistoryPage() {
-    const [withdrawalHistory, setWithdrawalHistory] = React.useState<Transaction[]>([]);
+    const { uid } = useUser();
+    const [withdrawalHistory, setWithdrawalHistory] = React.useState<WithdrawalRequest[]>([]);
 
     React.useEffect(() => {
-        const generateHistory = () => {
-            const now = new Date();
-            const withdrawals: Transaction[] = [];
-
-            for (let i = 0; i < 30; i++) {
-                const pastDate = new Date(now);
-                pastDate.setDate(now.getDate() - i);
-                
-                const numWithdrawals = Math.floor(Math.random() * 2);
-                 for(let k = 0; k < numWithdrawals; k++) {
-                    const randomHour = Math.floor(Math.random() * 24);
-                    const randomMinute = Math.floor(Math.random() * 60);
-                    const transactionDate = new Date(pastDate);
-                    transactionDate.setHours(randomHour, randomMinute);
-                    withdrawals.push(generateRandomTransaction(transactionDate));
-                }
-            }
-            withdrawals.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-            setWithdrawalHistory(withdrawals);
-        };
-
-        generateHistory();
-    }, []);
+       if (uid) {
+            const allRequests = JSON.parse(localStorage.getItem('withdrawalRequests') || '[]');
+            const userWithdrawals = allRequests.filter((req: WithdrawalRequest) => req.userId === uid);
+            userWithdrawals.sort((a: WithdrawalRequest, b: WithdrawalRequest) => b.timestamp - a.timestamp);
+            setWithdrawalHistory(userWithdrawals);
+        }
+    }, [uid]);
 
     return (
         <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative">

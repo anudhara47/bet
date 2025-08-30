@@ -5,40 +5,30 @@ import { cn } from "@/lib/utils";
 import { ChevronLeft, ArrowDownToLine } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
+import { useUser } from "@/context/user-context";
 
-interface Transaction {
+interface DepositRequest {
     id: string;
+    userId: string;
     amount: number;
-    status: 'Successful' | 'Pending' | 'Failed';
-    date: string;
-    type: 'deposit' | 'withdrawal';
+    method: string;
+    utr: string;
+    screenshot: string;
+    timestamp: number;
+    status: 'pending' | 'approved' | 'rejected';
 }
 
-const generateRandomTransaction = (date: Date): Transaction => {
-    const statuses: ('Successful' | 'Pending' | 'Failed')[] = ['Successful', 'Successful', 'Successful', 'Pending', 'Failed'];
-    const status = statuses[Math.floor(Math.random() * statuses.length)];
-    const amount = Math.floor(Math.random() * 2000) + 50;
-    const id = `DEP-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
-    
-    return {
-        id,
-        amount,
-        status,
-        date: date.toLocaleString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', ''),
-        type: 'deposit',
-    };
-};
-
-const TransactionStatusBadge = ({ status }: { status: Transaction['status'] }) => {
+const TransactionStatusBadge = ({ status }: { status: DepositRequest['status'] }) => {
     const statusClasses = {
-        'Successful': 'bg-green-100 text-green-700',
-        'Pending': 'bg-yellow-100 text-yellow-700',
-        'Failed': 'bg-red-100 text-red-700'
+        'approved': 'bg-green-100 text-green-700',
+        'pending': 'bg-yellow-100 text-yellow-700',
+        'rejected': 'bg-red-100 text-red-700'
     };
-    return <span className={cn('px-2 py-1 text-xs font-semibold rounded-full', statusClasses[status])}>{status}</span>;
+    const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+    return <span className={cn('px-2 py-1 text-xs font-semibold rounded-full', statusClasses[status])}>{statusText}</span>;
 }
 
-const TransactionRow = ({ transaction }: { transaction: Transaction }) => {
+const TransactionRow = ({ transaction }: { transaction: DepositRequest }) => {
     return (
         <Card className="mb-3 shadow-md">
             <CardContent className="p-4 flex justify-between items-center">
@@ -48,12 +38,12 @@ const TransactionRow = ({ transaction }: { transaction: Transaction }) => {
                     </div>
                     <div>
                         <p className="font-bold text-lg">₹{transaction.amount.toFixed(2)}</p>
-                        <p className="text-xs text-muted-foreground">{transaction.id}</p>
+                        <p className="text-xs text-muted-foreground">{transaction.utr}</p>
                     </div>
                 </div>
                 <div className="text-right">
                     <TransactionStatusBadge status={transaction.status} />
-                    <p className="text-xs text-muted-foreground mt-2">{transaction.date}</p>
+                    <p className="text-xs text-muted-foreground mt-2">{new Date(transaction.timestamp).toLocaleString()}</p>
                 </div>
             </CardContent>
         </Card>
@@ -61,32 +51,17 @@ const TransactionRow = ({ transaction }: { transaction: Transaction }) => {
 }
 
 export default function DepositHistoryPage() {
-    const [depositHistory, setDepositHistory] = React.useState<Transaction[]>([]);
+    const { uid } = useUser();
+    const [depositHistory, setDepositHistory] = React.useState<DepositRequest[]>([]);
 
     React.useEffect(() => {
-        const generateHistory = () => {
-            const now = new Date();
-            const deposits: Transaction[] = [];
-
-            for (let i = 0; i < 30; i++) {
-                const pastDate = new Date(now);
-                pastDate.setDate(now.getDate() - i);
-                
-                const numDeposits = Math.floor(Math.random() * 3) + 1;
-                for(let j = 0; j < numDeposits; j++) {
-                    const randomHour = Math.floor(Math.random() * 24);
-                    const randomMinute = Math.floor(Math.random() * 60);
-                    const transactionDate = new Date(pastDate);
-                    transactionDate.setHours(randomHour, randomMinute);
-                    deposits.push(generateRandomTransaction(transactionDate));
-                }
-            }
-            deposits.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-            setDepositHistory(deposits);
-        };
-
-        generateHistory();
-    }, []);
+        if (uid) {
+            const allRequests = JSON.parse(localStorage.getItem('depositRequests') || '[]');
+            const userDeposits = allRequests.filter((req: DepositRequest) => req.userId === uid);
+            userDeposits.sort((a: DepositRequest, b: DepositRequest) => b.timestamp - a.timestamp);
+            setDepositHistory(userDeposits);
+        }
+    }, [uid]);
 
     return (
         <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative">

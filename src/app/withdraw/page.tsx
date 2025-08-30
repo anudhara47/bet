@@ -56,7 +56,7 @@ const bankList = [
 ];
 
 export default function WithdrawPage() {
-    const { balance, setBalance } = useUser();
+    const { balance, setBalance, uid } = useUser();
     const router = useRouter();
     const { toast } = useToast();
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
@@ -103,6 +103,7 @@ export default function WithdrawPage() {
 
         const withdrawalRequest = {
             id: `WDR-${Date.now()}`,
+            userId: uid,
             amount: data.amount,
             method: 'bank', // This would depend on the active tab
             timestamp: Date.now(),
