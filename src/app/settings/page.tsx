@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,15 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import { ChevronLeft, ChevronRight, Copy, Info, Lock, Mail } from "lucide-react";
-import Image from "next/image";
+import { ChevronLeft, ChevronRight, Copy, Info, Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
 export default function SettingsPage() {
   const { toast } = useToast();
   const [nickname, setNickname] = React.useState("DEVIL47K");
-  const [avatar, setAvatar] = React.useState("https://picsum.photos/80/80");
+  const [avatar, setAvatar] = React.useState<string | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,14 +72,15 @@ export default function SettingsPage() {
           <CardContent className="p-0">
             <div className="flex items-center justify-between p-4">
               <div className="flex items-center gap-4">
-                <Image
-                  src={avatar}
-                  width={64}
-                  height={64}
-                  alt="User Avatar"
-                  className="rounded-full"
-                  data-ai-hint="woman face"
-                />
+                <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
+                    {avatar ? (
+                        // This part is not ideal for real apps as it's not storing the image anywhere.
+                        // It's just for display simulation.
+                        <div className="w-16 h-16 rounded-full bg-cover bg-center" style={{ backgroundImage: `url(${avatar})`}}></div>
+                    ) : (
+                        <User className="w-8 h-8 text-gray-400" />
+                    )}
+                </div>
               </div>
               <input type="file" ref={fileInputRef} onChange={handleAvatarChange} accept="image/*" className="hidden" />
               <div className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer" onClick={() => fileInputRef.current?.click()}>

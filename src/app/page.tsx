@@ -3,7 +3,6 @@
 import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle, Landmark, Bot } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import Link from "next/link";
@@ -369,8 +368,8 @@ export default function HomePage() {
           </CardContent>
         </Card>
 
-        <div className="relative">
-            <Image src="https://picsum.photos/600/200?random=1" alt="Moto Racing" width={600} height={200} className="rounded-lg" data-ai-hint="motorcycle racing" />
+        <div className="relative h-40 bg-gray-200 rounded-lg flex items-center justify-center">
+            <span className="text-muted-foreground">Image Removed</span>
         </div>
 
         <div className="grid grid-cols-5 gap-1">
@@ -395,8 +394,7 @@ export default function HomePage() {
           </div>
            <div className="grid grid-cols-1 gap-2 sm:gap-4">
              <Link href="/super-jackpot">
-                <Card className="rounded-lg overflow-hidden relative h-36">
-                    <Image src="https://picsum.photos/600/250?random=51" alt="Super Jackpot" layout="fill" objectFit="cover" className="w-full h-full" data-ai-hint="gold coins treasure chest" />
+                <Card className="rounded-lg overflow-hidden relative h-36 bg-gray-200">
                     <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center">
                         <h3 className="text-3xl font-bold text-white tracking-widest">SUPER JACKPOT</h3>
                         <p className="text-yellow-300 text-sm mt-2">Play games to win massive prizes!</p>
@@ -597,7 +595,7 @@ export default function HomePage() {
             <div className="relative flex justify-center items-end h-48">
               {/* Rank 2 */}
               <div className="absolute bottom-0 left-0 text-center flex flex-col items-center">
-                  <Image src={topEarners[1].avatar} alt="Winner" width={50} height={50} className="rounded-full border-2 border-orange-300" data-ai-hint="woman face" />
+                  <div className="w-[50px] h-[50px] rounded-full bg-gray-200 border-2 border-orange-300"></div>
                   <div className="text-sm font-bold text-orange-500">{topEarners[1].user}</div>
                   <div className="text-xs text-muted-foreground">{topEarners[1].amount}</div>
                   <div className="bg-orange-200/50 rounded-lg p-4 pt-8 w-24 h-20 flex flex-col justify-end items-center relative -mt-6">
@@ -608,7 +606,7 @@ export default function HomePage() {
               {/* Rank 1 */}
               <div className="relative text-center flex flex-col items-center z-10">
                   <Crown className="text-yellow-400 w-8 h-8 absolute -top-6" />
-                  <Image src={topEarners[0].avatar} alt="Winner" width={60} height={60} className="rounded-full border-2 border-red-400" data-ai-hint="woman face" />
+                  <div className="w-[60px] h-[60px] rounded-full bg-gray-200 border-2 border-red-400"></div>
                   <div className="text-md font-bold text-red-500">{topEarners[0].user}</div>
                   <div className="text-sm text-muted-foreground">{topEarners[0].amount}</div>
                   <div className="bg-red-200/50 rounded-lg p-4 pt-10 w-28 h-24 flex flex-col justify-end items-center relative -mt-6">
@@ -618,7 +616,7 @@ export default function HomePage() {
               
               {/* Rank 3 */}
               <div className="absolute bottom-0 right-0 text-center flex flex-col items-center">
-                  <Image src={topEarners[2].avatar} alt="Winner" width={50} height={50} className="rounded-full border-2 border-yellow-300" data-ai-hint="woman face" />
+                  <div className="w-[50px] h-[50px] rounded-full bg-gray-200 border-2 border-yellow-300"></div>
                   <div className="text-sm font-bold text-yellow-500">{topEarners[2].user}</div>
                   <div className="text-xs text-muted-foreground">{topEarners[2].amount}</div>
                   <div className="bg-yellow-200/50 rounded-lg p-4 pt-8 w-24 h-20 flex flex-col justify-end items-center relative -mt-6">
@@ -632,7 +630,7 @@ export default function HomePage() {
                 <div key={earner.rank} className="flex items-center justify-between p-2 rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="font-bold text-lg w-6 text-center">{earner.rank}</div>
-                    <Image src={earner.avatar} alt="User" width={40} height={40} className="rounded-full" data-ai-hint="woman face" />
+                    <div className="w-[40px] h-[40px] rounded-full bg-gray-200"></div>
                     <span className="font-semibold text-sm">{earner.user}</span>
                   </div>
                   <span className="font-bold text-red-500 text-sm">{earner.amount}</span>
@@ -679,4 +677,3 @@ export default function HomePage() {
     </div>
   );
 }
-

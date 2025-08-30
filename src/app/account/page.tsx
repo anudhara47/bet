@@ -1,3 +1,4 @@
+
 'use client';
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -5,7 +6,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent, Settings, MessageCircle, LogOut, FileQuestion, Megaphone, BookOpen, Building } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { useLanguage } from "@/context/language-context";
@@ -145,7 +145,9 @@ export default function AccountPage() {
     <div className="min-h-screen bg-neutral-100 text-foreground pb-40 max-w-lg mx-auto relative">
       <div className="bg-gradient-to-b from-red-400 to-red-500 text-white p-4">
         <div className="flex items-center gap-4">
-          <Image src="https://picsum.photos/80/80" width={80} height={80} alt="User Avatar" className="rounded-full border-2 border-white" data-ai-hint="woman face" />
+          <div className="w-20 h-20 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center">
+            <User className="w-10 h-10 text-gray-400" />
+          </div>
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-xl font-bold">DEVIL47K</h1>

@@ -4,7 +4,6 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Activity, HomeIcon, Landmark, User, Gift, Trophy, Users, Star, Disc } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
@@ -86,7 +85,7 @@ export default function ActivityPage() {
                 <Card className="rounded-xl shadow-lg overflow-hidden h-full">
                     <CardContent className="p-0">
                         <div className="bg-red-200 h-24 flex items-center justify-center">
-                            <Image src="https://picsum.photos/150/100" width={150} height={100} alt="Gifts" className="object-cover" data-ai-hint="red envelopes" />
+                           <Gift className="w-12 h-12 text-red-500" />
                         </div>
                         <div className="p-3">
                             <h3 className="font-bold">Gifts</h3>
@@ -99,7 +98,7 @@ export default function ActivityPage() {
                 <Card className="rounded-xl shadow-lg overflow-hidden h-full">
                     <CardContent className="p-0">
                         <div className="bg-yellow-100 h-24 flex items-center justify-center">
-                            <Image src="https://picsum.photos/150/100" width={150} height={100} alt="Attendance bonus" className="object-cover" data-ai-hint="calendar gift" />
+                           <Star className="w-12 h-12 text-yellow-500" />
                         </div>
                         <div className="p-3">
                             <h3 className="font-bold">Attendance bonus</h3>
@@ -111,10 +110,9 @@ export default function ActivityPage() {
         </div>
 
         <Link href="/cross-the-road-challenge">
-            <Card className="rounded-xl shadow-lg overflow-hidden">
-                <Image src="https://picsum.photos/600/250" width={600} height={250} alt="Cross-the-road challenge" className="w-full" data-ai-hint="chicken game event" />
-                <CardContent className="p-3">
-                    <h3 className="font-semibold text-center">CROSS-THE-ROAD CHALLENGE</h3>
+            <Card className="rounded-xl shadow-lg overflow-hidden bg-green-200 h-36 flex items-center justify-center">
+                <CardContent className="p-3 text-center">
+                    <h3 className="font-semibold text-green-800">CROSS-THE-ROAD CHALLENGE</h3>
                 </CardContent>
             </Card>
         </Link>
