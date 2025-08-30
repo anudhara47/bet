@@ -1,4 +1,3 @@
-
 'use client';
 import { Activity, ArrowDownCircle, ArrowUpCircle, BarChart3, ChevronLeft, ChevronRight, Crown, Download, Fish, Flame, Gamepad2, Heart, Home as HomeIcon, House, Percent, RefreshCw, Star, User, HeartCrack, Trophy, Ticket, MessageCircle, Landmark, Bot } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -435,11 +434,8 @@ export default function HomePage() {
           </div>
           <p className="text-xs text-muted-foreground mb-2">The games are independently developed by our team, fun, fair, and safe</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
-              <LotteryCard href="/lottery/win-go" Icon={WinGoIcon} label="WIN GO" />
               <LotteryCard href="/lottery/k3" Icon={K3Icon} label="K3" />
               <LotteryCard href="/lottery/5d" Icon={FiveDIcon} label="5D" />
-              <LotteryCard href="/lottery/trx-wingo" Icon={TrxWingoIcon} label="TRX WINGO" />
-              <LotteryCard href="/lottery/trx" Icon={TrxWingoIcon} label="TRX" />
           </div>
         </div>
 
