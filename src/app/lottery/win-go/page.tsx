@@ -76,15 +76,16 @@ const getResultForPeriod = (periodId: string) => {
 export default function WinGoPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
     const [timeLeft, setTimeLeft] = React.useState(0);
-    const [periodId, setPeriodId] = React.useState('');
+    const [periodId, setPeriodId] = React.useState<string | null>(null);
     const [gameHistory, setGameHistory] = React.useState<ReturnType<typeof getResultForPeriod>[]>([]);
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     
+    // Using a fixed date in the past to avoid issues with client/server time differences
+    const [baseTime] = React.useState(new Date("2025-08-30T00:00:00.000Z").getTime());
+    const [basePeriod] = React.useState(BigInt("20250830100051475"));
+
     // Function to calculate the current period ID
     const calculateCurrentPeriod = React.useCallback((interval: number) => {
-        const basePeriod = BigInt("20250830100050737");
-        // Using a fixed date in the past to avoid issues with client/server time differences
-        const baseTime = new Date("2025-08-30T00:00:00.000Z").getTime();
         const now = Date.now();
         const diffInSeconds = Math.floor((now - baseTime) / 1000);
         const periodsPassed = Math.floor(diffInSeconds / interval);
@@ -94,19 +95,18 @@ export default function WinGoPage() {
         const newTimeLeft = interval - secondsIntoCurrentPeriod;
 
         return { currentPeriodId: currentPeriodId.toString(), newTimeLeft };
-    }, []);
+    }, [baseTime, basePeriod]);
 
     // Effect for initializing and updating the timer
     React.useEffect(() => {
-        const { currentPeriodId, newTimeLeft } = calculateCurrentPeriod(gameInterval);
-        setPeriodId(currentPeriodId);
-        setTimeLeft(newTimeLeft);
+        const updateTimer = () => {
+            const { currentPeriodId, newTimeLeft } = calculateCurrentPeriod(gameInterval);
+            setPeriodId(currentPeriodId);
+            setTimeLeft(newTimeLeft);
+        };
 
-        const timer = setInterval(() => {
-             const { currentPeriodId, newTimeLeft } = calculateCurrentPeriod(gameInterval);
-             setPeriodId(currentPeriodId);
-             setTimeLeft(newTimeLeft);
-        }, 1000);
+        updateTimer();
+        const timer = setInterval(updateTimer, 1000);
 
         return () => clearInterval(timer);
     }, [gameInterval, calculateCurrentPeriod]);
@@ -117,9 +117,12 @@ export default function WinGoPage() {
 
         const history = [];
         const currentPeriodBigInt = BigInt(periodId);
+        // Ensure we don't show history for future periods if client time is ahead
         for (let i = 0; i < 10; i++) {
-            const pastPeriodId = (currentPeriodBigInt - BigInt(i + 1)).toString();
-            history.push(getResultForPeriod(pastPeriodId));
+             const pastPeriodId = (currentPeriodBigInt - BigInt(i + 1));
+             if(pastPeriodId > 0) { // Check to ensure we are not creating negative period Ids
+                history.push(getResultForPeriod(pastPeriodId.toString()));
+             }
         }
         setGameHistory(history);
     }, [periodId]);
@@ -406,8 +409,3 @@ export default function WinGoPage() {
     )
 
 }
-
-    
-    
-
-    
