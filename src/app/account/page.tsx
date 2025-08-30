@@ -12,6 +12,7 @@ import { useLanguage } from "@/context/language-context";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { useNotification } from "@/context/notification-context";
 
 const ArWalletIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -84,6 +85,7 @@ const WithdrawHistoryIcon = () => (
 
 export default function AccountPage() {
   const { language, setLanguage, translations } = useLanguage();
+  const { addNotification, unreadCount } = useNotification();
   const { toast } = useToast();
   const router = useRouter();
   const [isRefreshing, setIsRefreshing] = React.useState(false);
@@ -100,6 +102,13 @@ export default function AccountPage() {
       localStorage.setItem('user-uid', newUid);
       setUid(newUid);
     }
+
+    addNotification({
+        type: 'login',
+        title: 'Login Successful',
+        message: 'Welcome back to your account.',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const t = translations.account_page;
@@ -148,7 +157,7 @@ export default function AccountPage() {
   ];
   
   const infoLinks = [
-      { icon: <Bell className="text-red-500" />, label: t.notification, badge: 23, href: "/notifications" },
+      { icon: <Bell className="text-red-500" />, label: t.notification, badge: unreadCount, href: "/notifications" },
       { icon: <Gift className="text-red-500" />, label: t.gifts, href: "/gifts" },
       { icon: <BarChart className="text-red-500" />, label: t.game_statistics, href: "/statistics" },
   ];
@@ -229,12 +238,15 @@ export default function AccountPage() {
                     <React.Fragment key={link.href}>
                         <Link href={link.href}>
                             <div className="flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer">
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 relative">
+                                    {link.label === t.notification && unreadCount > 0 && 
+                                        <div className="absolute -top-1 -left-1 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-card"></div>
+                                    }
                                     {link.icon}
                                     <span className="font-semibold">{link.label}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    {link.badge && <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">{link.badge}</span>}
+                                    {link.badge && link.badge > 0 && <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">{link.badge}</span>}
                                     <ChevronRight className="text-muted-foreground" />
                                 </div>
                             </div>
