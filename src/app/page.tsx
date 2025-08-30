@@ -35,7 +35,7 @@ const GameCard = ({ href, imageSrc, label, dataAiHint }: { href: string; imageSr
 export default function HomePage() {
     const { toast } = useToast();
     const autoplayPlugin = React.useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
-    const recommendedAutoplayPlugin = React.useRef(Autoplay({ delay: 1000, stopOnInteraction: true }));
+    const recommendedAutoplayPlugin = React.useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
 
     const mainCategories = [
         { icon: <Trophy className="w-8 h-8 text-yellow-500" />, label: "Lottery", href: "/lottery/wingo-30s" },
