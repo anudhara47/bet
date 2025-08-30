@@ -90,9 +90,10 @@ export default function AccountPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [isRefreshing, setIsRefreshing] = React.useState(false);
-  const { uid, nickname, balance } = useUser();
+  const { uid, email, nickname, balance } = useUser();
   const [pendingDepositCount, setPendingDepositCount] = React.useState(0);
 
+  const adminEmail = 'bdhara47@gmail.com';
 
   React.useEffect(() => {
     addNotification({
@@ -141,16 +142,21 @@ export default function AccountPage() {
     router.push("/");
   }
 
-  const serviceCenterItems = [
+  const baseServiceItems = [
     { icon: <Settings className="text-primary" />, label: t.service_center.settings, href: "/settings" },
     { icon: <FileQuestion className="text-primary" />, label: t.service_center.feedback, href: "/feedback" },
     { icon: <Megaphone className="text-primary" />, label: t.service_center.announcement, href: "/announcement" },
     { icon: <MessageCircle className="text-primary" />, label: t.service_center.customer_service, href: "/customer-service" },
     { icon: <BookOpen className="text-primary" />, label: t.service_center.beginners_guide, href: "/guide" },
     { icon: <Building className="text-primary" />, label: t.service_center.about_us, href: "/about" },
+  ];
+
+  const adminServiceItems = [
     { icon: <ArrowDownCircle className="text-primary" />, label: "Admin Deposits", href: "/admin/deposits", badge: pendingDepositCount },
     { icon: <ArrowUpCircle className="text-primary" />, label: "Admin Withdrawals", href: "/admin/withdrawals" },
-  ];
+  ]
+
+  const serviceCenterItems = email === adminEmail ? [...baseServiceItems, ...adminServiceItems] : baseServiceItems;
   
   const mainWalletActions = [
     { icon: <ArWalletIcon/>, label: t.ar_wallet, href: '/wallet' },

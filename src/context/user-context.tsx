@@ -5,6 +5,7 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 // Types
 interface UserContextType {
   uid: string | null;
+  email: string | null;
   nickname: string;
   setNickname: (name: string) => void;
   avatar: string | null;
@@ -19,6 +20,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [uid, setUid] = useState<string | null>(null);
+    const [email, setEmail] = useState<string | null>('bdhara47@gmail.com'); // Hardcoded for admin demo
     const [nickname, setNickname] = useState('DEVIL47K');
     const [avatar, setAvatar] = useState<string | null>(null);
     const [balance, setBalance] = useState(305.77);
@@ -103,6 +105,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     const value = {
         uid,
+        email,
         nickname,
         setNickname: handleSetNickname,
         avatar,
