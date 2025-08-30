@@ -21,6 +21,7 @@ export interface UserData {
     invitees: Invitees;
     claimedInvitationBonuses: number[];
     blocked: boolean;
+    hasDeposited: boolean;
 }
 
 export interface ExpHistoryItem {
@@ -68,6 +69,8 @@ interface UserContextType {
   unblockUser: (uid: string) => void;
   login: (identifier: string, password?: string) => 'success' | 'blocked' | 'not_found';
   logout: () => void;
+  hasDeposited: boolean;
+  markAsDeposited: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -102,6 +105,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [claimedInvitationBonuses, setClaimedInvitationBonuses] = useState<number[]>([]);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
     const [isBlocked, setIsBlocked] = useState(false);
+    const [hasDeposited, setHasDeposited] = useState(false);
 
     const clearLocalStorage = () => {
         Object.keys(localStorage).forEach(key => {
@@ -127,6 +131,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setInvitees(user.invitees);
         setClaimedInvitationBonuses(user.claimedInvitationBonuses);
         setIsBlocked(user.blocked);
+        setHasDeposited(user.hasDeposited);
     }
     
     useEffect(() => {
@@ -174,8 +179,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 password: password,
                 nickname: `User${newUid.substring(0, 4)}`,
                 avatar: null,
-                balance: 305.77,
-                thirdPartyBalance: 150.00,
+                balance: 30.00,
+                thirdPartyBalance: 0,
                 experience: 0,
                 usedCodes: [],
                 claimedLevels: [1],
@@ -185,6 +190,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 invitees: { count: 1, rechargedCount: 1 },
                 claimedInvitationBonuses: [1],
                 blocked: false,
+                hasDeposited: false,
             };
             
             saveUser(newUser);
@@ -212,13 +218,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setInvitees({ count: 0, rechargedCount: 0 });
         setClaimedInvitationBonuses([]);
         setIsBlocked(false);
+        setHasDeposited(false);
     }, []);
 
     const getUserData = (): UserData | null => {
         if(!uid) return null;
         return {
             uid, email, nickname, avatar, balance, thirdPartyBalance, experience, usedCodes, claimedLevels,
-            lastMonthlyClaim, totalDepositAmount, totalWithdrawalAmount, invitees, claimedInvitationBonuses, blocked: isBlocked
+            lastMonthlyClaim, totalDepositAmount, totalWithdrawalAmount, invitees, claimedInvitationBonuses, blocked: isBlocked, hasDeposited
         };
     };
     
@@ -267,7 +274,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
     const claimMonthlyReward = () => updateUser({ lastMonthlyClaim: Date.now() });
     const addDepositAmount = (amount: number) => {
-       updateUser({ totalDepositAmount: totalDepositAmount + amount });
+       updateUser({ 
+           totalDepositAmount: totalDepositAmount + amount,
+           hasDeposited: true 
+        });
     };
     const addWithdrawalAmount = (amount: number) => {
         updateUser({ totalWithdrawalAmount: totalWithdrawalAmount + amount });
@@ -288,6 +298,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         const updatedUsers = allUsers.map((u: UserData) => u.uid === userUid ? { ...u, blocked: false } : u);
         saveToLocalStorage('allUsers', updatedUsers);
     }
+    const markAsDeposited = () => {
+        updateUser({ hasDeposited: true });
+    }
+
 
     const value = {
         uid, email, nickname, setNickname: handleSetNickname, avatar, setAvatar: handleSetAvatar,
@@ -295,7 +309,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         usedCodes, addUsedCode, redeemGlobalCode, hasClaimedLevel, addClaimedLevel, expHistory,
         lastMonthlyClaim, claimMonthlyReward, totalDepositAmount, addDepositAmount, totalWithdrawalAmount,
         addWithdrawalAmount, invitees, claimedInvitationBonuses, addClaimedInvitationBonus,
-        isBlocked, blockUser, unblockUser, login, logout
+        isBlocked, blockUser, unblockUser, login, logout, hasDeposited, markAsDeposited
     };
 
     return (

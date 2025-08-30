@@ -32,7 +32,6 @@ interface DepositRequest {
 
 export default function AdminDepositsPage() {
     const { toast } = useToast();
-    const { addDepositAmount } = useUser();
     const [requests, setRequests] = React.useState<DepositRequest[]>([]);
     
     const fetchRequests = () => {
@@ -45,23 +44,31 @@ export default function AdminDepositsPage() {
     }, []);
 
     const handleAction = (requestId: string, newStatus: 'approved' | 'rejected') => {
+        let depositAmount = 0;
+        let depositUserId = '';
+        
         const updatedRequests = requests.map(req => {
             if (req.id === requestId) {
-                // If approving, update user balance
                 if (newStatus === 'approved' && req.status === 'pending') {
-                    const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
-                    const userIndex = allUsers.findIndex((u: any) => u.uid === req.userId);
-                    if (userIndex !== -1) {
-                        allUsers[userIndex].balance += req.amount;
-                        localStorage.setItem('allUsers', JSON.stringify(allUsers));
-                        // This assumes the admin view doesn't need to interact with the current user's context directly
-                        // A more robust system would use a global state manager or API calls.
-                    }
+                    depositAmount = req.amount;
+                    depositUserId = req.userId;
                 }
                 return { ...req, status: newStatus };
             }
             return req;
         });
+
+        if (newStatus === 'approved' && depositAmount > 0 && depositUserId) {
+            const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+            const userIndex = allUsers.findIndex((u: any) => u.uid === depositUserId);
+            
+            if (userIndex !== -1) {
+                allUsers[userIndex].balance += depositAmount;
+                allUsers[userIndex].totalDepositAmount = (allUsers[userIndex].totalDepositAmount || 0) + depositAmount;
+                allUsers[userIndex].hasDeposited = true; // Set hasDeposited flag
+                localStorage.setItem('allUsers', JSON.stringify(allUsers));
+            }
+        }
 
         localStorage.setItem('depositRequests', JSON.stringify(updatedRequests));
         setRequests(updatedRequests);

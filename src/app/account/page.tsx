@@ -91,7 +91,7 @@ export default function AccountPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [isRefreshing, setIsRefreshing] = React.useState(false);
-  const { uid, email, nickname, balance, logout } = useUser();
+  const { uid, email, nickname, balance, logout, hasDeposited } = useUser();
   const [pendingDepositCount, setPendingDepositCount] = React.useState(0);
 
   const adminEmail = 'bdhara47@gmail.com';
@@ -114,18 +114,26 @@ export default function AccountPage() {
   React.useEffect(() => {
     const checkPendingDeposits = () => {
         const storedRequests = JSON.parse(localStorage.getItem('depositRequests') || '[]');
-        const pendingCount = storedRequests.filter((req: any) => req.status === 'pending').length;
-        setPendingDepositCount(pendingCount);
+        const userPendingCount = storedRequests.filter((req: any) => req.userId === uid && req.status === 'pending').length;
+        setPendingDepositCount(userPendingCount);
     };
-    checkPendingDeposits();
 
-    const handleFocus = () => checkPendingDeposits();
-    window.addEventListener('focus', handleFocus);
+    const checkAdminPendingDeposits = () => {
+         const storedRequests = JSON.parse(localStorage.getItem('depositRequests') || '[]');
+         const adminPendingCount = storedRequests.filter((req: any) => req.status === 'pending').length;
+         setPendingDepositCount(adminPendingCount);
+    }
     
-    return () => {
-        window.removeEventListener('focus', handleFocus);
-    };
-  }, []);
+    if (email === adminEmail) {
+        checkAdminPendingDeposits();
+        window.addEventListener('focus', checkAdminPendingDeposits);
+        return () => window.removeEventListener('focus', checkAdminPendingDeposits);
+    } else {
+        checkPendingDeposits();
+        window.addEventListener('focus', checkPendingDeposits);
+        return () => window.removeEventListener('focus', checkPendingDeposits);
+    }
+  }, [uid, email, adminEmail]);
 
   const t = translations.account_page;
 
@@ -373,4 +381,3 @@ export default function AccountPage() {
   );
 }
 
-    

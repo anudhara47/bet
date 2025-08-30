@@ -13,6 +13,9 @@ import { useWingoGame } from "@/context/wingo-game-context";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/context/user-context";
 import { Input } from "@/components/ui/input";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { useRouter } from "next/navigation";
+
 
 const WalletIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-300">
@@ -62,15 +65,26 @@ export default function Wingo30sPage() {
         myBets
     } = useWingoGame();
     const { toast } = useToast();
-    const { balance, setBalance } = useUser();
+    const { balance, setBalance, hasDeposited } = useUser();
     const [betAmount, setBetAmount] = React.useState(1);
     const [betSelection, setBetSelection] = React.useState<string | null>(null);
+    const [isDepositAlertOpen, setIsDepositAlertOpen] = React.useState(false);
+    const router = useRouter();
+
 
     const handleBetSelection = (selection: string) => {
+        if (!hasDeposited) {
+            setIsDepositAlertOpen(true);
+            return;
+        }
         setBetSelection(selection);
     }
     
     const handlePlaceBet = () => {
+        if (!hasDeposited) {
+            setIsDepositAlertOpen(true);
+            return;
+        }
         if (!betSelection) {
             toast({ title: "Please make a selection first.", variant: "destructive" });
             return;
@@ -107,6 +121,20 @@ export default function Wingo30sPage() {
     
     return (
         <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative">
+            <AlertDialog open={isDepositAlertOpen} onOpenChange={setIsDepositAlertOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Deposit Required</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Please make a deposit of at least ₹100 to start playing games.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => router.push('/deposit')}>Go to Deposit</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
             <header className="bg-white text-gray-800 p-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
                 <Link href="/" className="text-gray-800">
                     <ChevronLeft className="w-6 h-6" />
@@ -359,5 +387,3 @@ export default function Wingo30sPage() {
         </div>
     )
 }
-
-    
