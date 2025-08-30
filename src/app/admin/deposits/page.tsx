@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, Users, History, LayoutDashboard, Gift, Wallet, UserX, Star, ArrowDownCircle, ArrowUpCircle, Settings, FileText, ShieldCheck, BarChart, Bell, Edit, ShieldAlert, Database, Cloud } from "lucide-react";
+import { ChevronLeft, ChevronRight, Users, History, LayoutDashboard, Gift, Wallet, UserX, Star, ArrowDownCircle, ArrowUpCircle, Settings, FileText, ShieldCheck, BarChart, Bell, Edit, ShieldAlert, Database, Cloud, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
