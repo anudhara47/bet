@@ -149,6 +149,22 @@ export default function VipPage() {
         {
             title: "Downgrade standard",
             content: "If a VIP member fails to complete the corresponding level maintenance requirements within 30 days, the system will automatically deduct the experience points corresponding to the level. If the experience points are insufficient, the level will be downgraded, and the corresponding discounts will be adjusted to the downgraded level accordingly."
+        },
+        {
+            title: "Upgrade Bonus",
+            content: "The upgrade benefits can be claimed on the VIP page after the member reaches the VIP membership level, and each VIP member can only get the upgrade reward of each level once."
+        },
+        {
+            title: "Monthly reward",
+            content: "VIP members can earn the highest level of VIP rewards once a month.Can only be received once a month. Prizes cannot be accumulated. And any unclaimed rewards will be refreshed on the next settlement day. When receiving the highest level of monthly rewards this month Monthly Rewards earned in this month will be deducted e.g. when VIP1 earns 500 and upgrades to VIP2 to receive monthly rewards 500 will be deducted."
+        },
+        {
+            title: "Real-time rebate",
+            content: "The higher the VIP level, the higher the return rate, all the games are calculated in real time and can be self-rewarded!"
+        },
+        {
+            title: "Safe",
+            content: "VIP members who have reached the corresponding level will get additional benefits on safe deposit based on the member's VIP level."
         }
     ]
 
@@ -159,6 +175,9 @@ export default function VipPage() {
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
                 <h1 className="font-bold text-xl mx-auto">VIP</h1>
+                 <div className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                    <MessageCircle className="w-6 h-6 text-white" />
+                </div>
             </header>
 
             <main className="space-y-4">
