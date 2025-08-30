@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/context/user-context";
-import { ChevronLeft, Landmark, Wallet, CircleUser, Phone, Hash, Pencil, AlertTriangle, ShieldCheck } from "lucide-react";
+import { ChevronLeft, Landmark, Wallet, CircleUser, Phone, Hash, Pencil, AlertTriangle, ShieldCheck, Diamond } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -63,6 +63,7 @@ export default function WithdrawPage() {
 
     const [bankDetails, setBankDetails] = React.useState<BankDetails | null>(null);
     const [upiDetails, setUpiDetails] = React.useState<UpiDetails | null>(null);
+    const [remainingWithdrawals, setRemainingWithdrawals] = React.useState(2);
 
     // Load saved details from localStorage
     React.useEffect(() => {
@@ -77,12 +78,21 @@ export default function WithdrawPage() {
     }, []);
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
+        if(remainingWithdrawals <= 0) {
+            toast({ title: "No remaining withdrawal times for today.", variant: 'destructive' });
+            return;
+        }
+
         if (data.amount > balance) {
             toast({ title: "Insufficient balance", variant: 'destructive' });
             return;
         }
-        if (data.amount < 100) {
-            toast({ title: "Minimum withdrawal is ₹100", variant: 'destructive' });
+        if (data.amount < 110) {
+            toast({ title: "Minimum withdrawal is ₹110.00", variant: 'destructive' });
+            return;
+        }
+        if (data.amount > 200000) {
+            toast({ title: "Maximum withdrawal is ₹200,000.00", variant: 'destructive' });
             return;
         }
         // This is a dummy password check
@@ -101,7 +111,8 @@ export default function WithdrawPage() {
 
         const existingRequests = JSON.parse(localStorage.getItem('withdrawalRequests') || '[]');
         localStorage.setItem('withdrawalRequests', JSON.stringify([withdrawalRequest, ...existingRequests]));
-
+        setRemainingWithdrawals(prev => prev - 1);
+        
         toast({
             title: "Withdrawal Request Submitted",
             description: "Your request is under review. Please wait for admin approval.",
@@ -112,7 +123,7 @@ export default function WithdrawPage() {
 
     return (
         <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative">
-            <header className="bg-red-500 text-white p-4 flex items-center gap-4 sticky top-0 z-10">
+            <header className="bg-primary text-white p-4 flex items-center gap-4 sticky top-0 z-10">
                 <Link href="/account" className="text-white">
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
@@ -132,9 +143,9 @@ export default function WithdrawPage() {
                 </Card>
 
                 <Tabs defaultValue="bank" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 bg-red-100/80 text-red-900 rounded-lg">
-                        <TabsTrigger value="bank" className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-md">Bank Account</TabsTrigger>
-                        <TabsTrigger value="upi" className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-md">UPI</TabsTrigger>
+                    <TabsList className="grid w-full grid-cols-2 bg-yellow-100/80 text-yellow-900 rounded-lg">
+                        <TabsTrigger value="bank" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md rounded-md">Bank Account</TabsTrigger>
+                        <TabsTrigger value="upi" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md rounded-md">UPI</TabsTrigger>
                     </TabsList>
                     <TabsContent value="bank" className="mt-4">
                         {bankDetails ? <SavedBankCard details={bankDetails} /> : <AddBankCardForm setBankDetails={setBankDetails} />}
@@ -167,10 +178,39 @@ export default function WithdrawPage() {
                                 />
                                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
                             </div>
-                            <Button type="submit" className="w-full bg-red-500 hover:bg-red-600 py-6 text-lg">
+                            <Button type="submit" className="w-full bg-primary hover:bg-primary/90 py-6 text-lg">
                                 Withdraw
                             </Button>
                         </form>
+                    </CardContent>
+                </Card>
+
+                 <Card>
+                    <CardContent className="p-4 text-muted-foreground text-sm space-y-2">
+                        <div className="flex items-start gap-2">
+                            <Diamond className="w-3 h-3 text-red-500 mt-1.5 flex-shrink-0" fill="currentColor"/>
+                            <p>Need to bet <span className="text-primary font-semibold">₹0.00</span> to be able to withdraw</p>
+                        </div>
+                         <div className="flex items-start gap-2">
+                            <Diamond className="w-3 h-3 text-red-500 mt-1.5 flex-shrink-0" fill="currentColor"/>
+                            <p>Withdraw time <span className="text-primary font-semibold">00:05-23:55</span></p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                            <Diamond className="w-3 h-3 text-red-500 mt-1.5 flex-shrink-0" fill="currentColor"/>
+                            <p>Today Remaining Withdrawal Times: <span className="text-primary font-semibold">{remainingWithdrawals}</span></p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                            <Diamond className="w-3 h-3 text-red-500 mt-1.5 flex-shrink-0" fill="currentColor"/>
+                            <p>Withdrawal amount range <span className="text-primary font-semibold">₹110.00-₹200,000.00</span></p>
+                        </div>
+                         <div className="flex items-start gap-2">
+                            <Diamond className="w-3 h-3 text-red-500 mt-1.5 flex-shrink-0" fill="currentColor"/>
+                            <p>Please confirm your beneficial account information before withdrawing. If your information is incorrect, our company will not be liable for the amount of loss</p>
+                        </div>
+                         <div className="flex items-start gap-2">
+                            <Diamond className="w-3 h-3 text-red-500 mt-1.5 flex-shrink-0" fill="currentColor"/>
+                            <p>If your beneficial information is incorrect, please contact customer service</p>
+                        </div>
                     </CardContent>
                 </Card>
             </main>
@@ -353,6 +393,5 @@ const SavedUpiCard = ({ details }: { details: UpiDetails }) => (
         </CardContent>
     </Card>
 );
-
 
     
