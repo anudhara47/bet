@@ -20,6 +20,8 @@ interface UserContextType {
   setAvatar: (url: string | null) => void;
   balance: number;
   setBalance: React.Dispatch<React.SetStateAction<number>>;
+  thirdPartyBalance: number;
+  transferToMainWallet: () => void;
   experience: number;
   addExperience: (amount: number, reason: string) => void;
   usedCodes: string[];
@@ -43,6 +45,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [nickname, setNickname] = useState('DEVIL47K');
     const [avatar, setAvatar] = useState<string | null>(null);
     const [balance, setBalance] = useState(305.77);
+    const [thirdPartyBalance, setThirdPartyBalance] = useState(150.00); // Demo amount
     const [experience, setExperience] = useState(0);
     const [usedCodes, setUsedCodes] = useState<string[]>([]);
     const [claimedLevels, setClaimedLevels] = useState<number[]>([]);
@@ -78,6 +81,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         const storedBalance = localStorage.getItem('user-balance');
         if (storedBalance) {
             setBalance(parseFloat(storedBalance));
+        }
+
+        // Third Party Balance
+        const storedThirdPartyBalance = localStorage.getItem('user-third-party-balance');
+        if (storedThirdPartyBalance) {
+            setThirdPartyBalance(parseFloat(storedThirdPartyBalance));
         }
         
         // Experience
@@ -144,6 +153,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         if (isInitialLoad) return;
+        localStorage.setItem('user-third-party-balance', thirdPartyBalance.toString());
+    }, [thirdPartyBalance, isInitialLoad]);
+
+    useEffect(() => {
+        if (isInitialLoad) return;
         localStorage.setItem('user-experience', experience.toString());
     }, [experience, isInitialLoad]);
 
@@ -188,6 +202,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     const handleSetAvatar = (url: string | null) => {
         setAvatar(url);
+    };
+
+    const transferToMainWallet = () => {
+        setBalance(prev => prev + thirdPartyBalance);
+        setThirdPartyBalance(0);
     };
 
     const addExperience = (amount: number, reason: string) => {
@@ -237,6 +256,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setAvatar: handleSetAvatar,
         balance,
         setBalance,
+        thirdPartyBalance,
+        transferToMainWallet,
         experience,
         addExperience,
         usedCodes,

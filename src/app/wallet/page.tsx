@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useUser } from "@/context/user-context";
+import { useToast } from "@/hooks/use-toast";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
@@ -103,13 +104,12 @@ const CircularProgress = ({ percentage, label, amount }: { percentage: number, l
 
 
 export default function WalletPage() {
-    const { balance, totalDepositAmount, totalWithdrawalAmount } = useUser();
+    const { balance, totalDepositAmount, totalWithdrawalAmount, thirdPartyBalance, transferToMainWallet } = useUser();
+    const { toast } = useToast();
     
-    // These are placeholders. You can wire them up to real state management.
-    const thirdPartyBalance = 0;
-
-    const mainWalletPercentage = balance > 0 ? 100 : 0;
-    const thirdPartyPercentage = 0;
+    const totalBalance = balance + thirdPartyBalance;
+    const mainWalletPercentage = totalBalance > 0 ? (balance / totalBalance) * 100 : 0;
+    const thirdPartyPercentage = totalBalance > 0 ? (thirdPartyBalance / totalBalance) * 100 : 0;
 
     const historyActions = [
         { icon: <DepositIcon/>, label: "Deposit", href: "/deposit" },
@@ -117,6 +117,14 @@ export default function WalletPage() {
         { icon: <DepositHistoryIcon/>, label: "Deposit history", href: "/deposit-history" },
         { icon: <WithdrawHistoryIcon/>, label: "Withdrawal history", href: "/withdraw-history" },
     ];
+    
+    const handleTransfer = () => {
+        transferToMainWallet();
+        toast({
+            title: "Transfer Successful",
+            description: `₹${thirdPartyBalance.toFixed(2)} has been transferred to your main wallet.`,
+        });
+    }
 
   return (
     <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative">
@@ -133,7 +141,7 @@ export default function WalletPage() {
                 <WalletIcon />
             </div>
             <h2 className="text-sm opacity-80">Total balance</h2>
-            <p className="text-4xl font-bold my-2">₹{balance.toFixed(2)}</p>
+            <p className="text-4xl font-bold my-2">₹{totalBalance.toFixed(2)}</p>
 
             <div className="grid grid-cols-2 mt-4">
                 <div>
@@ -154,7 +162,11 @@ export default function WalletPage() {
                         <CircularProgress percentage={mainWalletPercentage} label="Main wallet" amount={balance} />
                         <CircularProgress percentage={thirdPartyPercentage} label="3rd party wallet" amount={thirdPartyBalance} />
                     </div>
-                    <Button className="w-full mt-4 bg-red-500 hover:bg-red-600 rounded-full py-6 text-lg">
+                    <Button 
+                        onClick={handleTransfer}
+                        disabled={thirdPartyBalance <= 0}
+                        className="w-full mt-4 bg-red-500 hover:bg-red-600 rounded-full py-6 text-lg"
+                    >
                         Main wallet transfer
                     </Button>
                 </CardContent>
