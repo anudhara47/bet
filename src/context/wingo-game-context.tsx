@@ -46,7 +46,7 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
   const [isRefreshing, setIsRefreshing] = React.useState(false);
   const [isClient, setIsClient] = useState(false);
   
-  const basePeriod = BigInt("20250830100050930");
+  const basePeriod = BigInt("20250830100050967");
   const [baseTime, setBaseTime] = useState<number>(Date.now());
 
   useEffect(() => {
