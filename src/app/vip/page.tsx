@@ -79,8 +79,8 @@ const HistoryChatIcon = () => (
 
 const vipLevels = [
     { level: 1, expRequired: 0, levelUpReward: 60, monthlyReward: 30, rebateRate: `0%` },
-    { level: 2, expRequired: 20000, levelUpReward: 160, monthlyReward: 80, rebateRate: `0%` },
-    { level: 3, expRequired: 700000, levelUpReward: 360, monthlyReward: 120, rebateRate: `0%` },
+    { level: 2, expRequired: 10000, levelUpReward: 160, monthlyReward: 80, rebateRate: `0%` },
+    { level: 3, expRequired: 30000, levelUpReward: 360, monthlyReward: 120, rebateRate: `0%` },
     { level: 4, expRequired: 70000, levelUpReward: 666, monthlyReward: 200, rebateRate: `0%` },
     { level: 5, expRequired: 100000, levelUpReward: 999, monthlyReward: 299, rebateRate: `0%` },
     { level: 6, expRequired: 300000, levelUpReward: 1655, monthlyReward: 355, rebateRate: `0%` },
@@ -250,6 +250,7 @@ export default function VipPage() {
                                 : (experience >= expForThisLevel ? 100 : (experience / expForThisLevel) * 100);
                             
                             const isAchieved = experience >= vip.expRequired;
+                            const remainingExp = Math.max(0, expForNextLevel - experience);
 
                             return (
                             <CarouselItem key={index} className="basis-11/12">
@@ -275,10 +276,15 @@ export default function VipPage() {
                                             <div className="mt-4">
                                                 <Progress value={progress} className="h-2 mt-2 bg-white/50" indicatorClassName="bg-yellow-600" />
                                                 <div className="flex justify-between items-center text-xs mt-1">
-                                                    <p className="opacity-80">{experience.toLocaleString()}/{expForNextLevel.toLocaleString()}</p>
+                                                    <p className="opacity-80">{experience.toLocaleString()}/{expForNextLevel > 0 ? expForNextLevel.toLocaleString() : 'MAX'}</p>
                                                     <p>Total bet amount</p>
                                                 </div>
                                             </div>
+                                            {nextLevel && (
+                                                <div className="text-center text-xs mt-2 text-yellow-800">
+                                                    Need <span className="font-bold">{remainingExp.toLocaleString()}</span> more EXP to reach VIP{nextLevel.level}
+                                                </div>
+                                            )}
                                         </CardContent>
                                      </Card>
                                 </div>
