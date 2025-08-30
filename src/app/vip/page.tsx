@@ -79,12 +79,12 @@ const HistoryChatIcon = () => (
 
 const vipLevels = [
     { level: 1, expRequired: 0, levelUpReward: 0, monthlyReward: 0, rebateRate: `0%` },
-    { level: 2, expRequired: 10000, levelUpReward: 60, monthlyReward: 0, rebateRate: `0%` },
+    { level: 2, expRequired: 10000, levelUpReward: 60, monthlyReward: 30, rebateRate: `0%` },
     ...Array.from({ length: 8 }, (_, i) => ({
         level: i + 3,
         expRequired: 10000 + (i + 2) * 30000,
         levelUpReward: 100 + i * 50,
-        monthlyReward: 0,
+        monthlyReward: 30 + (i * 10),
         rebateRate: `0%`,
     }))
 ];
@@ -461,3 +461,5 @@ export default function VipPage() {
     );
 
     
+
+}
