@@ -86,8 +86,8 @@ const SportsIcon = () => (
         </defs>
         <g style={{filter: 'url(#ballShadow)'}}>
             <circle cx="200" cy="100" r="70" fill="url(#sportsGrad)" />
-            <path d="M150,55 C180,75 220,75 250,55" stroke="#ef4444" strokeWidth="5" fill="none" />
-            <path d="M150,145 C180,125 220,125 250,145" stroke="#ef4444" strokeWidth="5" fill="none" />
+            <path d="M150,55 C180,75 220,75 250,55" stroke="#D97706" strokeWidth="5" fill="none" />
+            <path d="M150,145 C180,125 220,125 250,145" stroke="#D97706" strokeWidth="5" fill="none" />
         </g>
     </svg>
 );
@@ -96,8 +96,8 @@ const CasinoIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient id="diceGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#fef2f2" />
-                <stop offset="100%" stopColor="#fee2e2" />
+                <stop offset="0%" stopColor="#fefce8" />
+                <stop offset="100%" stopColor="#fef9c3" />
             </linearGradient>
             <filter id="diceShadow" x="-20%" y="-20%" width="140%" height="140%">
                  <feDropShadow dx="4" dy="4" stdDeviation="3" floodColor="#000" floodOpacity="0.2" />
@@ -105,17 +105,17 @@ const CasinoIcon = () => (
         </defs>
         <g transform="translate(100,100)">
             <g transform="rotate(20) translate(-50, -50)" style={{filter: 'url(#diceShadow)'}}>
-                <rect x="0" y="0" width="100" height="100" rx="15" fill="url(#diceGrad)" stroke="#fca5a5" />
-                <circle cx="25" cy="25" r="8" fill="#dc2626"/>
-                <circle cx="75" cy="75" r="8" fill="#dc2626"/>
+                <rect x="0" y="0" width="100" height="100" rx="15" fill="url(#diceGrad)" stroke="#fde047" />
+                <circle cx="25" cy="25" r="8" fill="#ca8a04"/>
+                <circle cx="75" cy="75" r="8" fill="#ca8a04"/>
             </g>
             <g transform="rotate(-20) translate(0, -60)" style={{filter: 'url(#diceShadow)'}}>
-                <rect x="0" y="0" width="100" height="100" rx="15" fill="url(#diceGrad)" stroke="#fca5a5" />
-                <circle cx="50" cy="50" r="8" fill="#dc2626"/>
-                <circle cx="25" cy="25" r="8" fill="#dc2626"/>
-                <circle cx="75" cy="25" r="8" fill="#dc2626"/>
-                <circle cx="25" cy="75" r="8" fill="#dc2626"/>
-                <circle cx="75" cy="75" r="8" fill="#dc2626"/>
+                <rect x="0" y="0" width="100" height="100" rx="15" fill="url(#diceGrad)" stroke="#fde047" />
+                <circle cx="50" cy="50" r="8" fill="#ca8a04"/>
+                <circle cx="25" cy="25" r="8" fill="#ca8a04"/>
+                <circle cx="75" cy="25" r="8" fill="#ca8a04"/>
+                <circle cx="25" cy="75" r="8" fill="#ca8a04"/>
+                <circle cx="75" cy="75" r="8" fill="#ca8a04"/>
             </g>
         </g>
     </svg>
@@ -337,10 +337,10 @@ export default function HomePage() {
       <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="bg-red-600 w-8 h-8 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">9</span>
+            <div className="bg-primary w-8 h-8 rounded-full flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-lg">9</span>
             </div>
-            <span className="font-bold text-xl md:text-2xl text-red-600">9XBETCLUB</span>
+            <span className="font-bold text-xl md:text-2xl text-primary">9XBETCLUB</span>
           </Link>
            <Link href="/admin/deposits" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
               <ShieldAlert className="w-4 h-4 mr-2"/>
@@ -366,7 +366,7 @@ export default function HomePage() {
                 <ArrowUpCircle className="w-4 h-4 mr-1" />
                 Withdraw
               </Link>
-              <Link href="/deposit" className={cn(buttonVariants(), "bg-gradient-to-br from-red-500 to-red-700 text-white flex-1 sm:flex-none text-xs sm:text-sm")}>
+              <Link href="/deposit" className={cn(buttonVariants(), "bg-gradient-to-br from-primary to-yellow-600 text-primary-foreground flex-1 sm:flex-none text-xs sm:text-sm")}>
                 <ArrowDownCircle className="w-4 h-4 mr-1" />
                 Deposit
               </Link>
@@ -383,7 +383,7 @@ export default function HomePage() {
             <Link key={item.name} href={item.href} className={cn(
               buttonVariants({ variant: item.active ? "secondary" : "ghost" }),
               "flex-col h-auto p-2 rounded-lg",
-              item.active ? "bg-red-100 text-red-600 font-bold" : "text-muted-foreground"
+              item.active ? "bg-yellow-100 text-yellow-700 font-bold" : "text-muted-foreground"
             )}>
               {item.icon}
               <span className="mt-1 text-xs">{item.name}</span>
@@ -412,8 +412,8 @@ export default function HomePage() {
         
         <div>
           <div className="flex items-center gap-2 mb-2">
-              <div className="bg-red-500 w-6 h-6 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">8</span>
+              <div className="bg-primary w-6 h-6 rounded-full flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-sm">8</span>
               </div>
               <h2 className="text-md sm:text-lg font-bold">Lottery</h2>
           </div>
@@ -535,17 +535,17 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4">
             <Link href="/casino">
-                <Card className="rounded-lg overflow-hidden bg-red-100/50 aspect-square">
+                <Card className="rounded-lg overflow-hidden bg-yellow-100/50 aspect-square">
                     <CasinoIcon />
                 </Card>
             </Link>
             <Link href="/casino">
-                <Card className="rounded-lg overflow-hidden bg-red-100/50 aspect-square">
+                <Card className="rounded-lg overflow-hidden bg-yellow-100/50 aspect-square">
                     <CasinoIcon />
                 </Card>
             </Link>
             <Link href="/casino">
-                <Card className="rounded-lg overflow-hidden bg-red-100/50 aspect-square">
+                <Card className="rounded-lg overflow-hidden bg-yellow-100/50 aspect-square">
                     <CasinoIcon />
                 </Card>
             </Link>
@@ -567,7 +567,7 @@ export default function HomePage() {
         </div>
         
         <div>
-            <h2 className="text-md sm:text-lg font-bold flex items-center gap-2 mb-2"><Ticket className="text-red-500" /> Winning information</h2>
+            <h2 className="text-md sm:text-lg font-bold flex items-center gap-2 mb-2"><Ticket className="text-primary" /> Winning information</h2>
             <Card>
                 <CardContent className="p-0">
                     <div className="grid grid-cols-3 text-center text-xs sm:text-sm font-semibold bg-muted/50 p-2">
@@ -584,7 +584,7 @@ export default function HomePage() {
                                         <span>{winner.game}</span>
                                     </div>
                                     <div>{winner.user}</div>
-                                    <div className="text-red-500 font-bold">{winner.amount}</div>
+                                    <div className="text-primary font-bold">{winner.amount}</div>
                                 </div>
                             ))}
                         </div>
@@ -595,7 +595,7 @@ export default function HomePage() {
         
         <Card className="bg-card shadow-lg mt-4">
           <CardHeader>
-            <CardTitle className="flex items-center text-md sm:text-lg font-bold"><BarChart3 className="w-5 h-5 mr-2 text-red-500" /> Today's earnings chart</CardTitle>
+            <CardTitle className="flex items-center text-md sm:text-lg font-bold"><BarChart3 className="w-5 h-5 mr-2 text-primary" /> Today's earnings chart</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="relative flex justify-center items-end h-48">
@@ -612,11 +612,11 @@ export default function HomePage() {
               {/* Rank 1 */}
               <div className="relative text-center flex flex-col items-center z-10">
                   <Crown className="text-yellow-400 w-8 h-8 absolute -top-6" />
-                  <div className="w-[60px] h-[60px] rounded-full bg-gray-200 border-2 border-red-400"></div>
-                  <div className="text-md font-bold text-red-500">{topEarners[0].user}</div>
+                  <div className="w-[60px] h-[60px] rounded-full bg-gray-200 border-2 border-yellow-400"></div>
+                  <div className="text-md font-bold text-primary">{topEarners[0].user}</div>
                   <div className="text-sm text-muted-foreground">{topEarners[0].amount}</div>
-                  <div className="bg-red-200/50 rounded-lg p-4 pt-10 w-28 h-24 flex flex-col justify-end items-center relative -mt-6">
-                      <div className="text-6xl font-black text-red-400/50 absolute top-1">1</div>
+                  <div className="bg-yellow-200/50 rounded-lg p-4 pt-10 w-28 h-24 flex flex-col justify-end items-center relative -mt-6">
+                      <div className="text-6xl font-black text-yellow-400/50 absolute top-1">1</div>
                   </div>
               </div>
               
@@ -639,7 +639,7 @@ export default function HomePage() {
                     <div className="w-[40px] h-[40px] rounded-full bg-gray-200"></div>
                     <span className="font-semibold text-sm">{earner.user}</span>
                   </div>
-                  <span className="font-bold text-red-500 text-sm">{earner.amount}</span>
+                  <span className="font-bold text-primary text-sm">{earner.amount}</span>
                 </div>
               ))}
             </div>
@@ -649,7 +649,7 @@ export default function HomePage() {
         <Card className="bg-card shadow-lg mt-4">
             <CardContent className="p-4 text-xs text-muted-foreground space-y-3">
                 <div className="flex justify-end">
-                    <div className="w-8 h-8 rounded-full border-2 border-red-500 flex items-center justify-center text-red-500 font-bold text-sm">
+                    <div className="w-8 h-8 rounded-full border-2 border-primary flex items-center justify-center text-primary font-bold text-sm">
                         +18
                     </div>
                 </div>
@@ -662,7 +662,7 @@ export default function HomePage() {
       </main>
       
       <footer className="fixed bottom-0 left-0 right-0 bg-card border-t p-2 flex justify-around items-start max-w-lg mx-auto">
-        <Link href="/" className={cn('flex flex-col h-auto items-center text-red-600', 'p-2')}>
+        <Link href="/" className={cn('flex flex-col h-auto items-center text-primary', 'p-2')}>
           <HomeIcon className="w-6 h-6" />
           <span className="text-xs mt-1">Home</span>
         </Link>

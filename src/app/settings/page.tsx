@@ -59,7 +59,7 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-neutral-100 text-foreground max-w-lg mx-auto">
-      <header className="bg-red-500 text-white p-4 flex items-center gap-4 sticky top-0 z-10">
+      <header className="bg-primary text-primary-foreground p-4 flex items-center gap-4 sticky top-0 z-10">
         <Link href="/account" className="text-white">
           <ChevronLeft className="w-6 h-6" />
         </Link>
@@ -128,7 +128,7 @@ export default function SettingsPage() {
         </Card>
 
         <h2 className="text-sm text-muted-foreground my-4 flex items-center">
-            <span className="w-1 h-4 bg-red-500 mr-2 inline-block rounded-full"></span>
+            <span className="w-1 h-4 bg-primary mr-2 inline-block rounded-full"></span>
             Security information
         </h2>
 
@@ -138,8 +138,8 @@ export default function SettingsPage() {
                 <DialogTrigger asChild>
                     <div className="flex items-center justify-between p-4 cursor-pointer">
                         <div className="flex items-center gap-3">
-                            <div className="bg-red-100 p-2 rounded-lg">
-                                <Lock className="w-5 h-5 text-red-500" />
+                            <div className="bg-yellow-100 p-2 rounded-lg">
+                                <Lock className="w-5 h-5 text-primary" />
                             </div>
                             <span>Login password</span>
                         </div>
@@ -176,8 +176,8 @@ export default function SettingsPage() {
             <Separator />
             <div className="flex items-center justify-between p-4">
                  <div className="flex items-center gap-3">
-                    <div className="bg-red-100 p-2 rounded-lg">
-                        <Mail className="w-5 h-5 text-red-500" />
+                    <div className="bg-yellow-100 p-2 rounded-lg">
+                        <Mail className="w-5 h-5 text-primary" />
                     </div>
                     <span>Bind mailbox</span>
                 </div>
@@ -189,8 +189,8 @@ export default function SettingsPage() {
             <Separator />
             <div className="flex items-center justify-between p-4">
                 <div className="flex items-center gap-3">
-                    <div className="bg-red-100 p-2 rounded-lg">
-                        <Info className="w-5 h-5 text-red-500" />
+                    <div className="bg-yellow-100 p-2 rounded-lg">
+                        <Info className="w-5 h-5 text-primary" />
                     </div>
                     <span>Updated version</span>
                 </div>

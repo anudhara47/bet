@@ -37,7 +37,7 @@ const FirstGiftIcon = () => (
 );
 
 const InviteWheelIcon = () => (
-    <div className="w-16 h-16 rounded-2xl bg-red-400 flex items-center justify-center">
+    <div className="w-16 h-16 rounded-2xl bg-yellow-400 flex items-center justify-center">
         <Disc className="w-8 h-8 text-white" />
     </div>
 );
@@ -56,10 +56,10 @@ export default function ActivityPage() {
 
   return (
     <div className="min-h-screen bg-neutral-100 text-foreground pb-40 max-w-lg mx-auto">
-      <header className="bg-gradient-to-b from-red-400 to-red-500 text-white p-4 text-center">
+      <header className="bg-gradient-to-b from-yellow-400 to-yellow-500 text-white p-4 text-center">
         <div className="flex items-center justify-center space-x-2 mb-2">
             <div className="bg-white w-8 h-8 rounded-full flex items-center justify-center">
-              <span className="text-red-600 font-bold text-lg">9</span>
+              <span className="text-yellow-600 font-bold text-lg">9</span>
             </div>
             <span className="font-bold text-xl md:text-2xl text-white">9XBETCLUB</span>
         </div>
@@ -84,8 +84,8 @@ export default function ActivityPage() {
             <Link href="/gifts-activity">
                 <Card className="rounded-xl shadow-lg overflow-hidden h-full">
                     <CardContent className="p-0">
-                        <div className="bg-red-200 h-24 flex items-center justify-center">
-                           <Gift className="w-12 h-12 text-red-500" />
+                        <div className="bg-yellow-200 h-24 flex items-center justify-center">
+                           <Gift className="w-12 h-12 text-yellow-500" />
                         </div>
                         <div className="p-3">
                             <h3 className="font-bold">Gifts</h3>
@@ -97,8 +97,8 @@ export default function ActivityPage() {
             <Link href="/attendance-bonus">
                 <Card className="rounded-xl shadow-lg overflow-hidden h-full">
                     <CardContent className="p-0">
-                        <div className="bg-yellow-100 h-24 flex items-center justify-center">
-                           <Star className="w-12 h-12 text-yellow-500" />
+                        <div className="bg-orange-100 h-24 flex items-center justify-center">
+                           <Star className="w-12 h-12 text-orange-500" />
                         </div>
                         <div className="p-3">
                             <h3 className="font-bold">Attendance bonus</h3>
@@ -124,7 +124,7 @@ export default function ActivityPage() {
           <HomeIcon className="w-6 h-6" />
           <span className="text-xs mt-1">Home</span>
         </Link>
-        <Link href="/activity" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-red-600")}>
+        <Link href="/activity" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-primary")}>
           <Activity className="w-6 h-6" />
           <span className="text-xs mt-1">Activity</span>
         </Link>

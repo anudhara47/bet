@@ -17,10 +17,10 @@ import { useUser } from "@/context/user-context";
 
 const ArWalletIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4 7V17C4 18.1046 4.89543 19 6 19H18C19.1046 19 20 18.1046 20 17V7C20 5.89543 19.1046 5 18 5H6C4.89543 5 4 5.89543 4 7Z" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M16 3V7" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M8 3V7" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M4 11H20" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M4 7V17C4 18.1046 4.89543 19 6 19H18C19.1046 19 20 18.1046 20 17V7C20 5.89543 19.1046 5 18 5H6C4.89543 5 4 5.89543 4 7Z" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M16 3V7" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 3V7" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M4 11H20" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
 );
 
@@ -125,13 +125,13 @@ export default function AccountPage() {
   }
 
   const serviceCenterItems = [
-    { icon: <Settings className="text-red-500" />, label: t.service_center.settings, href: "/settings" },
-    { icon: <FileQuestion className="text-red-500" />, label: t.service_center.feedback, href: "/feedback" },
-    { icon: <Megaphone className="text-red-500" />, label: t.service_center.announcement, href: "/announcement" },
-    { icon: <MessageCircle className="text-red-500" />, label: t.service_center.customer_service, href: "/customer-service" },
-    { icon: <BookOpen className="text-red-500" />, label: t.service_center.beginners_guide, href: "/guide" },
-    { icon: <Building className="text-red-500" />, label: t.service_center.about_us, href: "/about" },
-    { icon: <ShieldAlert className="text-red-500" />, label: "Admin Panel", href: "/admin/deposits" },
+    { icon: <Settings className="text-primary" />, label: t.service_center.settings, href: "/settings" },
+    { icon: <FileQuestion className="text-primary" />, label: t.service_center.feedback, href: "/feedback" },
+    { icon: <Megaphone className="text-primary" />, label: t.service_center.announcement, href: "/announcement" },
+    { icon: <MessageCircle className="text-primary" />, label: t.service_center.customer_service, href: "/customer-service" },
+    { icon: <BookOpen className="text-primary" />, label: t.service_center.beginners_guide, href: "/guide" },
+    { icon: <Building className="text-primary" />, label: t.service_center.about_us, href: "/about" },
+    { icon: <ShieldAlert className="text-primary" />, label: "Admin Panel", href: "/admin/deposits" },
   ];
   
   const mainWalletActions = [
@@ -149,9 +149,9 @@ export default function AccountPage() {
   ];
   
   const infoLinks = [
-      { icon: <Bell className="text-red-500" />, label: t.notification, badge: unreadCount, href: "/notifications" },
-      { icon: <Gift className="text-red-500" />, label: t.gifts, href: "/gifts" },
-      { icon: <BarChart className="text-red-500" />, label: t.game_statistics, href: "/statistics" },
+      { icon: <Bell className="text-primary" />, label: t.notification, badge: unreadCount, href: "/notifications" },
+      { icon: <Gift className="text-primary" />, label: t.gifts, href: "/gifts" },
+      { icon: <BarChart className="text-primary" />, label: t.game_statistics, href: "/statistics" },
   ];
 
   if (!t) {
@@ -160,7 +160,7 @@ export default function AccountPage() {
   
   return (
     <div className="min-h-screen bg-neutral-100 text-foreground pb-40 max-w-lg mx-auto relative">
-      <div className="bg-gradient-to-b from-red-400 to-red-500 text-white p-4">
+      <div className="bg-gradient-to-b from-yellow-400 to-yellow-500 text-white p-4">
         <div className="flex items-center gap-4">
           <div className="w-20 h-20 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center">
             <User className="w-10 h-10 text-gray-400" />
@@ -168,7 +168,7 @@ export default function AccountPage() {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-xl font-bold">{nickname}</h1>
-              <span className="bg-yellow-400 text-red-800 text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1">
+              <span className="bg-yellow-400 text-yellow-800 text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1">
                 <ShieldCheck className="w-4 h-4" />
                 VIP1
               </span>
@@ -195,12 +195,12 @@ export default function AccountPage() {
                 />
               </p>
             </div>
-            <Button onClick={() => router.push('/wallet')} className="bg-red-500 hover:bg-red-600 text-white rounded-full px-6">{t.enter_wallet}</Button>
+            <Button onClick={() => router.push('/wallet')} className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6">{t.enter_wallet}</Button>
           </CardContent>
           <Separator />
           <div className="grid grid-cols-4 gap-2 p-4 text-center">
              {mainWalletActions.map((action, index) => (
-                 <Link href={action.href} key={index} className="flex flex-col items-center gap-1 cursor-pointer hover:bg-red-50 rounded-lg p-1">
+                 <Link href={action.href} key={index} className="flex flex-col items-center gap-1 cursor-pointer hover:bg-yellow-50 rounded-lg p-1">
                     {action.icon}
                     <span className="text-xs font-medium">{action.label}</span>
                 </Link>
@@ -238,7 +238,7 @@ export default function AccountPage() {
                                     <span className="font-semibold">{link.label}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    {link.badge && link.badge > 0 && <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">{link.badge}</span>}
+                                    {link.badge && link.badge > 0 && <span className="bg-primary text-primary-foreground text-xs rounded-full px-2 py-0.5">{link.badge}</span>}
                                     <ChevronRight className="text-muted-foreground" />
                                 </div>
                             </div>
@@ -248,7 +248,7 @@ export default function AccountPage() {
                 ))}
                  <div className="flex items-center justify-between p-4">
                     <div className="flex items-center gap-3">
-                        <Globe className="text-red-500" />
+                        <Globe className="text-primary" />
                         <span className="font-semibold">{t.language}</span>
                     </div>
                     <Select value={language} onValueChange={(value) => setLanguage(value as 'en' | 'hi' | 'bn' | 'te' | 'mr')}>
@@ -272,8 +272,8 @@ export default function AccountPage() {
                 <h2 className="font-semibold mb-4">{t.service_center.title}</h2>
                 <div className="grid grid-cols-4 gap-4 text-center">
                     {serviceCenterItems.map((item, index) => (
-                       <Link key={index} href={item.href || "#"} className="flex flex-col items-center gap-2 cursor-pointer hover:bg-red-50 rounded-lg p-2">
-                           <div className="bg-red-100 p-3 rounded-full">
+                       <Link key={index} href={item.href || "#"} className="flex flex-col items-center gap-2 cursor-pointer hover:bg-yellow-50 rounded-lg p-2">
+                           <div className="bg-yellow-100 p-3 rounded-full">
                                {item.icon}
                            </div>
                            <span className="text-xs text-muted-foreground text-center">{item.label}</span>
@@ -285,7 +285,7 @@ export default function AccountPage() {
 
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant="outline" className="w-full mt-4 bg-card border-red-300 text-red-500 font-bold flex items-center gap-2 rounded-full py-6 text-lg">
+                <Button variant="outline" className="w-full mt-4 bg-card border-yellow-300 text-yellow-600 font-bold flex items-center gap-2 rounded-full py-6 text-lg hover:bg-yellow-50 hover:text-yellow-700">
                     <LogOut className="w-6 h-6" />
                     {t.log_out}
                 </Button>
@@ -318,7 +318,7 @@ export default function AccountPage() {
           <Landmark className="w-6 h-6" />
           <span className="text-xs mt-1">{t.footer.promotion}</span>
         </Link>
-        <Link href="/account" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-red-600")}>
+        <Link href="/account" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-primary")}>
           <User className="w-6 h-6" />
           <span className="text-xs mt-1">{t.footer.account}</span>
         </Link>

@@ -14,7 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/context/user-context";
 
 const WalletIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-300">
         <path d="M20 12V8H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4Z"/>
         <path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/>
         <path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4Z"/>
@@ -94,10 +94,10 @@ export default function Wingo30sPage() {
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
                 <div className="flex items-center space-x-1">
-                    <div className="bg-red-600 w-6 h-6 rounded-full flex items-center justify-center">
+                    <div className="bg-primary w-6 h-6 rounded-full flex items-center justify-center">
                         <span className="text-white font-bold text-sm">9</span>
                     </div>
-                    <span className="font-bold text-lg text-red-600">91 CLUB</span>
+                    <span className="font-bold text-lg text-primary">91 CLUB</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-500">
                    <RefreshCw className="w-6 h-6"/>
@@ -106,7 +106,7 @@ export default function Wingo30sPage() {
 
             <main className="space-y-4">
                 <div className="bg-white p-4 pt-2">
-                    <Card className="rounded-xl shadow-lg bg-red-500 text-white">
+                    <Card className="rounded-xl shadow-lg bg-primary text-white">
                         <CardContent className="p-3">
                             <div className="flex justify-between items-center mb-2">
                                 <div>
@@ -120,15 +120,15 @@ export default function Wingo30sPage() {
                             </div>
                            
                             <div className="flex gap-2 w-full sm:w-auto">
-                                <Button className="bg-white/90 hover:bg-white text-red-500 rounded-md px-4 sm:px-6 py-2 text-xs sm:text-sm shadow-md flex-1">Withdraw</Button>
+                                <Button className="bg-white/90 hover:bg-white text-primary rounded-md px-4 sm:px-6 py-2 text-xs sm:text-sm shadow-md flex-1">Withdraw</Button>
                                 <Button className="bg-gradient-to-r from-green-400 to-green-500 text-white rounded-md px-4 sm:px-6 py-2 text-xs sm:text-sm shadow-md flex-1">Deposit</Button>
                             </div>
                         </CardContent>
                     </Card>
-                    <div className="flex items-center bg-red-100 text-red-700 rounded-lg p-2 mt-3 text-xs">
+                    <div className="flex items-center bg-yellow-100 text-yellow-700 rounded-lg p-2 mt-3 text-xs">
                         <Volume2 className="w-5 h-5 mr-2"/>
                         <p className="truncate">Only deposit funds through the official 91C LUB website and you can check from our al</p>
-                        <Button variant="ghost" className="ml-auto text-red-500 h-auto p-1 text-xs font-bold">Detail</Button>
+                        <Button variant="ghost" className="ml-auto text-primary h-auto p-1 text-xs font-bold">Detail</Button>
                     </div>
                 </div>
 
@@ -142,28 +142,28 @@ export default function Wingo30sPage() {
                         }}
                     >
                         <TabsList className="grid grid-cols-4 bg-transparent p-0 h-auto gap-1 sm:gap-2">
-                            <TabsTrigger value="30sec" className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
-                                <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center"><Info className="w-4 h-4 text-red-500"/></div>
+                            <TabsTrigger value="30sec" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
+                                <div className="w-6 h-6 rounded-full bg-yellow-100 flex items-center justify-center"><Info className="w-4 h-4 text-primary"/></div>
                                 WinGo 30Sec
                             </TabsTrigger>
-                            <TabsTrigger value="1min" className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
+                            <TabsTrigger value="1min" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
                                 <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center"><Info className="w-4 h-4 text-gray-600"/></div>
                                 WinGo 1 Min
                             </TabsTrigger>
-                             <TabsTrigger value="3min" disabled className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
+                             <TabsTrigger value="3min" disabled className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
                                 <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center"><Info className="w-4 h-4 text-gray-600"/></div>
                                 WinGo 3 Min
                             </TabsTrigger>
-                             <TabsTrigger value="5min" disabled className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
+                             <TabsTrigger value="5min" disabled className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
                                 <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center"><Info className="w-4 h-4 text-gray-600"/></div>
                                 WinGo 5 Min
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value={gameInterval === 30 ? "30sec" : "1min"} className="bg-white p-2 sm:p-4 rounded-lg shadow-md mt-2">
-                            <div className="bg-red-100/50 border border-red-200 rounded-lg p-2 sm:p-3">
+                            <div className="bg-yellow-100/50 border border-yellow-200 rounded-lg p-2 sm:p-3">
                                 <div className="flex justify-between items-center">
                                     <p className="font-bold text-base sm:text-lg">WinGo {gameInterval}sec</p>
-                                    <Button variant="outline" className="text-red-500 border-red-500 h-6 text-xs px-2"><HelpCircle className="w-3 h-3 mr-1"/>How to play</Button>
+                                    <Button variant="outline" className="text-primary border-primary h-6 text-xs px-2"><HelpCircle className="w-3 h-3 mr-1"/>How to play</Button>
                                 </div>
                                 <Separator className="my-2 sm:my-3"/>
                                 <div className="flex justify-between items-center mt-2">
@@ -202,12 +202,12 @@ export default function Wingo30sPage() {
 
                              <div className="grid grid-cols-7 gap-1 sm:gap-2 my-3 sm:my-4 items-center">
                                 <Button variant="outline" className="text-gray-700 border-gray-300 text-xs px-1 h-8 sm:h-9">Random</Button>
-                                <Button onClick={() => handleAmountButtonClick(1)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 1 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X1</Button>
-                                <Button onClick={() => handleAmountButtonClick(5)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 5 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X5</Button>
-                                <Button onClick={() => handleAmountButtonClick(10)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 10 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X10</Button>
-                                <Button onClick={() => handleAmountButtonClick(20)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 20 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X20</Button>
-                                <Button onClick={() => handleAmountButtonClick(50)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 50 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X50</Button>
-                                <Button onClick={() => handleAmountButtonClick(100)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 100 ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700")}>X100</Button>
+                                <Button onClick={() => handleAmountButtonClick(1)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 1 ? "bg-primary text-white" : "bg-gray-200 text-gray-700")}>X1</Button>
+                                <Button onClick={() => handleAmountButtonClick(5)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 5 ? "bg-primary text-white" : "bg-gray-200 text-gray-700")}>X5</Button>
+                                <Button onClick={() => handleAmountButtonClick(10)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 10 ? "bg-primary text-white" : "bg-gray-200 text-gray-700")}>X10</Button>
+                                <Button onClick={() => handleAmountButtonClick(20)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 20 ? "bg-primary text-white" : "bg-gray-200 text-gray-700")}>X20</Button>
+                                <Button onClick={() => handleAmountButtonClick(50)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 50 ? "bg-primary text-white" : "bg-gray-200 text-gray-700")}>X50</Button>
+                                <Button onClick={() => handleAmountButtonClick(100)} className={cn("shadow-md text-xs px-1 h-8 sm:h-9", activeBetAmount === 100 ? "bg-primary text-white" : "bg-gray-200 text-gray-700")}>X100</Button>
                              </div>
 
                              <div className="grid grid-cols-2 gap-3 mb-4">
@@ -227,7 +227,7 @@ export default function Wingo30sPage() {
                         <TabsContent value="results">
                              <Card>
                                 <CardContent className="p-0">
-                                    <div className="grid grid-cols-4 bg-red-500 text-white text-center text-sm py-2 rounded-t-lg">
+                                    <div className="grid grid-cols-4 bg-primary text-primary-foreground text-center text-sm py-2 rounded-t-lg">
                                         <div>Period</div>
                                         <div>Number</div>
                                         <div>Big Small</div>
@@ -269,7 +269,7 @@ export default function Wingo30sPage() {
                         <TabsContent value="my-bets">
                             <Card>
                                 <CardContent className="p-0">
-                                   <div className="grid grid-cols-4 bg-red-500 text-white text-center text-sm py-2 rounded-t-lg">
+                                   <div className="grid grid-cols-4 bg-primary text-primary-foreground text-center text-sm py-2 rounded-t-lg">
                                         <div>Period</div>
                                         <div>Selection</div>
                                         <div>Amount</div>
@@ -304,7 +304,7 @@ export default function Wingo30sPage() {
             </main>
             
             <footer className="fixed bottom-0 left-0 right-0 bg-white border-t p-2 flex justify-around items-center max-w-lg mx-auto shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
-                <Button variant="ghost" className="flex flex-col h-auto items-center text-red-500">
+                <Button variant="ghost" className="flex flex-col h-auto items-center text-primary">
                   <History className="w-6 h-6" />
                   <span className="text-xs mt-1">Game history</span>
                 </Button>
