@@ -342,7 +342,7 @@ export default function AccountPage() {
         </AlertDialog>
 
         {email === adminEmail && (
-            <Link href="/admin/deposits">
+            <Link href="/admin/dashboard">
                 <Button variant="outline" className="w-full mt-4 bg-blue-500 text-white font-bold flex items-center gap-2 rounded-full py-6 text-lg hover:bg-blue-600">
                     <View className="w-6 h-6" />
                     Admin Panel
