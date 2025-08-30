@@ -89,7 +89,7 @@ const vipLevels = [
 ];
 
 export default function VipPage() {
-    const { nickname, avatar, experience, setBalance, addClaimedLevel, hasClaimedLevel } = useUser();
+    const { nickname, avatar, experience, setBalance, addClaimedLevel, hasClaimedLevel, expHistory } = useUser();
     const { toast } = useToast();
     
     const [mainApi, setMainApi] = React.useState<CarouselApi>()
@@ -122,13 +122,6 @@ export default function VipPage() {
         const daysRemaining = totalDaysInMonth - currentDayOfMonth;
         setPayoutDays(daysRemaining);
     }, []);
-
-    const experienceHistory = [
-        { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
-        { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
-        { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
-        { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
-    ];
     
     React.useEffect(() => {
         if (!mainApi || !benefitsApi) return;
@@ -411,23 +404,29 @@ export default function VipPage() {
                             <TabsTrigger value="rules" className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none pb-2">Rules</TabsTrigger>
                         </TabsList>
                         <TabsContent value="history" className="pt-4">
-                            <div className="space-y-4">
-                                {experienceHistory.map((item, index) => (
-                                    <div key={index} className="flex justify-between items-center">
-                                        <div>
-                                            <p className="font-semibold text-blue-600">{item.title}</p>
-                                            <p className="text-xs text-muted-foreground">{item.type}</p>
-                                            <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
+                            {expHistory.length > 0 ? (
+                                <div className="space-y-4">
+                                    {expHistory.map((item, index) => (
+                                        <div key={index} className="flex justify-between items-center">
+                                            <div>
+                                                <p className="font-semibold text-blue-600">{item.title}</p>
+                                                <p className="text-xs text-muted-foreground">{item.type}</p>
+                                                <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
+                                            </div>
+                                            <div className="text-right flex items-center gap-2">
+                                            <div>
+                                                <p className="font-bold text-green-600">{item.amount}</p>
+                                                <HistoryChatIcon/>
+                                            </div>
+                                            </div>
                                         </div>
-                                        <div className="text-right flex items-center gap-2">
-                                           <div>
-                                             <p className="font-bold text-green-600">{item.amount}</p>
-                                             <HistoryChatIcon/>
-                                           </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-center text-muted-foreground py-8">
+                                    No experience history yet. Play games to earn EXP!
+                                </div>
+                            )}
                         </TabsContent>
                         <TabsContent value="rules" className="pt-4 space-y-4">
                             {vipRules.map((rule, index) => (

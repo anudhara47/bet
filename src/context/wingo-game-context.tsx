@@ -113,7 +113,7 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
                   if (result) {
                       const status = checkBetStatus(bet, result);
                       if (status === 'Win') {
-                          addExperience(bet.amount);
+                          addExperience(bet.amount, `WinGo ${gameInterval}s Win`);
                       }
                       return { ...bet, status: status, result: result };
                   }

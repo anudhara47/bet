@@ -4,6 +4,13 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 // Types
+export interface ExpHistoryItem {
+    title: string;
+    type: string;
+    date: string;
+    amount: string;
+}
+
 interface UserContextType {
   uid: string | null;
   email: string | null;
@@ -14,11 +21,12 @@ interface UserContextType {
   balance: number;
   setBalance: React.Dispatch<React.SetStateAction<number>>;
   experience: number;
-  addExperience: (amount: number) => void;
+  addExperience: (amount: number, reason: string) => void;
   usedCodes: string[];
   addUsedCode: (code: string) => void;
   hasClaimedLevel: (level: number) => boolean;
   addClaimedLevel: (level: number) => void;
+  expHistory: ExpHistoryItem[];
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -32,6 +40,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [experience, setExperience] = useState(0);
     const [usedCodes, setUsedCodes] = useState<string[]>([]);
     const [claimedLevels, setClaimedLevels] = useState<number[]>([]);
+    const [expHistory, setExpHistory] = useState<ExpHistoryItem[]>([]);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     // Load from localStorage on initial render
@@ -80,6 +89,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             setClaimedLevels(JSON.parse(storedClaimedLevels));
         }
 
+        // EXP History
+        const storedExpHistory = localStorage.getItem('user-exp-history');
+        if (storedExpHistory) {
+            setExpHistory(JSON.parse(storedExpHistory));
+        }
+
 
         setIsInitialLoad(false);
     }, []);
@@ -118,6 +133,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         if (isInitialLoad) return;
         localStorage.setItem('user-claimed-levels', JSON.stringify(claimedLevels));
     }, [claimedLevels, isInitialLoad]);
+    
+    useEffect(() => {
+        if (isInitialLoad) return;
+        localStorage.setItem('user-exp-history', JSON.stringify(expHistory));
+    }, [expHistory, isInitialLoad]);
 
 
     const handleSetNickname = (name: string) => {
@@ -128,8 +148,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setAvatar(url);
     };
 
-    const addExperience = (amount: number) => {
+    const addExperience = (amount: number, reason: string) => {
         setExperience(prev => prev + amount);
+        const newHistoryItem: ExpHistoryItem = {
+            title: reason,
+            type: "Betting EXP",
+            date: new Date().toLocaleString(),
+            amount: `+${amount} EXP`
+        };
+        setExpHistory(prev => [newHistoryItem, ...prev]);
     };
 
     const addUsedCode = (code: string) => {
@@ -161,7 +188,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         usedCodes,
         addUsedCode,
         hasClaimedLevel,
-        addClaimedLevel
+        addClaimedLevel,
+        expHistory
     };
 
     return (
