@@ -45,34 +45,31 @@ const NumberButton = ({ number, color }: { number: number, color: string }) => {
     )
 }
 
-const getResultForPeriod = (periodId: string) => {
-    const number = Math.floor(Math.random() * 10);
-    let color: 'green' | 'violet' | 'red' | string = 'gray';
-    let size: 'Big' | 'Small' = 'Small';
+// This function generates a predictable result based on the period ID
+const generateHistoryResult = (pId: string) => {
+     const seed = parseInt(pId.slice(-5)); // Use last 5 digits for some variation
+     const number = (seed * 13 + 7) % 10; // Simple pseudo-random logic
+     let color: 'green' | 'violet' | 'red' | string = 'gray';
+     let size: 'Big' | 'Small' = 'Small';
 
-    if ([1, 3, 7, 9].includes(number)) color = 'green';
-    if ([2, 4, 6, 8].includes(number)) color = 'red';
-    if (number === 5) color = 'green-violet';
-    if (number === 0) color = 'red-violet';
+     if ([1, 3, 7, 9].includes(number)) color = 'green';
+     if ([2, 4, 6, 8].includes(number)) color = 'red';
+     if (number === 5) color = 'green-violet';
+     if (number === 0) color = 'red-violet';
 
-    if (number >= 5) size = 'Big';
-
-    return {
-        period: periodId,
-        number: number,
-        size: size,
-        color: color,
-    };
-};
+     if (number >= 5) size = 'Big';
+     
+     return { period: pId, number, size, color };
+}
 
 export default function Wingo30sPage() {
     const [gameInterval, setGameInterval] = React.useState(30);
     const [timeLeft, setTimeLeft] = React.useState(0);
     const [periodId, setPeriodId] = React.useState<string | null>(null);
-    const [gameHistory, setGameHistory] = React.useState<ReturnType<typeof getResultForPeriod>[]>([]);
+    const [gameHistory, setGameHistory] = React.useState<ReturnType<typeof generateHistoryResult>[]>([]);
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     const [isClient, setIsClient] = React.useState(false);
-    const [lastResult, setLastResult] = React.useState<ReturnType<typeof getResultForPeriod> | null>(null);
+    const [lastResult, setLastResult] = React.useState<ReturnType<typeof generateHistoryResult> | null>(null);
 
     const basePeriod = BigInt("20250830100050910");
     const [baseTime, setBaseTime] = React.useState<number | null>(null);
@@ -120,27 +117,10 @@ export default function Wingo30sPage() {
 
         const history = [];
         
-        // This logic generates a predictable history based on the period ID
-        const generateHistoryResult = (pId: string) => {
-             const seed = parseInt(pId.slice(-5)); // Use last 5 digits for some variation
-             const number = (seed * 13 + 7) % 10; // Simple pseudo-random logic
-             let color: 'green' | 'violet' | 'red' | string = 'gray';
-             let size: 'Big' | 'Small' = 'Small';
-
-             if ([1, 3, 7, 9].includes(number)) color = 'green';
-             if ([2, 4, 6, 8].includes(number)) color = 'red';
-             if (number === 5) color = 'green-violet';
-             if (number === 0) color = 'red-violet';
-
-             if (number >= 5) size = 'Big';
-             
-             return { period: pId, number, size, color };
-        }
-        
         const currentPeriodBigInt = BigInt(periodId);
         
         const lastPeriodId = (currentPeriodBigInt - BigInt(1)).toString();
-        if (lastPeriodId) {
+        if (lastPeriodId > "0") {
             setLastResult(generateHistoryResult(lastPeriodId));
         }
 
