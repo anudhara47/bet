@@ -51,7 +51,7 @@ export default function HomePage() {
                     <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary font-bold text-2xl">
                         9
                     </div>
-                    <span className="font-bold text-xl">91CLUB</span>
+                    <span className="font-bold text-xl">9XBETCLUB</span>
                 </div>
                 {uid ? (
                     <div className="flex items-center gap-2 text-sm">
@@ -91,7 +91,7 @@ export default function HomePage() {
 
                 <div className="flex items-center gap-2 bg-red-100 text-red-700 p-2 rounded-lg text-sm">
                     <Volume2 className="text-primary w-5 h-5"/>
-                    <p className="truncate">Welcome to 91Club! Enjoy the best gaming experience.</p>
+                    <p className="truncate">Welcome to 9XBETCLUB! Enjoy the best gaming experience.</p>
                 </div>
 
                 <div className="my-6 grid grid-cols-3 gap-y-6">
