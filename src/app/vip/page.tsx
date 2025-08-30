@@ -77,7 +77,7 @@ const HistoryChatIcon = () => (
 );
 
 const vipLevels = [
-    { level: 1, expRequired: 0, levelUpReward: 0, monthlyReward: 0, rebateRate: `0%` },
+    { level: 1, expRequired: 0, levelUpReward: 0, monthlyReward: 30, rebateRate: `0%` },
     { level: 2, expRequired: 10000, levelUpReward: 60, monthlyReward: 30, rebateRate: `0%` },
     { level: 3, expRequired: 300000, levelUpReward: 100, monthlyReward: 40, rebateRate: `0%` },
     { level: 4, expRequired: 100000, levelUpReward: 200, monthlyReward: 60, rebateRate: `0%` },
@@ -324,7 +324,7 @@ export default function VipPage() {
                                                         icon: <LevelUpRewardIcon />, 
                                                         title: "Level up rewards", 
                                                         description: "Each account can only receive 1 time", 
-                                                        value: nextVipLevel?.levelUpReward || 0,
+                                                        value: vip.levelUpReward || 0,
                                                         isCurrency: true
                                                     },
                                                     { 
