@@ -91,6 +91,7 @@ export default function AccountPage() {
   const router = useRouter();
   const [isRefreshing, setIsRefreshing] = React.useState(false);
   const { uid, nickname, balance } = useUser();
+  const [pendingDepositCount, setPendingDepositCount] = React.useState(0);
 
 
   React.useEffect(() => {
@@ -100,6 +101,22 @@ export default function AccountPage() {
         message: 'Welcome back to your account.',
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    const checkPendingDeposits = () => {
+        const storedRequests = JSON.parse(localStorage.getItem('depositRequests') || '[]');
+        const pendingCount = storedRequests.filter((req: any) => req.status === 'pending').length;
+        setPendingDepositCount(pendingCount);
+    };
+    checkPendingDeposits();
+
+    const handleFocus = () => checkPendingDeposits();
+    window.addEventListener('focus', handleFocus);
+    
+    return () => {
+        window.removeEventListener('focus', handleFocus);
+    };
   }, []);
 
   const t = translations.account_page;
@@ -131,7 +148,7 @@ export default function AccountPage() {
     { icon: <MessageCircle className="text-primary" />, label: t.service_center.customer_service, href: "/customer-service" },
     { icon: <BookOpen className="text-primary" />, label: t.service_center.beginners_guide, href: "/guide" },
     { icon: <Building className="text-primary" />, label: t.service_center.about_us, href: "/about" },
-    { icon: <ArrowDownCircle className="text-primary" />, label: "Admin Deposits", href: "/admin/deposits" },
+    { icon: <ArrowDownCircle className="text-primary" />, label: "Admin Deposits", href: "/admin/deposits", badge: pendingDepositCount },
     { icon: <ArrowUpCircle className="text-primary" />, label: "Admin Withdrawals", href: "/admin/withdrawals" },
   ];
   
@@ -274,8 +291,13 @@ export default function AccountPage() {
                 <div className="grid grid-cols-4 gap-4 text-center">
                     {serviceCenterItems.map((item, index) => (
                        <Link key={index} href={item.href || "#"} className="flex flex-col items-center gap-2 cursor-pointer hover:bg-yellow-50 rounded-lg p-2">
-                           <div className="bg-yellow-100 p-3 rounded-full">
+                           <div className="bg-yellow-100 p-3 rounded-full relative">
                                {item.icon}
+                               {item.badge && item.badge > 0 && (
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-white text-xs flex items-center justify-center border-2 border-card">
+                                        {item.badge}
+                                    </div>
+                                )}
                            </div>
                            <span className="text-xs text-muted-foreground text-center">{item.label}</span>
                        </Link>
