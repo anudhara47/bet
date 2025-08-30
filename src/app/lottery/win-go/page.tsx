@@ -76,7 +76,7 @@ export default function WinGoPage() {
     const [isClient, setIsClient] = React.useState(false);
 
     // Using a fixed base period. The base time will be set on the client.
-    const basePeriod = BigInt("20250830100050768");
+    const basePeriod = BigInt("20250830100050788");
     const baseTimeRef = React.useRef<number | null>(null);
 
     React.useEffect(() => {
