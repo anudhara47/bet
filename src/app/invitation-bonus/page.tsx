@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/context/user-context";
-import { ChevronLeft, CheckCircle, MessageCircle, FileText, History } from "lucide-react";
+import { ChevronLeft, CheckCircle, MessageCircle, FileText, History, Check, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
@@ -12,9 +12,9 @@ import * as React from "react";
 const bonusTiers = [
     { id: 1, inviteesRequired: 1, rechargeRequired: 300, reward: 55 },
     { id: 2, inviteesRequired: 3, rechargeRequired: 300, reward: 155 },
-    { id: 3, inviteesRequired: 5, rechargeRequired: 300, reward: 255 },
-    { id: 4, inviteesRequired: 10, rechargeRequired: 500, reward: 555 },
-    { id: 5, inviteesRequired: 20, rechargeRequired: 500, reward: 1255 },
+    { id: 3, inviteesRequired: 10, rechargeRequired: 500, reward: 555 },
+    { id: 4, inviteesRequired: 30, rechargeRequired: 800, reward: 1555 },
+    { id: 5, inviteesRequired: 50, rechargeRequired: 1200, reward: 2775 },
 ];
 
 export default function InvitationBonusPage() {
@@ -83,8 +83,10 @@ export default function InvitationBonusPage() {
                             <CardContent className="p-4">
                                 <div className="flex justify-between items-center pb-2 border-b">
                                     <div className="flex items-center gap-2">
-                                        <div className="bg-green-500 text-white rounded-full px-3 py-1 font-bold">Bonus {tier.id}</div>
-                                        <CheckCircle className="w-5 h-5 text-green-500" />
+                                        <div className="bg-green-500 text-white rounded-full px-3 py-1 font-bold flex items-center gap-1.5">
+                                            Bonus {tier.id}
+                                            {canClaim || isClaimed ? <CheckCircle className="w-4 h-4" /> : <X className="w-4 h-4" />}
+                                        </div>
                                     </div>
                                     <span className="text-lg font-bold text-yellow-500">₹{tier.reward.toFixed(2)}</span>
                                 </div>
@@ -116,7 +118,7 @@ export default function InvitationBonusPage() {
                                     disabled={isClaimed || !canClaim}
                                     onClick={() => handleClaim(tier.id, tier.reward)}
                                 >
-                                    {isClaimed ? 'Received' : 'Receive'}
+                                    {isClaimed ? 'Received' : (canClaim ? 'Receive' : 'Unfinished')}
                                 </Button>
                             </CardContent>
                         </Card>
@@ -132,4 +134,3 @@ export default function InvitationBonusPage() {
         </div>
     );
 }
-
