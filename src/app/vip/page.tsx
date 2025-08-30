@@ -9,6 +9,8 @@ import { ChevronLeft, CheckCircle, Diamond, Gift, Star, Gem, Crown, MessageCircl
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+
 
 const VipBadge = ({ level = 0, size = 'md' }: { level: number, size?: 'sm' | 'md' }) => {
     const sizeClasses = {
@@ -48,36 +50,20 @@ const HistoryChatIcon = () => (
 );
 
 
+const vipLevels = Array.from({ length: 11 }, (_, i) => ({
+    level: i,
+    expRequired: i * 1000,
+    levelUpReward: i * 100,
+    monthlyReward: i * 50,
+    rebateRate: `${(i * 0.1).toFixed(1)}%`,
+}));
+
+
 export default function VipPage() {
     const { nickname, avatar } = useUser();
     
-    const benefits = [
-        { 
-            icon: <BenefitIcon color="bg-gradient-to-br from-yellow-300 to-orange-400"><Gift className="w-8 h-8 text-white" /></BenefitIcon>, 
-            title: "Level up rewards", 
-            description: "Each account can only receive 0 time", 
-            value: "0",
-            received: "0",
-            isCurrency: true
-        },
-        { 
-            icon: <BenefitIcon color="bg-gradient-to-br from-orange-300 to-amber-500"><Star className="w-8 h-8 text-white" /></BenefitIcon>, 
-            title: "Monthly reward", 
-            description: "Each account can only receive 0 time per month",
-            value: "0",
-            received: "0",
-            isCurrency: true
-        },
-        { 
-            icon: <BenefitIcon color="bg-gradient-to-br from-amber-400 to-yellow-500">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg>
-            </BenefitIcon>, 
-            title: "Rebate rate", 
-            description: "Increase income of rebate",
-            value: "0%",
-            isCurrency: false
-        }
-    ];
+    const currentLevel = 0;
+    const currentExp = 0;
 
     const experienceHistory = [
         { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
@@ -108,8 +94,8 @@ export default function VipPage() {
                         <div>
                             <div className="flex items-center gap-1">
                                <div className="bg-blue-900/50 border border-blue-400 rounded-full pl-0.5 pr-2 py-0.5 text-xs flex items-center gap-1">
-                                    <VipBadge level={0} />
-                                    <span>VIP0</span>
+                                    <VipBadge level={currentLevel} />
+                                    <span>VIP{currentLevel}</span>
                                </div>
                             </div>
                              <h2 className="text-lg font-bold mt-1">{nickname}</h2>
@@ -131,68 +117,127 @@ export default function VipPage() {
                     <p>VIP level rewards are settled at 0:00 am on the 0st of every month</p>
                 </div>
                 
-                <div className="px-4">
-                     <Card className="rounded-xl shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 text-white">
-                        <CardContent className="p-4 relative">
-                            <div className="absolute top-4 right-4 opacity-30">
-                                <VipBadge level={0} />
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <h3 className="text-2xl font-bold">VIP0</h3>
-                                <div className="flex items-center gap-1 text-green-300 bg-green-900/50 rounded-full px-2 py-0.5 text-xs">
-                                    <CheckCircle className="w-3 h-3" />
-                                    <span>Achieved</span>
+                <Carousel
+                    opts={{
+                        align: "start",
+                    }}
+                    className="w-full"
+                >
+                    <CarouselContent>
+                        {vipLevels.map((vip, index) => (
+                            <CarouselItem key={index} className="basis-11/12">
+                               <div className="px-1">
+                                     <Card className="rounded-xl shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 text-white">
+                                        <CardContent className="p-4 relative">
+                                            <div className="absolute top-4 right-4 opacity-30">
+                                                <VipBadge level={vip.level} />
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <h3 className="text-2xl font-bold">VIP{vip.level}</h3>
+                                                {currentLevel >= vip.level && (
+                                                    <div className="flex items-center gap-1 text-green-300 bg-green-900/50 rounded-full px-2 py-0.5 text-xs">
+                                                        <CheckCircle className="w-3 h-3" />
+                                                        <span>Achieved</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <p className="text-sm opacity-80 mt-1">Dear VIP{vip.level} customer</p>
+                                            
+                                            <div className="mt-4">
+                                                <div className="flex justify-between items-center text-xs">
+                                                     <p>Level maintenance</p>
+                                                     <p>{currentLevel === vip.level ? '0' : '0'}% Completed</p>
+                                                </div>
+                                                <Progress value={currentLevel === vip.level ? 0 : (currentLevel > vip.level ? 100 : 0)} className="h-2 mt-1 bg-white/20" indicatorClassName="bg-yellow-400" />
+                                                <div className="flex justify-between items-center text-xs mt-1">
+                                                    <p className="opacity-80">{currentLevel === vip.level ? `0/${vip.expRequired}` : `0/0`}</p>
+                                                </div>
+                                            </div>
+                                            <p className="text-xs mt-3 opacity-80">Incomplete will be deducted by the system [0EXP]</p>
+                                        </CardContent>
+                                     </Card>
                                 </div>
-                            </div>
-                            <p className="text-sm opacity-80 mt-1">Dear VIP0 customer</p>
-                            
-                            <div className="mt-4">
-                                <div className="flex justify-between items-center text-xs">
-                                     <p>Level maintenance</p>
-                                     <p>0% Completed</p>
-                                </div>
-                                <Progress value={0} className="h-2 mt-1 bg-white/20" indicatorClassName="bg-yellow-400" />
-                                <div className="flex justify-between items-center text-xs mt-1">
-                                    <p className="opacity-80">0/0</p>
-                                </div>
-                            </div>
-
-                            <p className="text-xs mt-3 opacity-80">Incomplete will be deducted by the system [0EXP]</p>
-
-                        </CardContent>
-                     </Card>
-                </div>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <div className="hidden sm:block">
+                        <CarouselPrevious />
+                        <CarouselNext />
+                    </div>
+                </Carousel>
 
                  <div className="px-4">
                     <h3 className="font-bold text-lg flex items-center gap-2 mb-2">
                         <Gem className="text-primary" />
-                        VIP0 Benefits level
+                        VIP Benefits levels
                     </h3>
-                     <Card className="rounded-xl shadow-lg">
-                        <CardContent className="p-4 space-y-4">
-                            {benefits.map((benefit, index) => (
-                                <div key={index} className="flex items-center gap-3">
-                                    {benefit.icon}
-                                    <div className="flex-grow">
-                                        <p className="font-semibold">{benefit.title}</p>
-                                        <p className="text-xs text-muted-foreground">{benefit.description}</p>
+                     <Carousel
+                        opts={{
+                            align: "start",
+                        }}
+                        className="w-full"
+                    >
+                        <CarouselContent>
+                            {vipLevels.map((vip, index) => (
+                                <CarouselItem key={index} className="basis-11/12">
+                                    <div className="px-1">
+                                        <Card className="rounded-xl shadow-lg">
+                                            <CardContent className="p-4 space-y-4">
+                                                <div className="text-center font-bold text-lg">VIP{vip.level}</div>
+                                                {[
+                                                    { 
+                                                        icon: <BenefitIcon color="bg-gradient-to-br from-yellow-300 to-orange-400"><Gift className="w-8 h-8 text-white" /></BenefitIcon>, 
+                                                        title: "Level up rewards", 
+                                                        description: "Each account can only receive 0 time", 
+                                                        value: vip.levelUpReward,
+                                                        received: 0,
+                                                        isCurrency: true
+                                                    },
+                                                    { 
+                                                        icon: <BenefitIcon color="bg-gradient-to-br from-orange-300 to-amber-500"><Star className="w-8 h-8 text-white" /></BenefitIcon>, 
+                                                        title: "Monthly reward", 
+                                                        description: "Each account can only receive 0 time per month",
+                                                        value: vip.monthlyReward,
+                                                        received: 0,
+                                                        isCurrency: true
+                                                    },
+                                                    { 
+                                                        icon: <BenefitIcon color="bg-gradient-to-br from-amber-400 to-yellow-500">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg>
+                                                        </BenefitIcon>, 
+                                                        title: "Rebate rate", 
+                                                        description: "Increase income of rebate",
+                                                        value: vip.rebateRate,
+                                                        isCurrency: false
+                                                    }
+                                                ].map((benefit, bIndex) => (
+                                                    <div key={bIndex} className="flex items-center gap-3">
+                                                        {benefit.icon}
+                                                        <div className="flex-grow">
+                                                            <p className="font-semibold">{benefit.title}</p>
+                                                            <p className="text-xs text-muted-foreground">{benefit.description}</p>
+                                                        </div>
+                                                        <div className="text-right">
+                                                            <div className="flex items-center justify-end gap-1 text-sm border border-orange-300 bg-orange-50 rounded-md px-2 py-1">
+                                                                {benefit.isCurrency && <div className="w-4 h-4 bg-yellow-400 rounded-full"></div>}
+                                                                <span className="font-bold text-orange-600">{benefit.value}</span>
+                                                            </div>
+                                                            {benefit.received !== undefined && (
+                                                                <div className="flex items-center justify-end gap-1 text-sm border border-red-300 bg-red-50 rounded-md px-2 py-1 mt-1">
+                                                                    <div className="w-4 h-4 bg-red-400 rounded-full"></div>
+                                                                    <span className="font-bold text-red-600">{benefit.received}</span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </CardContent>
+                                        </Card>
                                     </div>
-                                    <div className="text-right">
-                                        <div className="flex items-center justify-end gap-1 text-sm border border-orange-300 bg-orange-50 rounded-md px-2 py-1">
-                                            {benefit.isCurrency && <div className="w-4 h-4 bg-yellow-400 rounded-full"></div>}
-                                            <span className="font-bold text-orange-600">{benefit.value}</span>
-                                        </div>
-                                         {benefit.received !== undefined && (
-                                            <div className="flex items-center justify-end gap-1 text-sm border border-red-300 bg-red-50 rounded-md px-2 py-1 mt-1">
-                                                 <div className="w-4 h-4 bg-red-400 rounded-full"></div>
-                                                 <span className="font-bold text-red-600">{benefit.received}</span>
-                                            </div>
-                                         )}
-                                    </div>
-                                </div>
+                                </CarouselItem>
                             ))}
-                        </CardContent>
-                     </Card>
+                        </CarouselContent>
+                     </Carousel>
                  </div>
 
                  <div className="px-4">
@@ -266,5 +311,4 @@ export default function VipPage() {
             </div>
         </div>
     );
-
-    
+}
