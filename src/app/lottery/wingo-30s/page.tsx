@@ -74,8 +74,24 @@ export default function Wingo30sPage() {
     const [isClient, setIsClient] = React.useState(false);
     const [lastResult, setLastResult] = React.useState<ReturnType<typeof getResultForPeriod> | null>(null);
 
-    const basePeriod = BigInt("20250830100050887");
-    const baseTime = 1724985600000; 
+    const calculateCurrentPeriod = React.useCallback(() => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        
+        const secondsInDay = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+        const periodsPassed = Math.floor(secondsInDay / gameInterval);
+        const dailyCounter = (periodsPassed + 1).toString().padStart(5, '0');
+
+        const currentPeriodId = `${year}${month}${day}${dailyCounter}`;
+        
+        const secondsIntoCurrentPeriod = secondsInDay % gameInterval;
+        const newTimeLeft = gameInterval - secondsIntoCurrentPeriod;
+
+        return { currentPeriodId, newTimeLeft };
+    }, [gameInterval]);
+
 
     React.useEffect(() => {
         setIsClient(true);
@@ -84,20 +100,8 @@ export default function Wingo30sPage() {
     React.useEffect(() => {
         if (!isClient) return;
 
-        const calculateCurrentPeriod = (interval: number) => {
-            const now = Date.now();
-            const diffInSeconds = Math.floor((now - baseTime) / 1000);
-            const periodsPassed = Math.floor(diffInSeconds / interval);
-            const currentPeriodId = basePeriod + BigInt(periodsPassed);
-            
-            const secondsIntoCurrentPeriod = diffInSeconds % interval;
-            const newTimeLeft = interval - secondsIntoCurrentPeriod;
-
-            return { currentPeriodId: currentPeriodId.toString(), newTimeLeft };
-        };
-
         const updateTimer = () => {
-            const { currentPeriodId, newTimeLeft } = calculateCurrentPeriod(gameInterval);
+            const { currentPeriodId, newTimeLeft } = calculateCurrentPeriod();
             if (periodId !== currentPeriodId) {
                 setPeriodId(currentPeriodId);
             }
@@ -108,21 +112,48 @@ export default function Wingo30sPage() {
         const timer = setInterval(updateTimer, 1000);
 
         return () => clearInterval(timer);
-    }, [isClient, gameInterval, periodId]);
+    }, [isClient, gameInterval, periodId, calculateCurrentPeriod]);
     
     React.useEffect(() => {
         if (!periodId || !isClient) return;
 
         const history = [];
-        const currentPeriodBigInt = BigInt(periodId);
+        
+        // This logic generates a predictable history based on the period ID
+        const generateHistoryResult = (pId: string) => {
+             const seed = parseInt(pId.slice(-5)); // Use last 5 digits for some variation
+             const number = (seed * 13 + 7) % 10; // Simple pseudo-random logic
+             let color: 'green' | 'violet' | 'red' | string = 'gray';
+             let size: 'Big' | 'Small' = 'Small';
 
-        const lastPeriodResult = getResultForPeriod((currentPeriodBigInt - BigInt(1)).toString());
-        setLastResult(lastPeriodResult);
+             if ([1, 3, 7, 9].includes(number)) color = 'green';
+             if ([2, 4, 6, 8].includes(number)) color = 'red';
+             if (number === 5) color = 'green-violet';
+             if (number === 0) color = 'red-violet';
 
-        for (let i = 0; i < 10; i++) {
-             const pastPeriodId = currentPeriodBigInt - BigInt(i + 1);
-             if (pastPeriodId > 0) {
-                history.push(getResultForPeriod(pastPeriodId.toString()));
+             if (number >= 5) size = 'Big';
+             
+             return { period: pId, number, size, color };
+        }
+
+        const year = parseInt(periodId.substring(0, 4));
+        const month = parseInt(periodId.substring(4, 6));
+        const day = parseInt(periodId.substring(6, 8));
+        const dailyCounter = parseInt(periodId.substring(8));
+        
+        const lastPeriodCounter = dailyCounter -1;
+
+        if (lastPeriodCounter > 0) {
+            const lastPeriodId = `${year.toString()}${(month).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}${lastPeriodCounter.toString().padStart(5, '0')}`;
+            setLastResult(generateHistoryResult(lastPeriodId));
+        }
+
+
+        for (let i = 1; i <= 10; i++) {
+             const pastCounter = dailyCounter - i;
+             if (pastCounter > 0) {
+                 const pastPeriodId = `${year.toString()}${(month).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}${pastCounter.toString().padStart(5, '0')}`;
+                 history.push(generateHistoryResult(pastPeriodId));
              }
         }
         setGameHistory(history);
@@ -283,7 +314,7 @@ export default function Wingo30sPage() {
                                     <div>
                                         {gameHistory.map((item, index) => (
                                             <div key={index} className="grid grid-cols-4 text-center items-center py-3 border-b">
-                                                <div className="text-xs text-muted-foreground">{item.period.slice(-6)}</div>
+                                                <div className="text-xs text-muted-foreground">{item.period}</div>
                                                 <div className={cn("font-bold text-lg", item.color.includes('red') ? 'text-red-500' : 'text-green-500' )}>{item.number}</div>
                                                 <div className={cn("text-sm font-bold", item.size === 'Big' ? 'text-orange-500' : 'text-blue-500')}>{item.size}</div>
                                                 <div className="flex justify-center items-center gap-1">
