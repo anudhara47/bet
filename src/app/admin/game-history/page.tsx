@@ -8,7 +8,7 @@ export default function PlaceholderPage() {
       <div className="max-w-lg mx-auto text-center p-4">
         <h1 className="text-4xl font-bold mb-4">Game History</h1>
         <p className="text-lg mb-8">This page is under construction.</p>
-        <Link href="/admin/deposits" className="flex items-center justify-center text-red-500 hover:text-red-700">
+        <Link href="/admin/dashboard" className="flex items-center justify-center text-red-500 hover:text-red-700">
           <ChevronLeft className="w-6 h-6" />
           Go Back to Admin Dashboard
         </Link>

@@ -29,7 +29,7 @@ export default function UserInformationPage() {
     return (
         <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto relative">
             <header className="bg-primary text-primary-foreground p-4 flex items-center gap-4 sticky top-0 z-10">
-                <Link href="/admin/deposits" className="text-white">
+                <Link href="/admin/dashboard" className="text-white">
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
                 <h1 className="font-bold text-xl">User Information</h1>
