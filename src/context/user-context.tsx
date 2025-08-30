@@ -3,6 +3,20 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
 
 // Types
+export interface BankDetails {
+    bankName: string;
+    accountNumber: string;
+    holderName: string;
+    phone: string;
+    ifsc: string;
+}
+
+export interface UpiDetails {
+    holderName: string;
+    upiId: string;
+}
+
+
 export interface UserData {
     uid: string;
     email: string | null;
@@ -22,6 +36,8 @@ export interface UserData {
     claimedInvitationBonuses: number[];
     blocked: boolean;
     hasDeposited: boolean;
+    bankDetails: BankDetails | null;
+    upiDetails: UpiDetails | null;
 }
 
 export interface ExpHistoryItem {
@@ -71,6 +87,10 @@ interface UserContextType {
   logout: () => void;
   hasDeposited: boolean;
   markAsDeposited: () => void;
+  bankDetails: BankDetails | null;
+  upiDetails: UpiDetails | null;
+  saveBankDetails: (details: BankDetails) => void;
+  saveUpiDetails: (details: UpiDetails) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -106,6 +126,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [isInitialLoad, setIsInitialLoad] = useState(true);
     const [isBlocked, setIsBlocked] = useState(false);
     const [hasDeposited, setHasDeposited] = useState(false);
+    const [bankDetails, setBankDetails] = useState<BankDetails | null>(null);
+    const [upiDetails, setUpiDetails] = useState<UpiDetails | null>(null);
 
     const clearLocalStorage = () => {
         Object.keys(localStorage).forEach(key => {
@@ -132,6 +154,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setClaimedInvitationBonuses(user.claimedInvitationBonuses);
         setIsBlocked(user.blocked);
         setHasDeposited(user.hasDeposited);
+        setBankDetails(user.bankDetails || null);
+        setUpiDetails(user.upiDetails || null);
     }
     
     useEffect(() => {
@@ -191,6 +215,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 claimedInvitationBonuses: [1],
                 blocked: false,
                 hasDeposited: false,
+                bankDetails: null,
+                upiDetails: null,
             };
             
             saveUser(newUser);
@@ -219,13 +245,16 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setClaimedInvitationBonuses([]);
         setIsBlocked(false);
         setHasDeposited(false);
+        setBankDetails(null);
+        setUpiDetails(null);
     }, []);
 
     const getUserData = (): UserData | null => {
         if(!uid) return null;
         return {
             uid, email, nickname, avatar, balance, thirdPartyBalance, experience, usedCodes, claimedLevels,
-            lastMonthlyClaim, totalDepositAmount, totalWithdrawalAmount, invitees, claimedInvitationBonuses, blocked: isBlocked, hasDeposited
+            lastMonthlyClaim, totalDepositAmount, totalWithdrawalAmount, invitees, claimedInvitationBonuses, blocked: isBlocked, hasDeposited,
+            bankDetails, upiDetails
         };
     };
     
@@ -301,6 +330,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const markAsDeposited = () => {
         updateUser({ hasDeposited: true });
     }
+    const saveBankDetails = (details: BankDetails) => updateUser({ bankDetails: details });
+    const saveUpiDetails = (details: UpiDetails) => updateUser({ upiDetails: details });
 
 
     const value = {
@@ -309,7 +340,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         usedCodes, addUsedCode, redeemGlobalCode, hasClaimedLevel, addClaimedLevel, expHistory,
         lastMonthlyClaim, claimMonthlyReward, totalDepositAmount, addDepositAmount, totalWithdrawalAmount,
         addWithdrawalAmount, invitees, claimedInvitationBonuses, addClaimedInvitationBonus,
-        isBlocked, blockUser, unblockUser, login, logout, hasDeposited, markAsDeposited
+        isBlocked, blockUser, unblockUser, login, logout, hasDeposited, markAsDeposited,
+        bankDetails, upiDetails, saveBankDetails, saveUpiDetails
     };
 
     return (
