@@ -52,7 +52,7 @@ const FloatingChatIcon = () => (
 );
 
 const getResultForPeriod = (periodId: string) => {
-    // Using a client-side RNG
+    // This function will only run on the client, so Math.random is safe here.
     const newNumber = Math.floor(Math.random() * 10);
     const newColors = [];
     if ([0, 5].includes(newNumber)) newColors.push('purple');
@@ -73,40 +73,34 @@ export default function WinGoPage() {
     const [periodId, setPeriodId] = React.useState<string | null>(null);
     const [gameHistory, setGameHistory] = React.useState<ReturnType<typeof getResultForPeriod>[]>([]);
     const [isRefreshing, setIsRefreshing] = React.useState(false);
-    
-    // Using a fixed date now to avoid issues with client/server time differences
-    const [baseTime, setBaseTime] = React.useState<number | null>(null);
-    const [basePeriod, setBasePeriod] = React.useState<bigint | null>(null);
     const [isClient, setIsClient] = React.useState(false);
 
+    // Using a fixed base period. The base time will be set on the client.
+    const basePeriod = BigInt("20250830100050768");
+    const baseTimeRef = React.useRef<number | null>(null);
+
     React.useEffect(() => {
+        // This ensures the following code only runs on the client
         setIsClient(true);
-        // Set the base time and period only once on the client
-        if (baseTime === null || basePeriod === null) {
-            setBaseTime(Date.now());
-            setBasePeriod(BigInt("20250830100050768"));
+        if (baseTimeRef.current === null) {
+            baseTimeRef.current = Date.now();
         }
-    }, [baseTime, basePeriod]);
-    
 
-    // Function to calculate the current period ID
-    const calculateCurrentPeriod = React.useCallback((interval: number) => {
-        if (baseTime === null || basePeriod === null) {
-            return { currentPeriodId: "0", newTimeLeft: interval };
-        }
-        const now = Date.now();
-        const diffInSeconds = Math.floor((now - baseTime) / 1000);
-        const periodsPassed = Math.floor(diffInSeconds / interval);
-        const currentPeriodId = basePeriod + BigInt(periodsPassed);
-        
-        const secondsIntoCurrentPeriod = diffInSeconds % interval;
-        const newTimeLeft = interval - secondsIntoCurrentPeriod;
+        const calculateCurrentPeriod = (interval: number) => {
+            if (baseTimeRef.current === null) {
+                return { currentPeriodId: "0", newTimeLeft: interval };
+            }
+            const now = Date.now();
+            const diffInSeconds = Math.floor((now - baseTimeRef.current) / 1000);
+            const periodsPassed = Math.floor(diffInSeconds / interval);
+            const currentPeriodId = basePeriod + BigInt(periodsPassed);
+            
+            const secondsIntoCurrentPeriod = diffInSeconds % interval;
+            const newTimeLeft = interval - secondsIntoCurrentPeriod;
 
-        return { currentPeriodId: currentPeriodId.toString(), newTimeLeft };
-    }, [baseTime, basePeriod]);
+            return { currentPeriodId: currentPeriodId.toString(), newTimeLeft };
+        };
 
-    // Effect for initializing and updating the timer
-    React.useEffect(() => {
         const updateTimer = () => {
             const { currentPeriodId, newTimeLeft } = calculateCurrentPeriod(gameInterval);
             setPeriodId(currentPeriodId);
@@ -117,7 +111,7 @@ export default function WinGoPage() {
         const timer = setInterval(updateTimer, 1000);
 
         return () => clearInterval(timer);
-    }, [gameInterval, calculateCurrentPeriod]);
+    }, [gameInterval, basePeriod]);
     
     // Effect for updating game history when period changes
     React.useEffect(() => {
@@ -125,10 +119,10 @@ export default function WinGoPage() {
 
         const history = [];
         const currentPeriodBigInt = BigInt(periodId);
-        // Ensure we don't show history for future periods if client time is ahead
+        // Ensure we don't show history for future periods
         for (let i = 0; i < 10; i++) {
              const pastPeriodId = (currentPeriodBigInt - BigInt(i + 1));
-             if(pastPeriodId > 0) { // Check to ensure we are not creating negative period Ids
+             if(pastPeriodId > 0) {
                 history.push(getResultForPeriod(pastPeriodId.toString()));
              }
         }
