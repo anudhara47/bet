@@ -51,10 +51,20 @@ export default function DepositConfirmPage() {
     };
 
     const handleSubmit = () => {
-        if (!utr || !screenshot) {
+        const utrRegex = /^\d{12}$/;
+        if (!utrRegex.test(utr)) {
+            toast({
+                title: "Invalid UTR",
+                description: "Please enter a valid 12-digit UTR number.",
+                variant: "destructive"
+            });
+            return;
+        }
+
+        if (!screenshot) {
             toast({
                 title: "Missing Information",
-                description: "Please provide both UTR number and a payment screenshot.",
+                description: "Please provide a payment screenshot.",
                 variant: "destructive"
             });
             return;
@@ -142,6 +152,7 @@ export default function DepositConfirmPage() {
                                 placeholder="Enter the 12-digit UTR number" 
                                 value={utr}
                                 onChange={(e) => setUtr(e.target.value)}
+                                maxLength={12}
                             />
                         </div>
                         <div className="space-y-2">
