@@ -103,10 +103,9 @@ const CircularProgress = ({ percentage, label, amount }: { percentage: number, l
 
 
 export default function WalletPage() {
-    const { balance, totalDepositAmount } = useUser();
+    const { balance, totalDepositAmount, totalWithdrawalAmount } = useUser();
     
     // These are placeholders. You can wire them up to real state management.
-    const totalAmount = balance + totalDepositAmount; // Example calculation
     const thirdPartyBalance = 0;
 
     const mainWalletPercentage = balance > 0 ? 100 : 0;
@@ -116,7 +115,7 @@ export default function WalletPage() {
         { icon: <DepositIcon/>, label: "Deposit", href: "/deposit" },
         { icon: <WithdrawIcon/>, label: "Withdraw", href: "/withdraw" },
         { icon: <DepositHistoryIcon/>, label: "Deposit history", href: "/deposit-history" },
-        { icon: <WithdrawHistoryIcon/>, label: "Withdrawal history", href: "/withdrawal-history" },
+        { icon: <WithdrawHistoryIcon/>, label: "Withdrawal history", href: "/withdraw-history" },
     ];
 
   return (
@@ -138,12 +137,12 @@ export default function WalletPage() {
 
             <div className="grid grid-cols-2 mt-4">
                 <div>
-                    <p className="font-bold text-lg">{totalAmount.toLocaleString()}</p>
-                    <p className="text-xs opacity-80">Total amount</p>
+                    <p className="font-bold text-lg">₹{totalDepositAmount.toLocaleString()}</p>
+                    <p className="text-xs opacity-80">Total deposit</p>
                 </div>
                  <div>
-                    <p className="font-bold text-lg">{totalDepositAmount.toLocaleString()}</p>
-                    <p className="text-xs opacity-80">Total deposit amount</p>
+                    <p className="font-bold text-lg">₹{totalWithdrawalAmount.toLocaleString()}</p>
+                    <p className="text-xs opacity-80">Total withdrawal</p>
                 </div>
             </div>
           </div>

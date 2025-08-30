@@ -19,7 +19,7 @@ interface WithdrawalRequest {
 export default function AdminWithdrawalPage() {
     const [requests, setRequests] = React.useState<WithdrawalRequest[]>([]);
     const { toast } = useToast();
-    const { setBalance } = useUser();
+    const { setBalance, addWithdrawalAmount } = useUser();
     const { addNotification } = useNotification();
 
     React.useEffect(() => {
@@ -35,6 +35,7 @@ export default function AdminWithdrawalPage() {
             if (req.id === id) {
                 requestFound = req;
                 if (status === 'approved') {
+                    addWithdrawalAmount(req.amount);
                     addNotification({
                         type: 'withdrawal',
                         title: 'Withdrawal Approved',

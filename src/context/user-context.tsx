@@ -31,6 +31,8 @@ interface UserContextType {
   claimMonthlyReward: () => void;
   totalDepositAmount: number;
   addDepositAmount: (amount: number) => void;
+  totalWithdrawalAmount: number;
+  addWithdrawalAmount: (amount: number) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -47,6 +49,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [expHistory, setExpHistory] = useState<ExpHistoryItem[]>([]);
     const [lastMonthlyClaim, setLastMonthlyClaim] = useState<number | null>(null);
     const [totalDepositAmount, setTotalDepositAmount] = useState(0);
+    const [totalWithdrawalAmount, setTotalWithdrawalAmount] = useState(0);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     // Load from localStorage on initial render
@@ -111,6 +114,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             setTotalDepositAmount(parseFloat(storedTotalDeposit));
         }
 
+        const storedTotalWithdrawal = localStorage.getItem('user-total-withdrawal');
+        if (storedTotalWithdrawal) {
+            setTotalWithdrawalAmount(parseFloat(storedTotalWithdrawal));
+        }
+
         setIsInitialLoad(false);
     }, []);
 
@@ -168,6 +176,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('user-total-deposit', totalDepositAmount.toString());
     }, [totalDepositAmount, isInitialLoad]);
 
+    useEffect(() => {
+        if (isInitialLoad) return;
+        localStorage.setItem('user-total-withdrawal', totalWithdrawalAmount.toString());
+    }, [totalWithdrawalAmount, isInitialLoad]);
+
 
     const handleSetNickname = (name: string) => {
         setNickname(name);
@@ -210,6 +223,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setTotalDepositAmount(prev => prev + amount);
     };
 
+    const addWithdrawalAmount = (amount: number) => {
+        setTotalWithdrawalAmount(prev => prev + amount);
+    };
+
 
     const value = {
         uid,
@@ -230,7 +247,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         lastMonthlyClaim,
         claimMonthlyReward,
         totalDepositAmount,
-        addDepositAmount
+        addDepositAmount,
+        totalWithdrawalAmount,
+        addWithdrawalAmount
     };
 
     return (
