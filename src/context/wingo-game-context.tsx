@@ -1,3 +1,4 @@
+
 'use client';
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 
@@ -95,6 +96,7 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
            }
       }
       setGameHistory(history);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [periodId, isClient]);
 
   const handleRefresh = () => {
