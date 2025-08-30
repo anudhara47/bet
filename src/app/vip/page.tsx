@@ -1,17 +1,209 @@
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
 
-export default function PlaceholderPage() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
-      <div className="max-w-lg mx-auto text-center p-4">
-        <h1 className="text-4xl font-bold mb-4">VIP Page</h1>
-        <p className="text-lg mb-8">This page is under construction.</p>
-        <Link href="/account" className="flex items-center justify-center text-red-500 hover:text-red-700">
-          <ChevronLeft className="w-6 h-6" />
-          Go Back to Account
-        </Link>
-      </div>
+'use client';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { useUser } from "@/context/user-context";
+import { ChevronLeft, CheckCircle, Diamond, Gift, Star, Gem, Crown, MessageCircle } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import * as React from "react";
+
+const VipBadge = ({ level = 1 }: { level: number }) => (
+    <div className="relative w-12 h-12 flex items-center justify-center">
+        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
+            <polygon points="50,5 61,39 98,39 68,62 79,96 50,75 21,96 32,62 2,39 39,39" fill="#4a5568"/>
+            <polygon points="50,10 59,39 90,39 65,58 74,88 50,70 26,88 35,58 10,39 41,39" fill="#718096"/>
+            <polygon points="50,15 58,40 85,40 65,55 71,80 50,65 29,80 35,55 15,40 42,40" fill="#a0aec0"/>
+            <polygon points="50,20 57,40 80,40 65,53 69,75 50,62 31,75 35,53 20,40 43,40" fill="#e2e8f0"/>
+        </svg>
+        <span className="relative text-gray-800 font-bold text-sm z-10">V{level}</span>
     </div>
-  );
+);
+
+const BenefitIcon = ({ children, color = 'bg-yellow-400' }: { children: React.ReactNode, color?: string }) => (
+    <div className={`w-14 h-14 rounded-xl ${color} flex items-center justify-center`}>
+        {children}
+    </div>
+);
+
+export default function VipPage() {
+    const { nickname, avatar } = useUser();
+    
+    const benefits = [
+        { 
+            icon: <BenefitIcon color="bg-gradient-to-br from-yellow-300 to-orange-400"><Gift className="w-8 h-8 text-white" /></BenefitIcon>, 
+            title: "Level up rewards", 
+            description: "Each account can only receive 1 time", 
+            value: "60",
+            received: "0",
+            isCurrency: true
+        },
+        { 
+            icon: <BenefitIcon color="bg-gradient-to-br from-orange-300 to-amber-500"><Star className="w-8 h-8 text-white" /></BenefitIcon>, 
+            title: "Monthly reward", 
+            description: "Each account can only receive 1 time per month",
+            value: "3",
+            received: "0",
+            isCurrency: true
+        },
+        { 
+            icon: <BenefitIcon color="bg-gradient-to-br from-amber-400 to-yellow-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg>
+            </BenefitIcon>, 
+            title: "Rebate rate", 
+            description: "Increase income of rebate",
+            value: "0.05%",
+            isCurrency: false
+        }
+    ];
+
+    return (
+        <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto relative">
+            <header className="bg-red-500 text-white p-4 flex items-center gap-4 sticky top-0 z-10">
+                <Link href="/account" className="text-white">
+                    <ChevronLeft className="w-6 h-6" />
+                </Link>
+                <h1 className="font-bold text-xl mx-auto">VIP</h1>
+            </header>
+
+            <main className="space-y-4">
+                <div className="bg-red-500 p-4 rounded-b-2xl">
+                    <div className="flex items-center gap-4 text-white">
+                        <div className="w-16 h-16 rounded-full bg-gray-200 border-2 border-white overflow-hidden">
+                           {avatar ? (
+                               <Image src={avatar} alt="User Avatar" width={64} height={64} className="object-cover"/>
+                           ) : (
+                               <User className="w-10 h-10 text-gray-400 mt-3 ml-3" />
+                           )}
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-1">
+                               <div className="bg-blue-900/50 border border-blue-400 rounded-full px-2 py-0.5 text-xs flex items-center gap-1">
+                                    <VipBadge level={1} />
+                                    <span className="ml-[-10px]">VIP1</span>
+                               </div>
+                            </div>
+                             <h2 className="text-lg font-bold mt-1">{nickname}</h2>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 mt-4 text-center">
+                        <Card className="bg-white/90 text-red-500 rounded-lg py-2">
+                           <p className="text-xl font-bold">13796 EXP</p>
+                           <p className="text-xs text-muted-foreground">My experience</p>
+                        </Card>
+                        <Card className="bg-white/90 text-red-500 rounded-lg py-2">
+                           <p className="text-xl font-bold">2 <span className="text-sm">Days</span></p>
+                           <p className="text-xs text-muted-foreground">Payout time</p>
+                        </Card>
+                    </div>
+                </div>
+
+                <div className="px-4 text-center text-sm text-muted-foreground">
+                    <p>VIP level rewards are settled at 2:00 am on the 1st of every month</p>
+                </div>
+                
+                <div className="px-4">
+                     <Card className="rounded-xl shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 text-white">
+                        <CardContent className="p-4 relative">
+                            <div className="absolute top-4 right-4 opacity-30">
+                                <VipBadge level={1} />
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <h3 className="text-2xl font-bold">VIP1</h3>
+                                <div className="flex items-center gap-1 text-green-300 bg-green-900/50 rounded-full px-2 py-0.5 text-xs">
+                                    <CheckCircle className="w-3 h-3" />
+                                    <span>Achieved</span>
+                                </div>
+                            </div>
+                            <p className="text-sm opacity-80 mt-1">Dear VIP1 customer</p>
+                            
+                            <div className="mt-4">
+                                <div className="flex justify-between items-center text-xs">
+                                     <p>Level maintenance</p>
+                                     <p>100% Completed</p>
+                                </div>
+                                <Progress value={100} className="h-2 mt-1 bg-white/20" indicatorClassName="bg-yellow-400" />
+                                <div className="flex justify-between items-center text-xs mt-1">
+                                    <p className="opacity-80">1000/1000</p>
+                                </div>
+                            </div>
+
+                            <p className="text-xs mt-3 opacity-80">Incomplete will be deducted by the system [1500EXP]</p>
+
+                        </CardContent>
+                     </Card>
+                </div>
+
+                 <div className="px-4">
+                    <h3 className="font-bold text-lg flex items-center gap-2 mb-2">
+                        <Gem className="text-red-500" />
+                        VIP1 Benefits level
+                    </h3>
+                     <Card className="rounded-xl shadow-lg">
+                        <CardContent className="p-4 space-y-4">
+                            {benefits.map((benefit, index) => (
+                                <div key={index} className="flex items-center gap-3">
+                                    {benefit.icon}
+                                    <div className="flex-grow">
+                                        <p className="font-semibold">{benefit.title}</p>
+                                        <p className="text-xs text-muted-foreground">{benefit.description}</p>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="flex items-center justify-end gap-1 text-sm border border-orange-300 bg-orange-50 rounded-md px-2 py-1">
+                                            {benefit.isCurrency && <div className="w-4 h-4 bg-yellow-400 rounded-full"></div>}
+                                            <span className="font-bold text-orange-600">{benefit.value}</span>
+                                        </div>
+                                         {benefit.received !== undefined && (
+                                            <div className="flex items-center justify-end gap-1 text-sm border border-red-300 bg-red-50 rounded-md px-2 py-1 mt-1">
+                                                 <div className="w-4 h-4 bg-red-400 rounded-full"></div>
+                                                 <span className="font-bold text-red-600">{benefit.received}</span>
+                                            </div>
+                                         )}
+                                    </div>
+                                </div>
+                            ))}
+                        </CardContent>
+                     </Card>
+                 </div>
+
+                 <div className="px-4">
+                    <h3 className="font-bold text-lg flex items-center gap-2 mb-2">
+                        <Crown className="text-red-500" />
+                        My benefits
+                    </h3>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Card className="rounded-xl shadow-lg bg-red-400 overflow-hidden">
+                           <CardContent className="p-0">
+                             <div className="h-24 bg-red-300 flex items-center justify-center">
+                               <Image src="https://picsum.photos/200/100?random=1" width={200} height={100} alt="Benefit 1" className="object-cover w-full h-full" data-ai-hint="gift box gold coins"/>
+                             </div>
+                             <div className="p-3 text-white">
+                                <p className="font-bold">Weekly Bonus</p>
+                                <Button size="sm" className="w-full mt-2 bg-white text-red-500 hover:bg-gray-100">Claim</Button>
+                             </div>
+                           </CardContent>
+                        </Card>
+                         <Card className="rounded-xl shadow-lg bg-red-400 overflow-hidden">
+                           <CardContent className="p-0">
+                            <div className="h-24 bg-red-300 flex items-center justify-center">
+                               <Image src="https://picsum.photos/200/100?random=2" width={200} height={100} alt="Benefit 2" className="object-cover w-full h-full" data-ai-hint="gold coins treasure"/>
+                             </div>
+                             <div className="p-3 text-white">
+                                <p className="font-bold">Monthly Bonus</p>
+                                <Button size="sm" className="w-full mt-2 bg-white text-red-500 hover:bg-gray-100">Claim</Button>
+                             </div>
+                           </CardContent>
+                        </Card>
+                    </div>
+                </div>
+
+            </main>
+             <div className="fixed bottom-20 right-4">
+                <Button className="rounded-full w-14 h-14 bg-red-500/80 backdrop-blur-sm shadow-lg hover:bg-red-500">
+                    <MessageCircle className="w-8 h-8 text-white" />
+                </Button>
+            </div>
+        </div>
+    );
 }
