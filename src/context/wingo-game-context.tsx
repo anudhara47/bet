@@ -139,8 +139,7 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
           });
       });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [periodId, isClient, checkBetStatus]);
+  }, [periodId, isClient, checkBetStatus, addExperience, gameInterval]);
 
   const placeBet = (selection: string, amount: number) => {
     if (periodId && timeLeft > 3) { // Prevent betting in last 3 seconds
