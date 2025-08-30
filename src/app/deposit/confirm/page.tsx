@@ -147,7 +147,7 @@ export default function DepositConfirmPage() {
                         <div className="space-y-2">
                             <Label htmlFor="screenshot">Upload Screenshot</Label>
                             <div className="flex items-center justify-center w-full">
-                                <label htmlFor="screenshot-input" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                                <label htmlFor="screenshot-input" className="relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
                                     {screenshotPreview ? (
                                         <Image src={screenshotPreview} alt="Screenshot preview" layout="fill" objectFit="contain" className="rounded-lg p-2"/>
                                     ) : (
@@ -171,4 +171,3 @@ export default function DepositConfirmPage() {
         </div>
     );
 }
-
