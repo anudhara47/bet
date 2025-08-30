@@ -1,4 +1,5 @@
 
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -357,7 +358,7 @@ export default function VipPage() {
                         <Card className="rounded-xl shadow-lg bg-primary overflow-hidden">
                            <CardContent className="p-0">
                              <div className="h-24 bg-red-300 flex items-center justify-center">
-                               <Image src="https://picsum.photos/200/100?random=1" width={200} height={100} alt="Benefit 1" className="object-cover w-full h-full" data-ai-hint="gift box gold coins"/>
+                               <Image src="https://picsum.photos/200/100?random=3" width={200} height={100} alt="Benefit 1" className="object-cover w-full h-full" data-ai-hint="gift box"/>
                              </div>
                              <div className="p-3 text-white">
                                 <p className="font-bold">Weekly Bonus</p>
@@ -430,3 +431,4 @@ export default function VipPage() {
     );
 
     
+
