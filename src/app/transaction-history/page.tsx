@@ -1,6 +1,5 @@
 
 'use client';
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
@@ -20,7 +19,7 @@ const generateRandomTransaction = (date: Date, type: 'deposit' | 'withdrawal'): 
     const statuses: ('Successful' | 'Pending' | 'Failed')[] = ['Successful', 'Successful', 'Successful', 'Pending', 'Failed'];
     const status = statuses[Math.floor(Math.random() * statuses.length)];
     const amount = Math.floor(Math.random() * 2000) + 50;
-    const id = `${type.toUpperCase().substring(0,4)}-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+    const id = `${type.toUpperCase().substring(0,3)}-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
     
     return {
         id,
