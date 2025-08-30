@@ -303,7 +303,13 @@ const AddUpiForm = ({ setUpiDetails }: { setUpiDetails: (details: UpiDetails) =>
                     </div>
                     <div className="space-y-1">
                         <Label htmlFor="upiId">UPI ID</Label>
-                        <Input id="upiId" {...register("upiId", { required: "UPI ID is required" })} />
+                        <Input id="upiId" {...register("upiId", { 
+                            required: "UPI ID is required",
+                            pattern: {
+                                value: /^[\w.-]+@[\w.-]+$/,
+                                message: "Invalid UPI ID format. It should be like name@bank"
+                            }
+                         })} />
                         {errors.upiId && <p className="text-red-500 text-xs mt-1">{errors.upiId.message}</p>}
                     </div>
                     <div className="space-y-1">
@@ -347,3 +353,6 @@ const SavedUpiCard = ({ details }: { details: UpiDetails }) => (
         </CardContent>
     </Card>
 );
+
+
+    
