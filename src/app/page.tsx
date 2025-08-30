@@ -439,6 +439,7 @@ export default function HomePage() {
               <LotteryCard href="/lottery/k3" Icon={K3Icon} label="K3" />
               <LotteryCard href="/lottery/5d" Icon={FiveDIcon} label="5D" />
               <LotteryCard href="/lottery/trx-wingo" Icon={TrxWingoIcon} label="TRX WINGO" />
+              <LotteryCard href="/lottery/trx" Icon={TrxWingoIcon} label="TRX" />
           </div>
         </div>
 
