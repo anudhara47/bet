@@ -74,36 +74,37 @@ export default function Wingo30sPage() {
     const [isClient, setIsClient] = React.useState(false);
     const [lastResult, setLastResult] = React.useState<ReturnType<typeof getResultForPeriod> | null>(null);
 
-    const calculateCurrentPeriod = React.useCallback(() => {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = (now.getMonth() + 1).toString().padStart(2, '0');
-        const day = now.getDate().toString().padStart(2, '0');
-        
-        const secondsInDay = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
-        const periodsPassed = Math.floor(secondsInDay / gameInterval);
-        const dailyCounter = (periodsPassed + 1).toString().padStart(5, '0');
-
-        const currentPeriodId = `${year}${month}${day}${dailyCounter}`;
-        
-        const secondsIntoCurrentPeriod = secondsInDay % gameInterval;
-        const newTimeLeft = gameInterval - secondsIntoCurrentPeriod;
-
-        return { currentPeriodId, newTimeLeft };
-    }, [gameInterval]);
+    const basePeriod = BigInt("20250830100050890");
+    const [baseTime, setBaseTime] = React.useState<number | null>(null);
 
 
     React.useEffect(() => {
         setIsClient(true);
+        // Set the base time only once on the client
+        if (!baseTime) {
+            setBaseTime(Date.now());
+        }
     }, []);
 
     React.useEffect(() => {
-        if (!isClient) return;
+        if (!isClient || baseTime === null) return;
+
+        const calculateCurrentPeriod = () => {
+            const now = Date.now();
+            const diffInSeconds = Math.floor((now - baseTime) / 1000);
+            const periodsPassed = Math.floor(diffInSeconds / gameInterval);
+            const currentPeriodId = basePeriod + BigInt(periodsPassed);
+            
+            const secondsIntoCurrentPeriod = diffInSeconds % gameInterval;
+            const newTimeLeft = gameInterval - secondsIntoCurrentPeriod;
+
+            return { currentPeriodId: currentPeriodId.toString(), newTimeLeft };
+        };
 
         const updateTimer = () => {
             const { currentPeriodId, newTimeLeft } = calculateCurrentPeriod();
             if (periodId !== currentPeriodId) {
-                setPeriodId(currentPeriodId);
+                 setPeriodId(currentPeriodId);
             }
             setTimeLeft(newTimeLeft);
         };
@@ -112,7 +113,7 @@ export default function Wingo30sPage() {
         const timer = setInterval(updateTimer, 1000);
 
         return () => clearInterval(timer);
-    }, [isClient, gameInterval, periodId, calculateCurrentPeriod]);
+    }, [isClient, gameInterval, periodId, baseTime]);
     
     React.useEffect(() => {
         if (!periodId || !isClient) return;
@@ -135,24 +136,18 @@ export default function Wingo30sPage() {
              
              return { period: pId, number, size, color };
         }
-
-        const year = parseInt(periodId.substring(0, 4));
-        const month = parseInt(periodId.substring(4, 6));
-        const day = parseInt(periodId.substring(6, 8));
-        const dailyCounter = parseInt(periodId.substring(8));
         
-        const lastPeriodCounter = dailyCounter -1;
-
-        if (lastPeriodCounter > 0) {
-            const lastPeriodId = `${year.toString()}${(month).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}${lastPeriodCounter.toString().padStart(5, '0')}`;
+        const currentPeriodBigInt = BigInt(periodId);
+        
+        const lastPeriodId = (currentPeriodBigInt - BigInt(1)).toString();
+        if (lastPeriodId) {
             setLastResult(generateHistoryResult(lastPeriodId));
         }
 
 
         for (let i = 1; i <= 10; i++) {
-             const pastCounter = dailyCounter - i;
-             if (pastCounter > 0) {
-                 const pastPeriodId = `${year.toString()}${(month).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}${pastCounter.toString().padStart(5, '0')}`;
+             const pastPeriodId = (currentPeriodBigInt - BigInt(i)).toString();
+             if (BigInt(pastPeriodId) > 0) {
                  history.push(generateHistoryResult(pastPeriodId));
              }
         }
