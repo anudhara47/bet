@@ -88,9 +88,19 @@ export default function VipPage() {
     
     const [mainApi, setMainApi] = React.useState<CarouselApi>()
     const [benefitsApi, setBenefitsApi] = React.useState<CarouselApi>()
+    const [payoutDays, setPayoutDays] = React.useState(0);
     
     const currentLevel = vipLevels.find(l => experience < l.expRequired)?.level || 10;
-    const payoutDays = 0;
+    
+    React.useEffect(() => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
+        const currentDayOfMonth = now.getDate();
+        const daysRemaining = totalDaysInMonth - currentDayOfMonth;
+        setPayoutDays(daysRemaining);
+    }, []);
 
     const experienceHistory = [
         { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
