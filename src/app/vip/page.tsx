@@ -78,16 +78,16 @@ const HistoryChatIcon = () => (
 );
 
 const vipLevels = [
-    { level: 1, expRequired: 0, levelUpReward: 0, monthlyReward: 30, rebateRate: `0%` },
-    { level: 2, expRequired: 10000, levelUpReward: 60, monthlyReward: 80, rebateRate: `0%` },
-    { level: 3, expRequired: 30000, levelUpReward: 160, monthlyReward: 120, rebateRate: `0%` },
-    { level: 4, expRequired: 70000, levelUpReward: 360, monthlyReward: 200, rebateRate: `0%` },
-    { level: 5, expRequired: 100000, levelUpReward: 666, monthlyReward: 299, rebateRate: `0%` },
-    { level: 6, expRequired: 300000, levelUpReward: 999, monthlyReward: 355, rebateRate: `0%` },
-    { level: 7, expRequired: 700000, levelUpReward: 1655, monthlyReward: 589, rebateRate: `0%` },
-    { level: 8, expRequired: 1000000, levelUpReward: 3000, monthlyReward: 1999, rebateRate: `0%` },
-    { level: 9, expRequired: 3000000, levelUpReward: 7000, monthlyReward: 3655, rebateRate: `0%` },
-    { level: 10, expRequired: 7000000, levelUpReward: 11000, monthlyReward: 6000, rebateRate: `0%` },
+    { level: 1, expRequired: 0, levelUpReward: 60, monthlyReward: 30, rebateRate: `0%` },
+    { level: 2, expRequired: 20000, levelUpReward: 160, monthlyReward: 80, rebateRate: `0%` },
+    { level: 3, expRequired: 70000, levelUpReward: 360, monthlyReward: 120, rebateRate: `0%` },
+    { level: 4, expRequired: 100000, levelUpReward: 666, monthlyReward: 200, rebateRate: `0%` },
+    { level: 5, expRequired: 300000, levelUpReward: 999, monthlyReward: 299, rebateRate: `0%` },
+    { level: 6, expRequired: 700000, levelUpReward: 1655, monthlyReward: 355, rebateRate: `0%` },
+    { level: 7, expRequired: 1000000, levelUpReward: 3000, monthlyReward: 589, rebateRate: `0%` },
+    { level: 8, expRequired: 3000000, levelUpReward: 7000, monthlyReward: 1999, rebateRate: `0%` },
+    { level: 9, expRequired: 7000000, levelUpReward: 11000, monthlyReward: 3655, rebateRate: `0%` },
+    { level: 10, expRequired: 10000000, levelUpReward: 30000, monthlyReward: 6000, rebateRate: `0%` },
 ];
 
 export default function VipPage() {
@@ -235,6 +235,7 @@ export default function VipPage() {
                     setApi={setMainApi}
                     opts={{
                         align: "start",
+                        startIndex: currentLevel -1
                     }}
                     className="w-full"
                     >
@@ -243,11 +244,9 @@ export default function VipPage() {
                             const nextVipLevel = vipLevels[index + 1];
                             const currentVipLevelExp = vip.expRequired;
                             const nextVipLevelExp = nextVipLevel?.expRequired ?? currentVipLevelExp;
-                            
                             const progress = nextVipLevelExp > currentVipLevelExp
                                 ? Math.min(100, ((experience - currentVipLevelExp) / (nextVipLevelExp - currentVipLevelExp)) * 100)
                                 : 100;
-                            
                             const remainingExp = Math.max(0, nextVipLevelExp - experience);
 
                             return (
@@ -298,6 +297,7 @@ export default function VipPage() {
                         setApi={setBenefitsApi}
                         opts={{
                             align: "start",
+                            startIndex: currentLevel -1
                         }}
                         className="w-full"
                     >
