@@ -42,7 +42,7 @@ interface UserContextType {
   invitees: Invitees;
   claimedInvitationBonuses: number[];
   addClaimedInvitationBonus: (tierId: number) => void;
-  login: (mobile: string) => void;
+  login: (identifier: string) => void;
   logout: () => void;
 }
 
@@ -97,10 +97,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setIsInitialLoad(false);
     }, []);
 
-    const login = useCallback((mobile: string) => {
+    const login = useCallback((identifier: string) => {
         const newUid = Math.floor(100000 + Math.random() * 900000).toString();
+        const isEmail = identifier.includes('@');
+        const newEmail = isEmail ? identifier : `${newUid}@example.com`;
         const newNickname = `User${newUid.substring(0, 4)}`;
-        const newEmail = `${newNickname}@example.com`;
         
         localStorage.setItem('user-uid', newUid);
         setUid(newUid);
