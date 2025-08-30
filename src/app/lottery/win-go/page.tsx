@@ -74,6 +74,7 @@ export default function WinGoPage() {
     const [gameHistory, setGameHistory] = React.useState<ReturnType<typeof getResultForPeriod>[]>([]);
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     const [isClient, setIsClient] = React.useState(false);
+    const [lastResult, setLastResult] = React.useState<ReturnType<typeof getResultForPeriod> | null>(null);
 
     // Using a fixed base period and time.
     const basePeriod = BigInt("20250830100050808");
@@ -113,6 +114,10 @@ export default function WinGoPage() {
 
         const history = [];
         const currentPeriodBigInt = BigInt(periodId);
+        
+        const lastPeriodResult = getResultForPeriod((currentPeriodBigInt - BigInt(1)).toString());
+        setLastResult(lastPeriodResult);
+
         // Ensure we don't show history for future periods
         for (let i = 0; i < 10; i++) {
              const pastPeriodId = (currentPeriodBigInt - BigInt(i + 1));
@@ -218,53 +223,89 @@ export default function WinGoPage() {
                                 WinGo 5m
                             </TabsTrigger>
                         </TabsList>
-                        <TabsContent value="30sec" className="bg-white p-2 sm:p-4 rounded-b-lg shadow-md -mt-1">
-                            <div className="bg-red-100/50 border border-red-200 rounded-lg p-2 sm:p-3">
-                                <div className="flex justify-between items-center">
-                                    <Button variant="outline" className="text-red-500 border-red-500 h-6 text-xs px-2"><HelpCircle className="w-3 h-3 mr-1"/>How to play</Button>
-                                    <div className="text-right">
-                                        <p className="text-xs sm:text-sm text-muted-foreground">Time remaining</p>
-                                    </div>
-                                </div>
-                                <div className="flex justify-between items-center mt-2">
-                                    <p className="font-bold text-base sm:text-lg">WinGo 30sec</p>
-                                    <div className="flex items-center gap-1 font-mono text-xl sm:text-2xl font-bold">
-                                        <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{minutes[0]}</span>
-                                        <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{minutes[1]}</span>
-                                        <span className="text-gray-800">:</span>
-                                        <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{seconds[0]}</span>
-                                        <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{seconds[1]}</span>
-                                    </div>
-                                </div>
-                                <Separator className="my-2 sm:my-3"/>
-                                <div className="flex justify-between items-center">
+
+                        <TabsContent value="30sec">
+                          <div className="bg-white p-2 sm:p-4 rounded-b-lg shadow-md -mt-1">
+                              <div className="bg-red-100/50 border border-red-200 rounded-lg p-2 sm:p-3">
+                                  <div className="flex justify-between items-center">
+                                      <Button variant="outline" className="text-red-500 border-red-500 h-6 text-xs px-2"><HelpCircle className="w-3 h-3 mr-1"/>How to play</Button>
+                                      <div className="text-right">
+                                          <p className="text-xs sm:text-sm text-muted-foreground">Time remaining</p>
+                                      </div>
+                                  </div>
+                                  <div className="flex justify-between items-center mt-2">
+                                      <p className="font-bold text-base sm:text-lg">WinGo 30sec</p>
+                                      <div className="flex items-center gap-1 font-mono text-xl sm:text-2xl font-bold">
+                                          <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{minutes[0]}</span>
+                                          <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{minutes[1]}</span>
+                                          <span className="text-gray-800">:</span>
+                                          <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{seconds[0]}</span>
+                                          <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{seconds[1]}</span>
+                                      </div>
+                                  </div>
+                                  <Separator className="my-2 sm:my-3"/>
+                                  <div className="flex justify-between items-center">
                                     <div className="flex items-center gap-1">
-                                        {[5,6,7,8,9].map((n, i) => {
-                                            const isViolet = n === 0 || n === 5;
-                                            const isGreen = [1,3,7,9].includes(n) || (n===5);
-                                            const isRed = [2,4,6,8].includes(n) || (n===0) || (n===6);
-                                            return (
-                                                <div key={i} className={cn("relative w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-inner")}>
-                                                    <div className={cn("absolute inset-0 rounded-full",
-                                                        isGreen && "bg-green-400",
-                                                        isRed && "bg-red-400"
-                                                    )}></div>
-                                                     <div className="absolute inset-0.5 sm:inset-1 rounded-full bg-white"></div>
-                                                     <div className={cn("relative w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-white",
-                                                        isGreen && "bg-green-500",
-                                                        isRed && "bg-red-500",
-                                                        isViolet && "bg-gradient-to-br from-red-500 to-purple-500"
-                                                     )}>
-                                                        {n}
-                                                     </div>
+                                        {lastResult ? (
+                                            <div className={cn("relative w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-inner")}>
+                                                <div className={cn("absolute inset-0 rounded-full", lastResult.colors.includes('green') && "bg-green-400", lastResult.colors.includes('red') && "bg-red-400")}></div>
+                                                <div className="absolute inset-0.5 sm:inset-1 rounded-full bg-white"></div>
+                                                <div className={cn("relative w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-white", lastResult.colors.includes('green') && "bg-green-500", lastResult.colors.includes('red') && "bg-red-500", lastResult.colors.includes('purple') && "bg-gradient-to-br from-red-500 to-purple-500")}>
+                                                    {lastResult.number}
                                                 </div>
-                                            )
-                                        })}
+                                            </div>
+                                        ) : <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>}
                                     </div>
                                     <p className="text-xs sm:text-sm font-mono">{periodId}</p>
-                                </div>
-                            </div>
-
+                                  </div>
+                              </div>
+                          </div>
+                        </TabsContent>
+                        <TabsContent value="1min">
+                          <div className="bg-white p-2 sm:p-4 rounded-b-lg shadow-md -mt-1">
+                              <div className="bg-red-100/50 border border-red-200 rounded-lg p-2 sm:p-3">
+                                  <div className="flex justify-between items-center">
+                                      <Button variant="outline" className="text-red-500 border-red-500 h-6 text-xs px-2"><HelpCircle className="w-3 h-3 mr-1"/>How to play</Button>
+                                      <div className="text-right">
+                                          <p className="text-xs sm:text-sm text-muted-foreground">Time remaining</p>
+                                      </div>
+                                  </div>
+                                  <div className="flex justify-between items-center mt-2">
+                                      <p className="font-bold text-base sm:text-lg">WinGo 1min</p>
+                                      <div className="flex items-center gap-1 font-mono text-xl sm:text-2xl font-bold">
+                                          <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{minutes[0]}</span>
+                                          <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{minutes[1]}</span>
+                                          <span className="text-gray-800">:</span>
+                                          <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{seconds[0]}</span>
+                                          <span className="bg-gray-800 text-white rounded-md px-1.5 py-1 sm:px-2">{seconds[1]}</span>
+                                      </div>
+                                  </div>
+                                  <Separator className="my-2 sm:my-3"/>
+                                  <div className="flex justify-between items-center">
+                                      <div className="flex items-center gap-1">
+                                          {lastResult ? (
+                                              <div className={cn("relative w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-inner")}>
+                                                  <div className={cn("absolute inset-0 rounded-full", lastResult.colors.includes('green') && "bg-green-400", lastResult.colors.includes('red') && "bg-red-400")}></div>
+                                                  <div className="absolute inset-0.5 sm:inset-1 rounded-full bg-white"></div>
+                                                  <div className={cn("relative w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-white", lastResult.colors.includes('green') && "bg-green-500", lastResult.colors.includes('red') && "bg-red-500", lastResult.colors.includes('purple') && "bg-gradient-to-br from-red-500 to-purple-500")}>
+                                                      {lastResult.number}
+                                                  </div>
+                                              </div>
+                                          ) : <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>}
+                                      </div>
+                                      <p className="text-xs sm:text-sm font-mono">{periodId}</p>
+                                  </div>
+                              </div>
+                          </div>
+                        </TabsContent>
+                        <TabsContent value="3min">
+                            <div className="p-4 text-center text-muted-foreground">Coming Soon!</div>
+                        </TabsContent>
+                        <TabsContent value="5min">
+                             <div className="p-4 text-center text-muted-foreground">Coming Soon!</div>
+                        </TabsContent>
+                        
+                        <div className="bg-white p-2 sm:p-4 rounded-b-lg shadow-md mt-2">
                             <div className="grid grid-cols-3 gap-2 sm:gap-3 my-3 sm:my-4">
                                 <Button className="bg-gradient-to-b from-green-400 to-green-600 text-white py-4 sm:py-6 text-base sm:text-lg font-bold shadow-lg border-b-4 border-green-700 active:border-b-0 active:mt-1">Green</Button>
                                 <Button className="bg-gradient-to-b from-purple-400 to-purple-600 text-white py-4 sm:py-6 text-base sm:text-lg font-bold shadow-lg border-b-4 border-purple-700 active:border-b-0 active:mt-1">Violet</Button>
@@ -307,8 +348,8 @@ export default function WinGoPage() {
                                 <Button className="w-full bg-gradient-to-b from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-600 text-white py-4 sm:py-6 text-base sm:text-lg font-bold shadow-lg border-b-4 border-orange-700 active:border-b-0 active:mt-1 rounded-l-full rounded-r-none">Big</Button>
                                 <Button className="w-full bg-gradient-to-b from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-600 text-white py-4 sm:py-6 text-base sm:text-lg font-bold shadow-lg border-b-4 border-blue-700 active:border-b-0 active:mt-1 rounded-r-full rounded-l-none">Small</Button>
                             </div>
+                        </div>
 
-                        </TabsContent>
                     </Tabs>
                 </div>
                 <div className="px-2 mt-4 relative">
@@ -406,5 +447,6 @@ export default function WinGoPage() {
     )
 
 }
+
 
     
