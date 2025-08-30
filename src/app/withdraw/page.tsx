@@ -180,7 +180,7 @@ export default function WithdrawPage() {
 
 // Components for Bank/UPI cards
 const AddBankCardForm = ({ setBankDetails }: { setBankDetails: (details: BankDetails) => void }) => {
-    const { register, handleSubmit, control } = useForm<BankDetails>();
+    const { register, handleSubmit, control, formState: { errors } } = useForm<BankDetails>();
     const { toast } = useToast();
 
     const onSave: SubmitHandler<BankDetails> = (data) => {
@@ -198,14 +198,15 @@ const AddBankCardForm = ({ setBankDetails }: { setBankDetails: (details: BankDet
                 <form onSubmit={handleSubmit(onSave)} className="space-y-4">
                     <div className="space-y-1">
                         <Label htmlFor="holderName">Holder Name</Label>
-                        <Input id="holderName" {...register("holderName", { required: true })} />
+                        <Input id="holderName" {...register("holderName", { required: "Holder name is required" })} />
+                        {errors.holderName && <p className="text-red-500 text-xs mt-1">{errors.holderName.message}</p>}
                     </div>
                     <div className="space-y-1">
                         <Label htmlFor="bankName">Bank Name</Label>
                         <Controller
                             name="bankName"
                             control={control}
-                            rules={{ required: true }}
+                            rules={{ required: "Bank name is required" }}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <SelectTrigger>
@@ -219,18 +220,28 @@ const AddBankCardForm = ({ setBankDetails }: { setBankDetails: (details: BankDet
                                 </Select>
                             )}
                         />
+                         {errors.bankName && <p className="text-red-500 text-xs mt-1">{errors.bankName.message}</p>}
                     </div>
                     <div className="space-y-1">
                         <Label htmlFor="accountNumber">Account Number</Label>
-                        <Input id="accountNumber" {...register("accountNumber", { required: true })} />
+                        <Input id="accountNumber" {...register("accountNumber", { required: "Account number is required" })} />
+                        {errors.accountNumber && <p className="text-red-500 text-xs mt-1">{errors.accountNumber.message}</p>}
                     </div>
                     <div className="space-y-1">
                         <Label htmlFor="phone">Phone Number</Label>
-                        <Input id="phone" {...register("phone", { required: true })} />
+                        <Input id="phone" {...register("phone", { required: "Phone number is required" })} />
+                        {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
                     </div>
                     <div className="space-y-1">
                         <Label htmlFor="ifsc">IFSC Code</Label>
-                        <Input id="ifsc" {...register("ifsc", { required: true })} />
+                        <Input id="ifsc" {...register("ifsc", { 
+                            required: "IFSC Code is required",
+                            pattern: {
+                                value: /^[A-Z]{4}0[A-Z0-9]{6}$/,
+                                message: "Invalid IFSC code format"
+                            } 
+                        })} />
+                        {errors.ifsc && <p className="text-red-500 text-xs mt-1">{errors.ifsc.message}</p>}
                     </div>
                     <Button type="submit" className="w-full">Save Bank Card</Button>
                 </form>
