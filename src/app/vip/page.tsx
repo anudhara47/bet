@@ -1,4 +1,5 @@
 
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -240,17 +241,16 @@ export default function VipPage() {
                     <CarouselContent>
                         {vipLevels.map((vip, index) => {
                             const isCurrentLevel = vip.level === currentLevel;
-                            const nextLevel = vipLevels.find(l => l.level === currentLevel + 1);
+                            const nextLevel = vipLevels.find(l => l.level === vip.level + 1);
                             
-                            const expForCurrentLevel = vipLevels.find(l => l.level === currentLevel)?.expRequired || 0;
+                            const expForThisLevel = vip.expRequired;
+                            const expForNextLevel = nextLevel?.expRequired || vip.expRequired;
+
+                            const progress = expForNextLevel > expForThisLevel && experience >= expForThisLevel
+                                ? ((experience - expForThisLevel) / (expForNextLevel - expForThisLevel)) * 100
+                                : (experience >= expForThisLevel ? 100 : 0);
                             
-                            const progress = nextLevel 
-                                ? ((experience - expForCurrentLevel) / (nextLevel.expRequired - expForCurrentLevel)) * 100
-                                : (vip.level <= currentLevel ? 100 : 0);
-                            
-                            const requiredForUpgrade = nextLevel ? nextLevel.expRequired - experience : 0;
-                            const isNextLevel = vip.level === currentLevel + 1;
-                            const isAchieved = vip.level <= currentLevel;
+                            const isAchieved = experience >= vip.expRequired;
 
                             return (
                             <CarouselItem key={index} className="basis-11/12">
@@ -270,21 +270,16 @@ export default function VipPage() {
                                                 )}
                                             </div>
                                             <p className="text-sm opacity-80 mt-1">
-                                                {isCurrentLevel && nextLevel ? `Upgrading VIP${nextLevel.level} requires ${requiredForUpgrade.toLocaleString()} EXP` : `Dear VIP${vip.level} customer`}
+                                                Bet ₹1 = 1EXP
                                             </p>
                                             
-                                            {isCurrentLevel && nextLevel && (
-                                                <>
-                                                    <div className="mt-4">
-                                                        <Button size="sm" variant="outline" className="bg-white/50 border-white/80 text-yellow-800">Bet ₹1=1EXP</Button>
-                                                        <Progress value={progress} className="h-2 mt-2 bg-white/50" indicatorClassName="bg-yellow-600" />
-                                                        <div className="flex justify-between items-center text-xs mt-1">
-                                                            <p className="opacity-80">{(experience - expForCurrentLevel).toLocaleString()}/{ (nextLevel.expRequired - expForCurrentLevel).toLocaleString()}</p>
-                                                            <p>{nextLevel.expRequired.toLocaleString()} EXP can be leveled up</p>
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            )}
+                                            <div className="mt-4">
+                                                <Progress value={progress} className="h-2 mt-2 bg-white/50" indicatorClassName="bg-yellow-600" />
+                                                <div className="flex justify-between items-center text-xs mt-1">
+                                                    <p className="opacity-80">{isAchieved ? experience.toLocaleString() : expForThisLevel.toLocaleString()}/{expForNextLevel.toLocaleString()}</p>
+                                                    <p>Total bet amount</p>
+                                                </div>
+                                            </div>
                                         </CardContent>
                                      </Card>
                                 </div>
