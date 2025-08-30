@@ -9,7 +9,7 @@ import { ChevronLeft, CheckCircle, Diamond, Gift, Star, Gem, Crown, MessageCircl
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 
 
 const VipBadge = ({ level = 1, size = 'md' }: { level: number, size?: 'sm' | 'md' }) => {
@@ -86,6 +86,9 @@ const vipLevels = Array.from({ length: 10 }, (_, i) => ({
 export default function VipPage() {
     const { nickname, avatar } = useUser();
     
+    const [mainApi, setMainApi] = React.useState<CarouselApi>()
+    const [benefitsApi, setBenefitsApi] = React.useState<CarouselApi>()
+    
     const currentLevel = 1;
     const currentExp = 13796;
     const payoutDays = 2;
@@ -96,6 +99,30 @@ export default function VipPage() {
         { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
         { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
     ];
+    
+    React.useEffect(() => {
+        if (!mainApi || !benefitsApi) return;
+
+        const handleMainSelect = () => {
+            if (benefitsApi.selectedScrollSnap() !== mainApi.selectedScrollSnap()) {
+                benefitsApi.scrollTo(mainApi.selectedScrollSnap());
+            }
+        };
+
+        const handleBenefitsSelect = () => {
+            if (mainApi.selectedScrollSnap() !== benefitsApi.selectedScrollSnap()) {
+                mainApi.scrollTo(benefitsApi.selectedScrollSnap());
+            }
+        };
+
+        mainApi.on("select", handleMainSelect);
+        benefitsApi.on("select", handleBenefitsSelect);
+
+        return () => {
+            mainApi.off("select", handleMainSelect);
+            benefitsApi.off("select", handleBenefitsSelect);
+        };
+    }, [mainApi, benefitsApi]);
 
     return (
         <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto relative">
@@ -142,6 +169,7 @@ export default function VipPage() {
                 </div>
                 
                 <Carousel
+                    setApi={setMainApi}
                     opts={{
                         align: "start",
                     }}
@@ -205,6 +233,7 @@ export default function VipPage() {
                         VIP Benefits levels
                     </h3>
                      <Carousel
+                        setApi={setBenefitsApi}
                         opts={{
                             align: "start",
                         }}
