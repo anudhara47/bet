@@ -45,7 +45,7 @@ export default function LoginPage() {
         e.preventDefault();
         // This is a dummy login. In a real app, you'd call an API.
         if (loginIdentifier && loginPassword) {
-            login(loginIdentifier);
+            login(loginIdentifier, loginPassword);
             toast({ title: "Login Successful!" });
             router.push('/home');
         } else {
@@ -64,7 +64,7 @@ export default function LoginPage() {
             return;
         }
         if (registerIdentifier && registerPassword) {
-            login(registerIdentifier); // Use the same login function to simulate registration
+            login(registerIdentifier, registerPassword); // Use the same login function to simulate registration
             toast({ title: "Registration Successful!" });
             router.push('/home');
         } else {

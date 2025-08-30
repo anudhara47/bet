@@ -3,6 +3,25 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
 
 // Types
+export interface UserData {
+    uid: string;
+    email: string | null;
+    phone: string | null;
+    password?: string;
+    nickname: string;
+    avatar: string | null;
+    balance: number;
+    thirdPartyBalance: number;
+    experience: number;
+    usedCodes: string[];
+    claimedLevels: number[];
+    lastMonthlyClaim: number | null;
+    totalDepositAmount: number;
+    totalWithdrawalAmount: number;
+    invitees: Invitees;
+    claimedInvitationBonuses: number[];
+}
+
 export interface ExpHistoryItem {
     title: string;
     type: string;
@@ -42,11 +61,23 @@ interface UserContextType {
   invitees: Invitees;
   claimedInvitationBonuses: number[];
   addClaimedInvitationBonus: (tierId: number) => void;
-  login: (identifier: string) => void;
+  login: (identifier: string, password?: string) => void;
   logout: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
+
+const loadFromLocalStorage = (key: string, defaultValue: any) => {
+    if (typeof window === 'undefined') return defaultValue;
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : defaultValue;
+};
+
+const saveToLocalStorage = (key: string, value: any) => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem(key, JSON.stringify(value));
+};
+
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [uid, setUid] = useState<string | null>(null);
@@ -74,7 +105,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         });
     };
     
-    // Load from localStorage on initial render
     useEffect(() => {
         const storedUid = localStorage.getItem('user-uid');
         if (storedUid) {
@@ -97,46 +127,78 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setIsInitialLoad(false);
     }, []);
 
-    const login = useCallback((identifier: string) => {
-        const newUid = Math.floor(100000 + Math.random() * 900000).toString();
-        const isEmail = identifier.includes('@');
-        const newEmail = isEmail ? identifier : `${newUid}@example.com`;
-        const newNickname = `User${newUid.substring(0, 4)}`;
-        
-        localStorage.setItem('user-uid', newUid);
-        setUid(newUid);
-        
-        localStorage.setItem('user-email', newEmail);
-        setEmail(newEmail);
+    const login = useCallback((identifier: string, password = 'password') => {
+        const allUsers = loadFromLocalStorage('allUsers', []);
+        const existingUser = allUsers.find((u: UserData) => u.email === identifier || u.phone === identifier);
 
-        localStorage.setItem('user-nickname', newNickname);
-        setNickname(newNickname);
-        
-        // Reset other fields to default for a new user
-        setAvatar(null);
-        localStorage.removeItem('user-avatar');
-        setBalance(305.77);
-        localStorage.setItem('user-balance', '305.77');
-        setThirdPartyBalance(150.00);
-        localStorage.setItem('user-third-party-balance', '150.00');
-        setExperience(0);
-        localStorage.setItem('user-experience', '0');
-        setUsedCodes([]);
-        localStorage.setItem('user-used-codes', '[]');
-        setClaimedLevels([]);
-        localStorage.setItem('user-claimed-levels', '[]');
-        setExpHistory([]);
-        localStorage.setItem('user-exp-history', '[]');
-        setLastMonthlyClaim(null);
-        localStorage.removeItem('user-last-monthly-claim');
-        setTotalDepositAmount(0);
-        localStorage.setItem('user-total-deposit', '0');
-        setTotalWithdrawalAmount(0);
-        localStorage.setItem('user-total-withdrawal', '0');
-        setInvitees({ count: 1, rechargedCount: 1 });
-        localStorage.setItem('user-invitees', JSON.stringify({ count: 1, rechargedCount: 1 }));
-        setClaimedInvitationBonuses([1]);
-        localStorage.setItem('user-claimed-invitation-bonuses', JSON.stringify([1]));
+        if(existingUser) {
+             // Handle login for existing user
+            localStorage.setItem('user-uid', existingUser.uid);
+            setUid(existingUser.uid);
+            localStorage.setItem('user-email', existingUser.email || '');
+            setEmail(existingUser.email);
+            localStorage.setItem('user-nickname', existingUser.nickname);
+            setNickname(existingUser.nickname);
+        } else {
+            // Handle new user registration
+            const newUid = Math.floor(100000 + Math.random() * 900000).toString();
+            const isEmail = identifier.includes('@');
+            
+            const newUser: UserData = {
+                uid: newUid,
+                email: isEmail ? identifier : null,
+                phone: !isEmail ? identifier : null,
+                password: password,
+                nickname: `User${newUid.substring(0, 4)}`,
+                avatar: null,
+                balance: 305.77,
+                thirdPartyBalance: 150.00,
+                experience: 0,
+                usedCodes: [],
+                claimedLevels: [1],
+                lastMonthlyClaim: null,
+                totalDepositAmount: 0,
+                totalWithdrawalAmount: 0,
+                invitees: { count: 1, rechargedCount: 1 },
+                claimedInvitationBonuses: [1],
+            };
+            
+            allUsers.push(newUser);
+            saveToLocalStorage('allUsers', allUsers);
+
+            localStorage.setItem('user-uid', newUser.uid);
+            setUid(newUser.uid);
+            localStorage.setItem('user-email', newUser.email || '');
+            setEmail(newUser.email);
+            localStorage.setItem('user-nickname', newUser.nickname);
+            setNickname(newUser.nickname);
+            
+            // Set defaults for a new user
+            setAvatar(null);
+            localStorage.removeItem('user-avatar');
+            setBalance(newUser.balance);
+            localStorage.setItem('user-balance', newUser.balance.toString());
+            setThirdPartyBalance(newUser.thirdPartyBalance);
+            localStorage.setItem('user-third-party-balance', newUser.thirdPartyBalance.toString());
+            setExperience(0);
+            localStorage.setItem('user-experience', '0');
+            setUsedCodes([]);
+            localStorage.setItem('user-used-codes', '[]');
+            setClaimedLevels([1]);
+            localStorage.setItem('user-claimed-levels', '[1]');
+            setExpHistory([]);
+            localStorage.setItem('user-exp-history', '[]');
+            setLastMonthlyClaim(null);
+            localStorage.removeItem('user-last-monthly-claim');
+            setTotalDepositAmount(0);
+            localStorage.setItem('user-total-deposit', '0');
+            setTotalWithdrawalAmount(0);
+            localStorage.setItem('user-total-withdrawal', '0');
+            setInvitees({ count: 1, rechargedCount: 1 });
+            localStorage.setItem('user-invitees', JSON.stringify({ count: 1, rechargedCount: 1 }));
+            setClaimedInvitationBonuses([1]);
+            localStorage.setItem('user-claimed-invitation-bonuses', JSON.stringify([1]));
+        }
     }, []);
 
     const logout = useCallback(() => {

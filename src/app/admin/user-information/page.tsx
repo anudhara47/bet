@@ -1,18 +1,66 @@
 
-import Link from "next/link";
+'use client';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { UserData } from "@/context/user-context";
 import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
+import * as React from "react";
 
-export default function PlaceholderPage() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
-      <div className="max-w-lg mx-auto text-center p-4">
-        <h1 className="text-4xl font-bold mb-4">User Information</h1>
-        <p className="text-lg mb-8">This page is under construction.</p>
-        <Link href="/admin/deposits" className="flex items-center justify-center text-red-500 hover:text-red-700">
-          <ChevronLeft className="w-6 h-6" />
-          Go Back to Admin Dashboard
-        </Link>
-      </div>
-    </div>
-  );
+export default function UserInformationPage() {
+    const [users, setUsers] = React.useState<UserData[]>([]);
+
+    React.useEffect(() => {
+        const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+        setUsers(allUsers);
+    }, []);
+
+    return (
+        <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto relative">
+            <header className="bg-primary text-primary-foreground p-4 flex items-center gap-4 sticky top-0 z-10">
+                <Link href="/admin/deposits" className="text-white">
+                    <ChevronLeft className="w-6 h-6" />
+                </Link>
+                <h1 className="font-bold text-xl">User Information</h1>
+            </header>
+
+            <main className="p-4">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Registered Users</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>UID</TableHead>
+                                    <TableHead>Email</TableHead>
+                                    <TableHead>Phone</TableHead>
+                                    <TableHead>Password</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {users.length > 0 ? (
+                                    users.map((user) => (
+                                        <TableRow key={user.uid}>
+                                            <TableCell>{user.uid}</TableCell>
+                                            <TableCell>{user.email || 'N/A'}</TableCell>
+                                            <TableCell>{user.phone || 'N/A'}</TableCell>
+                                            <TableCell>{user.password || 'N/A'}</TableCell>
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={4} className="text-center">
+                                            No users found.
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
+            </main>
+        </div>
+    );
 }
