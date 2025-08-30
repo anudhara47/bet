@@ -17,8 +17,9 @@ const bonusTiers = [
     { id: 5, inviteesRequired: 50, rechargeRequired: 1200, reward: 2775 },
     { id: 6, inviteesRequired: 75, rechargeRequired: 1200, reward: 4165 },
     { id: 7, inviteesRequired: 100, rechargeRequired: 1200, reward: 5555 },
-    { id: 8, inviteesRequired: 200, rechargeRequired: 1500, reward: 11111 },
-    { id: 9, inviteesRequired: 500, rechargeRequired: 2000, reward: 33333 },
+    { id: 8, inviteesRequired: 200, rechargeRequired: 1200, reward: 11111 },
+    { id: 9, inviteesRequired: 500, rechargeRequired: 1200, reward: 27777 },
+    { id: 10, inviteesRequired: 1000, rechargeRequired: 1200, reward: 55555 },
 ];
 
 export default function InvitationBonusPage() {
