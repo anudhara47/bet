@@ -1,4 +1,5 @@
 
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -102,11 +103,10 @@ const CircularProgress = ({ percentage, label, amount }: { percentage: number, l
 
 
 export default function WalletPage() {
-    const { balance } = useUser();
+    const { balance, totalDepositAmount } = useUser();
     
     // These are placeholders. You can wire them up to real state management.
-    const totalAmount = 32082;
-    const totalDepositAmount = 27170;
+    const totalAmount = balance + totalDepositAmount; // Example calculation
     const thirdPartyBalance = 0;
 
     const mainWalletPercentage = balance > 0 ? 100 : 0;

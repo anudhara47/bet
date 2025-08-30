@@ -29,6 +29,8 @@ interface UserContextType {
   expHistory: ExpHistoryItem[];
   lastMonthlyClaim: number | null;
   claimMonthlyReward: () => void;
+  totalDepositAmount: number;
+  addDepositAmount: (amount: number) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -44,6 +46,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [claimedLevels, setClaimedLevels] = useState<number[]>([]);
     const [expHistory, setExpHistory] = useState<ExpHistoryItem[]>([]);
     const [lastMonthlyClaim, setLastMonthlyClaim] = useState<number | null>(null);
+    const [totalDepositAmount, setTotalDepositAmount] = useState(0);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     // Load from localStorage on initial render
@@ -103,6 +106,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             setLastMonthlyClaim(JSON.parse(storedLastMonthlyClaim));
         }
 
+        const storedTotalDeposit = localStorage.getItem('user-total-deposit');
+        if (storedTotalDeposit) {
+            setTotalDepositAmount(parseFloat(storedTotalDeposit));
+        }
+
         setIsInitialLoad(false);
     }, []);
 
@@ -155,6 +163,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         }
     }, [lastMonthlyClaim, isInitialLoad]);
 
+    useEffect(() => {
+        if (isInitialLoad) return;
+        localStorage.setItem('user-total-deposit', totalDepositAmount.toString());
+    }, [totalDepositAmount, isInitialLoad]);
+
 
     const handleSetNickname = (name: string) => {
         setNickname(name);
@@ -193,6 +206,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setLastMonthlyClaim(Date.now());
     };
 
+    const addDepositAmount = (amount: number) => {
+        setTotalDepositAmount(prev => prev + amount);
+    };
+
 
     const value = {
         uid,
@@ -211,7 +228,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         addClaimedLevel,
         expHistory,
         lastMonthlyClaim,
-        claimMonthlyReward
+        claimMonthlyReward,
+        totalDepositAmount,
+        addDepositAmount
     };
 
     return (

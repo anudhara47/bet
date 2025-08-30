@@ -24,7 +24,7 @@ interface DepositRequest {
 export default function AdminDepositPage() {
     const [requests, setRequests] = React.useState<DepositRequest[]>([]);
     const { toast } = useToast();
-    const { setBalance } = useUser();
+    const { setBalance, addDepositAmount } = useUser();
     const { addNotification } = useNotification();
 
     React.useEffect(() => {
@@ -52,6 +52,7 @@ export default function AdminDepositPage() {
 
         if (status === 'approved' && amountToUpdate > 0) {
             setBalance(prev => prev + amountToUpdate);
+            addDepositAmount(amountToUpdate);
         }
 
         setRequests(updatedRequests);
