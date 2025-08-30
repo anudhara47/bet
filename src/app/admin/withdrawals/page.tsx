@@ -43,6 +43,11 @@ export default function AdminWithdrawalPage() {
                 } else if (status === 'rejected') {
                     // Refund the amount to user's balance if rejected
                     amountToUpdate = req.amount;
+                    addNotification({
+                        type: 'withdrawal',
+                        title: 'Withdrawal Rejected',
+                        message: `Your withdrawal of ₹${req.amount.toFixed(2)} has been rejected and the amount returned to your balance.`,
+                    });
                 }
                 return { ...req, status };
             }

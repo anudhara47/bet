@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent, Settings, MessageCircle, LogOut, FileQuestion, Megaphone, BookOpen, Building, ShieldAlert } from "lucide-react";
+import { Activity, ArrowRight, BarChart, ChevronRight, Copy, Gift, Globe, HomeIcon, Languages, Bell, FileText, Landmark, Wallet, ShieldCheck, User, RefreshCw, Percent, Settings, MessageCircle, LogOut, FileQuestion, Megaphone, BookOpen, Building, ShieldAlert, ArrowDownCircle, ArrowUpCircle } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 import { useLanguage } from "@/context/language-context";
@@ -131,7 +131,8 @@ export default function AccountPage() {
     { icon: <MessageCircle className="text-primary" />, label: t.service_center.customer_service, href: "/customer-service" },
     { icon: <BookOpen className="text-primary" />, label: t.service_center.beginners_guide, href: "/guide" },
     { icon: <Building className="text-primary" />, label: t.service_center.about_us, href: "/about" },
-    { icon: <ShieldAlert className="text-primary" />, label: "Admin Panel", href: "/admin/deposits" },
+    { icon: <ArrowDownCircle className="text-primary" />, label: "Admin Deposits", href: "/admin/deposits" },
+    { icon: <ArrowUpCircle className="text-primary" />, label: "Admin Withdrawals", href: "/admin/withdrawals" },
   ];
   
   const mainWalletActions = [
