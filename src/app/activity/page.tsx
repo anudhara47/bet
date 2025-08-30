@@ -50,7 +50,6 @@ export default function ActivityPage() {
         { icon: <BettingRebateIcon />, label: "Betting rebate", href: "/betting-rebate" },
         { icon: <SuperJackpotIcon />, label: "Super Jackpot", href: "/super-jackpot" },
         { icon: <FirstGiftIcon />, label: "First gift", href: "/first-gift" },
-        { icon: <InviteWheelIcon />, label: "Invite Wheel", href: "/invite-wheel" },
     ];
 
 
