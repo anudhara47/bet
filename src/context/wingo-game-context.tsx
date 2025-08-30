@@ -52,7 +52,7 @@ const generateHistoryResult = (pId: string): GameResult => {
 const WingoGameContext = createContext<WingoGameContextType | undefined>(undefined);
 
 export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
-  const { addExperience } = useUser();
+  const { addExperience, setBalance } = useUser();
   const [gameInterval, setGameInterval] = useState(30);
   const [timeLeft, setTimeLeft] = useState(0);
   const [periodId, setPeriodId] = useState<string | null>(null);
@@ -66,7 +66,18 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     setIsClient(true);
+    const storedBets = localStorage.getItem('myBets');
+    if (storedBets) {
+        setMyBets(JSON.parse(storedBets));
+    }
   }, []);
+
+  useEffect(() => {
+    if (isClient) {
+        localStorage.setItem('myBets', JSON.stringify(myBets));
+    }
+  }, [myBets, isClient]);
+
 
   const calculateCurrentPeriod = useCallback(() => {
     const now = Date.now();
@@ -95,6 +106,24 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
 
     return () => clearInterval(timer);
   }, [isClient, gameInterval, calculateCurrentPeriod]);
+
+  const addGameTransaction = (type: 'win' | 'loss', amount: number) => {
+    const newTransaction = { type, amount, timestamp: Date.now() };
+    const existingTransactions = JSON.parse(localStorage.getItem('gameTransactions') || '[]');
+    localStorage.setItem('gameTransactions', JSON.stringify([...existingTransactions, newTransaction]));
+    window.dispatchEvent(new Event('local-storage'));
+  };
+
+  const getPayout = (selection: string, amount: number, result: GameResult): number => {
+    if (selection.toLowerCase() === result.size.toLowerCase()) return amount * 2; // ~2x
+    if (result.color.toLowerCase().includes(selection.toLowerCase())) {
+        if (selection.toLowerCase() === 'violet') return amount * 4.5; // ~4.5x
+        return amount * 2; // ~2x
+    }
+    if (selection === result.number.toString()) return amount * 9; // ~9x
+    
+    return 0; // Loss
+  };
 
 
   const checkBetStatus = useCallback((bet: Bet, result: GameResult): 'Win' | 'Loss' => {
@@ -131,6 +160,11 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
                       const status = checkBetStatus(bet, result);
                       if (status === 'Win') {
                           addExperience(bet.amount, `WinGo ${gameInterval}s Win`);
+                          const payout = getPayout(bet.selection, bet.amount, result);
+                          setBalance(prev => prev + payout);
+                          addGameTransaction('win', payout - bet.amount); // Net win
+                      } else {
+                          addGameTransaction('loss', bet.amount);
                       }
                       return { ...bet, status: status, result: result };
                   }
@@ -139,7 +173,8 @@ export const WingoGameProvider = ({ children }: { children: ReactNode }) => {
           });
       });
 
-  }, [periodId, isClient, checkBetStatus, addExperience, gameInterval]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [periodId, isClient]);
 
   const placeBet = (selection: string, amount: number) => {
     if (periodId && timeLeft > 3) { // Prevent betting in last 3 seconds
