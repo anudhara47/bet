@@ -223,7 +223,7 @@ export default function VipPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-4 mt-4 text-center">
                         <Card className="bg-white text-red-500 rounded-lg py-2">
-                           <p className="text-xl font-bold">{experience} EXP</p>
+                           <p className="text-xl font-bold">{experience.toLocaleString()} EXP</p>
                            <p className="text-xs text-muted-foreground">My experience</p>
                         </Card>
                         <Card className="bg-white text-red-500 rounded-lg py-2">
@@ -329,7 +329,6 @@ export default function VipPage() {
                                                         title: "Level up rewards", 
                                                         description: "Each account can only receive 1 time", 
                                                         value: vip.levelUpReward,
-                                                        received: 0,
                                                         isCurrency: true
                                                     },
                                                     { 
@@ -337,7 +336,6 @@ export default function VipPage() {
                                                         title: "Monthly reward", 
                                                         description: "Each account can only receive 1 time per month",
                                                         value: vip.monthlyReward,
-                                                        received: 0,
                                                         isCurrency: true
                                                     },
                                                     { 
@@ -357,14 +355,8 @@ export default function VipPage() {
                                                         <div className="text-right">
                                                             <div className="flex items-center justify-end gap-1 text-sm border border-orange-300 bg-orange-50 rounded-md px-2 py-1">
                                                                 {benefit.isCurrency && <div className="w-4 h-4 bg-yellow-400 rounded-full"></div>}
-                                                                <span className="font-bold text-orange-600">{benefit.value}</span>
+                                                                <span className="font-bold text-orange-600">{benefit.isCurrency ? `₹${benefit.value}`: benefit.value}</span>
                                                             </div>
-                                                            {benefit.received !== undefined && (
-                                                                <div className="flex items-center justify-end gap-1 text-sm border border-red-300 bg-red-50 rounded-md px-2 py-1 mt-1">
-                                                                    <div className="w-4 h-4 bg-red-400 rounded-full"></div>
-                                                                    <span className="font-bold text-red-600">{benefit.received}</span>
-                                                                </div>
-                                                            )}
                                                         </div>
                                                     </div>
                                                 ))}
