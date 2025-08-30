@@ -12,10 +12,10 @@ import * as React from "react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 
-const VipBadge = ({ level = 0, size = 'md' }: { level: number, size?: 'sm' | 'md' }) => {
+const VipBadge = ({ level = 1, size = 'md' }: { level: number, size?: 'sm' | 'md' }) => {
     const sizeClasses = {
-        sm: "w-8 h-8",
-        md: "w-12 h-12"
+        sm: "w-12 h-6",
+        md: "w-16 h-8"
     }
     const textSizeClasses = {
         sm: "text-xs",
@@ -24,19 +24,45 @@ const VipBadge = ({ level = 0, size = 'md' }: { level: number, size?: 'sm' | 'md
 
     return (
     <div className={`relative flex items-center justify-center ${sizeClasses[size]}`}>
-        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
-            <polygon points="50,5 61,39 98,39 68,62 79,96 50,75 21,96 32,62 2,39 39,39" fill="#4a5568"/>
-            <polygon points="50,10 59,39 90,39 65,58 74,88 50,70 26,88 35,58 10,39 41,39" fill="#718096"/>
-            <polygon points="50,15 58,40 85,40 65,55 71,80 50,65 29,80 35,55 15,40 42,40" fill="#a0aec0"/>
-            <polygon points="50,20 57,40 80,40 65,53 69,75 50,62 31,75 35,53 20,40 43,40" fill="#e2e8f0"/>
+        <svg viewBox="0 0 100 50" className="absolute inset-0 w-full h-full">
+            <polygon points="0,25 15,25 20,0 80,0 85,25 100,25 85,25 80,50 20,50 15,25" fill="#4a5568"/>
+            <polygon points="2,25 16,25 21,5 79,5 84,25 98,25 84,25 79,45 21,45 16,25" fill="#718096"/>
+            <polygon points="4,25 17,25 22,10 78,10 83,25 96,25 83,25 78,40 22,40 17,25" fill="#a0aec0"/>
+            <polygon points="6,25 18,25 23,15 77,15 82,25 94,25 82,25 77,35 23,35 18,25" fill="#e2e8f0"/>
         </svg>
-        <span className={`relative text-gray-800 font-bold z-10 ${textSizeClasses[size]}`}>V{level}</span>
+        <span className={`relative text-gray-800 font-bold z-10 ${textSizeClasses[size]}`}>VIP{level}</span>
     </div>
 )};
 
-const BenefitIcon = ({ children, color = 'bg-yellow-400' }: { children: React.ReactNode, color?: string }) => (
-    <div className={`w-14 h-14 rounded-xl ${color} flex items-center justify-center`}>
-        {children}
+const LevelUpRewardIcon = () => (
+    <div className="w-14 h-14 rounded-xl bg-yellow-400 flex items-center justify-center">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="9" width="16" height="11" rx="2" fill="#FBBF24"/>
+        <path d="M4 9H20L18 5H6L4 9Z" fill="#FDE68A"/>
+        <rect x="11" y="4" width="2" height="5" fill="#F97316"/>
+        <path d="M8 9C8 7.34315 9.34315 6 11 6H13C14.6569 6 16 7.34315 16 9" stroke="#F97316" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    </div>
+);
+
+const MonthlyRewardIcon = () => (
+    <div className="w-14 h-14 rounded-xl bg-orange-400 flex items-center justify-center">
+       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" fill="#FDBA74"/>
+        <path d="M12 2L14.09 8.26L21 9.27L16.5 13.97L17.63 21L12 17.77L6.37 21L7.5 13.97L3 9.27L9.91 8.26L12 2Z" fill="white" stroke="#F97316" strokeWidth="0.5"/>
+       </svg>
+    </div>
+);
+
+const RebateRateIcon = () => (
+     <div className="w-14 h-14 rounded-xl bg-amber-500 flex items-center justify-center">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="8" fill="#FDE68A"/>
+            <path d="M12 5C11.4477 5 11 5.44772 11 6V7C11 7.55228 11.4477 8 12 8C12.5523 8 13 7.55228 13 7V6C13 5.44772 12.5523 5 12 5Z" fill="#F97316"/>
+            <path d="M12 16C11.4477 16 11 16.4477 11 17V18C11 18.5523 11.4477 19 12 19C12.5523 19 13 18.5523 13 18V17C13 16.4477 12.5523 16 12 16Z" fill="#F97316"/>
+            <path d="M16 12C16 11.4477 16.4477 11 17 11H18C18.5523 11 19 11.4477 19 12C19 12.5523 18.5523 13 18 13H17C16.4477 13 16 12.5523 16 12Z" fill="#F97316"/>
+            <path d="M5 12C5 11.4477 5.44772 11 6 11H7C7.55228 11 8 11.4477 8 12C8 12.5523 7.55228 13 7 13H6C5.44772 13 5 12.5523 5 12Z" fill="#F97316"/>
+        </svg>
     </div>
 );
 
@@ -49,21 +75,20 @@ const HistoryChatIcon = () => (
     </svg>
 );
 
-
-const vipLevels = Array.from({ length: 11 }, (_, i) => ({
-    level: i,
-    expRequired: i * 1000,
-    levelUpReward: i * 100,
-    monthlyReward: i * 50,
-    rebateRate: `${(i * 0.1).toFixed(1)}%`,
+const vipLevels = Array.from({ length: 10 }, (_, i) => ({
+    level: i + 1,
+    expRequired: (i + 1) * 30000,
+    levelUpReward: (i + 1) * 180,
+    monthlyReward: (i + 1) * 9,
+    rebateRate: `${((i + 1) * 0.1).toFixed(1)}%`,
 }));
-
 
 export default function VipPage() {
     const { nickname, avatar } = useUser();
     
-    const currentLevel = 0;
-    const currentExp = 0;
+    const currentLevel = 1;
+    const currentExp = 13796;
+    const payoutDays = 2;
 
     const experienceHistory = [
         { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
@@ -74,7 +99,7 @@ export default function VipPage() {
 
     return (
         <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto relative">
-            <header className="bg-primary text-white p-4 flex items-center gap-4 sticky top-0 z-10">
+            <header className="bg-red-500 text-white p-4 flex items-center gap-4 sticky top-0 z-10">
                 <Link href="/account" className="text-white">
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
@@ -82,7 +107,7 @@ export default function VipPage() {
             </header>
 
             <main className="space-y-4">
-                <div className="bg-primary p-4 rounded-b-2xl">
+                <div className="bg-red-500 p-4 rounded-b-2xl">
                     <div className="flex items-center gap-4 text-white">
                         <div className="w-16 h-16 rounded-full bg-gray-200 border-2 border-white overflow-hidden">
                            {avatar ? (
@@ -95,26 +120,25 @@ export default function VipPage() {
                             <div className="flex items-center gap-1">
                                <div className="bg-blue-900/50 border border-blue-400 rounded-full pl-0.5 pr-2 py-0.5 text-xs flex items-center gap-1">
                                     <VipBadge level={currentLevel} />
-                                    <span>VIP{currentLevel}</span>
                                </div>
                             </div>
                              <h2 className="text-lg font-bold mt-1">{nickname}</h2>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mt-4 text-center">
-                        <Card className="bg-white/90 text-primary rounded-lg py-2">
-                           <p className="text-xl font-bold">0 EXP</p>
+                        <Card className="bg-white text-red-500 rounded-lg py-2">
+                           <p className="text-xl font-bold">{currentExp} EXP</p>
                            <p className="text-xs text-muted-foreground">My experience</p>
                         </Card>
-                        <Card className="bg-white/90 text-primary rounded-lg py-2">
-                           <p className="text-xl font-bold">0 <span className="text-sm">Days</span></p>
+                        <Card className="bg-white text-red-500 rounded-lg py-2">
+                           <p className="text-xl font-bold">{payoutDays} <span className="text-sm">Days</span></p>
                            <p className="text-xs text-muted-foreground">Payout time</p>
                         </Card>
                     </div>
                 </div>
 
                 <div className="px-4 text-center text-sm text-muted-foreground">
-                    <p>VIP level rewards are settled at 0:00 am on the 0st of every month</p>
+                    <p>VIP level rewards are settled at 2:00 am on the 1st of every month</p>
                 </div>
                 
                 <Carousel
@@ -122,43 +146,52 @@ export default function VipPage() {
                         align: "start",
                     }}
                     className="w-full"
-                >
+                    >
                     <CarouselContent>
-                        {vipLevels.map((vip, index) => (
+                        {vipLevels.map((vip, index) => {
+                            const isCurrentLevel = vip.level === currentLevel;
+                            const isNextLevel = vip.level === currentLevel + 1;
+                            const progress = isNextLevel ? (currentExp / vip.expRequired) * 100 : (vip.level <= currentLevel ? 100 : 0);
+                            const requiredForUpgrade = vip.expRequired - currentExp;
+
+                            return (
                             <CarouselItem key={index} className="basis-11/12">
                                <div className="px-1">
-                                     <Card className="rounded-xl shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 text-white">
+                                    <Card className="rounded-xl shadow-lg bg-gradient-to-br from-orange-300 to-yellow-400 text-yellow-900">
                                         <CardContent className="p-4 relative">
                                             <div className="absolute top-4 right-4 opacity-30">
                                                 <VipBadge level={vip.level} />
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <h3 className="text-2xl font-bold">VIP{vip.level}</h3>
-                                                {currentLevel >= vip.level && (
-                                                    <div className="flex items-center gap-1 text-green-300 bg-green-900/50 rounded-full px-2 py-0.5 text-xs">
+                                                {vip.level > currentLevel && (
+                                                    <div className="flex items-center gap-1 text-red-800 bg-red-200/80 rounded-full px-2 py-0.5 text-xs">
                                                         <CheckCircle className="w-3 h-3" />
-                                                        <span>Achieved</span>
+                                                        <span>Not open yet</span>
                                                     </div>
                                                 )}
                                             </div>
-                                            <p className="text-sm opacity-80 mt-1">Dear VIP{vip.level} customer</p>
+                                            <p className="text-sm opacity-80 mt-1">
+                                                {isNextLevel ? `Upgrading VIP${vip.level} requires ${requiredForUpgrade}EXP` : `Dear VIP${vip.level} customer`}
+                                            </p>
                                             
-                                            <div className="mt-4">
-                                                <div className="flex justify-between items-center text-xs">
-                                                     <p>Level maintenance</p>
-                                                     <p>{currentLevel === vip.level ? '0' : '0'}% Completed</p>
-                                                </div>
-                                                <Progress value={currentLevel === vip.level ? 0 : (currentLevel > vip.level ? 100 : 0)} className="h-2 mt-1 bg-white/20" indicatorClassName="bg-yellow-400" />
-                                                <div className="flex justify-between items-center text-xs mt-1">
-                                                    <p className="opacity-80">{currentLevel === vip.level ? `0/${vip.expRequired}` : `0/0`}</p>
-                                                </div>
-                                            </div>
-                                            <p className="text-xs mt-3 opacity-80">Incomplete will be deducted by the system [0EXP]</p>
+                                            {isNextLevel && (
+                                                <>
+                                                    <div className="mt-4">
+                                                        <Button size="sm" variant="outline" className="bg-white/50 border-white/80 text-yellow-800">Bet ₹1=1EXP</Button>
+                                                        <Progress value={progress} className="h-2 mt-2 bg-white/50" indicatorClassName="bg-yellow-600" />
+                                                        <div className="flex justify-between items-center text-xs mt-1">
+                                                            <p className="opacity-80">{currentExp}/{vip.expRequired}</p>
+                                                            <p>{vip.expRequired} EXP can be leveled up</p>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )}
                                         </CardContent>
                                      </Card>
                                 </div>
                             </CarouselItem>
-                        ))}
+                        )})}
                     </CarouselContent>
                     <div className="hidden sm:block">
                         <CarouselPrevious />
@@ -168,7 +201,7 @@ export default function VipPage() {
 
                  <div className="px-4">
                     <h3 className="font-bold text-lg flex items-center gap-2 mb-2">
-                        <Gem className="text-primary" />
+                        <Diamond className="text-red-500" />
                         VIP Benefits levels
                     </h3>
                      <Carousel
@@ -183,28 +216,26 @@ export default function VipPage() {
                                     <div className="px-1">
                                         <Card className="rounded-xl shadow-lg">
                                             <CardContent className="p-4 space-y-4">
-                                                <div className="text-center font-bold text-lg">VIP{vip.level}</div>
+                                                <div className="text-center font-bold text-lg">VIP{vip.level} Benefits level</div>
                                                 {[
                                                     { 
-                                                        icon: <BenefitIcon color="bg-gradient-to-br from-yellow-300 to-orange-400"><Gift className="w-8 h-8 text-white" /></BenefitIcon>, 
+                                                        icon: <LevelUpRewardIcon />, 
                                                         title: "Level up rewards", 
-                                                        description: "Each account can only receive 0 time", 
+                                                        description: "Each account can only receive 1 time", 
                                                         value: vip.levelUpReward,
                                                         received: 0,
                                                         isCurrency: true
                                                     },
                                                     { 
-                                                        icon: <BenefitIcon color="bg-gradient-to-br from-orange-300 to-amber-500"><Star className="w-8 h-8 text-white" /></BenefitIcon>, 
+                                                        icon: <MonthlyRewardIcon />, 
                                                         title: "Monthly reward", 
-                                                        description: "Each account can only receive 0 time per month",
+                                                        description: "Each account can only receive 1 time per month",
                                                         value: vip.monthlyReward,
                                                         received: 0,
                                                         isCurrency: true
                                                     },
                                                     { 
-                                                        icon: <BenefitIcon color="bg-gradient-to-br from-amber-400 to-yellow-500">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg>
-                                                        </BenefitIcon>, 
+                                                        icon: <RebateRateIcon />, 
                                                         title: "Rebate rate", 
                                                         description: "Increase income of rebate",
                                                         value: vip.rebateRate,
@@ -242,7 +273,7 @@ export default function VipPage() {
 
                  <div className="px-4">
                     <h3 className="font-bold text-lg flex items-center gap-2 mb-2">
-                        <Crown className="text-primary" />
+                        <Crown className="text-red-500" />
                         My benefits
                     </h3>
                     <div className="grid grid-cols-2 gap-4">
