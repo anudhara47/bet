@@ -16,7 +16,7 @@ export default function AdminWalletPage() {
     const [totalLosses, setTotalLosses] = React.useState(0);
     const [totalWins, setTotalWins] = React.useState(0);
 
-    React.useEffect(() => {
+    const updateWalletData = React.useCallback(() => {
         const storedTransactions = JSON.parse(localStorage.getItem('gameTransactions') || '[]');
         setTransactions(storedTransactions);
 
@@ -30,10 +30,13 @@ export default function AdminWalletPage() {
 
         setTotalLosses(losses);
         setTotalWins(wins);
+    }, []);
+
+    React.useEffect(() => {
+        updateWalletData();
 
         const handleStorageChange = () => {
-             const updatedTransactions = JSON.parse(localStorage.getItem('gameTransactions') || '[]');
-             setTransactions(updatedTransactions);
+             updateWalletData();
         };
         
         window.addEventListener('storage', handleStorageChange);
@@ -43,7 +46,7 @@ export default function AdminWalletPage() {
             window.removeEventListener('storage', handleStorageChange);
             window.removeEventListener('local-storage', handleStorageChange);
         };
-    }, []);
+    }, [updateWalletData]);
 
     const adminProfit = totalLosses - totalWins;
 
