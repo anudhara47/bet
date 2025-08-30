@@ -91,6 +91,7 @@ interface UserContextType {
   upiDetails: UpiDetails | null;
   saveBankDetails: (details: BankDetails) => void;
   saveUpiDetails: (details: UpiDetails) => void;
+  verifyPassword: (password: string) => boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -249,6 +250,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setUpiDetails(null);
     }, []);
 
+    const verifyPassword = (password: string): boolean => {
+        if (!uid) return false;
+        const allUsers = loadFromLocalStorage('allUsers', []);
+        const currentUser = allUsers.find((u: UserData) => u.uid === uid);
+        return currentUser?.password === password;
+    };
+
+
     const getUserData = (): UserData | null => {
         if(!uid) return null;
         return {
@@ -341,7 +350,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         lastMonthlyClaim, claimMonthlyReward, totalDepositAmount, addDepositAmount, totalWithdrawalAmount,
         addWithdrawalAmount, invitees, claimedInvitationBonuses, addClaimedInvitationBonus,
         isBlocked, blockUser, unblockUser, login, logout, hasDeposited, markAsDeposited,
-        bankDetails, upiDetails, saveBankDetails, saveUpiDetails
+        bankDetails, upiDetails, saveBankDetails, saveUpiDetails, verifyPassword
     };
 
     return (

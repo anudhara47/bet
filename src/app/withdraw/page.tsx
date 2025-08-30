@@ -43,7 +43,7 @@ const bankList = [
 ];
 
 export default function WithdrawPage() {
-    const { balance, setBalance, uid, bankDetails, upiDetails } = useUser();
+    const { balance, setBalance, uid, bankDetails, upiDetails, verifyPassword } = useUser();
     const router = useRouter();
     const { toast } = useToast();
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
@@ -73,8 +73,8 @@ export default function WithdrawPage() {
             toast({ title: "Maximum withdrawal is ₹200,000.00", variant: 'destructive' });
             return;
         }
-        // This is a dummy password check
-        if (data.password !== 'password') {
+        
+        if (!verifyPassword(data.password)) {
             toast({ title: "Invalid password", variant: 'destructive' });
             return;
         }
