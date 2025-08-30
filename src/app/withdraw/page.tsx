@@ -61,21 +61,7 @@ export default function WithdrawPage() {
     const { toast } = useToast();
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
-    const [bankDetails, setBankDetails] = React.useState<BankDetails | null>(null);
-    const [upiDetails, setUpiDetails] = React.useState<UpiDetails | null>(null);
     const [remainingWithdrawals, setRemainingWithdrawals] = React.useState(2);
-
-    // Load saved details from localStorage
-    React.useEffect(() => {
-        const savedBankDetails = localStorage.getItem('bankDetails');
-        if (savedBankDetails) {
-            setBankDetails(JSON.parse(savedBankDetails));
-        }
-        const savedUpiDetails = localStorage.getItem('upiDetails');
-        if (savedUpiDetails) {
-            setUpiDetails(JSON.parse(savedUpiDetails));
-        }
-    }, []);
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         if(remainingWithdrawals <= 0) {
@@ -152,10 +138,10 @@ export default function WithdrawPage() {
                         <TabsTrigger value="upi" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md rounded-md">UPI</TabsTrigger>
                     </TabsList>
                     <TabsContent value="bank" className="mt-4">
-                        {bankDetails ? <SavedBankCard details={bankDetails} /> : <AddBankCardForm setBankDetails={setBankDetails} />}
+                        <AddBankCardForm />
                     </TabsContent>
                     <TabsContent value="upi" className="mt-4">
-                        {upiDetails ? <SavedUpiCard details={upiDetails} /> : <AddUpiForm setUpiDetails={setUpiDetails} />}
+                        <AddUpiForm />
                     </TabsContent>
                 </Tabs>
                 
@@ -223,20 +209,20 @@ export default function WithdrawPage() {
 }
 
 // Components for Bank/UPI cards
-const AddBankCardForm = ({ setBankDetails }: { setBankDetails: (details: BankDetails) => void }) => {
+const AddBankCardForm = () => {
     const { register, handleSubmit, control, formState: { errors } } = useForm<BankDetails>();
     const { toast } = useToast();
 
     const onSave: SubmitHandler<BankDetails> = (data) => {
-        localStorage.setItem('bankDetails', JSON.stringify(data));
-        setBankDetails(data);
-        toast({ title: "Bank account saved successfully!" });
+        // Here you would typically send this data with the withdrawal request
+        console.log("Bank Details for withdrawal:", data);
+        toast({ title: "Bank details ready for withdrawal." });
     };
 
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Add Bank Account</CardTitle>
+                <CardTitle>Enter Bank Account Details</CardTitle>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleSubmit(onSave)} className="space-y-4">
@@ -287,57 +273,28 @@ const AddBankCardForm = ({ setBankDetails }: { setBankDetails: (details: BankDet
                         })} />
                         {errors.ifsc && <p className="text-red-500 text-xs mt-1">{errors.ifsc.message}</p>}
                     </div>
-                    <Button type="submit" className="w-full">Save Bank Card</Button>
+                    {/* The main withdraw button will handle submission */}
                 </form>
             </CardContent>
         </Card>
     );
 }
 
-const SavedBankCard = ({ details }: { details: BankDetails }) => (
-    <Card className="bg-gradient-to-br from-blue-500 to-indigo-600 text-white">
-        <CardContent className="p-4 space-y-3">
-            <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                    <Landmark className="w-6 h-6" />
-                    <p className="font-bold text-lg">{details.bankName}</p>
-                </div>
-                 <Pencil className="w-4 h-4 opacity-70" />
-            </div>
-            <p className="font-mono text-xl tracking-wider text-center">{details.accountNumber.replace(/\d(?=\d{4})/g, "*")}</p>
-            <div className="flex justify-between text-sm pt-2">
-                <div>
-                    <p className="opacity-80">Holder Name</p>
-                    <p className="font-semibold">{details.holderName}</p>
-                </div>
-                <div>
-                    <p className="opacity-80">IFSC</p>
-                    <p className="font-semibold">{details.ifsc}</p>
-                </div>
-            </div>
-            <div className="flex items-center gap-2 p-2 bg-white/10 rounded-md text-xs mt-2">
-                <AlertTriangle className="w-4 h-4 text-yellow-300"/>
-                <p>To change details, please contact customer support.</p>
-            </div>
-        </CardContent>
-    </Card>
-);
-
-const AddUpiForm = ({ setUpiDetails }: { setUpiDetails: (details: UpiDetails) => void }) => {
+const AddUpiForm = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm<UpiDetails & { confirmUpiId: string }>();
     const { toast } = useToast();
     const upiId = watch("upiId");
 
     const onSave: SubmitHandler<UpiDetails> = (data) => {
-        localStorage.setItem('upiDetails', JSON.stringify(data));
-        setUpiDetails(data);
-        toast({ title: "UPI ID saved successfully!" });
+        // Here you would typically send this data with the withdrawal request
+        console.log("UPI Details for withdrawal:", data);
+        toast({ title: "UPI details ready for withdrawal." });
     };
 
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Add UPI Account</CardTitle>
+                <CardTitle>Enter UPI Details</CardTitle>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleSubmit(onSave)} className="space-y-4">
@@ -367,33 +324,9 @@ const AddUpiForm = ({ setUpiDetails }: { setUpiDetails: (details: UpiDetails) =>
                         />
                          {errors.confirmUpiId && <p className="text-red-500 text-xs mt-1">{errors.confirmUpiId.message}</p>}
                     </div>
-                    <Button type="submit" className="w-full">Save UPI ID</Button>
+                     {/* The main withdraw button will handle submission */}
                 </form>
             </CardContent>
         </Card>
     );
 };
-
-
-const SavedUpiCard = ({ details }: { details: UpiDetails }) => (
-    <Card className="bg-gradient-to-br from-green-500 to-teal-600 text-white">
-        <CardContent className="p-4 space-y-3">
-            <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                     <Wallet className="w-6 h-6" />
-                    <p className="font-bold text-lg">UPI</p>
-                </div>
-                <Pencil className="w-4 h-4 opacity-70" />
-            </div>
-            <p className="font-mono text-lg text-center">{details.upiId}</p>
-            <div className="text-sm pt-2">
-                <p className="opacity-80">Holder Name</p>
-                <p className="font-semibold">{details.holderName}</p>
-            </div>
-             <div className="flex items-center gap-2 p-2 bg-white/10 rounded-md text-xs mt-2">
-                <AlertTriangle className="w-4 h-4 text-yellow-300"/>
-                <p>To change details, please contact customer support.</p>
-            </div>
-        </CardContent>
-    </Card>
-);
