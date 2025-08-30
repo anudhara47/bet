@@ -20,6 +20,7 @@ export interface UserData {
     totalWithdrawalAmount: number;
     invitees: Invitees;
     claimedInvitationBonuses: number[];
+    blocked: boolean;
 }
 
 export interface ExpHistoryItem {
@@ -62,7 +63,10 @@ interface UserContextType {
   invitees: Invitees;
   claimedInvitationBonuses: number[];
   addClaimedInvitationBonus: (tierId: number) => void;
-  login: (identifier: string, password?: string) => void;
+  isBlocked: boolean;
+  blockUser: (uid: string) => void;
+  unblockUser: (uid: string) => void;
+  login: (identifier: string, password?: string) => 'success' | 'blocked' | 'not_found';
   logout: () => void;
 }
 
@@ -97,6 +101,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [invitees, setInvitees] = useState<Invitees>({ count: 0, rechargedCount: 0 });
     const [claimedInvitationBonuses, setClaimedInvitationBonuses] = useState<number[]>([]);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
+    const [isBlocked, setIsBlocked] = useState(false);
 
     const clearLocalStorage = () => {
         Object.keys(localStorage).forEach(key => {
@@ -124,6 +129,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             setTotalWithdrawalAmount(parseFloat(localStorage.getItem('user-total-withdrawal') || '0'));
             setInvitees(JSON.parse(localStorage.getItem('user-invitees') || '{"count":0, "rechargedCount":0}'));
             setClaimedInvitationBonuses(JSON.parse(localStorage.getItem('user-claimed-invitation-bonuses') || '[]'));
+            setIsBlocked(JSON.parse(localStorage.getItem('user-is-blocked') || 'false'));
         }
         setIsInitialLoad(false);
     }, []);
@@ -133,13 +139,19 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         const existingUser = allUsers.find((u: UserData) => u.email === identifier || u.phone === identifier);
 
         if(existingUser) {
-             // Handle login for existing user
+             if (existingUser.blocked) {
+                return 'blocked';
+            }
+            // Handle login for existing user
             localStorage.setItem('user-uid', existingUser.uid);
             setUid(existingUser.uid);
             localStorage.setItem('user-email', existingUser.email || '');
             setEmail(existingUser.email);
             localStorage.setItem('user-nickname', existingUser.nickname);
             setNickname(existingUser.nickname);
+            setIsBlocked(false);
+            localStorage.setItem('user-is-blocked', 'false');
+            return 'success';
         } else {
             // Handle new user registration
             const newUid = Math.floor(100000 + Math.random() * 900000).toString();
@@ -162,6 +174,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 totalWithdrawalAmount: 0,
                 invitees: { count: 1, rechargedCount: 1 },
                 claimedInvitationBonuses: [1],
+                blocked: false,
             };
             
             allUsers.push(newUser);
@@ -199,6 +212,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             localStorage.setItem('user-invitees', JSON.stringify({ count: 1, rechargedCount: 1 }));
             setClaimedInvitationBonuses([1]);
             localStorage.setItem('user-claimed-invitation-bonuses', JSON.stringify([1]));
+            setIsBlocked(false);
+            localStorage.setItem('user-is-blocked', 'false');
+            return 'success';
         }
     }, []);
 
@@ -219,6 +235,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setTotalWithdrawalAmount(0);
         setInvitees({ count: 0, rechargedCount: 0 });
         setClaimedInvitationBonuses([]);
+        setIsBlocked(false);
     }, []);
 
     const handleSetNickname = (name: string) => {
@@ -288,6 +305,21 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('user-claimed-invitation-bonuses', JSON.stringify(newBonuses));
     }
 
+    const blockUser = (userUid: string) => {
+        const allUsers = loadFromLocalStorage('allUsers', []);
+        const updatedUsers = allUsers.map((u: UserData) => u.uid === userUid ? { ...u, blocked: true } : u);
+        saveToLocalStorage('allUsers', updatedUsers);
+        if (userUid === uid) {
+            logout();
+        }
+    }
+
+    const unblockUser = (userUid: string) => {
+        const allUsers = loadFromLocalStorage('allUsers', []);
+        const updatedUsers = allUsers.map((u: UserData) => u.uid === userUid ? { ...u, blocked: false } : u);
+        saveToLocalStorage('allUsers', updatedUsers);
+    }
+
     const value = {
         uid,
         email,
@@ -317,7 +349,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         claimedInvitationBonuses,
         addClaimedInvitationBonus,
         login,
-        logout
+        logout,
+        isBlocked,
+        blockUser,
+        unblockUser
     };
 
     return (

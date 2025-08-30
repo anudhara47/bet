@@ -43,11 +43,16 @@ export default function LoginPage() {
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        // This is a dummy login. In a real app, you'd call an API.
         if (loginIdentifier && loginPassword) {
-            login(loginIdentifier, loginPassword);
-            toast({ title: "Login Successful!" });
-            router.push('/home');
+            const loginStatus = login(loginIdentifier, loginPassword);
+            if (loginStatus === 'success') {
+                toast({ title: "Login Successful!" });
+                router.push('/home');
+            } else if (loginStatus === 'blocked') {
+                toast({ title: "Account Blocked", description: "This account has been blocked by an administrator.", variant: "destructive" });
+            } else {
+                 toast({ title: "Invalid Credentials", description: "Please check your phone/email and password.", variant: "destructive" });
+            }
         } else {
             toast({ title: "Please enter your identifier and password.", variant: "destructive" });
         }
@@ -64,9 +69,11 @@ export default function LoginPage() {
             return;
         }
         if (registerIdentifier && registerPassword) {
-            login(registerIdentifier, registerPassword); // Use the same login function to simulate registration
-            toast({ title: "Registration Successful!" });
-            router.push('/home');
+            const registerStatus = login(registerIdentifier, registerPassword); // Use login to register
+            if (registerStatus === 'success') {
+                toast({ title: "Registration Successful!" });
+                router.push('/home');
+            }
         } else {
              toast({ title: "Please fill all required fields.", variant: "destructive" });
         }
