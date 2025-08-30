@@ -1,4 +1,5 @@
 
+
 'use client';
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
@@ -16,6 +17,8 @@ interface UserContextType {
   addExperience: (amount: number) => void;
   usedCodes: string[];
   addUsedCode: (code: string) => void;
+  hasClaimedLevel: (level: number) => boolean;
+  addClaimedLevel: (level: number) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -28,6 +31,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [balance, setBalance] = useState(305.77);
     const [experience, setExperience] = useState(0);
     const [usedCodes, setUsedCodes] = useState<string[]>([]);
+    const [claimedLevels, setClaimedLevels] = useState<number[]>([]);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     // Load from localStorage on initial render
@@ -69,6 +73,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         if (storedUsedCodes) {
             setUsedCodes(JSON.parse(storedUsedCodes));
         }
+        
+        // Claimed Levels
+        const storedClaimedLevels = localStorage.getItem('user-claimed-levels');
+        if (storedClaimedLevels) {
+            setClaimedLevels(JSON.parse(storedClaimedLevels));
+        }
 
 
         setIsInitialLoad(false);
@@ -103,6 +113,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         if (isInitialLoad) return;
         localStorage.setItem('user-used-codes', JSON.stringify(usedCodes));
     }, [usedCodes, isInitialLoad]);
+    
+    useEffect(() => {
+        if (isInitialLoad) return;
+        localStorage.setItem('user-claimed-levels', JSON.stringify(claimedLevels));
+    }, [claimedLevels, isInitialLoad]);
 
 
     const handleSetNickname = (name: string) => {
@@ -120,6 +135,17 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const addUsedCode = (code: string) => {
         setUsedCodes(prev => [...prev, code]);
     };
+    
+    const hasClaimedLevel = (level: number) => {
+        return claimedLevels.includes(level);
+    }
+    
+    const addClaimedLevel = (level: number) => {
+        if (!claimedLevels.includes(level)) {
+            setClaimedLevels(prev => [...prev, level]);
+        }
+    }
+
 
     const value = {
         uid,
@@ -133,7 +159,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         experience,
         addExperience,
         usedCodes,
-        addUsedCode
+        addUsedCode,
+        hasClaimedLevel,
+        addClaimedLevel
     };
 
     return (

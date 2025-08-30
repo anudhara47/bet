@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
+import { useToast } from "@/hooks/use-toast";
 
 
 const VipBadge = ({ level = 0, size = 'md' }: { level: number, size?: 'sm' | 'md' }) => {
@@ -78,18 +79,19 @@ const HistoryChatIcon = () => (
 
 const vipLevels = [
     { level: 1, expRequired: 0, levelUpReward: 0, monthlyReward: 0, rebateRate: `0%` },
-    { level: 2, expRequired: 10000, levelUpReward: 0, monthlyReward: 0, rebateRate: `0%` },
+    { level: 2, expRequired: 10000, levelUpReward: 60, monthlyReward: 0, rebateRate: `0%` },
     ...Array.from({ length: 8 }, (_, i) => ({
         level: i + 3,
         expRequired: 10000 + (i + 2) * 30000,
-        levelUpReward: 0,
+        levelUpReward: 100 + i * 50,
         monthlyReward: 0,
         rebateRate: `0%`,
     }))
 ];
 
 export default function VipPage() {
-    const { nickname, avatar, experience } = useUser();
+    const { nickname, avatar, experience, setBalance, addClaimedLevel, hasClaimedLevel } = useUser();
+    const { toast } = useToast();
     
     const [mainApi, setMainApi] = React.useState<CarouselApi>()
     const [benefitsApi, setBenefitsApi] = React.useState<CarouselApi>()
@@ -97,6 +99,20 @@ export default function VipPage() {
     
     const currentLevelInfo = vipLevels.slice().reverse().find(l => experience >= l.expRequired);
     const currentLevel = currentLevelInfo ? currentLevelInfo.level : 1;
+    const nextLevelInfo = vipLevels.find(l => l.level === currentLevel + 1);
+
+    const canClaimLevelUpReward = nextLevelInfo && experience >= nextLevelInfo.expRequired && !hasClaimedLevel(nextLevelInfo.level);
+
+    const handleClaimLevelUpReward = () => {
+        if(canClaimLevelUpReward && nextLevelInfo) {
+            setBalance(prev => prev + nextLevelInfo.levelUpReward);
+            addClaimedLevel(nextLevelInfo.level);
+            toast({
+                title: "Reward Claimed!",
+                description: `You have received ₹${nextLevelInfo.levelUpReward.toFixed(2)} for reaching VIP ${nextLevelInfo.level}.`
+            });
+        }
+    };
     
     React.useEffect(() => {
         const now = new Date();
@@ -373,8 +389,10 @@ export default function VipPage() {
                                <Image src="https://picsum.photos/200/100?random=1" width={200} height={100} alt="Benefit 1" className="object-cover w-full h-full" data-ai-hint="gift box"/>
                              </div>
                              <div className="p-3 text-white">
-                                <p className="font-bold">Weekly Bonus</p>
-                                <Button size="sm" className="w-full mt-2 bg-white text-primary hover:bg-gray-100">Claim</Button>
+                                <p className="font-bold">Level up rewards</p>
+                                <Button size="sm" className="w-full mt-2 bg-white text-primary hover:bg-gray-100" onClick={handleClaimLevelUpReward} disabled={!canClaimLevelUpReward}>
+                                    {canClaimLevelUpReward ? 'Claim' : (hasClaimedLevel(nextLevelInfo?.level || 0) ? 'Claimed' : 'Locked')}
+                                </Button>
                              </div>
                            </CardContent>
                         </Card>
@@ -441,10 +459,5 @@ export default function VipPage() {
             </div>
         </div>
     );
-
-    
-
-
-
 
     
