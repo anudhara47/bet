@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@/context/user-context";
-import { ChevronLeft, CheckCircle, Diamond, Gift, Star, Gem, Crown, MessageCircle } from "lucide-react";
+import { ChevronLeft, CheckCircle, Diamond, Gift, Star, Gem, Crown, MessageCircle, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
@@ -78,7 +78,7 @@ export default function VipPage() {
 
     return (
         <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto relative">
-            <header className="bg-red-500 text-white p-4 flex items-center gap-4 sticky top-0 z-10">
+            <header className="bg-primary text-white p-4 flex items-center gap-4 sticky top-0 z-10">
                 <Link href="/account" className="text-white">
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
@@ -86,7 +86,7 @@ export default function VipPage() {
             </header>
 
             <main className="space-y-4">
-                <div className="bg-red-500 p-4 rounded-b-2xl">
+                <div className="bg-primary p-4 rounded-b-2xl">
                     <div className="flex items-center gap-4 text-white">
                         <div className="w-16 h-16 rounded-full bg-gray-200 border-2 border-white overflow-hidden">
                            {avatar ? (
@@ -106,11 +106,11 @@ export default function VipPage() {
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mt-4 text-center">
-                        <Card className="bg-white/90 text-red-500 rounded-lg py-2">
+                        <Card className="bg-white/90 text-primary rounded-lg py-2">
                            <p className="text-xl font-bold">13796 EXP</p>
                            <p className="text-xs text-muted-foreground">My experience</p>
                         </Card>
-                        <Card className="bg-white/90 text-red-500 rounded-lg py-2">
+                        <Card className="bg-white/90 text-primary rounded-lg py-2">
                            <p className="text-xl font-bold">2 <span className="text-sm">Days</span></p>
                            <p className="text-xs text-muted-foreground">Payout time</p>
                         </Card>
@@ -155,7 +155,7 @@ export default function VipPage() {
 
                  <div className="px-4">
                     <h3 className="font-bold text-lg flex items-center gap-2 mb-2">
-                        <Gem className="text-red-500" />
+                        <Gem className="text-primary" />
                         VIP1 Benefits level
                     </h3>
                      <Card className="rounded-xl shadow-lg">
@@ -187,29 +187,29 @@ export default function VipPage() {
 
                  <div className="px-4">
                     <h3 className="font-bold text-lg flex items-center gap-2 mb-2">
-                        <Crown className="text-red-500" />
+                        <Crown className="text-primary" />
                         My benefits
                     </h3>
                     <div className="grid grid-cols-2 gap-4">
-                        <Card className="rounded-xl shadow-lg bg-red-400 overflow-hidden">
+                        <Card className="rounded-xl shadow-lg bg-primary overflow-hidden">
                            <CardContent className="p-0">
                              <div className="h-24 bg-red-300 flex items-center justify-center">
                                <Image src="https://picsum.photos/200/100?random=1" width={200} height={100} alt="Benefit 1" className="object-cover w-full h-full" data-ai-hint="gift box gold coins"/>
                              </div>
                              <div className="p-3 text-white">
                                 <p className="font-bold">Weekly Bonus</p>
-                                <Button size="sm" className="w-full mt-2 bg-white text-red-500 hover:bg-gray-100">Claim</Button>
+                                <Button size="sm" className="w-full mt-2 bg-white text-primary hover:bg-gray-100">Claim</Button>
                              </div>
                            </CardContent>
                         </Card>
-                         <Card className="rounded-xl shadow-lg bg-red-400 overflow-hidden">
+                         <Card className="rounded-xl shadow-lg bg-primary overflow-hidden">
                            <CardContent className="p-0">
                             <div className="h-24 bg-red-300 flex items-center justify-center">
                                <Image src="https://picsum.photos/200/100?random=2" width={200} height={100} alt="Benefit 2" className="object-cover w-full h-full" data-ai-hint="gold coins treasure"/>
                              </div>
                              <div className="p-3 text-white">
                                 <p className="font-bold">Monthly Bonus</p>
-                                <Button size="sm" className="w-full mt-2 bg-white text-red-500 hover:bg-gray-100">Claim</Button>
+                                <Button size="sm" className="w-full mt-2 bg-white text-primary hover:bg-gray-100">Claim</Button>
                              </div>
                            </CardContent>
                         </Card>
@@ -219,8 +219,8 @@ export default function VipPage() {
                 <div className="px-4">
                     <Tabs defaultValue="history" className="w-full">
                         <TabsList className="grid w-full grid-cols-2 bg-transparent border-b">
-                            <TabsTrigger value="history" className="data-[state=active]:border-b-2 data-[state=active]:border-red-500 data-[state=active]:text-red-500 rounded-none pb-2">History</TabsTrigger>
-                            <TabsTrigger value="rules" className="data-[state=active]:border-b-2 data-[state=active]:border-red-500 data-[state=active]:text-red-500 rounded-none pb-2">Rules</TabsTrigger>
+                            <TabsTrigger value="history" className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none pb-2">History</TabsTrigger>
+                            <TabsTrigger value="rules" className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none pb-2">Rules</TabsTrigger>
                         </TabsList>
                         <TabsContent value="history" className="pt-4">
                             <div className="space-y-4">
@@ -250,11 +250,13 @@ export default function VipPage() {
 
             </main>
              <div className="fixed bottom-20 right-4">
-                <Button className="rounded-full w-14 h-14 bg-red-500/80 backdrop-blur-sm shadow-lg hover:bg-red-500">
+                <Button className="rounded-full w-14 h-14 bg-primary/80 backdrop-blur-sm shadow-lg hover:bg-primary">
                     <MessageCircle className="w-8 h-8 text-white" />
                 </Button>
             </div>
         </div>
     );
+
+    
 
     
