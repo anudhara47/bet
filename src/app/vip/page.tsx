@@ -76,13 +76,17 @@ const HistoryChatIcon = () => (
     </svg>
 );
 
-const vipLevels = Array.from({ length: 10 }, (_, i) => ({
-    level: i + 1,
-    expRequired: (i + 1) * 30000,
-    levelUpReward: 0,
-    monthlyReward: 0,
-    rebateRate: `0%`,
-}));
+const vipLevels = [
+    { level: 1, expRequired: 0, levelUpReward: 0, monthlyReward: 0, rebateRate: `0%` },
+    { level: 2, expRequired: 10000, levelUpReward: 0, monthlyReward: 0, rebateRate: `0%` },
+    ...Array.from({ length: 8 }, (_, i) => ({
+        level: i + 3,
+        expRequired: 10000 + (i + 2) * 30000,
+        levelUpReward: 0,
+        monthlyReward: 0,
+        rebateRate: `0%`,
+    }))
+];
 
 export default function VipPage() {
     const { nickname, avatar, experience } = useUser();
@@ -91,7 +95,8 @@ export default function VipPage() {
     const [benefitsApi, setBenefitsApi] = React.useState<CarouselApi>()
     const [payoutDays, setPayoutDays] = React.useState(0);
     
-    const currentLevel = vipLevels.find(l => experience < l.expRequired)?.level || 10;
+    const currentLevelInfo = vipLevels.slice().reverse().find(l => experience >= l.expRequired);
+    const currentLevel = currentLevelInfo ? currentLevelInfo.level : 1;
     
     React.useEffect(() => {
         const now = new Date();
@@ -226,10 +231,17 @@ export default function VipPage() {
                     <CarouselContent>
                         {vipLevels.map((vip, index) => {
                             const isCurrentLevel = vip.level === currentLevel;
-                            const nextLevel = vipLevels[currentLevel];
-                            const progress = nextLevel ? (experience / nextLevel.expRequired) * 100 : (vip.level <= currentLevel ? 100 : 0);
+                            const nextLevel = vipLevels.find(l => l.level === currentLevel + 1);
+                            
+                            const expForCurrentLevel = vipLevels.find(l => l.level === currentLevel)?.expRequired || 0;
+                            
+                            const progress = nextLevel 
+                                ? ((experience - expForCurrentLevel) / (nextLevel.expRequired - expForCurrentLevel)) * 100
+                                : (vip.level <= currentLevel ? 100 : 0);
+                            
                             const requiredForUpgrade = nextLevel ? nextLevel.expRequired - experience : 0;
                             const isNextLevel = vip.level === currentLevel + 1;
+                            const isAchieved = vip.level <= currentLevel;
 
                             return (
                             <CarouselItem key={index} className="basis-11/12">
@@ -241,7 +253,7 @@ export default function VipPage() {
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <h3 className="text-2xl font-bold">VIP{vip.level}</h3>
-                                                {vip.level > currentLevel && (
+                                                {!isAchieved && (
                                                     <div className="flex items-center gap-1 text-red-800 bg-red-200/80 rounded-full px-2 py-0.5 text-xs">
                                                         <CheckCircle className="w-3 h-3" />
                                                         <span>Not open yet</span>
@@ -249,17 +261,17 @@ export default function VipPage() {
                                                 )}
                                             </div>
                                             <p className="text-sm opacity-80 mt-1">
-                                                {isNextLevel ? `Upgrading VIP${vip.level} requires ${requiredForUpgrade}EXP` : `Dear VIP${vip.level} customer`}
+                                                {isCurrentLevel && nextLevel ? `Upgrading VIP${nextLevel.level} requires ${requiredForUpgrade.toLocaleString()} EXP` : `Dear VIP${vip.level} customer`}
                                             </p>
                                             
-                                            {isNextLevel && (
+                                            {isCurrentLevel && nextLevel && (
                                                 <>
                                                     <div className="mt-4">
                                                         <Button size="sm" variant="outline" className="bg-white/50 border-white/80 text-yellow-800">Bet ₹1=1EXP</Button>
                                                         <Progress value={progress} className="h-2 mt-2 bg-white/50" indicatorClassName="bg-yellow-600" />
                                                         <div className="flex justify-between items-center text-xs mt-1">
-                                                            <p className="opacity-80">{experience}/{vip.expRequired}</p>
-                                                            <p>{vip.expRequired} EXP can be leveled up</p>
+                                                            <p className="opacity-80">{(experience - expForCurrentLevel).toLocaleString()}/{ (nextLevel.expRequired - expForCurrentLevel).toLocaleString()}</p>
+                                                            <p>{nextLevel.expRequired.toLocaleString()} EXP can be leveled up</p>
                                                         </div>
                                                     </div>
                                                 </>
@@ -433,3 +445,6 @@ export default function VipPage() {
     
 
 
+
+
+    
