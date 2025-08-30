@@ -1,5 +1,4 @@
 
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -317,7 +316,10 @@ export default function VipPage() {
                         className="w-full"
                     >
                         <CarouselContent>
-                            {vipLevels.map((vip, index) => (
+                            {vipLevels.map((vip, index) => {
+                                const nextVipLevel = vipLevels.find(l => l.level === vip.level + 1);
+
+                                return(
                                 <CarouselItem key={index} className="basis-11/12">
                                     <div className="px-1">
                                         <Card className="rounded-xl shadow-lg">
@@ -328,7 +330,7 @@ export default function VipPage() {
                                                         icon: <LevelUpRewardIcon />, 
                                                         title: "Level up rewards", 
                                                         description: "Each account can only receive 1 time", 
-                                                        value: vip.levelUpReward,
+                                                        value: nextVipLevel?.levelUpReward || 0,
                                                         isCurrency: true
                                                     },
                                                     { 
@@ -364,7 +366,7 @@ export default function VipPage() {
                                         </Card>
                                     </div>
                                 </CarouselItem>
-                            ))}
+                            )})}
                         </CarouselContent>
                      </Carousel>
                  </div>
