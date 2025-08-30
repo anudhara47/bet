@@ -32,26 +32,13 @@ export default function AdminDepositPage() {
         setRequests(storedRequests);
     }, []);
 
-    // Simulate auto-approval after a delay for demonstration purposes
-    React.useEffect(() => {
-        const interval = setInterval(() => {
-            const pendingRequest = requests.find(r => r.status === 'pending');
-            if (pendingRequest) {
-                handleApproval(pendingRequest.id, 'approved');
-            }
-        }, 5000); // Check for pending requests every 5 seconds
-
-        return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [requests]);
-
-
     const handleApproval = (id: string, status: 'approved' | 'rejected') => {
+        let amountToUpdate = 0;
         const updatedRequests = requests.map(req => {
             if (req.id === id) {
                 // If approving, update balance
                 if (status === 'approved') {
-                    setBalance(prev => prev + req.amount);
+                    amountToUpdate = req.amount;
                     addNotification({
                         type: 'deposit',
                         title: 'Deposit Approved',
@@ -62,6 +49,10 @@ export default function AdminDepositPage() {
             }
             return req;
         });
+
+        if (status === 'approved' && amountToUpdate > 0) {
+            setBalance(prev => prev + amountToUpdate);
+        }
 
         setRequests(updatedRequests);
         localStorage.setItem('depositRequests', JSON.stringify(updatedRequests));
@@ -127,4 +118,3 @@ export default function AdminDepositPage() {
         </div>
     );
 }
-

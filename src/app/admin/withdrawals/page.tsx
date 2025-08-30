@@ -27,38 +27,32 @@ export default function AdminWithdrawalPage() {
         setRequests(storedRequests);
     }, []);
 
-    // Simulate auto-approval after a delay for demonstration purposes
-    React.useEffect(() => {
-        const interval = setInterval(() => {
-            const pendingRequest = requests.find(r => r.status === 'pending');
-            if (pendingRequest) {
-                handleApproval(pendingRequest.id, 'approved');
-            }
-        }, 5000); // Check for pending requests every 5 seconds
-
-        return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [requests]);
-
-
     const handleApproval = (id: string, status: 'approved' | 'rejected') => {
+        let amountToUpdate = 0;
+        let requestFound: WithdrawalRequest | undefined;
+
         const updatedRequests = requests.map(req => {
             if (req.id === id) {
+                requestFound = req;
                 if (status === 'approved') {
-                    // On approval, balance would have been deducted at time of request.
-                    // Here we just confirm it.
-                    setBalance(prev => prev - req.amount);
                     addNotification({
                         type: 'withdrawal',
                         title: 'Withdrawal Approved',
                         message: `Your withdrawal of ₹${req.amount.toFixed(2)} has been approved.`,
                     });
+                } else if (status === 'rejected') {
+                    // Refund the amount to user's balance if rejected
+                    amountToUpdate = req.amount;
                 }
                 return { ...req, status };
             }
             return req;
         });
 
+        if (status === 'rejected' && amountToUpdate > 0) {
+            setBalance(prev => prev + amountToUpdate);
+        }
+        
         setRequests(updatedRequests);
         localStorage.setItem('withdrawalRequests', JSON.stringify(updatedRequests));
 
@@ -117,5 +111,3 @@ export default function AdminWithdrawalPage() {
         </div>
     );
 }
-
-    

@@ -108,6 +108,9 @@ export default function WithdrawPage() {
             timestamp: Date.now(),
             status: 'pending',
         };
+        
+        // Deduct balance immediately upon request
+        setBalance(prev => prev - data.amount);
 
         const existingRequests = JSON.parse(localStorage.getItem('withdrawalRequests') || '[]');
         localStorage.setItem('withdrawalRequests', JSON.stringify([withdrawalRequest, ...existingRequests]));
@@ -393,5 +396,3 @@ const SavedUpiCard = ({ details }: { details: UpiDetails }) => (
         </CardContent>
     </Card>
 );
-
-    

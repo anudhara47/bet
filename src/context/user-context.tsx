@@ -10,7 +10,7 @@ interface UserContextType {
   avatar: string | null;
   setAvatar: (url: string | null) => void;
   balance: number;
-  setBalance: (balance: number) => void;
+  setBalance: React.Dispatch<React.SetStateAction<number>>;
   usedCodes: string[];
   addUsedCode: (code: string) => void;
 }
@@ -97,10 +97,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setAvatar(url);
     };
 
-    const handleSetBalance = (newBalance: number) => {
-        setBalance(newBalance);
-    };
-
     const addUsedCode = (code: string) => {
         setUsedCodes(prev => [...prev, code]);
     };
@@ -112,7 +108,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         avatar,
         setAvatar: handleSetAvatar,
         balance,
-        setBalance: handleSetBalance,
+        setBalance,
         usedCodes,
         addUsedCode
     };
