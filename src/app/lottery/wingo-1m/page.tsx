@@ -72,7 +72,7 @@ export default function Wingo1mPage() {
     return (
         <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative">
             <header className="bg-white text-gray-800 p-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
-                <Link href="/" className="text-gray-800">
+                <Link href="/home" className="text-gray-800">
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
                 <div className="flex items-center space-x-1">

@@ -139,7 +139,7 @@ export default function K3Page() {
     return (
         <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative">
             <header className="bg-blue-500 text-white p-4 flex items-center justify-between sticky top-0 z-10">
-                <Link href="/" className="text-white">
+                <Link href="/home" className="text-white">
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
                 <div className="flex items-center space-x-1">
@@ -326,5 +326,3 @@ export default function K3Page() {
         </div>
     )
 }
-
-    

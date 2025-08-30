@@ -27,7 +27,7 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (uid) {
-            router.replace('/account');
+            router.replace('/home');
         }
     }, [uid, router]);
 
@@ -37,7 +37,7 @@ export default function LoginPage() {
         if (mobile && password) {
             login(mobile);
             toast({ title: "Login Successful!" });
-            router.push('/account');
+            router.push('/home');
         } else {
             toast({ title: "Please enter mobile and password.", variant: "destructive" });
         }
@@ -56,7 +56,7 @@ export default function LoginPage() {
         if (mobile && password) {
             login(mobile); // Use the same login function to simulate registration
             toast({ title: "Registration Successful!" });
-            router.push('/account');
+            router.push('/home');
         } else {
              toast({ title: "Please fill all required fields.", variant: "destructive" });
         }
@@ -66,7 +66,7 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative flex flex-col">
              <header className="bg-primary text-primary-foreground p-4 flex items-center justify-between sticky top-0 z-10">
-                <Link href="/" className="text-white">
+                <Link href="/home" className="text-white">
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
                 <div className="flex items-center gap-2">

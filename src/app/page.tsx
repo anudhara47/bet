@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -12,7 +11,7 @@ export default function EntryPage() {
 
   useEffect(() => {
     if (uid) {
-      router.replace('/account');
+      router.replace('/home');
     } else {
       router.replace('/login');
     }
