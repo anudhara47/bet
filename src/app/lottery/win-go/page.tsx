@@ -75,23 +75,17 @@ export default function WinGoPage() {
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     const [isClient, setIsClient] = React.useState(false);
 
-    // Using a fixed base period. The base time will be set on the client.
+    // Using a fixed base period and time.
     const basePeriod = BigInt("20250830100050808");
-    const baseTimeRef = React.useRef<number | null>(null);
+    const baseTime = 1724985600000; // A fixed timestamp in the past (e.g., Aug 30, 2024 10:00:00 AM UTC)
 
     React.useEffect(() => {
         // This ensures the following code only runs on the client
         setIsClient(true);
-        if (baseTimeRef.current === null) {
-            baseTimeRef.current = Date.now();
-        }
 
         const calculateCurrentPeriod = (interval: number) => {
-            if (baseTimeRef.current === null) {
-                return { currentPeriodId: "0", newTimeLeft: interval };
-            }
             const now = Date.now();
-            const diffInSeconds = Math.floor((now - baseTimeRef.current) / 1000);
+            const diffInSeconds = Math.floor((now - baseTime) / 1000);
             const periodsPassed = Math.floor(diffInSeconds / interval);
             const currentPeriodId = basePeriod + BigInt(periodsPassed);
             
@@ -127,6 +121,7 @@ export default function WinGoPage() {
              }
         }
         setGameHistory(history);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [periodId, isClient]);
 
 
@@ -411,3 +406,5 @@ export default function WinGoPage() {
     )
 
 }
+
+    
