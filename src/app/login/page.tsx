@@ -1,4 +1,5 @@
 
+
 'use client';
 import * as React from 'react';
 import { Button } from "@/components/ui/button";
@@ -13,12 +14,20 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/context/language-context';
+import { useUser } from '@/context/user-context';
 
 export default function LoginPage() {
     const router = useRouter();
     const { toast } = useToast();
     const { language, setLanguage } = useLanguage();
     const [isSubmitting, setIsSubmitting] = React.useState(false);
+    const { uid } = useUser();
+
+     useEffect(() => {
+        if (uid) {
+            router.replace('/account');
+        }
+    }, [uid, router]);
 
     const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -82,6 +91,14 @@ export default function LoginPage() {
             setIsSubmitting(false);
         }, 1000);
     };
+    
+    if (uid) {
+        return (
+            <div className="flex h-screen w-full items-center justify-center">
+                <div className="text-lg font-semibold">Redirecting...</div>
+            </div>
+        );
+    }
 
 
     return (

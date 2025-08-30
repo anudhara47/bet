@@ -1,4 +1,5 @@
 
+
 'use client';
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -90,7 +91,7 @@ export default function AccountPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [isRefreshing, setIsRefreshing] = React.useState(false);
-  const { uid, email, nickname, balance } = useUser();
+  const { uid, email, nickname, balance, logout } = useUser();
   const [pendingDepositCount, setPendingDepositCount] = React.useState(0);
 
   const adminEmail = 'bdhara47@gmail.com';
@@ -138,6 +139,7 @@ export default function AccountPage() {
   }
 
   const handleLogout = () => {
+    logout();
     toast({ title: "Logged out successfully" });
     router.push("/");
   }

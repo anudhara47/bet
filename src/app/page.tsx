@@ -1,4 +1,5 @@
 
+
 'use client';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/user-context';
@@ -11,6 +12,11 @@ export default function HomeRedirectPage() {
     useEffect(() => {
         // This logic will run on the client side after hydration.
         // It checks if a user identifier exists and redirects accordingly.
+        if (uid === null) {
+            // Still loading or no user
+            return;
+        }
+
         if (uid) {
             router.replace('/account'); // or a dashboard page
         } else {

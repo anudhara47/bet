@@ -1,7 +1,7 @@
 
 
 'use client';
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
 
 // Types
 export interface ExpHistoryItem {
@@ -43,6 +43,7 @@ interface UserContextType {
   invitees: Invitees;
   claimedInvitationBonuses: number[];
   addClaimedInvitationBonus: (tierId: number) => void;
+  logout: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -65,6 +66,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [claimedInvitationBonuses, setClaimedInvitationBonuses] = useState<number[]>([1]);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
+    const clearLocalStorage = () => {
+        Object.keys(localStorage).forEach(key => {
+            if (key.startsWith('user-')) {
+                localStorage.removeItem(key);
+            }
+        });
+    };
+    
     // Load from localStorage on initial render
     useEffect(() => {
         // UID
@@ -172,6 +181,25 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         claimedLevels, expHistory, lastMonthlyClaim, totalDepositAmount, 
         totalWithdrawalAmount, invitees, claimedInvitationBonuses, isInitialLoad
     ]);
+    
+    const logout = useCallback(() => {
+        clearLocalStorage();
+        setUid(null);
+        // Reset other states to their initial values
+        setNickname('Gamer');
+        setAvatar(null);
+        setBalance(0);
+        setThirdPartyBalance(0);
+        setExperience(0);
+        setUsedCodes([]);
+        setClaimedLevels([]);
+        setExpHistory([]);
+        setLastMonthlyClaim(null);
+        setTotalDepositAmount(0);
+        setTotalWithdrawalAmount(0);
+        setInvitees({ count: 0, rechargedCount: 0 });
+        setClaimedInvitationBonuses([]);
+    }, []);
 
     const handleSetNickname = (name: string) => setNickname(name);
     const handleSetAvatar = (url: string | null) => setAvatar(url);
@@ -225,7 +253,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         addWithdrawalAmount,
         invitees,
         claimedInvitationBonuses,
-        addClaimedInvitationBonus
+        addClaimedInvitationBonus,
+        logout
     };
 
     return (

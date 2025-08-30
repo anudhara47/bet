@@ -319,7 +319,9 @@ const MiniRouletteIcon = () => (
     </svg>
 );
 
-
+const DownloadIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d94645" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 16.5V3M15 13.5L12 16.5L9 13.5M21 16.5V19.5C21 20.6046 20.1046 21.5 19 21.5H5C3.89543 21.5 3 20.6046 3 19.5V16.5"/></svg>
+)
 
 const GameCard = ({
   href,
@@ -452,7 +454,7 @@ export default function MiniGamePage() {
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-xs px-4">
         <Button className="w-full bg-red-500 hover:bg-red-600 text-white rounded-full py-3 shadow-lg">
             <div className="bg-white rounded-full p-1 mr-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d94645" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 16.5V3M15 13.5L12 16.5L9 13.5M21 16.5V19.5C21 20.6046 20.1046 21.5 19 21.5H5C3.89543 21.5 3 20.6046 3 19.5V16.5"/></svg>
+                <DownloadIcon/>
             </div>
             Add to Desktop
         </Button>
