@@ -11,6 +11,11 @@ export interface ExpHistoryItem {
     amount: string;
 }
 
+interface Invitees {
+    count: number;
+    rechargedCount: number;
+}
+
 interface UserContextType {
   uid: string | null;
   email: string | null;
@@ -35,6 +40,9 @@ interface UserContextType {
   addDepositAmount: (amount: number) => void;
   totalWithdrawalAmount: number;
   addWithdrawalAmount: (amount: number) => void;
+  invitees: Invitees;
+  claimedInvitationBonuses: number[];
+  addClaimedInvitationBonus: (tierId: number) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -53,6 +61,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [lastMonthlyClaim, setLastMonthlyClaim] = useState<number | null>(null);
     const [totalDepositAmount, setTotalDepositAmount] = useState(0);
     const [totalWithdrawalAmount, setTotalWithdrawalAmount] = useState(0);
+    const [invitees, setInvitees] = useState<Invitees>({ count: 1, rechargedCount: 1 });
+    const [claimedInvitationBonuses, setClaimedInvitationBonuses] = useState<number[]>([1]);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     // Load from localStorage on initial render
@@ -127,6 +137,16 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         if (storedTotalWithdrawal) {
             setTotalWithdrawalAmount(parseFloat(storedTotalWithdrawal));
         }
+        
+        const storedInvitees = localStorage.getItem('user-invitees');
+        if (storedInvitees) {
+            setInvitees(JSON.parse(storedInvitees));
+        }
+
+        const storedClaimedBonuses = localStorage.getItem('user-claimed-invitation-bonuses');
+        if (storedClaimedBonuses) {
+            setClaimedInvitationBonuses(JSON.parse(storedClaimedBonuses));
+        }
 
         setIsInitialLoad(false);
     }, []);
@@ -135,80 +155,30 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         if (isInitialLoad) return;
         localStorage.setItem('user-nickname', nickname);
-    }, [nickname, isInitialLoad]);
-
-    useEffect(() => {
-        if (isInitialLoad) return;
-        if (avatar) {
-            localStorage.setItem('user-avatar', avatar);
-        } else {
-            localStorage.removeItem('user-avatar');
-        }
-    }, [avatar, isInitialLoad]);
-
-    useEffect(() => {
-        if (isInitialLoad) return;
+        if (avatar) localStorage.setItem('user-avatar', avatar); else localStorage.removeItem('user-avatar');
         localStorage.setItem('user-balance', balance.toString());
-    }, [balance, isInitialLoad]);
-
-    useEffect(() => {
-        if (isInitialLoad) return;
         localStorage.setItem('user-third-party-balance', thirdPartyBalance.toString());
-    }, [thirdPartyBalance, isInitialLoad]);
-
-    useEffect(() => {
-        if (isInitialLoad) return;
         localStorage.setItem('user-experience', experience.toString());
-    }, [experience, isInitialLoad]);
-
-    useEffect(() => {
-        if (isInitialLoad) return;
         localStorage.setItem('user-used-codes', JSON.stringify(usedCodes));
-    }, [usedCodes, isInitialLoad]);
-    
-    useEffect(() => {
-        if (isInitialLoad) return;
         localStorage.setItem('user-claimed-levels', JSON.stringify(claimedLevels));
-    }, [claimedLevels, isInitialLoad]);
-    
-    useEffect(() => {
-        if (isInitialLoad) return;
         localStorage.setItem('user-exp-history', JSON.stringify(expHistory));
-    }, [expHistory, isInitialLoad]);
-
-    useEffect(() => {
-        if (isInitialLoad) return;
-        if(lastMonthlyClaim) {
-            localStorage.setItem('user-last-monthly-claim', JSON.stringify(lastMonthlyClaim));
-        } else {
-            localStorage.removeItem('user-last-monthly-claim');
-        }
-    }, [lastMonthlyClaim, isInitialLoad]);
-
-    useEffect(() => {
-        if (isInitialLoad) return;
+        if(lastMonthlyClaim) localStorage.setItem('user-last-monthly-claim', JSON.stringify(lastMonthlyClaim)); else localStorage.removeItem('user-last-monthly-claim');
         localStorage.setItem('user-total-deposit', totalDepositAmount.toString());
-    }, [totalDepositAmount, isInitialLoad]);
-
-    useEffect(() => {
-        if (isInitialLoad) return;
         localStorage.setItem('user-total-withdrawal', totalWithdrawalAmount.toString());
-    }, [totalWithdrawalAmount, isInitialLoad]);
+        localStorage.setItem('user-invitees', JSON.stringify(invitees));
+        localStorage.setItem('user-claimed-invitation-bonuses', JSON.stringify(claimedInvitationBonuses));
+    }, [
+        nickname, avatar, balance, thirdPartyBalance, experience, usedCodes, 
+        claimedLevels, expHistory, lastMonthlyClaim, totalDepositAmount, 
+        totalWithdrawalAmount, invitees, claimedInvitationBonuses, isInitialLoad
+    ]);
 
-
-    const handleSetNickname = (name: string) => {
-        setNickname(name);
-    };
-
-    const handleSetAvatar = (url: string | null) => {
-        setAvatar(url);
-    };
-
+    const handleSetNickname = (name: string) => setNickname(name);
+    const handleSetAvatar = (url: string | null) => setAvatar(url);
     const transferToMainWallet = () => {
         setBalance(prev => prev + thirdPartyBalance);
         setThirdPartyBalance(0);
     };
-
     const addExperience = (amount: number, reason: string) => {
         setExperience(prev => prev + amount);
         const newHistoryItem: ExpHistoryItem = {
@@ -219,33 +189,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         };
         setExpHistory(prev => [newHistoryItem, ...prev]);
     };
-
-    const addUsedCode = (code: string) => {
-        setUsedCodes(prev => [...prev, code]);
-    };
-    
-    const hasClaimedLevel = (level: number) => {
-        return claimedLevels.includes(level);
-    }
-    
+    const addUsedCode = (code: string) => setUsedCodes(prev => [...prev, code]);
+    const hasClaimedLevel = (level: number) => claimedLevels.includes(level);
     const addClaimedLevel = (level: number) => {
-        if (!claimedLevels.includes(level)) {
-            setClaimedLevels(prev => [...prev, level]);
-        }
+        if (!claimedLevels.includes(level)) setClaimedLevels(prev => [...prev, level]);
     }
-
-    const claimMonthlyReward = () => {
-        setLastMonthlyClaim(Date.now());
-    };
-
-    const addDepositAmount = (amount: number) => {
-        setTotalDepositAmount(prev => prev + amount);
-    };
-
-    const addWithdrawalAmount = (amount: number) => {
-        setTotalWithdrawalAmount(prev => prev + amount);
-    };
-
+    const claimMonthlyReward = () => setLastMonthlyClaim(Date.now());
+    const addDepositAmount = (amount: number) => setTotalDepositAmount(prev => prev + amount);
+    const addWithdrawalAmount = (amount: number) => setTotalWithdrawalAmount(prev => prev + amount);
+    const addClaimedInvitationBonus = (tierId: number) => setClaimedInvitationBonuses(prev => [...prev, tierId]);
 
     const value = {
         uid,
@@ -270,7 +222,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         totalDepositAmount,
         addDepositAmount,
         totalWithdrawalAmount,
-        addWithdrawalAmount
+        addWithdrawalAmount,
+        invitees,
+        claimedInvitationBonuses,
+        addClaimedInvitationBonus
     };
 
     return (
