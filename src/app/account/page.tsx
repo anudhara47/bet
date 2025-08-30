@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useNotification } from "@/context/notification-context";
+import { useUser } from "@/context/user-context";
 
 const ArWalletIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -89,20 +90,10 @@ export default function AccountPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [isRefreshing, setIsRefreshing] = React.useState(false);
-  const [uid, setUid] = React.useState<string | null>(null);
+  const { uid, nickname, balance } = useUser();
+
 
   React.useEffect(() => {
-    // This code runs only on the client
-    const storedUid = localStorage.getItem('user-uid');
-    if (storedUid) {
-      setUid(storedUid);
-    } else {
-      // Generate a new UID if one doesn't exist
-      const newUid = Math.floor(100000 + Math.random() * 900000).toString();
-      localStorage.setItem('user-uid', newUid);
-      setUid(newUid);
-    }
-
     addNotification({
         type: 'login',
         title: 'Login Successful',
@@ -175,7 +166,7 @@ export default function AccountPage() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold">DEVIL47K</h1>
+              <h1 className="text-xl font-bold">{nickname}</h1>
               <span className="bg-yellow-400 text-red-800 text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1">
                 <ShieldCheck className="w-4 h-4" />
                 VIP1
@@ -196,7 +187,7 @@ export default function AccountPage() {
             <div>
               <p className="text-sm text-muted-foreground">{t.total_balance}</p>
               <p className="text-2xl font-bold flex items-center gap-2">
-                ₹305.77 
+                ₹{balance.toFixed(2)}
                 <RefreshCw 
                     className={cn("w-4 h-4 text-muted-foreground cursor-pointer", isRefreshing && "animate-spin")} 
                     onClick={handleRefresh}

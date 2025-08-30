@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { LanguageProvider } from '@/context/language-context';
 import { WingoGameProvider } from '@/context/wingo-game-context';
 import { NotificationProvider } from '@/context/notification-context';
+import { UserProvider } from '@/context/user-context';
 
 export const metadata: Metadata = {
   title: '9xbetclub',
@@ -24,14 +25,16 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet" />
       </head>
       <body className="font-sans antialiased">
-        <LanguageProvider>
-          <NotificationProvider>
-            <WingoGameProvider>
-              {children}
-              <Toaster />
-            </WingoGameProvider>
-          </NotificationProvider>
-        </LanguageProvider>
+        <UserProvider>
+          <LanguageProvider>
+            <NotificationProvider>
+              <WingoGameProvider>
+                {children}
+                <Toaster />
+              </WingoGameProvider>
+            </NotificationProvider>
+          </LanguageProvider>
+        </UserProvider>
       </body>
     </html>
   );

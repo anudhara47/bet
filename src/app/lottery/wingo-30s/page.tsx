@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import Link from "next/link";
 import * as React from "react";
 import { useWingoGame } from "@/context/wingo-game-context";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/context/user-context";
 
 const WalletIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500">
@@ -59,6 +61,7 @@ export default function Wingo30sPage() {
         myBets
     } = useWingoGame();
     const { toast } = useToast();
+    const { balance } = useUser();
     const [betAmount, setBetAmount] = React.useState(1);
     const [activeBetAmount, setActiveBetAmount] = React.useState(1);
 
@@ -109,7 +112,7 @@ export default function Wingo30sPage() {
                                 <div>
                                     <p className="text-xs sm:text-sm opacity-80 flex items-center gap-1"> Wallet balance</p>
                                     <div className="flex items-center gap-2">
-                                        <p className="text-xl sm:text-2xl font-bold">₹0.00</p>
+                                        <p className="text-xl sm:text-2xl font-bold">₹{balance.toFixed(2)}</p>
                                         <RefreshCw className={cn("w-4 h-4 cursor-pointer", isRefreshing && "animate-spin")} onClick={handleRefresh}/>
                                     </div>
                                 </div>

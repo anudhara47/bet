@@ -7,29 +7,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/context/user-context";
 import { ChevronLeft, ChevronRight, Copy, Info, Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
 export default function SettingsPage() {
   const { toast } = useToast();
-  const [nickname, setNickname] = React.useState("DEVIL47K");
-  const [avatar, setAvatar] = React.useState<string | null>(null);
+  const { uid, nickname, setNickname, avatar, setAvatar } = useUser();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const [uid, setUid] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    // This code runs only on the client
-    const storedUid = localStorage.getItem('user-uid');
-    if (storedUid) {
-      setUid(storedUid);
-    } else {
-      // In a real app, you'd probably redirect to login or handle this case differently
-      setUid('N/A');
-    }
-  }, []);
-
-
+  
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
@@ -43,11 +30,10 @@ export default function SettingsPage() {
 
   const handleNicknameSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newNickname = (e.currentTarget.elements.namedItem("nickname") as HTMLInputElement).value;
-    if (newNickname) {
-        setNickname(newNickname);
+    const newNicknameValue = (e.currentTarget.elements.namedItem("nickname") as HTMLInputElement).value;
+    if (newNicknameValue) {
+        setNickname(newNicknameValue);
         toast({ title: "Nickname updated successfully!" });
-        // Manually close dialog
         document.getElementById('closeNicknameDialog')?.click();
     }
   };
@@ -58,7 +44,6 @@ export default function SettingsPage() {
     const newPassword = (e.currentTarget.elements.namedItem("newPassword") as HTMLInputElement).value;
     if (oldPassword && newPassword) {
       toast({ title: "Password changed successfully!" });
-      // Manually close dialog
       document.getElementById('closePasswordDialog')?.click();
     } else {
         toast({ title: "Please fill in all fields.", variant: "destructive" });
@@ -71,7 +56,6 @@ export default function SettingsPage() {
         toast({ title: "UID copied to clipboard!" });
     }
   };
-
 
   return (
     <div className="min-h-screen bg-neutral-100 text-foreground max-w-lg mx-auto">
@@ -87,11 +71,9 @@ export default function SettingsPage() {
           <CardContent className="p-0">
             <div className="flex items-center justify-between p-4">
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
                     {avatar ? (
-                        // This part is not ideal for real apps as it's not storing the image anywhere.
-                        // It's just for display simulation.
-                        <div className="w-16 h-16 rounded-full bg-cover bg-center" style={{ backgroundImage: `url(${avatar})`}}></div>
+                        <div className="w-16 h-16 bg-cover bg-center" style={{ backgroundImage: `url(${avatar})`}}></div>
                     ) : (
                         <User className="w-8 h-8 text-gray-400" />
                     )}
