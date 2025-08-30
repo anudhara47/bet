@@ -79,14 +79,14 @@ const HistoryChatIcon = () => (
 const vipLevels = [
     { level: 1, expRequired: 0, levelUpReward: 0, monthlyReward: 30, rebateRate: `0%` },
     { level: 2, expRequired: 10000, levelUpReward: 60, monthlyReward: 80, rebateRate: `0%` },
-    { level: 3, expRequired: 300000, levelUpReward: 160, monthlyReward: 40, rebateRate: `0%` },
-    { level: 4, expRequired: 1000000, levelUpReward: 200, monthlyReward: 60, rebateRate: `0%` },
-    { level: 5, expRequired: 2000000, levelUpReward: 500, monthlyReward: 100, rebateRate: `0%` },
-    { level: 6, expRequired: 5000000, levelUpReward: 1200, monthlyReward: 250, rebateRate: `0%` },
-    { level: 7, expRequired: 10000000, levelUpReward: 2500, monthlyReward: 500, rebateRate: `0%` },
-    { level: 8, expRequired: 20000000, levelUpReward: 5000, monthlyReward: 1000, rebateRate: `0%` },
-    { level: 9, expRequired: 50000000, levelUpReward: 15000, monthlyReward: 3000, rebateRate: `0%` },
-    { level: 10, expRequired: 100000000, levelUpReward: 35000, monthlyReward: 8000, rebateRate: `0%` },
+    { level: 3, expRequired: 30000, levelUpReward: 160, monthlyReward: 40, rebateRate: `0%` },
+    { level: 4, expRequired: 70000, levelUpReward: 200, monthlyReward: 60, rebateRate: `0%` },
+    { level: 5, expRequired: 100000, levelUpReward: 500, monthlyReward: 100, rebateRate: `0%` },
+    { level: 6, expRequired: 300000, levelUpReward: 1200, monthlyReward: 250, rebateRate: `0%` },
+    { level: 7, expRequired: 700000, levelUpReward: 2500, monthlyReward: 500, rebateRate: `0%` },
+    { level: 8, expRequired: 1000000, levelUpReward: 5000, monthlyReward: 1000, rebateRate: `0%` },
+    { level: 9, expRequired: 3000000, levelUpReward: 15000, monthlyReward: 3000, rebateRate: `0%` },
+    { level: 10, expRequired: 7000000, levelUpReward: 35000, monthlyReward: 8000, rebateRate: `0%` },
 ];
 
 export default function VipPage() {
