@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -45,7 +46,7 @@ const NumberButton = ({ number, color }: { number: number, color: string }) => {
     )
 }
 
-export default function Wingo30sPage() {
+export default function Wingo1mPage() {
     const { 
         timeLeft, 
         periodId, 
@@ -55,6 +56,10 @@ export default function Wingo30sPage() {
         gameInterval,
         setGameInterval 
     } = useWingoGame();
+
+    React.useEffect(() => {
+        setGameInterval(60);
+    }, [setGameInterval]);
 
     const formatTime = (seconds: number) => {
         const m = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -111,20 +116,22 @@ export default function Wingo30sPage() {
 
                 <div className="px-2">
                     <Tabs 
-                        defaultValue={gameInterval === 30 ? "30sec" : "1min"} 
+                        defaultValue="1min"
                         className="w-full"
                         onValueChange={(value) => {
-                            if (value === '30sec') setGameInterval(30);
-                            if (value === '1min') setGameInterval(60);
+                            if (value === '30sec') {
+                                // Navigate or update context
+                                window.location.href = '/lottery/wingo-30s';
+                            }
                         }}
                     >
                         <TabsList className="grid grid-cols-4 bg-transparent p-0 h-auto gap-1 sm:gap-2">
-                            <TabsTrigger value="30sec" className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
-                                <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center"><Info className="w-4 h-4 text-red-500"/></div>
+                             <TabsTrigger value="30sec" className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
+                                <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center"><Info className="w-4 h-4 text-gray-600"/></div>
                                 WinGo 30Sec
                             </TabsTrigger>
                             <TabsTrigger value="1min" className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
-                                <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center"><Info className="w-4 h-4 text-gray-600"/></div>
+                                <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center"><Info className="w-4 h-4 text-red-500"/></div>
                                 WinGo 1 Min
                             </TabsTrigger>
                              <TabsTrigger value="3min" disabled className="data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md rounded-lg bg-gray-200 text-gray-500 py-2 sm:py-2 text-xs sm:text-sm flex flex-col items-center gap-1 h-auto">
@@ -136,10 +143,10 @@ export default function Wingo30sPage() {
                                 WinGo 5 Min
                             </TabsTrigger>
                         </TabsList>
-                        <TabsContent value={gameInterval === 30 ? "30sec" : "1min"} className="bg-white p-2 sm:p-4 rounded-lg shadow-md mt-2">
+                        <TabsContent value="1min" className="bg-white p-2 sm:p-4 rounded-lg shadow-md mt-2">
                             <div className="bg-red-100/50 border border-red-200 rounded-lg p-2 sm:p-3">
                                 <div className="flex justify-between items-center">
-                                    <p className="font-bold text-base sm:text-lg">WinGo {gameInterval}sec</p>
+                                    <p className="font-bold text-base sm:text-lg">WinGo 1 Min</p>
                                     <Button variant="outline" className="text-red-500 border-red-500 h-6 text-xs px-2"><HelpCircle className="w-3 h-3 mr-1"/>How to play</Button>
                                 </div>
                                 <Separator className="my-2 sm:my-3"/>

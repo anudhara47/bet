@@ -3,6 +3,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { LanguageProvider } from '@/context/language-context';
+import { WingoGameProvider } from '@/context/wingo-game-context';
 
 export const metadata: Metadata = {
   title: '9xbetclub',
@@ -23,8 +24,10 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased">
         <LanguageProvider>
+          <WingoGameProvider>
             {children}
             <Toaster />
+          </WingoGameProvider>
         </LanguageProvider>
       </body>
     </html>
