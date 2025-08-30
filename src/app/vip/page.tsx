@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-const VipBadge = ({ level = 1 }: { level: number }) => (
+const VipBadge = ({ level = 0 }: { level: number }) => (
     <div className="relative w-12 h-12 flex items-center justify-center">
         <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
             <polygon points="50,5 61,39 98,39 68,62 79,96 50,75 21,96 32,62 2,39 39,39" fill="#4a5568"/>
@@ -45,16 +45,16 @@ export default function VipPage() {
         { 
             icon: <BenefitIcon color="bg-gradient-to-br from-yellow-300 to-orange-400"><Gift className="w-8 h-8 text-white" /></BenefitIcon>, 
             title: "Level up rewards", 
-            description: "Each account can only receive 1 time", 
-            value: "60",
+            description: "Each account can only receive 0 time", 
+            value: "0",
             received: "0",
             isCurrency: true
         },
         { 
             icon: <BenefitIcon color="bg-gradient-to-br from-orange-300 to-amber-500"><Star className="w-8 h-8 text-white" /></BenefitIcon>, 
             title: "Monthly reward", 
-            description: "Each account can only receive 1 time per month",
-            value: "3",
+            description: "Each account can only receive 0 time per month",
+            value: "0",
             received: "0",
             isCurrency: true
         },
@@ -64,16 +64,16 @@ export default function VipPage() {
             </BenefitIcon>, 
             title: "Rebate rate", 
             description: "Increase income of rebate",
-            value: "0.05%",
+            value: "0%",
             isCurrency: false
         }
     ];
 
     const experienceHistory = [
-        { title: "Experience Bonus", type: "Betting EXP", date: "2025-08-30 07:32:45", amount: "119.8 EXP" },
-        { title: "Experience Bonus", type: "Betting EXP", date: "2025-08-30 07:27:46", amount: "83.1 EXP" },
-        { title: "Experience Bonus", type: "Betting EXP", date: "2025-08-30 07:25:11", amount: "95.2 EXP" },
-        { title: "Experience Bonus", type: "Betting EXP", date: "2025-08-30 07:22:03", amount: "204.5 EXP" },
+        { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
+        { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
+        { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
+        { title: "Experience Bonus", type: "Betting EXP", date: "0000-00-00 00:00:00", amount: "0 EXP" },
     ];
 
     return (
@@ -98,8 +98,8 @@ export default function VipPage() {
                         <div>
                             <div className="flex items-center gap-1">
                                <div className="bg-blue-900/50 border border-blue-400 rounded-full px-2 py-0.5 text-xs flex items-center gap-1">
-                                    <VipBadge level={1} />
-                                    <span className="ml-[-10px]">VIP1</span>
+                                    <VipBadge level={0} />
+                                    <span className="ml-[-10px]">VIP0</span>
                                </div>
                             </div>
                              <h2 className="text-lg font-bold mt-1">{nickname}</h2>
@@ -107,47 +107,47 @@ export default function VipPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-4 mt-4 text-center">
                         <Card className="bg-white/90 text-primary rounded-lg py-2">
-                           <p className="text-xl font-bold">13796 EXP</p>
+                           <p className="text-xl font-bold">0 EXP</p>
                            <p className="text-xs text-muted-foreground">My experience</p>
                         </Card>
                         <Card className="bg-white/90 text-primary rounded-lg py-2">
-                           <p className="text-xl font-bold">2 <span className="text-sm">Days</span></p>
+                           <p className="text-xl font-bold">0 <span className="text-sm">Days</span></p>
                            <p className="text-xs text-muted-foreground">Payout time</p>
                         </Card>
                     </div>
                 </div>
 
                 <div className="px-4 text-center text-sm text-muted-foreground">
-                    <p>VIP level rewards are settled at 2:00 am on the 1st of every month</p>
+                    <p>VIP level rewards are settled at 0:00 am on the 0st of every month</p>
                 </div>
                 
                 <div className="px-4">
                      <Card className="rounded-xl shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 text-white">
                         <CardContent className="p-4 relative">
                             <div className="absolute top-4 right-4 opacity-30">
-                                <VipBadge level={1} />
+                                <VipBadge level={0} />
                             </div>
                             <div className="flex items-center gap-2">
-                                <h3 className="text-2xl font-bold">VIP1</h3>
+                                <h3 className="text-2xl font-bold">VIP0</h3>
                                 <div className="flex items-center gap-1 text-green-300 bg-green-900/50 rounded-full px-2 py-0.5 text-xs">
                                     <CheckCircle className="w-3 h-3" />
                                     <span>Achieved</span>
                                 </div>
                             </div>
-                            <p className="text-sm opacity-80 mt-1">Dear VIP1 customer</p>
+                            <p className="text-sm opacity-80 mt-1">Dear VIP0 customer</p>
                             
                             <div className="mt-4">
                                 <div className="flex justify-between items-center text-xs">
                                      <p>Level maintenance</p>
-                                     <p>100% Completed</p>
+                                     <p>0% Completed</p>
                                 </div>
-                                <Progress value={100} className="h-2 mt-1 bg-white/20" indicatorClassName="bg-yellow-400" />
+                                <Progress value={0} className="h-2 mt-1 bg-white/20" indicatorClassName="bg-yellow-400" />
                                 <div className="flex justify-between items-center text-xs mt-1">
-                                    <p className="opacity-80">1000/1000</p>
+                                    <p className="opacity-80">0/0</p>
                                 </div>
                             </div>
 
-                            <p className="text-xs mt-3 opacity-80">Incomplete will be deducted by the system [1500EXP]</p>
+                            <p className="text-xs mt-3 opacity-80">Incomplete will be deducted by the system [0EXP]</p>
 
                         </CardContent>
                      </Card>
@@ -156,7 +156,7 @@ export default function VipPage() {
                  <div className="px-4">
                     <h3 className="font-bold text-lg flex items-center gap-2 mb-2">
                         <Gem className="text-primary" />
-                        VIP1 Benefits level
+                        VIP0 Benefits level
                     </h3>
                      <Card className="rounded-xl shadow-lg">
                         <CardContent className="p-4 space-y-4">
@@ -256,7 +256,4 @@ export default function VipPage() {
             </div>
         </div>
     );
-
-    
-
-    
+}
