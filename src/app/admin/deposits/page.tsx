@@ -1,35 +1,75 @@
 
 'use client';
 
-import { Card, CardContent } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, Users, History, LayoutDashboard, Gift, Wallet, UserX, Star, ArrowDownCircle, ArrowUpCircle, Settings, FileText, ShieldCheck, BarChart, Bell, Edit, ShieldAlert, Database, Cloud, MessageSquare } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/context/user-context";
+import { ChevronLeft, Check, X, Download } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
-export default function AdminDashboardPage() {
 
-    const adminOptions = [
-        { label: "User Information", icon: <Users className="w-6 h-6 text-primary" />, href: "/admin/user-information" },
-        { label: "Game History", icon: <History className="w-6 h-6 text-primary" />, href: "/admin/game-history" },
-        { label: "Control Panel", icon: <LayoutDashboard className="w-6 h-6 text-primary" />, href: "/admin/control-panel" },
-        { label: "Gifts Code Generate", icon: <Gift className="w-6 h-6 text-primary" />, href: "/admin/gift-code" },
-        { label: "Admin Wallet", icon: <Wallet className="w-6 h-6 text-primary" />, href: "/admin/wallet" },
-        { label: "User Delete and Block", icon: <UserX className="w-6 h-6 text-primary" />, href: "/admin/manage-users" },
-        { label: "Invitation Fund", icon: <Users className="w-6 h-6 text-primary" />, href: "/admin/invitation-fund" },
-        { label: "Bonus Fund", icon: <Star className="w-6 h-6 text-primary" />, href: "/admin/bonus-fund" },
-        { label: "Deposit Request", icon: <ArrowDownCircle className="w-6 h-6 text-primary" />, href: "/admin/deposits" },
-        { label: "Withdrawal Request", icon: <ArrowUpCircle className="w-6 h-6 text-primary" />, href: "/admin/withdrawals" },
-        { label: "Payment Settings", icon: <Settings className="w-6 h-6 text-primary" />, href: "/admin/payment-settings" },
-        { label: "Reports", icon: <FileText className="w-6 h-6 text-primary" />, href: "/admin/reports" },
-        { label: "Security Logs", icon: <ShieldCheck className="w-6 h-6 text-primary" />, href: "/admin/security-logs" },
-        { label: "Analytics", icon: <BarChart className="w-6 h-6 text-primary" />, href: "/admin/analytics" },
-        { label: "Send Notifications", icon: <Bell className="w-6 h-6 text-primary" />, href: "/admin/notifications" },
-        { label: "Content Management", icon: <Edit className="w-6 h-6 text-primary" />, href: "/admin/content-management" },
-        { label: "Support Tickets", icon: <MessageSquare className="w-6 h-6 text-primary" />, href: "/admin/support-tickets" },
-        { label: "System Settings", icon: <Settings className="w-6 h-6 text-primary" />, href: "/admin/app-settings" },
-        { label: "API Status", icon: <Cloud className="w-6 h-6 text-primary" />, href: "/admin/api-status" },
-        { label: "Database Management", icon: <Database className="w-6 h-6 text-primary" />, href: "/admin/database-management" },
-    ];
+interface DepositRequest {
+    id: string;
+    userId: string;
+    amount: number;
+    utr: string;
+    screenshot: string;
+    timestamp: number;
+    status: 'pending' | 'approved' | 'rejected';
+}
+
+export default function AdminDepositsPage() {
+    const { toast } = useToast();
+    const { addDepositAmount } = useUser();
+    const [requests, setRequests] = React.useState<DepositRequest[]>([]);
+    
+    const fetchRequests = () => {
+        const storedRequests = JSON.parse(localStorage.getItem('depositRequests') || '[]');
+        setRequests(storedRequests);
+    };
+
+    React.useEffect(() => {
+        fetchRequests();
+    }, []);
+
+    const handleAction = (requestId: string, newStatus: 'approved' | 'rejected') => {
+        const updatedRequests = requests.map(req => {
+            if (req.id === requestId) {
+                // If approving, update user balance
+                if (newStatus === 'approved' && req.status === 'pending') {
+                    const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+                    const userIndex = allUsers.findIndex((u: any) => u.uid === req.userId);
+                    if (userIndex !== -1) {
+                        allUsers[userIndex].balance += req.amount;
+                        localStorage.setItem('allUsers', JSON.stringify(allUsers));
+                        // This assumes the admin view doesn't need to interact with the current user's context directly
+                        // A more robust system would use a global state manager or API calls.
+                    }
+                }
+                return { ...req, status: newStatus };
+            }
+            return req;
+        });
+
+        localStorage.setItem('depositRequests', JSON.stringify(updatedRequests));
+        setRequests(updatedRequests);
+        toast({ title: `Request has been ${newStatus}.`});
+    };
+
+    const pendingRequests = requests.filter(r => r.status === 'pending');
+    const processedRequests = requests.filter(r => r.status !== 'pending');
 
     return (
         <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto relative">
@@ -37,24 +77,77 @@ export default function AdminDashboardPage() {
                 <Link href="/account" className="text-white">
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
-                <h1 className="font-bold text-xl">Admin Dashboard</h1>
+                <h1 className="font-bold text-xl">Admin - Deposits</h1>
             </header>
 
-            <main className="p-4 space-y-3">
-                {adminOptions.map((option, index) => (
-                    <Link href={option.href} key={index}>
-                        <Card className="rounded-lg shadow-sm hover:bg-gray-50 cursor-pointer">
-                            <CardContent className="p-4 flex justify-between items-center">
-                                <div className="flex items-center gap-4">
-                                    {option.icon}
-                                    <span className="font-semibold">{option.label}</span>
-                                </div>
-                                <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                            </CardContent>
-                        </Card>
-                    </Link>
-                ))}
+            <main className="p-4 space-y-6">
+                <section>
+                    <h2 className="text-lg font-semibold mb-2">Pending Requests ({pendingRequests.length})</h2>
+                     {pendingRequests.length > 0 ? (
+                        pendingRequests.map(req => (
+                            <Card key={req.id} className="mb-4">
+                                <CardContent className="p-4 space-y-3">
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            <p className="font-bold text-xl">₹{req.amount.toFixed(2)}</p>
+                                            <p className="text-xs text-muted-foreground">User ID: {req.userId}</p>
+                                        </div>
+                                        <Badge>Pending</Badge>
+                                    </div>
+                                    <p className="text-sm"><strong>UTR:</strong> {req.utr}</p>
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <Button variant="outline" size="sm">View Screenshot</Button>
+                                        </DialogTrigger>
+                                        <DialogContent className="max-w-sm">
+                                            <DialogHeader>
+                                                <DialogTitle>Payment Screenshot</DialogTitle>
+                                                <DialogDescription>
+                                                    User ID: {req.userId} | UTR: {req.utr}
+                                                </DialogDescription>
+                                            </DialogHeader>
+                                            <div className="relative h-96 mt-4">
+                                                <Image src={req.screenshot} alt="Payment Screenshot" layout="fill" objectFit="contain"/>
+                                            </div>
+                                        </DialogContent>
+                                    </Dialog>
+                                     <div className="flex gap-2 pt-3 border-t">
+                                        <Button onClick={() => handleAction(req.id, 'approved')} className="w-full bg-green-500 hover:bg-green-600"><Check className="w-4 h-4 mr-2"/>Approve</Button>
+                                        <Button onClick={() => handleAction(req.id, 'rejected')} className="w-full" variant="destructive"><X className="w-4 h-4 mr-2"/>Reject</Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))
+                    ) : (
+                        <p className="text-muted-foreground text-center py-4">No pending deposit requests.</p>
+                    )}
+                </section>
+
+                <section>
+                    <h2 className="text-lg font-semibold mb-2">Processed Requests</h2>
+                     {processedRequests.length > 0 ? (
+                        processedRequests.map(req => (
+                             <Card key={req.id} className="mb-4 opacity-80">
+                                <CardContent className="p-4">
+                                     <div className="flex justify-between items-center">
+                                        <div>
+                                            <p className="font-bold text-lg">₹{req.amount.toFixed(2)}</p>
+                                            <p className="text-xs text-muted-foreground">User ID: {req.userId}</p>
+                                        </div>
+                                        <Badge variant={req.status === 'approved' ? 'default' : 'destructive'} className={req.status === 'approved' ? 'bg-green-500' : ''}>
+                                            {req.status.charAt(0).toUpperCase() + req.status.slice(1)}
+                                        </Badge>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))
+                    ) : (
+                        <p className="text-muted-foreground text-center py-4">No processed requests found.</p>
+                    )}
+                </section>
+
             </main>
         </div>
     );
 }
+

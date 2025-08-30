@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DepositConfirmPage() {
     const router = useRouter();
@@ -21,9 +22,8 @@ export default function DepositConfirmPage() {
     const [screenshot, setScreenshot] = React.useState<File | null>(null);
     const [screenshotPreview, setScreenshotPreview] = React.useState<string | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [adminUpiId, setAdminUpiId] = React.useState<string | null>(null);
     
-    const upiId = "9xbetclub-official@ybl";
-
     React.useEffect(() => {
         const storedDeposit = localStorage.getItem('pendingDeposit');
         if (storedDeposit) {
@@ -31,6 +31,9 @@ export default function DepositConfirmPage() {
         } else {
             router.push('/deposit');
         }
+
+        const savedUpiId = localStorage.getItem('adminUpiId');
+        setAdminUpiId(savedUpiId);
     }, [router]);
 
     const handleScreenshotChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,8 +49,10 @@ export default function DepositConfirmPage() {
     };
 
     const copyToClipboard = () => {
-        navigator.clipboard.writeText(upiId);
-        toast({ title: "UPI ID copied to clipboard!" });
+        if(adminUpiId) {
+            navigator.clipboard.writeText(adminUpiId);
+            toast({ title: "UPI ID copied to clipboard!" });
+        }
     };
 
     const handleSubmit = () => {
@@ -88,7 +93,6 @@ export default function DepositConfirmPage() {
                 status: 'pending',
             };
 
-            // Simulate sending to admin panel by storing in localStorage
             const existingRequests = JSON.parse(localStorage.getItem('depositRequests') || '[]');
             localStorage.setItem('depositRequests', JSON.stringify([newRequest, ...existingRequests]));
             
@@ -116,7 +120,7 @@ export default function DepositConfirmPage() {
 
     return (
         <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative">
-            <header className="bg-red-500 text-white p-4 flex items-center gap-4 sticky top-0 z-10">
+            <header className="bg-primary text-white p-4 flex items-center gap-4 sticky top-0 z-10">
                 <Link href="/deposit" className="text-white">
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
@@ -129,15 +133,20 @@ export default function DepositConfirmPage() {
                         <h2 className="text-lg font-semibold">Scan QR Code to Pay</h2>
                         <p className="text-muted-foreground">Pay ₹{pendingDeposit.amount.toFixed(2)} to complete your deposit.</p>
                         <div className="flex justify-center">
-                            <Image src="/icons/qr-code.svg" alt="QR Code" width={200} height={200} />
+                            {/* This should dynamically generate QR for the adminUpiId */}
+                            <Image src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${adminUpiId}&pn=Admin&am=${pendingDeposit.amount}`} alt="QR Code" width={200} height={200} />
                         </div>
 
                         <div className="text-center">
                             <p className="text-sm text-muted-foreground">Or pay to this UPI ID</p>
-                            <div className="flex items-center justify-center gap-2 mt-1 font-semibold text-lg">
-                                <span>{upiId}</span>
-                                <Copy onClick={copyToClipboard} className="w-5 h-5 text-muted-foreground cursor-pointer"/>
-                            </div>
+                            {adminUpiId ? (
+                                <div className="flex items-center justify-center gap-2 mt-1 font-semibold text-lg">
+                                    <span>{adminUpiId}</span>
+                                    <Copy onClick={copyToClipboard} className="w-5 h-5 text-muted-foreground cursor-pointer"/>
+                                </div>
+                            ) : (
+                                <Skeleton className="h-6 w-48 mx-auto mt-1" />
+                            )}
                         </div>
                     </CardContent>
                 </Card>
@@ -175,7 +184,7 @@ export default function DepositConfirmPage() {
                     </CardContent>
                 </Card>
 
-                 <Button onClick={handleSubmit} disabled={isLoading} className="w-full bg-red-500 hover:bg-red-600 py-6 text-lg">
+                 <Button onClick={handleSubmit} disabled={isLoading || !adminUpiId} className="w-full bg-primary hover:bg-primary/90 py-6 text-lg">
                     {isLoading ? "Submitting..." : "Submit for Review"}
                 </Button>
             </main>
