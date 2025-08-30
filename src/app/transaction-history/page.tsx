@@ -16,17 +16,21 @@ interface Transaction {
     type: 'deposit' | 'withdrawal';
 }
 
-const depositHistory: Transaction[] = [
-    { id: 'DEPO-001', amount: 500, status: 'Successful', date: '2024-08-28 10:00', type: 'deposit' },
-    { id: 'DEPO-002', amount: 1000, status: 'Successful', date: '2024-08-27 15:30', type: 'deposit' },
-    { id: 'DEPO-003', amount: 200, status: 'Failed', date: '2024-08-26 11:00', type: 'deposit' },
-];
+const generateRandomTransaction = (date: Date, type: 'deposit' | 'withdrawal'): Transaction => {
+    const statuses: ('Successful' | 'Pending' | 'Failed')[] = ['Successful', 'Successful', 'Successful', 'Pending', 'Failed'];
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    const amount = Math.floor(Math.random() * 2000) + 50;
+    const id = `${type.toUpperCase().substring(0,4)}-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+    
+    return {
+        id,
+        amount,
+        status,
+        date: date.toLocaleString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', ''),
+        type,
+    };
+};
 
-const withdrawalHistory: Transaction[] = [
-    { id: 'WDRW-001', amount: 300, status: 'Successful', date: '2024-08-28 12:00', type: 'withdrawal' },
-    { id: 'WDRW-002', amount: 500, status: 'Pending', date: '2024-08-27 18:00', type: 'withdrawal' },
-    { id: 'WDRW-003', amount: 100, status: 'Successful', date: '2024-08-25 09:45', type: 'withdrawal' },
-];
 
 const TransactionStatusBadge = ({ status }: { status: Transaction['status'] }) => {
     const statusClasses = {
@@ -63,6 +67,51 @@ const TransactionRow = ({ transaction }: { transaction: Transaction }) => {
 }
 
 export default function TransactionHistoryPage() {
+    const [depositHistory, setDepositHistory] = React.useState<Transaction[]>([]);
+    const [withdrawalHistory, setWithdrawalHistory] = React.useState<Transaction[]>([]);
+
+    React.useEffect(() => {
+        const generateHistory = () => {
+            const now = new Date();
+            const deposits: Transaction[] = [];
+            const withdrawals: Transaction[] = [];
+
+            for (let i = 0; i < 30; i++) {
+                const pastDate = new Date(now);
+                pastDate.setDate(now.getDate() - i);
+                
+                // Add 1 to 3 random deposits for the day
+                const numDeposits = Math.floor(Math.random() * 3) + 1;
+                for(let j = 0; j < numDeposits; j++) {
+                    const randomHour = Math.floor(Math.random() * 24);
+                    const randomMinute = Math.floor(Math.random() * 60);
+                    const transactionDate = new Date(pastDate);
+                    transactionDate.setHours(randomHour, randomMinute);
+                    deposits.push(generateRandomTransaction(transactionDate, 'deposit'));
+                }
+
+                // Add 0 to 2 random withdrawals for the day
+                const numWithdrawals = Math.floor(Math.random() * 3);
+                 for(let k = 0; k < numWithdrawals; k++) {
+                    const randomHour = Math.floor(Math.random() * 24);
+                    const randomMinute = Math.floor(Math.random() * 60);
+                    const transactionDate = new Date(pastDate);
+                    transactionDate.setHours(randomHour, randomMinute);
+                    withdrawals.push(generateRandomTransaction(transactionDate, 'withdrawal'));
+                }
+            }
+            // sort by date descending
+            deposits.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            withdrawals.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+            setDepositHistory(deposits);
+            setWithdrawalHistory(withdrawals);
+        };
+
+        generateHistory();
+    }, []);
+
+
     return (
         <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative">
             <header className="bg-red-500 text-white p-4 flex items-center gap-4 sticky top-0 z-10">
