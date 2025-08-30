@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@/context/user-context";
 import { useToast } from "@/hooks/use-toast";
-import { ChevronLeft, Lock, Phone, User, MessageCircle } from "lucide-react";
+import { ChevronLeft, Lock, Phone, User, MessageCircle, Eye, EyeOff, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -19,11 +19,21 @@ export default function LoginPage() {
     const router = useRouter();
     const { toast } = useToast();
     const { uid, login } = useUser();
-    const [mobile, setMobile] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    
+    // Login state
+    const [loginIdentifier, setLoginIdentifier] = React.useState('');
+    const [loginPassword, setLoginPassword] = React.useState('');
+    const [showLoginPassword, setShowLoginPassword] = React.useState(false);
+    
+    // Register state
+    const [registerType, setRegisterType] = React.useState<'phone' | 'email'>('phone');
+    const [registerIdentifier, setRegisterIdentifier] = React.useState('');
+    const [registerPassword, setRegisterPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const [invitationCode, setInvitationCode] = React.useState('');
     const [agreed, setAgreed] = React.useState(false);
+    const [showRegisterPassword, setShowRegisterPassword] = React.useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
     useEffect(() => {
         if (uid) {
@@ -34,12 +44,12 @@ export default function LoginPage() {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         // This is a dummy login. In a real app, you'd call an API.
-        if (mobile && password) {
-            login(mobile);
+        if (loginIdentifier && loginPassword) {
+            login(loginIdentifier);
             toast({ title: "Login Successful!" });
             router.push('/home');
         } else {
-            toast({ title: "Please enter mobile and password.", variant: "destructive" });
+            toast({ title: "Please enter your identifier and password.", variant: "destructive" });
         }
     }
 
@@ -49,12 +59,12 @@ export default function LoginPage() {
             toast({ title: "Please agree to the privacy policy.", variant: "destructive" });
             return;
         }
-        if (password !== confirmPassword) {
+        if (registerPassword !== confirmPassword) {
             toast({ title: "Passwords do not match.", variant: "destructive" });
             return;
         }
-        if (mobile && password) {
-            login(mobile); // Use the same login function to simulate registration
+        if (registerIdentifier && registerPassword) {
+            login(registerIdentifier); // Use the same login function to simulate registration
             toast({ title: "Registration Successful!" });
             router.push('/home');
         } else {
@@ -92,26 +102,29 @@ export default function LoginPage() {
                             <CardContent className="pt-6">
                                 <form onSubmit={handleLogin} className="space-y-4">
                                     <div className="relative">
-                                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                         <Input 
-                                            id="login-mobile"
-                                            type="tel" 
-                                            placeholder="Mobile Number" 
+                                            id="login-identifier"
+                                            type="text" 
+                                            placeholder="Phone Number / Email" 
                                             className="pl-10" 
-                                            value={mobile}
-                                            onChange={(e) => setMobile(e.target.value)}
+                                            value={loginIdentifier}
+                                            onChange={(e) => setLoginIdentifier(e.target.value)}
                                         />
                                     </div>
                                      <div className="relative">
                                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                         <Input 
                                             id="login-password" 
-                                            type="password" 
+                                            type={showLoginPassword ? "text" : "password"}
                                             placeholder="Password" 
-                                            className="pl-10" 
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            className="pl-10 pr-10" 
+                                            value={loginPassword}
+                                            onChange={(e) => setLoginPassword(e.target.value)}
                                         />
+                                        <button type="button" onClick={() => setShowLoginPassword(!showLoginPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground">
+                                            {showLoginPassword ? <EyeOff /> : <Eye />}
+                                        </button>
                                     </div>
                                     <Button type="submit" className="w-full bg-primary hover:bg-primary/90 py-3 text-lg">Login</Button>
                                     <div className="text-center text-sm">
@@ -123,38 +136,52 @@ export default function LoginPage() {
                         <TabsContent value="register">
                              <CardContent className="pt-6">
                                 <form onSubmit={handleRegister} className="space-y-4">
+                                    <div className="flex rounded-md bg-gray-100 p-1">
+                                        <Button type="button" onClick={() => setRegisterType('phone')} className={`flex-1 ${registerType === 'phone' ? 'bg-white shadow' : 'bg-transparent text-gray-500'}`} variant="ghost">Phone</Button>
+                                        <Button type="button" onClick={() => setRegisterType('email')} className={`flex-1 ${registerType === 'email' ? 'bg-white shadow' : 'bg-transparent text-gray-500'}`} variant="ghost">Email</Button>
+                                    </div>
                                      <div className="relative">
-                                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                        {registerType === 'phone' ? 
+                                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                            :
+                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                        }
                                         <Input 
-                                            id="reg-mobile"
-                                            type="tel"
-                                            placeholder="Mobile Number"
+                                            id="reg-identifier"
+                                            type={registerType === 'phone' ? "tel" : "email"}
+                                            placeholder={registerType === 'phone' ? "Mobile Number" : "Email Address"}
                                             className="pl-10"
-                                            value={mobile}
-                                            onChange={(e) => setMobile(e.target.value)}
+                                            value={registerIdentifier}
+                                            onChange={(e) => setRegisterIdentifier(e.target.value)}
                                         />
                                     </div>
                                      <div className="relative">
                                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                         <Input
                                             id="reg-password"
-                                            type="password"
+                                            type={showRegisterPassword ? "text" : "password"}
                                             placeholder="Create Password"
-                                            className="pl-10"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            className="pl-10 pr-10"
+                                            value={registerPassword}
+                                            onChange={(e) => setRegisterPassword(e.target.value)}
                                         />
+                                        <button type="button" onClick={() => setShowRegisterPassword(!showRegisterPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground">
+                                            {showRegisterPassword ? <EyeOff /> : <Eye />}
+                                        </button>
                                     </div>
                                     <div className="relative">
                                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                         <Input 
                                             id="reg-confirm-password"
-                                            type="password" 
+                                            type={showConfirmPassword ? "text" : "password"} 
                                             placeholder="Confirm Password" 
-                                            className="pl-10"
+                                            className="pl-10 pr-10"
                                             value={confirmPassword}
                                             onChange={(e) => setConfirmPassword(e.target.value)}
                                         />
+                                        <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground">
+                                            {showConfirmPassword ? <EyeOff /> : <Eye />}
+                                        </button>
                                     </div>
                                      <div className="relative">
                                         <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
