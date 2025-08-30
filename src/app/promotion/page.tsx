@@ -1,3 +1,4 @@
+
 'use client';
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -90,7 +91,6 @@ export default function PromotionPage() {
       { icon: <DollarSign className="text-red-500" />, label: "Commission detail", href: "/commission-detail"},
       { icon: <InvitationRulesIcon />, label: "Invitation rules", href: "/invitation-rules"},
       { icon: <Headset className="text-red-500" />, label: "Agent line customer service", href: "/agent-support"},
-      { icon: <RebateRatioIcon />, label: "Rebate ratio", href: "/rebate-ratio"},
   ]
 
   const SubordinateStatsView = ({ stats }: { stats: typeof subordinateStats}) => (
@@ -249,3 +249,5 @@ export default function PromotionPage() {
     </div>
   );
 }
+
+    
