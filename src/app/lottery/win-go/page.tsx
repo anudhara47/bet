@@ -79,8 +79,8 @@ export default function WinGoPage() {
     const [gameHistory, setGameHistory] = React.useState<ReturnType<typeof getResultForPeriod>[]>([]);
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     
-    // Using a fixed date in the past to avoid issues with client/server time differences
-    const [baseTime] = React.useState(new Date("2025-08-30T00:00:00.000Z").getTime());
+    // Using a fixed date now to avoid issues with client/server time differences
+    const [baseTime] = React.useState(new Date().getTime());
     const [basePeriod] = React.useState(BigInt("20250830100050750"));
 
     // Function to calculate the current period ID
