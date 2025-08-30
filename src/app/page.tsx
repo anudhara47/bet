@@ -34,7 +34,8 @@ const GameCard = ({ href, imageSrc, label, dataAiHint }: { href: string; imageSr
 
 export default function HomePage() {
     const { toast } = useToast();
-    const autoplay = React.useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
+    const autoplayPlugin = React.useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
+    const recommendedAutoplayPlugin = React.useRef(Autoplay({ delay: 1000, stopOnInteraction: true }));
 
     const mainCategories = [
         { icon: <Trophy className="w-8 h-8 text-yellow-500" />, label: "Lottery", href: "/lottery/wingo-30s" },
@@ -71,9 +72,9 @@ export default function HomePage() {
       
       <main className="space-y-4">
         <Carousel
-            plugins={[autoplay.current]}
-            onMouseEnter={autoplay.current.stop}
-            onMouseLeave={autoplay.current.reset}
+            plugins={[autoplayPlugin.current]}
+            onMouseEnter={autoplayPlugin.current.stop}
+            onMouseLeave={autoplayPlugin.current.reset}
             className="w-full"
         >
             <CarouselContent>
@@ -117,7 +118,13 @@ export default function HomePage() {
                     All <ChevronRight className="w-4 h-4" />
                  </Link>
             </div>
-            <Carousel opts={{ align: "start", loop: true }} className="w-full">
+            <Carousel 
+                opts={{ align: "start", loop: true }} 
+                plugins={[recommendedAutoplayPlugin.current]}
+                onMouseEnter={recommendedAutoplayPlugin.current.stop}
+                onMouseLeave={recommendedAutoplayPlugin.current.reset}
+                className="w-full"
+            >
                 <CarouselContent>
                     {recommendedGames.map((game, index) => (
                         <CarouselItem key={index} className="basis-1/2 md:basis-1/3">
