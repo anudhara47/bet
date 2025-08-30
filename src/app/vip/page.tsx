@@ -79,7 +79,7 @@ const HistoryChatIcon = () => (
 const vipLevels = [
     { level: 1, expRequired: 0, levelUpReward: 0, monthlyReward: 0, rebateRate: `0%` },
     { level: 2, expRequired: 10000, levelUpReward: 60, monthlyReward: 30, rebateRate: `0%` },
-    { level: 3, expRequired: 40000, levelUpReward: 100, monthlyReward: 40, rebateRate: `0%` },
+    { level: 3, expRequired: 300000, levelUpReward: 100, monthlyReward: 40, rebateRate: `0%` },
     { level: 4, expRequired: 100000, levelUpReward: 200, monthlyReward: 60, rebateRate: `0%` },
     { level: 5, expRequired: 200000, levelUpReward: 500, monthlyReward: 100, rebateRate: `0%` },
     { level: 6, expRequired: 500000, levelUpReward: 1200, monthlyReward: 250, rebateRate: `0%` },
