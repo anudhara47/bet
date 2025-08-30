@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { UserData } from "@/context/user-context";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Users } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
@@ -13,6 +13,17 @@ export default function UserInformationPage() {
     React.useEffect(() => {
         const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
         setUsers(allUsers);
+
+        const handleStorageChange = () => {
+            const updatedUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+            setUsers(updatedUsers);
+        };
+        
+        window.addEventListener('storage', handleStorageChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, []);
 
     return (
@@ -27,7 +38,13 @@ export default function UserInformationPage() {
             <main className="p-4">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Registered Users</CardTitle>
+                        <CardTitle className="flex justify-between items-center">
+                            <span>Registered Users</span>
+                            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                                <Users className="w-5 h-5" />
+                                <span>Total: {users.length}</span>
+                            </div>
+                        </CardTitle>
                     </CardHeader>
                     <CardContent>
                         <Table>
