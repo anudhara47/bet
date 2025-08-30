@@ -76,7 +76,7 @@ export default function WinGoPage() {
     const [isClient, setIsClient] = React.useState(false);
 
     // Using a fixed base period. The base time will be set on the client.
-    const basePeriod = BigInt("20250830100050788");
+    const basePeriod = BigInt("20250830100050808");
     const baseTimeRef = React.useRef<number | null>(null);
 
     React.useEffect(() => {
@@ -111,7 +111,7 @@ export default function WinGoPage() {
         const timer = setInterval(updateTimer, 1000);
 
         return () => clearInterval(timer);
-    }, [gameInterval, basePeriod]);
+    }, [gameInterval]);
     
     // Effect for updating game history when period changes
     React.useEffect(() => {
