@@ -55,12 +55,6 @@ const CardIcon = (props: any) => (
 const MiniGameIcon = (props: any) => <Gamepad2 {...props} />;
 const HotIcon = (props: any) => <Flame {...props} />;
 
-const WingoGameCardIcon = () => (
-    <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-purple-500 to-indigo-600">
-        <Rocket className="w-16 h-16 text-white opacity-80" />
-    </div>
-);
-
 const K3GameCardIcon = () => (
      <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-green-400 to-teal-500">
         <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -137,7 +131,7 @@ export default function HomePage() {
     ];
 
     const lotteryGames = [
-        { name: 'WINGO', href: '/lottery/wingo-30s', Icon: WingoGameCardIcon },
+        { name: 'WINGO', href: '/lottery/wingo-30s', imageUrl: 'https://picsum.photos/400/300?random= wingo' },
         { name: 'K3', href: '/lottery/k3', Icon: K3GameCardIcon },
         { name: '5D', href: '/lottery/5d', Icon: FiveDGameCardIcon },
         { name: 'TRX', href: '/lottery/trx-hash', Icon: TrxGameCardIcon },
@@ -282,8 +276,12 @@ export default function HomePage() {
                         {lotteryGames.map((game, index) => (
                             <Link href={game.href} key={index}>
                                 <Card className="rounded-xl overflow-hidden bg-white border-none shadow-md">
-                                    <div className="aspect-[4/3]">
-                                      <game.Icon />
+                                    <div className="aspect-[4/3] relative">
+                                      {game.imageUrl ? (
+                                        <Image src={game.imageUrl} alt={game.name} layout="fill" className="object-cover"/>
+                                      ) : (
+                                        <game.Icon />
+                                      )}
                                     </div>
                                     <p className="p-2 text-center text-sm font-semibold">{game.name}</p>
                                 </Card>
