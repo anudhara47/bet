@@ -70,6 +70,8 @@ export default function AdminDepositsPage() {
                 allUsers[userIndex].totalDepositAmount = (allUsers[userIndex].totalDepositAmount || 0) + depositAmount;
                 allUsers[userIndex].hasDeposited = true; // Set hasDeposited flag
                 localStorage.setItem('allUsers', JSON.stringify(allUsers));
+                // Dispatch a custom event to notify other components of the change
+                window.dispatchEvent(new CustomEvent('local-storage'));
             }
         }
 
@@ -80,8 +82,8 @@ export default function AdminDepositsPage() {
 
     const filteredRequests = requests.filter(req => 
         req.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        req.utr?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        req.razorpay_payment_id?.toLowerCase().includes(searchTerm.toLowerCase())
+        (req.utr && req.utr.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (req.razorpay_payment_id && req.razorpay_payment_id.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
     const pendingRequests = filteredRequests.filter(r => r.status === 'pending');
