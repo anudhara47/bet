@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/context/user-context";
-import { ChevronLeft, Check, X, Download } from "lucide-react";
+import { ChevronLeft, Check, X, Download, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
@@ -18,6 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input";
 
 
 interface DepositRequest {
@@ -33,6 +34,7 @@ interface DepositRequest {
 export default function AdminDepositsPage() {
     const { toast } = useToast();
     const [requests, setRequests] = React.useState<DepositRequest[]>([]);
+    const [searchTerm, setSearchTerm] = React.useState("");
     
     const fetchRequests = () => {
         const storedRequests = JSON.parse(localStorage.getItem('depositRequests') || '[]');
@@ -75,8 +77,13 @@ export default function AdminDepositsPage() {
         toast({ title: `Request has been ${newStatus}.`});
     };
 
-    const pendingRequests = requests.filter(r => r.status === 'pending');
-    const processedRequests = requests.filter(r => r.status !== 'pending');
+    const filteredRequests = requests.filter(req => 
+        req.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        req.utr.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const pendingRequests = filteredRequests.filter(r => r.status === 'pending');
+    const processedRequests = filteredRequests.filter(r => r.status !== 'pending');
 
     return (
         <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto relative">
@@ -88,6 +95,18 @@ export default function AdminDepositsPage() {
             </header>
 
             <main className="p-4 space-y-6">
+                <div className="flex gap-2">
+                    <Input 
+                        placeholder="Search by User ID or UTR" 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="bg-white"
+                    />
+                    <Button className="bg-primary hover:bg-primary/90">
+                        <Search className="w-5 h-5"/>
+                    </Button>
+                </div>
+
                 <section>
                     <h2 className="text-lg font-semibold mb-2">Pending Requests ({pendingRequests.length})</h2>
                      {pendingRequests.length > 0 ? (
