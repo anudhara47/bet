@@ -295,8 +295,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         };
         updateUser({ 
             experience: experience + amount,
-            expHistory: [newHistoryItem, ...expHistory]
         });
+        setExpHistory(prev => [newHistoryItem, ...prev]);
     };
     const addUsedCode = (code: string) => updateUser({ usedCodes: [...usedCodes, code] });
     const redeemGlobalCode = (code: string) => {
@@ -323,6 +323,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const addClaimedInvitationBonus = (tierId: number) => {
         updateUser({ claimedInvitationBonuses: [...claimedInvitationBonuses, tierId] });
     }
+    
     const blockUser = (userUid: string) => {
         const allUsers = loadFromLocalStorage('allUsers', []);
         const updatedUsers = allUsers.map((u: UserData) => u.uid === userUid ? { ...u, blocked: true } : u);
@@ -331,6 +332,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             logout();
         }
     }
+
     const unblockUser = (userUid: string) => {
         const allUsers = loadFromLocalStorage('allUsers', []);
         const updatedUsers = allUsers.map((u: UserData) => u.uid === userUid ? { ...u, blocked: false } : u);
