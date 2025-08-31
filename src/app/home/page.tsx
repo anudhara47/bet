@@ -133,7 +133,7 @@ export default function HomePage() {
                             <CarouselContent>
                                 {carouselCards.map((_, i) => (
                                 <CarouselItem key={i}>
-                                    <Link href="/all-games">
+                                    <Link href={i === 0 ? "/deposit" : "/all-games"}>
                                         <Card className="rounded-lg bg-gradient-to-br from-gray-200 to-gray-300 aspect-[8/3]">
                                             <CardContent className="flex flex-col items-center justify-center p-3 h-full">
                                                 {i === 0 ? (
