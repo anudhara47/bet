@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@/context/user-context";
 import { useToast } from "@/hooks/use-toast";
-import { ChevronLeft, Lock, Phone, User, MessageCircle, Eye, EyeOff, Mail } from "lucide-react";
+import { Lock, User, MessageCircle, Eye, EyeOff, Mail, Check, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,6 +25,8 @@ export default function LoginPage() {
     const [loginIdentifier, setLoginIdentifier] = React.useState('');
     const [loginPassword, setLoginPassword] = React.useState('');
     const [showLoginPassword, setShowLoginPassword] = React.useState(false);
+    const [loginLoading, setLoginLoading] = React.useState(false);
+    const [loginSuccess, setLoginSuccess] = React.useState(false);
     
     // Register state
     const [registerIdentifier, setRegisterIdentifier] = React.useState('');
@@ -44,10 +46,19 @@ export default function LoginPage() {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         if (loginIdentifier && loginPassword) {
+            setLoginLoading(true);
+            setLoginSuccess(false);
+
             const loginStatus = await login(loginIdentifier, loginPassword);
+
+            setLoginLoading(false);
+
             if (loginStatus === 'success') {
+                setLoginSuccess(true);
                 toast({ title: "Login Successful!" });
-                router.push('/home');
+                setTimeout(() => {
+                    router.push('/home');
+                }, 1000); // 1-second delay to show success state
             } else if (loginStatus === 'blocked') {
                 toast({ title: "Account Blocked", description: "This account has been blocked by an administrator.", variant: "destructive" });
             } else if (loginStatus === 'not_found') {
@@ -144,7 +155,18 @@ export default function LoginPage() {
                                             {showLoginPassword ? <EyeOff /> : <Eye />}
                                         </button>
                                     </div>
-                                    <Button type="submit" className="w-full bg-primary hover:bg-primary/90 py-3 text-lg animate-in zoom-in-95 duration-500">Login</Button>
+                                    <Button type="submit" className="w-full bg-primary hover:bg-primary/90 py-3 text-lg animate-in zoom-in-95 duration-500" disabled={loginLoading || loginSuccess}>
+                                        {loginLoading ? (
+                                            <Loader2 className="w-6 h-6 animate-spin" />
+                                        ) : loginSuccess ? (
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+                                                    <Check className="w-4 h-4 text-white" />
+                                                </div>
+                                                Success
+                                            </div>
+                                        ) : "Login"}
+                                    </Button>
                                     <div className="text-center text-sm">
                                         <Link href="#" className="text-primary hover:underline">Forgot Password?</Link>
                                     </div>
