@@ -452,7 +452,7 @@ export default function MiniGamePage() {
       </main>
 
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-xs px-4">
-        <Button className="w-full bg-red-500 hover:bg-red-600 text-white rounded-full py-3 shadow-lg">
+        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full py-3 shadow-lg">
             <div className="bg-white rounded-full p-1 mr-2">
                 <DownloadIconSvg/>
             </div>

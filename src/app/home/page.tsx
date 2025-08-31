@@ -1,4 +1,5 @@
 
+
 'use client';
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,12 +15,12 @@ import { useLanguage } from "@/context/language-context";
 import { Logo } from "@/components/ui/logo";
 
 
-const GameIcon = ({ Icon, label, href }: { Icon: React.ElementType, label: string, href: string }) => (
-    <Link href={href} className="flex flex-col items-center gap-2">
-        <div className="bg-red-100 p-3 rounded-full">
-            <Icon className="w-8 h-8 text-primary" />
+const GameIcon = ({ Icon, label, href, active }: { Icon: React.ElementType, label: string, href: string, active?: boolean }) => (
+    <Link href={href} className="flex flex-col items-center gap-2 flex-shrink-0 w-20">
+        <div className={cn("p-3 rounded-full", active ? "bg-primary/20" : "bg-gray-100")}>
+            <Icon className={cn("w-8 h-8", active ? "text-primary" : "text-gray-500")} />
         </div>
-        <span className="font-semibold text-sm">{label}</span>
+        <span className={cn("font-semibold text-sm", active ? "text-primary" : "text-muted-foreground")}>{label}</span>
     </Link>
 )
 
@@ -51,6 +52,8 @@ const CardIcon = (props: any) => (
         <path d="M3 10H21" stroke="currentColor" strokeWidth="2"/>
     </svg>
 );
+const MiniGameIcon = (props: any) => <Gamepad2 {...props} />;
+const HotIcon = (props: any) => <Flame {...props} />;
 
 
 export default function HomePage() {
@@ -65,6 +68,8 @@ export default function HomePage() {
         { Icon: CasinoIcon, label: "Casino", href: "/casino" },
         { Icon: FishingIcon, label: "Fishing", href: "/fishing" },
         { Icon: CardIcon, label: "Card", href: "/card" },
+        { Icon: MiniGameIcon, label: "Mini Game", href: "/mini-game"},
+        { Icon: HotIcon, label: "Hot", href: "/hot-games"},
     ];
 
     const recommendedGames = [
@@ -74,7 +79,7 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen bg-neutral-100 text-gray-800 pb-40 max-w-lg mx-auto">
-            <header className="p-4 flex justify-between items-center sticky top-0 z-10 bg-red-500/90 backdrop-blur-sm text-white">
+            <header className="p-4 flex justify-between items-center sticky top-0 z-10 bg-primary/90 backdrop-blur-sm text-white">
                 <Logo className="w-28" isLight={true} />
                 {uid ? (
                     <div className="flex items-center gap-2 text-sm">
@@ -87,7 +92,7 @@ export default function HomePage() {
                     <div className="flex items-center gap-2">
                         <Link href="/login" className={cn(buttonVariants({variant: 'link', size: 'sm'}), 'text-white')}>Login</Link>
                          <span className="text-white">|</span>
-                         <Link href="/login" className={cn(buttonVariants({variant: 'link', size: 'sm'}), 'text-white')}>Sign Up</Link>
+                         <Link href="/register" className={cn(buttonVariants({variant: 'link', size: 'sm'}), 'text-white')}>Sign Up</Link>
                         <Headset className="w-5 h-5 ml-2"/>
                     </div>
                 )}
@@ -116,19 +121,21 @@ export default function HomePage() {
                     </CardContent>
                 </Card>
 
-                <div className="flex items-center gap-2 bg-red-100 text-red-700 p-2 rounded-lg text-sm">
+                <div className="flex items-center gap-2 bg-yellow-100 text-yellow-700 p-2 rounded-lg text-sm">
                     <Volume2 className="text-primary w-5 h-5"/>
                     <p className="truncate">Welcome to 9XBETCLUB! Enjoy the best gaming experience.</p>
                 </div>
 
-                <div className="my-6 grid grid-cols-3 gap-y-6">
-                    {gameIcons.map((game, i) => <GameIcon key={i} {...game} />)}
-                     <Link href="/all-games" className="flex flex-col items-center gap-2">
-                        <div className="bg-red-100 p-3 rounded-full">
-                            <Menu className="w-8 h-8 text-primary" />
-                        </div>
-                        <span className="font-semibold text-sm">All Games</span>
-                    </Link>
+                <div className="my-6">
+                    <div className="flex space-x-4 overflow-x-auto pb-4">
+                         {gameIcons.map((game, i) => <GameIcon key={i} {...game} />)}
+                         <Link href="/all-games" className="flex flex-col items-center gap-2 flex-shrink-0 w-20">
+                            <div className="bg-gray-100 p-3 rounded-full">
+                                <Menu className="w-8 h-8 text-gray-500" />
+                            </div>
+                            <span className="font-semibold text-sm text-muted-foreground">All Games</span>
+                        </Link>
+                    </div>
                 </div>
 
                 <div>
@@ -148,7 +155,7 @@ export default function HomePage() {
             </main>
             
              <footer className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t p-2 flex justify-around items-start max-w-lg mx-auto">
-                <Link href="/home" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-red-500")}>
+                <Link href="/home" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-primary")}>
                     <HomeIcon className="w-6 h-6" />
                     <span className="text-xs mt-1">{t?.home || 'Home'}</span>
                 </Link>
@@ -170,3 +177,4 @@ export default function HomePage() {
 }
 
     
+
