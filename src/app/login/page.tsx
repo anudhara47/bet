@@ -73,8 +73,10 @@ export default function LoginPage() {
             if (registerStatus === 'success') {
                 toast({ title: "Registration Successful!" });
                 router.push('/home');
+            } else if (registerStatus === 'email-exists') {
+                toast({ title: "Registration Failed", description: "This email address is already in use.", variant: "destructive"});
             } else {
-                toast({ title: "Registration Failed", description: "This email may already be in use.", variant: "destructive"});
+                toast({ title: "Registration Failed", description: "An unknown error occurred.", variant: "destructive"});
             }
         } else {
              toast({ title: "Please fill all required fields.", variant: "destructive" });

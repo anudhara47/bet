@@ -1,7 +1,7 @@
 
 'use client';
 import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, User, AuthErrorCodes } from 'firebase/auth';
 import { app } from '@/lib/firebase'; // Import your Firebase app instance
 
 // Types
@@ -85,7 +85,7 @@ interface UserContextType {
   blockUser: (uid: string) => void;
   unblockUser: (uid: string) => void;
   login: (email: string, password?: string) => Promise<'success' | 'blocked' | 'not_found' | 'error'>;
-  register: (email: string, password?: string) => Promise<'success' | 'error'>;
+  register: (email: string, password?: string) => Promise<'success' | 'email-exists' | 'error'>;
   logout: () => void;
   hasDeposited: boolean;
   markAsDeposited: () => void;
@@ -249,7 +249,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             saveToLocalStorage(`user-${user.uid}`, newUser);
             loadUser(newUser);
             return 'success';
-        } catch(error) {
+        } catch(error: any) {
+            if (error.code === AuthErrorCodes.EMAIL_EXISTS) {
+                return 'email-exists';
+            }
             console.error("Registration error:", error);
             return 'error';
         }
