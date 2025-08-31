@@ -63,6 +63,7 @@ export default function UserInformationPage() {
                         placeholder="Search by User ID" 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
+                        className="bg-white"
                     />
                     <Button type="submit" className="bg-primary hover:bg-primary/90">
                         <Search className="w-5 h-5"/>
