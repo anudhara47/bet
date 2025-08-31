@@ -54,6 +54,42 @@ const CardIcon = (props: any) => (
 const MiniGameIcon = (props: any) => <Gamepad2 {...props} />;
 const HotIcon = (props: any) => <Flame {...props} />;
 
+const WingoGameCardIcon = () => (
+    <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-purple-500 to-indigo-600">
+        <Rocket className="w-16 h-16 text-white opacity-80" />
+    </div>
+);
+
+const K3GameCardIcon = () => (
+     <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-green-400 to-teal-500">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="4" width="16" height="16" rx="3" fill="white" fillOpacity="0.9" />
+            <circle cx="9" cy="9" r="1.5" fill="#14B8A6" />
+            <circle cx="15" cy="15" r="1.5" fill="#14B8A6" />
+        </svg>
+    </div>
+)
+
+const FiveDGameCardIcon = () => (
+    <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-red-500 to-orange-500">
+         <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="white" strokeOpacity="0.8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2 7L12 12L22 7" stroke="white" strokeOpacity="0.8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 12V22" stroke="white" strokeOpacity="0.8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+    </div>
+)
+
+const TrxGameCardIcon = () => (
+    <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-sky-400 to-blue-500">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="white" fillOpacity="0.9"/>
+            <path d="M10 8H14" stroke="#0EA5E9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 8V16" stroke="#0EA5E9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+    </div>
+)
+
 
 export default function HomePage() {
     const { uid, nickname, balance } = useUser();
@@ -72,21 +108,21 @@ export default function HomePage() {
     ];
 
     const recommendedGames = [
-        { name: 'Lottery', href: '/lottery/wingo-30s', hint: 'lottery colors' },
-        { name: 'Slots', href: '/slots', hint: 'slot machine' },
-        { name: 'Sports', href: '/sports', hint: 'soccer ball' },
-        { name: 'Casino', href: '/casino', hint: 'casino chips' },
-        { name: 'Fishing', href: '/fishing', hint: 'fishing game' },
-        { name: 'Card', href: '/card', hint: 'playing cards' },
-        { name: 'Mini Game', href: '/mini-game', hint: 'game controller' },
-        { name: 'Hot', href: '/hot-games', hint: 'fire flame' },
+        { name: 'Lottery', href: '/lottery/wingo-30s', Icon: LotteryIcon, bgColor: 'from-purple-500 to-indigo-600' },
+        { name: 'Slots', href: '/slots', Icon: SlotsIcon, bgColor: 'from-pink-500 to-rose-600' },
+        { name: 'Sports', href: '/sports', Icon: SportsIcon, bgColor: 'from-lime-500 to-green-600' },
+        { name: 'Casino', href: '/casino', Icon: CasinoIcon, bgColor: 'from-red-500 to-orange-600' },
+        { name: 'Fishing', href: '/fishing', Icon: FishingIcon, bgColor: 'from-sky-500 to-blue-600' },
+        { name: 'Card', href: '/card', Icon: CardIcon, bgColor: 'from-amber-500 to-yellow-600' },
+        { name: 'Mini Game', href: '/mini-game', Icon: MiniGameIcon, bgColor: 'from-cyan-500 to-teal-600' },
+        { name: 'Hot', href: '/hot-games', Icon: HotIcon, bgColor: 'from-rose-500 to-red-600' },
     ];
 
     const lotteryGames = [
-        { name: 'WINGO', href: '/lottery/wingo-30s', hint: 'lottery colors' },
-        { name: 'K3', href: '/lottery/k3', hint: 'dice game' },
-        { name: '5D', href: '/lottery/5d', hint: 'lottery card' },
-        { name: 'TRX', href: '/lottery/trx-hash', hint: 'crypto lottery' },
+        { name: 'WINGO', href: '/lottery/wingo-30s', Icon: WingoGameCardIcon },
+        { name: 'K3', href: '/lottery/k3', Icon: K3GameCardIcon },
+        { name: '5D', href: '/lottery/5d', Icon: FiveDGameCardIcon },
+        { name: 'TRX', href: '/lottery/trx-hash', Icon: TrxGameCardIcon },
     ];
 
     const carouselCards = Array.from({ length: 8 });
@@ -208,9 +244,11 @@ export default function HomePage() {
                             {recommendedGames.map((game, index) => (
                                 <CarouselItem key={index} className="pl-2 basis-1/2 md:basis-1/3">
                                     <Link href={game.href} >
-                                        <Card className="rounded-xl overflow-hidden bg-white border-none shadow-md">
-                                            <Image src={`https://picsum.photos/300/200?random=${20+index}`} alt={game.name} width={300} height={200} className="w-full h-auto" data-ai-hint={game.hint}/>
-                                            <p className="p-2 text-center text-sm font-semibold">{game.name}</p>
+                                        <Card className={cn("rounded-xl overflow-hidden bg-white border-none shadow-md aspect-square bg-gradient-to-br", game.bgColor)}>
+                                            <CardContent className="flex flex-col items-center justify-center h-full p-4">
+                                                <game.Icon className="w-16 h-16 text-white/90" />
+                                                <p className="p-2 text-center text-sm font-bold text-white mt-2">{game.name}</p>
+                                            </CardContent>
                                         </Card>
                                     </Link>
                                 </CarouselItem>
@@ -225,7 +263,9 @@ export default function HomePage() {
                         {lotteryGames.map((game, index) => (
                             <Link href={game.href} key={index}>
                                 <Card className="rounded-xl overflow-hidden bg-white border-none shadow-md">
-                                    <Image src={`https://picsum.photos/300/200?random=${13+index}`} alt={game.name} width={300} height={200} className="w-full h-auto" data-ai-hint={game.hint}/>
+                                    <div className="aspect-[4/3]">
+                                      <game.Icon />
+                                    </div>
                                     <p className="p-2 text-center text-sm font-semibold">{game.name}</p>
                                 </Card>
                             </Link>
@@ -256,4 +296,3 @@ export default function HomePage() {
         </div>
     );
 }
-
