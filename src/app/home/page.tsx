@@ -109,31 +109,31 @@ export default function HomePage() {
     ];
 
     const recommendedGames = [
-        { href: "/mini-game/aviator-bonus", Icon: AviatorIcon, label: "AVIATOR BONUS" },
-        { href: "/mini-game/vortex", Icon: VortexIcon, label: "VORTEX" },
-        { href: "/mini-game/cricket", Icon: CricketIcon, label: "CRICKET" },
-        { href: "/mini-game/chicken-road", Icon: ChickenRoadIcon, label: "CHICKEN ROAD" },
-        { href: "/mini-game/aviator", Icon: AviatorIcon, label: "AVIATOR" },
-        { href: "/mini-game/mines", Icon: MinesIcon, label: "MINES" },
-        { href: "/mini-game/mines-pro", Icon: MinesIcon, label: "MINES PRO" },
-        { href: "/mini-game/limbo", Icon: LimboIcon, label: "LIMBO" },
-        { href: "/mini-game/javelin", Icon: JavelinIcon, label: "JAVELIN" },
-        { href: "/mini-game/dragon-tiger", Icon: DragonTigerIcon, label: "DRAGON TIGER" },
-        { href: "/mini-game/goal", Icon: GoalIcon, label: "GOAL" },
-        { href: "/mini-game/snakes", Icon: SnakesIcon, label: "SNAKES" },
-        { href: "/mini-game/dice", Icon: DiceIcon, label: "DICE" },
-        { href: "/mini-game/king-pauper", Icon: KingAndPauperIcon, label: "KING AND PAUPER" },
-        { href: "/mini-game/hilo-wave", Icon: HiloWaveIcon, label: "HILO WAVE" },
-        { href: "/mini-game/clash-of-hands", Icon: ClashOfHandsIcon, label: "CLASH OF HANDS" },
-        { href: "/mini-game/plinko", Icon: PlinkoIcon, label: "PLINKO" },
-        { href: "/mini-game/bomb-wave", Icon: BombWaveIcon, label: "BOMB WAVE" },
-        { href: "/mini-game/hilo", Icon: HiloIcon, label: "HILO" },
-        { href: "/mini-game/treasure-wave", Icon: TreasureWaveIcon, label: "TREASURE WAVE" },
-        { href: "/mini-game/hotline", Icon: HotlineIcon, label: "HOTLINE" },
-        { href: "/mini-game/cryptos", Icon: CryptosIcon, label: "CRYPTOS" },
-        { href: "/mini-game/space-dice", Icon: SpaceDiceIcon, label: "SPACE DICE" },
-        { href: "/mini-game/goal", Icon: Goal3DIcon, label: "GOAL" },
-        { href: "/mini-game/mini-roulette", Icon: MiniRouletteIcon, label: "MINI ROULETTE" },
+        { href: "/mini-game/aviator-bonus", imageUrl: "https://picsum.photos/200/200?random=10", label: "AVIATOR BONUS" },
+        { href: "/mini-game/vortex", imageUrl: "https://picsum.photos/200/200?random=11", label: "VORTEX" },
+        { href: "/mini-game/cricket", imageUrl: "https://picsum.photos/200/200?random=12", label: "CRICKET" },
+        { href: "/mini-game/chicken-road", imageUrl: "https://picsum.photos/200/200?random=13", label: "CHICKEN ROAD" },
+        { href: "/mini-game/aviator", imageUrl: "https://picsum.photos/200/200?random=14", label: "AVIATOR" },
+        { href: "/mini-game/mines", imageUrl: "https://picsum.photos/200/200?random=15", label: "MINES" },
+        { href: "/mini-game/mines-pro", imageUrl: "https://picsum.photos/200/200?random=16", label: "MINES PRO" },
+        { href: "/mini-game/limbo", imageUrl: "https://picsum.photos/200/200?random=17", label: "LIMBO" },
+        { href: "/mini-game/javelin", imageUrl: "https://picsum.photos/200/200?random=18", label: "JAVELIN" },
+        { href: "/mini-game/dragon-tiger", imageUrl: "https://picsum.photos/200/200?random=19", label: "DRAGON TIGER" },
+        { href: "/mini-game/goal", imageUrl: "https://picsum.photos/200/200?random=20", label: "GOAL" },
+        { href: "/mini-game/snakes", imageUrl: "https://picsum.photos/200/200?random=21", label: "SNAKES" },
+        { href: "/mini-game/dice", imageUrl: "https://picsum.photos/200/200?random=22", label: "DICE" },
+        { href: "/mini-game/king-pauper", imageUrl: "https://picsum.photos/200/200?random=23", label: "KING AND PAUPER" },
+        { href: "/mini-game/hilo-wave", imageUrl: "https://picsum.photos/200/200?random=24", label: "HILO WAVE" },
+        { href: "/mini-game/clash-of-hands", imageUrl: "https://picsum.photos/200/200?random=25", label: "CLASH OF HANDS" },
+        { href: "/mini-game/plinko", imageUrl: "https://picsum.photos/200/200?random=26", label: "PLINKO" },
+        { href: "/mini-game/bomb-wave", imageUrl: "https://picsum.photos/200/200?random=27", label: "BOMB WAVE" },
+        { href: "/mini-game/hilo", imageUrl: "https://picsum.photos/200/200?random=28", label: "HILO" },
+        { href: "/mini-game/treasure-wave", imageUrl: "https://picsum.photos/200/200?random=29", label: "TREASURE WAVE" },
+        { href: "/mini-game/hotline", imageUrl: "https://picsum.photos/200/200?random=30", label: "HOTLINE" },
+        { href: "/mini-game/cryptos", imageUrl: "https://picsum.photos/200/200?random=31", label: "CRYPTOS" },
+        { href: "/mini-game/space-dice", imageUrl: "https://picsum.photos/200/200?random=32", label: "SPACE DICE" },
+        { href: "/mini-game/goal", imageUrl: "https://picsum.photos/200/200?random=33", label: "GOAL" },
+        { href: "/mini-game/mini-roulette", imageUrl: "https://picsum.photos/200/200?random=34", label: "MINI ROULETTE" },
     ];
 
     const lotteryGames = [
@@ -264,8 +264,8 @@ export default function HomePage() {
                                     <Link href={game.href} >
                                         <Card className="rounded-xl overflow-hidden bg-gray-800 border-none shadow-md aspect-square">
                                             <CardContent className="flex flex-col items-center justify-center h-full p-0 relative">
+                                                <Image src={game.imageUrl} alt={game.label} layout="fill" className="object-cover" />
                                                 <div className="w-full h-full absolute inset-0 bg-black/20"></div>
-                                                <game.Icon />
                                                 <p className="p-2 text-center text-sm font-bold text-white absolute bottom-0 bg-black/30 w-full">{game.label}</p>
                                             </CardContent>
                                         </Card>
