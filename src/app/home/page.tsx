@@ -12,6 +12,7 @@ import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { useUser } from "@/context/user-context";
 import { useLanguage } from "@/context/language-context";
+import { AviatorIcon, VortexIcon, CricketIcon, ChickenRoadIcon, MinesIcon, LimboIcon, JavelinIcon, DragonTigerIcon, GoalIcon, SnakesIcon, DiceIcon, KingAndPauperIcon, HiloWaveIcon, ClashOfHandsIcon, PlinkoIcon, BombWaveIcon, HiloIcon, TreasureWaveIcon, HotlineIcon, CryptosIcon, SpaceDiceIcon, Goal3DIcon, MiniRouletteIcon } from "@/app/mini-game/page";
 
 
 const GameIcon = ({ Icon, label, href, active }: { Icon: React.ElementType, label: string, href: string, active?: boolean }) => (
@@ -108,14 +109,31 @@ export default function HomePage() {
     ];
 
     const recommendedGames = [
-        { name: 'Lottery', href: '/lottery/wingo-30s', Icon: LotteryIcon, bgColor: 'from-purple-500 to-indigo-600' },
-        { name: 'Slots', href: '/slots', Icon: SlotsIcon, bgColor: 'from-pink-500 to-rose-600' },
-        { name: 'Sports', href: '/sports', Icon: SportsIcon, bgColor: 'from-lime-500 to-green-600' },
-        { name: 'Casino', href: '/casino', Icon: CasinoIcon, bgColor: 'from-red-500 to-orange-600' },
-        { name: 'Fishing', href: '/fishing', Icon: FishingIcon, bgColor: 'from-sky-500 to-blue-600' },
-        { name: 'Card', href: '/card', Icon: CardIcon, bgColor: 'from-amber-500 to-yellow-600' },
-        { name: 'Mini Game', href: '/mini-game', Icon: MiniGameIcon, bgColor: 'from-cyan-500 to-teal-600' },
-        { name: 'Hot', href: '/hot-games', Icon: HotIcon, bgColor: 'from-rose-500 to-red-600' },
+        { href: "/mini-game/aviator-bonus", Icon: AviatorIcon, label: "AVIATOR BONUS" },
+        { href: "/mini-game/vortex", Icon: VortexIcon, label: "VORTEX" },
+        { href: "/mini-game/cricket", Icon: CricketIcon, label: "CRICKET" },
+        { href: "/mini-game/chicken-road", Icon: ChickenRoadIcon, label: "CHICKEN ROAD" },
+        { href: "/mini-game/aviator", Icon: AviatorIcon, label: "AVIATOR" },
+        { href: "/mini-game/mines", Icon: MinesIcon, label: "MINES" },
+        { href: "/mini-game/mines-pro", Icon: MinesIcon, label: "MINES PRO" },
+        { href: "/mini-game/limbo", Icon: LimboIcon, label: "LIMBO" },
+        { href: "/mini-game/javelin", Icon: JavelinIcon, label: "JAVELIN" },
+        { href: "/mini-game/dragon-tiger", Icon: DragonTigerIcon, label: "DRAGON TIGER" },
+        { href: "/mini-game/goal", Icon: GoalIcon, label: "GOAL" },
+        { href: "/mini-game/snakes", Icon: SnakesIcon, label: "SNAKES" },
+        { href: "/mini-game/dice", Icon: DiceIcon, label: "DICE" },
+        { href: "/mini-game/king-pauper", Icon: KingAndPauperIcon, label: "KING AND PAUPER" },
+        { href: "/mini-game/hilo-wave", Icon: HiloWaveIcon, label: "HILO WAVE" },
+        { href: "/mini-game/clash-of-hands", Icon: ClashOfHandsIcon, label: "CLASH OF HANDS" },
+        { href: "/mini-game/plinko", Icon: PlinkoIcon, label: "PLINKO" },
+        { href: "/mini-game/bomb-wave", Icon: BombWaveIcon, label: "BOMB WAVE" },
+        { href: "/mini-game/hilo", Icon: HiloIcon, label: "HILO" },
+        { href: "/mini-game/treasure-wave", Icon: TreasureWaveIcon, label: "TREASURE WAVE" },
+        { href: "/mini-game/hotline", Icon: HotlineIcon, label: "HOTLINE" },
+        { href: "/mini-game/cryptos", Icon: CryptosIcon, label: "CRYPTOS" },
+        { href: "/mini-game/space-dice", Icon: SpaceDiceIcon, label: "SPACE DICE" },
+        { href: "/mini-game/goal", Icon: Goal3DIcon, label: "GOAL" },
+        { href: "/mini-game/mini-roulette", Icon: MiniRouletteIcon, label: "MINI ROULETTE" },
     ];
 
     const lotteryGames = [
@@ -244,10 +262,11 @@ export default function HomePage() {
                             {recommendedGames.map((game, index) => (
                                 <CarouselItem key={index} className="pl-2 basis-1/2 md:basis-1/3">
                                     <Link href={game.href} >
-                                        <Card className={cn("rounded-xl overflow-hidden bg-white border-none shadow-md aspect-square bg-gradient-to-br", game.bgColor)}>
-                                            <CardContent className="flex flex-col items-center justify-center h-full p-4">
-                                                <game.Icon className="w-16 h-16 text-white/90" />
-                                                <p className="p-2 text-center text-sm font-bold text-white mt-2">{game.name}</p>
+                                        <Card className="rounded-xl overflow-hidden bg-gray-800 border-none shadow-md aspect-square">
+                                            <CardContent className="flex flex-col items-center justify-center h-full p-0 relative">
+                                                <div className="w-full h-full absolute inset-0 bg-black/20"></div>
+                                                <game.Icon />
+                                                <p className="p-2 text-center text-sm font-bold text-white absolute bottom-0 bg-black/30 w-full">{game.label}</p>
                                             </CardContent>
                                         </Card>
                                     </Link>

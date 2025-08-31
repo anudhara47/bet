@@ -1,4 +1,5 @@
 
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,7 +9,7 @@ import Link from "next/link";
 import * as React from "react";
 
 
-const AviatorIcon = () => (
+export const AviatorIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
@@ -33,7 +34,7 @@ const AviatorIcon = () => (
     </svg>
 );
 
-const VortexIcon = () => (
+export const VortexIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent" />
         <g transform="translate(50, 50) scale(0.5)">
@@ -48,7 +49,7 @@ const VortexIcon = () => (
     </svg>
 );
 
-const CricketIcon = () => (
+export const CricketIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent" />
         <g transform="translate(50, 40) scale(0.6)">
@@ -59,7 +60,7 @@ const CricketIcon = () => (
     </svg>
 );
 
-const ChickenRoadIcon = () => (
+export const ChickenRoadIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent" />
         <g transform="translate(55, 50) scale(0.5)">
@@ -72,7 +73,7 @@ const ChickenRoadIcon = () => (
     </svg>
 );
 
-const MinesIcon = () => (
+export const MinesIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -91,7 +92,7 @@ const MinesIcon = () => (
     </svg>
 );
 
-const LimboIcon = () => (
+export const LimboIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent" />
         <g transform="translate(60, 40) scale(0.5)">
@@ -102,7 +103,7 @@ const LimboIcon = () => (
     </svg>
 );
 
-const JavelinIcon = () => (
+export const JavelinIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent" />
         <g transform="translate(50, 50) scale(0.5) rotate(45)">
@@ -112,7 +113,7 @@ const JavelinIcon = () => (
     </svg>
 );
 
-const DragonTigerIcon = () => (
+export const DragonTigerIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent" />
         <g transform="translate(40, 50) scale(0.6)">
@@ -124,7 +125,7 @@ const DragonTigerIcon = () => (
     </svg>
 );
 
-const GoalIcon = () => (
+export const GoalIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent" />
         <g transform="translate(50, 50) scale(0.5)">
@@ -135,7 +136,7 @@ const GoalIcon = () => (
     </svg>
 );
 
-const SnakesIcon = () => (
+export const SnakesIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent" />
         <g transform="translate(50, 50) scale(0.5)">
@@ -146,7 +147,7 @@ const SnakesIcon = () => (
     </svg>
 );
 
-const DiceIcon = () => (
+export const DiceIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent" />
         <g transform="translate(50,50) scale(0.5) rotate(-15)">
@@ -159,7 +160,7 @@ const DiceIcon = () => (
     </svg>
 );
 
-const KingAndPauperIcon = () => (
+export const KingAndPauperIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(50, 50) scale(0.5)">
@@ -170,7 +171,7 @@ const KingAndPauperIcon = () => (
     </svg>
 );
 
-const HiloWaveIcon = () => (
+export const HiloWaveIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(50, 50) scale(0.5)">
@@ -180,7 +181,7 @@ const HiloWaveIcon = () => (
     </svg>
 );
 
-const ClashOfHandsIcon = () => (
+export const ClashOfHandsIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(50, 60) scale(0.6) rotate(-15)">
@@ -194,7 +195,7 @@ const ClashOfHandsIcon = () => (
     </svg>
 );
 
-const PlinkoIcon = () => (
+export const PlinkoIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(50, 50) scale(0.5)">
@@ -206,7 +207,7 @@ const PlinkoIcon = () => (
     </svg>
 );
 
-const BombWaveIcon = () => (
+export const BombWaveIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(40, 50) scale(0.5)">
@@ -222,7 +223,7 @@ const BombWaveIcon = () => (
     </svg>
 );
 
-const HiloIcon = () => (
+export const HiloIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(30, 50) scale(0.4) rotate(-15)">
@@ -236,7 +237,7 @@ const HiloIcon = () => (
     </svg>
 );
 
-const TreasureWaveIcon = () => (
+export const TreasureWaveIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(50, 50) scale(0.5)">
@@ -250,7 +251,7 @@ const TreasureWaveIcon = () => (
     </svg>
 );
 
-const HotlineIcon = () => (
+export const HotlineIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(50, 50) scale(0.5)">
@@ -262,7 +263,7 @@ const HotlineIcon = () => (
     </svg>
 );
 
-const CryptosIcon = () => (
+export const CryptosIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(50, 50) scale(0.5)">
@@ -273,7 +274,7 @@ const CryptosIcon = () => (
     </svg>
 );
 
-const SpaceDiceIcon = () => (
+export const SpaceDiceIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(40, 60) scale(0.4) rotate(-25)">
@@ -292,7 +293,7 @@ const SpaceDiceIcon = () => (
     </svg>
 );
 
-const Goal3DIcon = () => (
+export const Goal3DIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(50, 50) scale(0.5)">
@@ -305,7 +306,7 @@ const Goal3DIcon = () => (
     </svg>
 );
 
-const MiniRouletteIcon = () => (
+export const MiniRouletteIcon = () => (
     <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <rect width="200" height="200" fill="transparent"/>
         <g transform="translate(50, 50) scale(0.5)">
