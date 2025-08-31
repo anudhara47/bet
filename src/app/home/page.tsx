@@ -109,7 +109,7 @@ export default function HomePage() {
     ];
 
     const recommendedGames = [
-        { href: "/mini-game/aviator-bonus", imageUrl: "https://picsum.photos/200/200?random=10", label: "AVIATOR BONUS" },
+        { href: "/mini-game/aviator-bonus", imageUrl: "https://picsum.photos/200/200?random=35", label: "AVIATOR BONUS" },
         { href: "/mini-game/vortex", imageUrl: "https://picsum.photos/200/200?random=11", label: "VORTEX" },
         { href: "/mini-game/cricket", imageUrl: "https://picsum.photos/200/200?random=12", label: "CRICKET" },
         { href: "/mini-game/chicken-road", imageUrl: "https://picsum.photos/200/200?random=13", label: "CHICKEN ROAD" },
