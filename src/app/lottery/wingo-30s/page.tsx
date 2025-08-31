@@ -15,6 +15,7 @@ import { useUser } from "@/context/user-context";
 import { Input } from "@/components/ui/input";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
+import { Logo } from "@/components/ui/logo";
 
 
 const WalletIcon = () => (
@@ -140,10 +141,7 @@ export default function Wingo30sPage() {
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
                 <div className="flex items-center space-x-1">
-                    <div className="bg-primary w-6 h-6 rounded-full flex items-center justify-center">
-                        <span className="text-primary-foreground font-bold text-sm">9</span>
-                    </div>
-                    <span className="font-bold text-lg text-primary">91 CLUB</span>
+                    <Logo className="w-24"/>
                 </div>
                 <div className="flex items-center gap-3 text-gray-500">
                    <RefreshCw className="w-6 h-6"/>

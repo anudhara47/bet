@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useEffect } from "react";
+import { Logo } from "@/components/ui/logo";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -69,10 +70,8 @@ export default function RegisterPage() {
             </header>
             
             <div className="flex-grow flex flex-col items-center justify-center p-4">
-                 <div className="w-24 h-24 mb-6 rounded-full bg-white shadow-lg flex items-center justify-center animate-logo-zoom">
-                    <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white font-bold text-5xl">
-                        9
-                    </div>
+                 <div className="w-32 mb-6 animate-logo-zoom">
+                    <Logo />
                 </div>
 
                 <Card className="w-full">
@@ -170,4 +169,5 @@ export default function RegisterPage() {
         </div>
     );
 }
+
 

@@ -11,6 +11,7 @@ import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { useUser } from "@/context/user-context";
 import { useLanguage } from "@/context/language-context";
+import { Logo } from "@/components/ui/logo";
 
 
 const GameIcon = ({ Icon, label, href }: { Icon: React.ElementType, label: string, href: string }) => (
@@ -74,12 +75,7 @@ export default function HomePage() {
     return (
         <div className="min-h-screen bg-neutral-100 text-gray-800 pb-40 max-w-lg mx-auto">
             <header className="p-4 flex justify-between items-center sticky top-0 z-10 bg-primary/90 backdrop-blur-sm text-white">
-                <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary font-bold text-2xl">
-                        9
-                    </div>
-                    <span className="font-bold text-xl">9XBETCLUB</span>
-                </div>
+                <Logo className="w-28"/>
                 {uid ? (
                     <div className="flex items-center gap-2 text-sm">
                         <span>{nickname}</span>

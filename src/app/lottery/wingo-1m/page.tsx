@@ -10,6 +10,7 @@ import { ChevronLeft, RefreshCw, History, BarChart2, TrendingUp, Volume2, HelpCi
 import Link from "next/link";
 import * as React from "react";
 import { useWingoGame } from "@/context/wingo-game-context";
+import { Logo } from "@/components/ui/logo";
 
 const WalletIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500">
@@ -76,10 +77,7 @@ export default function Wingo1mPage() {
                     <ChevronLeft className="w-6 h-6" />
                 </Link>
                 <div className="flex items-center space-x-1">
-                    <div className="bg-red-600 w-6 h-6 rounded-full flex items-center justify-center">
-                        <span className="text-white font-bold text-sm">9</span>
-                    </div>
-                    <span className="font-bold text-lg text-red-600">91 CLUB</span>
+                    <Logo className="w-24" />
                 </div>
                 <div className="flex items-center gap-3 text-gray-500">
                    <RefreshCw className="w-6 h-6"/>

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Activity, HomeIcon, Landmark, User, Gift, Trophy, Users, Star, Disc } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
+import { Logo } from "@/components/ui/logo";
 
 const InvitationBonusIcon = () => (
     <div className="w-16 h-16 rounded-2xl bg-blue-400 flex items-center justify-center">
@@ -57,10 +58,7 @@ export default function ActivityPage() {
     <div className="min-h-screen bg-neutral-100 text-foreground pb-40 max-w-lg mx-auto">
       <header className="bg-gradient-to-b from-yellow-400 to-yellow-500 text-white p-4 text-center">
         <div className="flex items-center justify-center space-x-2 mb-2">
-            <div className="bg-white w-8 h-8 rounded-full flex items-center justify-center">
-              <span className="text-yellow-600 font-bold text-lg">9</span>
-            </div>
-            <span className="font-bold text-xl md:text-2xl text-white">9XBETCLUB</span>
+            <Logo className="w-24"/>
         </div>
         <h1 className="text-2xl font-bold">Activity</h1>
         <p className="text-xs mt-2 opacity-90">
