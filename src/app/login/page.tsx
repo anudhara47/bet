@@ -18,7 +18,7 @@ import { useEffect } from "react";
 export default function LoginPage() {
     const router = useRouter();
     const { toast } = useToast();
-    const { uid, login } = useUser();
+    const { uid, login, register } = useUser();
     
     // Login state
     const [loginIdentifier, setLoginIdentifier] = React.useState('');
@@ -26,7 +26,6 @@ export default function LoginPage() {
     const [showLoginPassword, setShowLoginPassword] = React.useState(false);
     
     // Register state
-    const [registerType, setRegisterType] = React.useState<'phone' | 'email'>('phone');
     const [registerIdentifier, setRegisterIdentifier] = React.useState('');
     const [registerPassword, setRegisterPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
@@ -41,24 +40,24 @@ export default function LoginPage() {
         }
     }, [uid, router]);
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         if (loginIdentifier && loginPassword) {
-            const loginStatus = login(loginIdentifier, loginPassword);
+            const loginStatus = await login(loginIdentifier, loginPassword);
             if (loginStatus === 'success') {
                 toast({ title: "Login Successful!" });
                 router.push('/home');
             } else if (loginStatus === 'blocked') {
                 toast({ title: "Account Blocked", description: "This account has been blocked by an administrator.", variant: "destructive" });
             } else {
-                 toast({ title: "Invalid Credentials", description: "Please check your phone/email and password.", variant: "destructive" });
+                 toast({ title: "Invalid Credentials", description: "Please check your email and password.", variant: "destructive" });
             }
         } else {
             toast({ title: "Please enter your identifier and password.", variant: "destructive" });
         }
     }
 
-    const handleRegister = (e: React.FormEvent) => {
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!agreed) {
             toast({ title: "Please agree to the privacy policy.", variant: "destructive" });
@@ -69,10 +68,13 @@ export default function LoginPage() {
             return;
         }
         if (registerIdentifier && registerPassword) {
-            const registerStatus = login(registerIdentifier, registerPassword); // Use login to register
+            // For now, we only support email registration with Firebase
+            const registerStatus = await register(registerIdentifier, registerPassword);
             if (registerStatus === 'success') {
                 toast({ title: "Registration Successful!" });
                 router.push('/home');
+            } else {
+                toast({ title: "Registration Failed", description: "This email may already be in use.", variant: "destructive"});
             }
         } else {
              toast({ title: "Please fill all required fields.", variant: "destructive" });
@@ -109,11 +111,11 @@ export default function LoginPage() {
                             <CardContent className="pt-6">
                                 <form onSubmit={handleLogin} className="space-y-4">
                                     <div className="relative">
-                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                         <Input 
                                             id="login-identifier"
-                                            type="text" 
-                                            placeholder="Phone Number / Email" 
+                                            type="email" 
+                                            placeholder="Email" 
                                             className="pl-10" 
                                             value={loginIdentifier}
                                             onChange={(e) => setLoginIdentifier(e.target.value)}
@@ -143,20 +145,12 @@ export default function LoginPage() {
                         <TabsContent value="register">
                              <CardContent className="pt-6">
                                 <form onSubmit={handleRegister} className="space-y-4">
-                                    <div className="flex rounded-md bg-gray-100 p-1">
-                                        <Button type="button" onClick={() => setRegisterType('phone')} className={`flex-1 ${registerType === 'phone' ? 'bg-white shadow' : 'bg-transparent text-gray-500'}`} variant="ghost">Phone</Button>
-                                        <Button type="button" onClick={() => setRegisterType('email')} className={`flex-1 ${registerType === 'email' ? 'bg-white shadow' : 'bg-transparent text-gray-500'}`} variant="ghost">Email</Button>
-                                    </div>
                                      <div className="relative">
-                                        {registerType === 'phone' ? 
-                                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                                            :
-                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                                        }
+                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                         <Input 
                                             id="reg-identifier"
-                                            type={registerType === 'phone' ? "tel" : "email"}
-                                            placeholder={registerType === 'phone' ? "Mobile Number" : "Email Address"}
+                                            type="email"
+                                            placeholder="Email Address"
                                             className="pl-10"
                                             value={registerIdentifier}
                                             onChange={(e) => setRegisterIdentifier(e.target.value)}
@@ -221,3 +215,5 @@ export default function LoginPage() {
         </div>
     );
 }
+
+    

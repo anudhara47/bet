@@ -1,6 +1,8 @@
 
 'use client';
 import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { app } from '@/lib/firebase'; // Import your Firebase app instance
 
 // Types
 export interface BankDetails {
@@ -21,7 +23,6 @@ export interface UserData {
     uid: string;
     email: string | null;
     phone: string | null;
-    password?: string;
     nickname: string;
     avatar: string | null;
     balance: number;
@@ -83,7 +84,8 @@ interface UserContextType {
   isBlocked: boolean;
   blockUser: (uid: string) => void;
   unblockUser: (uid: string) => void;
-  login: (identifier: string, password?: string) => 'success' | 'blocked' | 'not_found';
+  login: (email: string, password?: string) => Promise<'success' | 'blocked' | 'not_found' | 'error'>;
+  register: (email: string, password?: string) => Promise<'success' | 'error'>;
   logout: () => void;
   hasDeposited: boolean;
   markAsDeposited: () => void;
@@ -91,9 +93,10 @@ interface UserContextType {
   upiDetails: UpiDetails | null;
   saveBankDetails: (details: BankDetails) => void;
   saveUpiDetails: (details: UpiDetails) => void;
-  verifyPassword: (password: string) => boolean;
+  verifyPassword: (password: string) => Promise<boolean>;
 }
 
+const auth = getAuth(app);
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 const loadFromLocalStorage = (key: string, defaultValue: any) => {
@@ -109,6 +112,7 @@ const saveToLocalStorage = (key: string, value: any) => {
 
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [uid, setUid] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);
     const [nickname, setNickname] = useState('Gamer');
@@ -124,20 +128,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [totalWithdrawalAmount, setTotalWithdrawalAmount] = useState(0);
     const [invitees, setInvitees] = useState<Invitees>({ count: 0, rechargedCount: 0 });
     const [claimedInvitationBonuses, setClaimedInvitationBonuses] = useState<number[]>([]);
-    const [isInitialLoad, setIsInitialLoad] = useState(true);
     const [isBlocked, setIsBlocked] = useState(false);
     const [hasDeposited, setHasDeposited] = useState(false);
     const [bankDetails, setBankDetails] = useState<BankDetails | null>(null);
     const [upiDetails, setUpiDetails] = useState<UpiDetails | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const clearLocalStorage = () => {
-        Object.keys(localStorage).forEach(key => {
-            if (key.startsWith('user-')) {
-                localStorage.removeItem(key);
-            }
-        });
-    };
-    
     const loadUser = (user: UserData) => {
         setUid(user.uid);
         setEmail(user.email);
@@ -160,49 +156,80 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
     
     useEffect(() => {
-        const storedUid = localStorage.getItem('user-uid');
-        if (storedUid) {
-            const allUsers = loadFromLocalStorage('allUsers', []);
-            const currentUser = allUsers.find((u: UserData) => u.uid === storedUid);
-            if (currentUser) {
-                loadUser(currentUser);
+        const unsubscribe = onAuthStateChanged(auth, user => {
+            setCurrentUser(user);
+            if (user) {
+                const userData = loadFromLocalStorage(`user-${user.uid}`, null);
+                if (userData) {
+                    loadUser(userData);
+                } else {
+                    // Create new user profile if it doesn't exist
+                    const newUser: UserData = {
+                        uid: user.uid,
+                        email: user.email,
+                        phone: user.phoneNumber,
+                        nickname: `User${user.uid.substring(0, 4)}`,
+                        avatar: user.photoURL,
+                        balance: 30.00,
+                        thirdPartyBalance: 0,
+                        experience: 0,
+                        usedCodes: [],
+                        claimedLevels: [1],
+                        lastMonthlyClaim: null,
+                        totalDepositAmount: 0,
+                        totalWithdrawalAmount: 0,
+                        invitees: { count: 1, rechargedCount: 1 },
+                        claimedInvitationBonuses: [1],
+                        blocked: false,
+                        hasDeposited: false,
+                        bankDetails: null,
+                        upiDetails: null,
+                    };
+                    saveToLocalStorage(`user-${user.uid}`, newUser);
+                    loadUser(newUser);
+                }
+            } else {
+                setUid(null);
             }
-        }
-        setIsInitialLoad(false);
+            setIsLoading(false);
+        });
+
+        return () => unsubscribe();
     }, []);
 
-    const saveUser = (updatedUser: UserData) => {
-        const allUsers = loadFromLocalStorage('allUsers', []);
-        const userIndex = allUsers.findIndex((u: UserData) => u.uid === updatedUser.uid);
-        if (userIndex !== -1) {
-            allUsers[userIndex] = updatedUser;
-        } else {
-            allUsers.push(updatedUser);
-        }
-        saveToLocalStorage('allUsers', allUsers);
+
+    const saveUser = (userUid: string, updatedData: Partial<UserData>) => {
+        const existingData = loadFromLocalStorage(`user-${userUid}`, {});
+        const newData = { ...existingData, ...updatedData };
+        saveToLocalStorage(`user-${userUid}`, newData);
     };
 
-    const login = useCallback((identifier: string, password = 'password') => {
-        const allUsers = loadFromLocalStorage('allUsers', []);
-        let existingUser = allUsers.find((u: UserData) => u.email === identifier || u.phone === identifier);
-
-        if(existingUser) {
-             if (existingUser.blocked) {
+    const login = async (email: string, password = 'password') => {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            const userData = loadFromLocalStorage(`user-${user.uid}`, {});
+            if (userData.blocked) {
+                await signOut(auth);
                 return 'blocked';
             }
-            localStorage.setItem('user-uid', existingUser.uid);
-            loadUser(existingUser);
+            loadUser({ ...userData, uid: user.uid, email: user.email });
             return 'success';
-        } else {
-            const newUid = Math.floor(100000 + Math.random() * 900000).toString();
-            const isEmail = identifier.includes('@');
-            
+        } catch (error) {
+            console.error("Login error:", error);
+            return 'error';
+        }
+    };
+
+    const register = async (email: string, password = 'password') => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
             const newUser: UserData = {
-                uid: newUid,
-                email: isEmail ? identifier : null,
-                phone: !isEmail ? identifier : null,
-                password: password,
-                nickname: `User${newUid.substring(0, 4)}`,
+                uid: user.uid,
+                email: user.email,
+                phone: null,
+                nickname: `User${user.uid.substring(0, 4)}`,
                 avatar: null,
                 balance: 30.00,
                 thirdPartyBalance: 0,
@@ -219,60 +246,39 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 bankDetails: null,
                 upiDetails: null,
             };
-            
-            saveUser(newUser);
-            localStorage.setItem('user-uid', newUser.uid);
+            saveToLocalStorage(`user-${user.uid}`, newUser);
             loadUser(newUser);
             return 'success';
+        } catch(error) {
+            console.error("Registration error:", error);
+            return 'error';
         }
-    }, []);
+    }
 
-    const logout = useCallback(() => {
-        localStorage.removeItem('user-uid');
+
+    const logout = async () => {
+        await signOut(auth);
         setUid(null);
         setEmail(null);
-        setNickname('Gamer');
-        setAvatar(null);
-        setBalance(0);
-        setThirdPartyBalance(0);
-        setExperience(0);
-        setUsedCodes([]);
-        setClaimedLevels([]);
-        setExpHistory([]);
-        setLastMonthlyClaim(null);
-        setTotalDepositAmount(0);
-        setTotalWithdrawalAmount(0);
-        setInvitees({ count: 0, rechargedCount: 0 });
-        setClaimedInvitationBonuses([]);
-        setIsBlocked(false);
-        setHasDeposited(false);
-        setBankDetails(null);
-        setUpiDetails(null);
-    }, []);
+    };
 
-    const verifyPassword = (password: string): boolean => {
-        if (!uid) return false;
-        const allUsers = loadFromLocalStorage('allUsers', []);
-        const currentUser = allUsers.find((u: UserData) => u.uid === uid);
-        return currentUser?.password === password;
+    const verifyPassword = async (password: string): Promise<boolean> => {
+        if (!currentUser || !currentUser.email) return false;
+        try {
+            await signInWithEmailAndPassword(auth, currentUser.email, password);
+            return true;
+        } catch (error) {
+            return false;
+        }
     };
 
 
-    const getUserData = (): UserData | null => {
-        if(!uid) return null;
-        return {
-            uid, email, nickname, avatar, balance, thirdPartyBalance, experience, usedCodes, claimedLevels,
-            lastMonthlyClaim, totalDepositAmount, totalWithdrawalAmount, invitees, claimedInvitationBonuses, blocked: isBlocked, hasDeposited,
-            bankDetails, upiDetails
-        };
-    };
-    
     const updateUser = (updates: Partial<UserData>) => {
-        const currentUser = getUserData();
-        if(currentUser) {
-            const updatedUser = { ...currentUser, ...updates };
-            loadUser(updatedUser);
-            saveUser(updatedUser);
+        if (uid) {
+            const currentData = loadFromLocalStorage(`user-${uid}`, {});
+            const updatedData = { ...currentData, ...updates };
+            loadUser(updatedData); // Update state
+            saveToLocalStorage(`user-${uid}`, updatedData); // Persist to localStorage
         }
     };
 
@@ -324,18 +330,18 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         updateUser({ claimedInvitationBonuses: [...claimedInvitationBonuses, tierId] });
     }
     
-    const blockUser = (userUid: string) => {
+    const blockUser = (userUidToBlock: string) => {
         const allUsers = loadFromLocalStorage('allUsers', []);
-        const updatedUsers = allUsers.map((u: UserData) => u.uid === userUid ? { ...u, blocked: true } : u);
+        const updatedUsers = allUsers.map((u: UserData) => u.uid === userUidToBlock ? { ...u, blocked: true } : u);
         saveToLocalStorage('allUsers', updatedUsers);
-        if (userUid === uid) {
+        if (userUidToBlock === uid) {
             logout();
         }
     }
 
-    const unblockUser = (userUid: string) => {
+    const unblockUser = (userUidToUnblock: string) => {
         const allUsers = loadFromLocalStorage('allUsers', []);
-        const updatedUsers = allUsers.map((u: UserData) => u.uid === userUid ? { ...u, blocked: false } : u);
+        const updatedUsers = allUsers.map((u: UserData) => u.uid === userUidToUnblock ? { ...u, blocked: false } : u);
         saveToLocalStorage('allUsers', updatedUsers);
     }
     const markAsDeposited = () => {
@@ -351,13 +357,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         usedCodes, addUsedCode, redeemGlobalCode, hasClaimedLevel, addClaimedLevel, expHistory,
         lastMonthlyClaim, claimMonthlyReward, totalDepositAmount, addDepositAmount, totalWithdrawalAmount,
         addWithdrawalAmount, invitees, claimedInvitationBonuses, addClaimedInvitationBonus,
-        isBlocked, blockUser, unblockUser, login, logout, hasDeposited, markAsDeposited,
+        isBlocked, blockUser, unblockUser, login, register, logout, hasDeposited, markAsDeposited,
         bankDetails, upiDetails, saveBankDetails, saveUpiDetails, verifyPassword
     };
 
     return (
         <UserContext.Provider value={value}>
-            {children}
+            {!isLoading && children}
         </UserContext.Provider>
     );
 };
@@ -369,3 +375,5 @@ export const useUser = () => {
     }
     return context;
 };
+
+    
