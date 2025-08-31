@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 export const Logo = ({ className, isLight = false }: { className?: string, isLight?: boolean }) => {
-    const textColor = isLight ? "text-white" : "text-primary-foreground";
+    const textColor = isLight ? "text-white" : "text-black";
     return (
         <div className={cn("flex flex-col items-center justify-center", className)}>
             <div className="relative flex items-center justify-center">
