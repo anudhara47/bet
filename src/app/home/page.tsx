@@ -5,14 +5,13 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
-import { Activity, Flame, Gamepad2, Gift, Handshake, Heart, HomeIcon, Landmark, LucideIcon, Menu, Rocket, Search, User, Volume2, Headset } from "lucide-react";
+import { Activity, Flame, Gamepad2, Gift, Handshake, Heart, HomeIcon, Landmark, LucideIcon, Menu, Rocket, Search, User, Volume2, Headset, Wallet, MinusCircle, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { useUser } from "@/context/user-context";
 import { useLanguage } from "@/context/language-context";
-import { Logo } from "@/components/ui/logo";
 
 
 const GameIcon = ({ Icon, label, href, active }: { Icon: React.ElementType, label: string, href: string, active?: boolean }) => (
@@ -57,7 +56,7 @@ const HotIcon = (props: any) => <Flame {...props} />;
 
 
 export default function HomePage() {
-    const { uid, nickname } = useUser();
+    const { uid, nickname, balance } = useUser();
     const { translations } = useLanguage();
     const t = translations.account_page?.footer;
 
@@ -99,6 +98,25 @@ export default function HomePage() {
             </header>
 
             <main className="px-4">
+                 <Card className="rounded-xl my-4 bg-gray-800 text-white">
+                    <CardContent className="p-4 flex justify-between items-center">
+                        <Link href="/deposit" className={cn(buttonVariants({variant: 'success'}))}>
+                            <PlusCircle />
+                            Deposit
+                        </Link>
+                        <Link href="/wallet" className="text-center">
+                            <div className="w-12 h-12 rounded-full bg-yellow-400/20 flex items-center justify-center mx-auto border-2 border-yellow-400">
+                                <Wallet className="w-6 h-6 text-yellow-300"/>
+                            </div>
+                            <p className="font-bold mt-1">₹{balance.toFixed(2)}</p>
+                        </Link>
+                        <Link href="/withdraw" className={cn(buttonVariants({variant: 'destructive'}))}>
+                            <MinusCircle />
+                            Withdraw
+                        </Link>
+                    </CardContent>
+                </Card>
+
                 <Card className="rounded-xl overflow-hidden my-4 bg-transparent border-none">
                     <CardContent className="p-0">
                          <Carousel
@@ -175,7 +193,3 @@ export default function HomePage() {
         </div>
     );
 }
-
-    
-
-
