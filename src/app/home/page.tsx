@@ -72,9 +72,15 @@ export default function HomePage() {
     ];
 
     const recommendedGames = [
-        { name: 'K3', image: '/images/recommend-2.png', href: '/lottery/k3' },
-        { name: '5D', image: '/images/recommend-3.png', href: '/lottery/5d' },
-    ]
+        { name: 'Lottery', href: '/lottery/wingo-30s', hint: 'lottery colors' },
+        { name: 'Slots', href: '/slots', hint: 'slot machine' },
+        { name: 'Sports', href: '/sports', hint: 'soccer ball' },
+        { name: 'Casino', href: '/casino', hint: 'casino chips' },
+        { name: 'Fishing', href: '/fishing', hint: 'fishing game' },
+        { name: 'Card', href: '/card', hint: 'playing cards' },
+        { name: 'Mini Game', href: '/mini-game', hint: 'game controller' },
+        { name: 'Hot', href: '/hot-games', hint: 'fire flame' },
+    ];
 
     const lotteryGames = [
         { name: 'WINGO', href: '/lottery/wingo-30s', hint: 'lottery colors' },
@@ -193,16 +199,24 @@ export default function HomePage() {
 
                 <div>
                     <h2 className="font-bold text-lg mb-3">Recommended Games</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        {recommendedGames.map((game, index) => (
-                            <Link href={game.href} key={index}>
-                                <Card className="rounded-xl overflow-hidden bg-white border-none shadow-md">
-                                    <Image src={`https://picsum.photos/300/200?random=${11+index}`} alt={game.name} width={300} height={200} className="w-full h-auto" data-ai-hint={index === 0 ? "aviator airplane" : "wingo lottery"}/>
-                                    <p className="p-2 text-center text-sm font-semibold">{game.name}</p>
-                                </Card>
-                            </Link>
-                        ))}
-                    </div>
+                     <Carousel
+                        opts={{ loop: true, align: "start" }}
+                        plugins={[ Autoplay({ delay: 3000, stopOnInteraction: true }) ]}
+                        className="w-full"
+                    >
+                        <CarouselContent className="-ml-2">
+                            {recommendedGames.map((game, index) => (
+                                <CarouselItem key={index} className="pl-2 basis-1/2 md:basis-1/3">
+                                    <Link href={game.href} >
+                                        <Card className="rounded-xl overflow-hidden bg-white border-none shadow-md">
+                                            <Image src={`https://picsum.photos/300/200?random=${20+index}`} alt={game.name} width={300} height={200} className="w-full h-auto" data-ai-hint={game.hint}/>
+                                            <p className="p-2 text-center text-sm font-semibold">{game.name}</p>
+                                        </Card>
+                                    </Link>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                    </Carousel>
                 </div>
 
                 <div className="mt-6">
@@ -242,3 +256,4 @@ export default function HomePage() {
         </div>
     );
 }
+
