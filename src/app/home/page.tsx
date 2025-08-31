@@ -80,7 +80,7 @@ export default function HomePage() {
     return (
         <div className="min-h-screen bg-neutral-100 text-gray-800 pb-40 max-w-lg mx-auto">
             <header className="p-4 flex justify-between items-center sticky top-0 z-10 bg-primary/90 backdrop-blur-sm text-white">
-                <Logo className="w-28" isLight={true} />
+                <h1 className="text-2xl font-bold text-white">9xbetclub</h1>
                 {uid ? (
                     <div className="flex items-center gap-2 text-sm">
                         <span>{nickname}</span>
@@ -177,4 +177,5 @@ export default function HomePage() {
 }
 
     
+
 
