@@ -15,7 +15,7 @@ import { useLanguage } from "@/context/language-context";
 
 
 const GameIcon = ({ Icon, label, href, active }: { Icon: React.ElementType, label: string, href: string, active?: boolean }) => (
-    <Link href={href} className="flex flex-col items-center gap-2 flex-shrink-0 w-20">
+    <Link href={href} className="flex flex-col items-center gap-2 flex-shrink-0 w-20 transition-transform active:scale-95 active:shadow-lg active:shadow-primary/40 rounded-lg p-1">
         <div className={cn("p-3 rounded-full", active ? "bg-primary/20" : "bg-gray-100")}>
             <Icon className={cn("w-8 h-8", active ? "text-primary" : "text-gray-500")} />
         </div>
@@ -175,7 +175,7 @@ export default function HomePage() {
                 <div className="my-6">
                     <div className="flex space-x-4 overflow-x-auto pb-4">
                          {gameIcons.map((game, i) => <GameIcon key={i} {...game} />)}
-                         <Link href="/all-games" className="flex flex-col items-center gap-2 flex-shrink-0 w-20">
+                         <Link href="/all-games" className="flex flex-col items-center gap-2 flex-shrink-0 w-20 transition-transform active:scale-95 active:shadow-lg active:shadow-primary/40 rounded-lg p-1">
                             <div className="bg-gray-100 p-3 rounded-full">
                                 <Menu className="w-8 h-8 text-gray-500" />
                             </div>
