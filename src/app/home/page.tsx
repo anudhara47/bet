@@ -76,14 +76,7 @@ export default function HomePage() {
         { name: '5D', image: '/images/recommend-3.png', href: '/lottery/5d' },
     ]
 
-    const carouselGames = [
-        { Icon: LotteryIcon, label: "Lottery", href: "/lottery/wingo-30s" },
-        { Icon: SlotsIcon, label: "Slots", href: "/slots" },
-        { Icon: SportsIcon, label: "Sports", href: "/sports" },
-        { Icon: CasinoIcon, label: "Casino", href: "/casino" },
-        { Icon: FishingIcon, label: "Fishing", href: "/fishing" },
-        { Icon: CardIcon, label: "Card", href: "/card" },
-    ]
+    const carouselCards = Array.from({ length: 8 });
 
     return (
         <div className="min-h-screen bg-neutral-100 text-gray-800 pb-40 max-w-lg mx-auto">
@@ -129,7 +122,7 @@ export default function HomePage() {
                 <Card className="rounded-xl overflow-hidden my-4 bg-transparent border-none">
                     <CardContent className="p-0">
                          <Carousel
-                            opts={{ loop: true, align: 'start' }}
+                            opts={{ loop: true }}
                             plugins={[
                                 Autoplay({
                                     delay: 2000,
@@ -137,14 +130,13 @@ export default function HomePage() {
                                 })
                             ]}
                          >
-                            <CarouselContent className="-ml-2">
-                                {carouselGames.map((game, i) => (
-                                <CarouselItem key={i} className="pl-2 basis-1/3">
-                                    <Link href={game.href}>
-                                        <Card className="rounded-lg bg-gradient-to-br from-gray-100 to-gray-200">
-                                            <CardContent className="flex flex-col items-center justify-center p-3 aspect-square">
-                                                <game.Icon className="w-10 h-10 text-primary" />
-                                                <span className="mt-2 text-xs font-semibold text-center">{game.label}</span>
+                            <CarouselContent>
+                                {carouselCards.map((_, i) => (
+                                <CarouselItem key={i}>
+                                    <Link href="/all-games">
+                                        <Card className="rounded-lg bg-gradient-to-br from-gray-200 to-gray-300 aspect-[8/3]">
+                                            <CardContent className="flex flex-col items-center justify-center p-3 h-full">
+                                                <span className="text-2xl font-bold text-gray-700">Card {i + 1}</span>
                                             </CardContent>
                                         </Card>
                                     </Link>
