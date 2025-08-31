@@ -129,10 +129,10 @@ export default function HomePage() {
                          >
                             <CarouselContent>
                                 <CarouselItem>
-                                    <Image src="https://picsum.photos/800/300?random=10" alt="Promo Banner 1" width={800} height={300} className="w-full h-auto rounded-xl" data-ai-hint="casino chips"/>
+                                    <Image src="https://picsum.photos/800/300?random=10" alt="Promo Banner 1" width={800} height={300} className="w-full h-auto rounded-xl" data-ai-hint="aviator game"/>
                                 </CarouselItem>
                                 <CarouselItem>
-                                    <Image src="https://picsum.photos/800/300?random=11" alt="Promo Banner 2" width={800} height={300} className="w-full h-auto rounded-xl" data-ai-hint="lottery ticket"/>
+                                    <Image src="https://picsum.photos/800/300?random=11" alt="Promo Banner 2" width={800} height={300} className="w-full h-auto rounded-xl" data-ai-hint="wingo lottery"/>
                                 </CarouselItem>
                             </CarouselContent>
                         </Carousel>
