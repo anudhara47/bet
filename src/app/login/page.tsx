@@ -72,8 +72,8 @@ export default function LoginPage() {
             </header>
             
             <div className="flex-grow flex flex-col items-center justify-center p-4">
-                <div className="w-32 mb-6 animate-logo-zoom">
-                   <Logo />
+                <div className="w-32 mb-6">
+                   <Logo iconAnimation="animate-scale-in-icon" textAnimation="animate-fade-in-text" />
                 </div>
 
                 <Card className="w-full">

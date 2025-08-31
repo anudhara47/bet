@@ -4,11 +4,11 @@
 import { cn } from "@/lib/utils";
 import React from "react";
 
-export const Logo = ({ className, isLight = false }: { className?: string, isLight?: boolean }) => {
+export const Logo = ({ className, isLight = false, iconAnimation, textAnimation }: { className?: string, isLight?: boolean, iconAnimation?: string, textAnimation?: string }) => {
     const textColor = isLight ? "text-white" : "text-black";
     return (
         <div className={cn("flex flex-col items-center justify-center", className)}>
-            <div className="relative flex items-center justify-center">
+            <div className={cn("relative flex items-center justify-center", iconAnimation)}>
                 <svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -44,7 +44,7 @@ export const Logo = ({ className, isLight = false }: { className?: string, isLig
                     <span className="text-4xl text-red-500">X</span>
                 </div>
             </div>
-            <div className={`-mt-1 font-bold text-xl tracking-wider ${textColor}`}>
+            <div className={cn(`-mt-1 font-bold text-xl tracking-wider ${textColor}`, textAnimation)}>
                 BETCLUB
             </div>
         </div>
