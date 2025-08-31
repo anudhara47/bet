@@ -88,10 +88,7 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative flex flex-col overflow-x-hidden">
-             <header className="bg-primary text-primary-foreground p-4 flex items-center justify-between sticky top-0 z-10">
-                <Link href="/home" className="text-white">
-                    <ChevronLeft className="w-6 h-6" />
-                </Link>
+             <header className="bg-primary text-primary-foreground p-4 flex items-center justify-end sticky top-0 z-10">
                 <div className="flex items-center gap-2">
                     <MessageCircle className="w-5 h-5"/>
                     <span className="text-sm font-semibold">Customer Service</span>
