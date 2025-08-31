@@ -74,8 +74,8 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen bg-neutral-100 text-gray-800 pb-40 max-w-lg mx-auto">
-            <header className="p-4 flex justify-between items-center sticky top-0 z-10 bg-primary/90 backdrop-blur-sm text-white">
-                <Logo className="w-28"/>
+            <header className="p-4 flex justify-between items-center sticky top-0 z-10 bg-red-500/90 backdrop-blur-sm text-white">
+                <Logo className="w-28" isLight={true} />
                 {uid ? (
                     <div className="flex items-center gap-2 text-sm">
                         <span>{nickname}</span>
@@ -106,7 +106,7 @@ export default function HomePage() {
                          >
                             <CarouselContent>
                                 <CarouselItem>
-                                    <Image src="https://picsum.photos/800/300?random=1" alt="Promo Banner 1" width={800} height={300} className="w-full h-auto rounded-xl" data-ai-hint="wheat field"/>
+                                    <Image src="https://picsum.photos/800/300?random=1" alt="Promo Banner 1" width={800} height={300} className="w-full h-auto rounded-xl" data-ai-hint="waterfall stream"/>
                                 </CarouselItem>
                                 <CarouselItem>
                                     <Image src="https://picsum.photos/800/300?random=2" alt="Promo Banner 2" width={800} height={300} className="w-full h-auto rounded-xl" data-ai-hint="sports betting"/>
@@ -153,7 +153,7 @@ export default function HomePage() {
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </button>
                 </div>
-                <Link href="/home" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-primary")}>
+                <Link href="/home" className={cn(buttonVariants({ variant: 'ghost' }), "flex flex-col h-auto items-center text-red-500")}>
                     <HomeIcon className="w-6 h-6" />
                     <span className="text-xs mt-1">{t?.home || 'Home'}</span>
                 </Link>
