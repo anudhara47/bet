@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -86,7 +87,7 @@ export default function LoginPage() {
 
 
     return (
-        <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative flex flex-col">
+        <div className="min-h-screen bg-gray-100 text-foreground pb-24 max-w-lg mx-auto relative flex flex-col overflow-x-hidden">
              <header className="bg-primary text-primary-foreground p-4 flex items-center justify-between sticky top-0 z-10">
                 <Link href="/home" className="text-white">
                     <ChevronLeft className="w-6 h-6" />
@@ -98,7 +99,7 @@ export default function LoginPage() {
             </header>
             
             <div className="flex-grow flex flex-col items-center justify-center p-4">
-                <div className="w-24 h-24 mb-6 rounded-full bg-white shadow-lg flex items-center justify-center">
+                <div className="w-24 h-24 mb-6 rounded-full bg-white shadow-lg flex items-center justify-center animate-logo-zoom">
                     <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white font-bold text-5xl">
                         9
                     </div>
@@ -110,7 +111,7 @@ export default function LoginPage() {
                             <TabsTrigger value="login">Login</TabsTrigger>
                             <TabsTrigger value="register">Register</TabsTrigger>
                         </TabsList>
-                        <TabsContent value="login">
+                        <TabsContent value="login" className="animate-in fade-in-0 slide-in-from-left-1/2 duration-500">
                             <CardContent className="pt-6">
                                 <form onSubmit={handleLogin} className="space-y-4">
                                     <div className="relative">
@@ -138,14 +139,14 @@ export default function LoginPage() {
                                             {showLoginPassword ? <EyeOff /> : <Eye />}
                                         </button>
                                     </div>
-                                    <Button type="submit" className="w-full bg-primary hover:bg-primary/90 py-3 text-lg">Login</Button>
+                                    <Button type="submit" className="w-full bg-primary hover:bg-primary/90 py-3 text-lg animate-in zoom-in-95 duration-500">Login</Button>
                                     <div className="text-center text-sm">
                                         <Link href="#" className="text-primary hover:underline">Forgot Password?</Link>
                                     </div>
                                 </form>
                             </CardContent>
                         </TabsContent>
-                        <TabsContent value="register">
+                        <TabsContent value="register" className="animate-in fade-in-0 slide-in-from-right-1/2 duration-500">
                              <CardContent className="pt-6">
                                 <form onSubmit={handleRegister} className="space-y-4">
                                      <div className="relative">
@@ -218,5 +219,3 @@ export default function LoginPage() {
         </div>
     );
 }
-
-    
