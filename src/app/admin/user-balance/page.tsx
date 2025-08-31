@@ -72,13 +72,15 @@ export default function UserBalancePage() {
                                 {users.length > 0 ? (
                                     users.map((user) => (
                                         <TableRow key={user.uid}>
-                                            <TableCell className="font-medium flex items-center gap-2">
-                                                <span>{user.uid}</span>
-                                                <Copy className="w-4 h-4 text-muted-foreground cursor-pointer" onClick={() => copyToClipboard(user.uid)} />
+                                            <TableCell className="font-medium">
+                                                <div className="flex items-center gap-2">
+                                                    <span>{user.uid}</span>
+                                                    <Copy className="w-4 h-4 text-muted-foreground cursor-pointer" onClick={() => copyToClipboard(user.uid)} />
+                                                </div>
                                             </TableCell>
                                             <TableCell className="text-right font-bold text-blue-600">₹{user.balance.toFixed(2)}</TableCell>
-                                            <TableCell className="text-right text-green-600">₹{user.totalDepositAmount.toFixed(2)}</TableCell>
-                                            <TableCell className="text-right text-red-600">₹{user.totalWithdrawalAmount.toFixed(2)}</TableCell>
+                                            <TableCell className="text-right text-green-600">₹{(user.totalDepositAmount || 0).toFixed(2)}</TableCell>
+                                            <TableCell className="text-right text-red-600">₹{(user.totalWithdrawalAmount || 0).toFixed(2)}</TableCell>
                                         </TableRow>
                                     ))
                                 ) : (
@@ -96,3 +98,5 @@ export default function UserBalancePage() {
         </div>
     );
 }
+
+    

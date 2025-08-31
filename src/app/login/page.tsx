@@ -49,8 +49,10 @@ export default function LoginPage() {
                 router.push('/home');
             } else if (loginStatus === 'blocked') {
                 toast({ title: "Account Blocked", description: "This account has been blocked by an administrator.", variant: "destructive" });
-            } else {
+            } else if (loginStatus === 'not_found') {
                  toast({ title: "Invalid Credentials", description: "Please check your email and password.", variant: "destructive" });
+            } else {
+                 toast({ title: "Login Failed", description: "An unknown error occurred.", variant: "destructive" });
             }
         } else {
             toast({ title: "Please enter your identifier and password.", variant: "destructive" });
@@ -68,7 +70,6 @@ export default function LoginPage() {
             return;
         }
         if (registerIdentifier && registerPassword) {
-            // For now, we only support email registration with Firebase
             const registerStatus = await register(registerIdentifier, registerPassword);
             if (registerStatus === 'success') {
                 toast({ title: "Registration Successful!" });

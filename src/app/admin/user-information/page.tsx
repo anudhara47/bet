@@ -96,14 +96,14 @@ export default function UserInformationPage() {
                                     <ArrowDown className="w-5 h-5 text-green-500" />
                                     <div>
                                         <p className="text-sm text-muted-foreground">Total Deposit</p>
-                                        <p className="font-bold">₹{searchedUser.totalDepositAmount.toFixed(2)}</p>
+                                        <p className="font-bold">₹{(searchedUser.totalDepositAmount || 0).toFixed(2)}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <ArrowUp className="w-5 h-5 text-red-500" />
                                     <div>
                                         <p className="text-sm text-muted-foreground">Total Withdrawal</p>
-                                        <p className="font-bold">₹{searchedUser.totalWithdrawalAmount.toFixed(2)}</p>
+                                        <p className="font-bold">₹{(searchedUser.totalWithdrawalAmount || 0).toFixed(2)}</p>
                                     </div>
                                 </div>
                             </div>
@@ -129,25 +129,25 @@ export default function UserInformationPage() {
                                     <TableHead>UID</TableHead>
                                     <TableHead>Email</TableHead>
                                     <TableHead>Phone</TableHead>
-                                    <TableHead>Password</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {users.length > 0 ? (
                                     users.map((user) => (
                                         <TableRow key={user.uid}>
-                                            <TableCell className="flex items-center gap-2">
-                                                <span>{user.uid}</span>
-                                                 <Copy className="w-4 h-4 text-muted-foreground cursor-pointer" onClick={() => copyToClipboard(user.uid)} />
+                                            <TableCell>
+                                                <div className="flex items-center gap-2">
+                                                    <span>{user.uid}</span>
+                                                    <Copy className="w-4 h-4 text-muted-foreground cursor-pointer" onClick={() => copyToClipboard(user.uid)} />
+                                                </div>
                                             </TableCell>
                                             <TableCell>{user.email || 'N/A'}</TableCell>
                                             <TableCell>{user.phone || 'N/A'}</TableCell>
-                                            <TableCell>{user.password || 'N/A'}</TableCell>
                                         </TableRow>
                                     ))
                                 ) : (
                                     <TableRow>
-                                        <TableCell colSpan={4} className="text-center">
+                                        <TableCell colSpan={3} className="text-center">
                                             No users found.
                                         </TableCell>
                                     </TableRow>
@@ -160,3 +160,5 @@ export default function UserInformationPage() {
         </div>
     );
 }
+
+    

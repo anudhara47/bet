@@ -96,9 +96,11 @@ export default function ManageUsersPage() {
                                 {users.length > 0 ? (
                                     users.map((user) => (
                                         <TableRow key={user.uid}>
-                                            <TableCell className="flex items-center gap-2">
-                                                <span>{user.uid}</span>
-                                                <Copy className="w-4 h-4 text-muted-foreground cursor-pointer" onClick={() => copyToClipboard(user.uid)} />
+                                            <TableCell>
+                                                <div className="flex items-center gap-2">
+                                                    <span>{user.uid}</span>
+                                                    <Copy className="w-4 h-4 text-muted-foreground cursor-pointer" onClick={() => copyToClipboard(user.uid)} />
+                                                </div>
                                             </TableCell>
                                             <TableCell>{user.email || user.phone}</TableCell>
                                             <TableCell>
@@ -150,3 +152,5 @@ export default function ManageUsersPage() {
         </div>
     );
 }
+
+    

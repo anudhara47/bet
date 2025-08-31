@@ -20,7 +20,8 @@ export interface UpiDetails {
 
 
 export interface UserData {
-    uid: string;
+    uid: string; // This will be the 7-digit ID
+    firebaseUid: string; // To store the actual Firebase UID
     email: string | null;
     phone: string | null;
     nickname: string;
@@ -163,30 +164,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 if (userData) {
                     loadUser(userData);
                 } else {
-                    // Create new user profile if it doesn't exist
-                    const newUser: UserData = {
-                        uid: user.uid,
-                        email: user.email,
-                        phone: user.phoneNumber,
-                        nickname: `User${user.uid.substring(0, 4)}`,
-                        avatar: user.photoURL,
-                        balance: 30.00,
-                        thirdPartyBalance: 0,
-                        experience: 0,
-                        usedCodes: [],
-                        claimedLevels: [1],
-                        lastMonthlyClaim: null,
-                        totalDepositAmount: 0,
-                        totalWithdrawalAmount: 0,
-                        invitees: { count: 1, rechargedCount: 1 },
-                        claimedInvitationBonuses: [1],
-                        blocked: false,
-                        hasDeposited: false,
-                        bankDetails: null,
-                        upiDetails: null,
-                    };
-                    saveToLocalStorage(`user-${user.uid}`, newUser);
-                    loadUser(newUser);
+                     // This case should ideally not happen if register flow is correct
+                    console.error("User logged in but no data found in localStorage.");
                 }
             } else {
                 setUid(null);
@@ -198,10 +177,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
 
-    const saveUser = (userUid: string, updatedData: Partial<UserData>) => {
-        const existingData = loadFromLocalStorage(`user-${userUid}`, {});
+    const saveUser = (userFirebaseUid: string, updatedData: Partial<UserData>) => {
+        const existingData = loadFromLocalStorage(`user-${userFirebaseUid}`, {});
         const newData = { ...existingData, ...updatedData };
-        saveToLocalStorage(`user-${userUid}`, newData);
+        saveToLocalStorage(`user-${userFirebaseUid}`, newData);
     };
 
     const login = async (email: string, password = 'password') => {
@@ -213,23 +192,34 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 await signOut(auth);
                 return 'blocked';
             }
-            loadUser({ ...userData, uid: user.uid, email: user.email });
+            loadUser({ ...userData, firebaseUid: user.uid, email: user.email });
             return 'success';
         } catch (error) {
             console.error("Login error:", error);
+            // Check for user-not-found error
+            const errorCode = (error as any).code;
+            if (errorCode === AuthErrorCodes.USER_DELETED || errorCode === 'auth/invalid-credential') {
+                return 'not_found';
+            }
             return 'error';
         }
     };
+    
+    const generate7DigitId = () => {
+        return Math.floor(1000000 + Math.random() * 9000000).toString();
+    }
 
     const register = async (email: string, password = 'password') => {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
+            const new7DigitId = generate7DigitId();
             const newUser: UserData = {
-                uid: user.uid,
+                uid: new7DigitId,
+                firebaseUid: user.uid,
                 email: user.email,
                 phone: null,
-                nickname: `User${user.uid.substring(0, 4)}`,
+                nickname: `User${new7DigitId.substring(0, 4)}`,
                 avatar: null,
                 balance: 30.00,
                 thirdPartyBalance: 0,
@@ -247,6 +237,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 upiDetails: null,
             };
             saveToLocalStorage(`user-${user.uid}`, newUser);
+
+            // Also save to allUsers list for admin panel
+            const allUsers = loadFromLocalStorage('allUsers', []);
+            saveToLocalStorage('allUsers', [...allUsers, newUser]);
+
             loadUser(newUser);
             return 'success';
         } catch(error: any) {
@@ -276,12 +271,22 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     };
 
 
-    const updateUser = (updates: Partial<UserData>) => {
-        if (uid) {
-            const currentData = loadFromLocalStorage(`user-${uid}`, {});
+    const updateUser = (updates: Partial<Omit<UserData, 'uid' | 'firebaseUid'>>) => {
+        if (currentUser) {
+            const currentData = loadFromLocalStorage(`user-${currentUser.uid}`, {});
             const updatedData = { ...currentData, ...updates };
             loadUser(updatedData); // Update state
-            saveToLocalStorage(`user-${uid}`, updatedData); // Persist to localStorage
+            saveToLocalStorage(`user-${currentUser.uid}`, updatedData); // Persist to localStorage
+
+             // Update the allUsers list as well for admin panel consistency
+            const allUsers = loadFromLocalStorage('allUsers', []);
+            const userIndex = allUsers.findIndex((u: UserData) => u.firebaseUid === currentUser.uid);
+            if (userIndex > -1) {
+                allUsers[userIndex] = { ...allUsers[userIndex], ...updates };
+                saveToLocalStorage('allUsers', allUsers);
+                 // Dispatch a storage event to notify other tabs/components (like admin panel)
+                window.dispatchEvent(new Event('storage'));
+            }
         }
     };
 
@@ -335,17 +340,27 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     
     const blockUser = (userUidToBlock: string) => {
         const allUsers = loadFromLocalStorage('allUsers', []);
-        const updatedUsers = allUsers.map((u: UserData) => u.uid === userUidToBlock ? { ...u, blocked: true } : u);
-        saveToLocalStorage('allUsers', updatedUsers);
-        if (userUidToBlock === uid) {
-            logout();
+        const userToBlock = allUsers.find((u: UserData) => u.uid === userUidToBlock);
+        if (userToBlock) {
+             const updatedUsers = allUsers.map((u: UserData) => u.uid === userUidToBlock ? { ...u, blocked: true } : u);
+             saveToLocalStorage('allUsers', updatedUsers);
+              // Also update the specific user's file
+             saveUser(userToBlock.firebaseUid, { blocked: true });
+             if (userToBlock.firebaseUid === currentUser?.uid) {
+                logout();
+             }
         }
     }
 
     const unblockUser = (userUidToUnblock: string) => {
         const allUsers = loadFromLocalStorage('allUsers', []);
-        const updatedUsers = allUsers.map((u: UserData) => u.uid === userUidToUnblock ? { ...u, blocked: false } : u);
-        saveToLocalStorage('allUsers', updatedUsers);
+        const userToUnblock = allUsers.find((u: UserData) => u.uid === userUidToUnblock);
+        if(userToUnblock) {
+            const updatedUsers = allUsers.map((u: UserData) => u.uid === userUidToUnblock ? { ...u, blocked: false } : u);
+            saveToLocalStorage('allUsers', updatedUsers);
+             // Also update the specific user's file
+            saveUser(userToUnblock.firebaseUid, { blocked: false });
+        }
     }
     const markAsDeposited = () => {
         updateUser({ hasDeposited: true });
