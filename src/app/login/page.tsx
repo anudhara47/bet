@@ -110,28 +110,36 @@ export default function LoginPage() {
                         </TabsList>
                         <TabsContent value="login" className="animate-in fade-in-0 slide-in-from-left-1/2 duration-500">
                             <CardContent className="pt-6">
-                                <form onSubmit={handleLogin} className="space-y-4">
+                                <form onSubmit={handleLogin} className="space-y-6">
                                     <div className="relative">
                                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                         <Input 
                                             id="login-identifier"
                                             type="email" 
-                                            placeholder="Email" 
-                                            className="pl-10" 
+                                            placeholder=" " 
+                                            className="pl-10 peer" 
                                             value={loginIdentifier}
                                             onChange={(e) => setLoginIdentifier(e.target.value)}
+                                            required
                                         />
+                                        <Label htmlFor="login-identifier" className="absolute left-10 top-2.5 text-muted-foreground transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-primary">
+                                            Email
+                                        </Label>
                                     </div>
                                      <div className="relative">
                                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                         <Input 
                                             id="login-password" 
                                             type={showLoginPassword ? "text" : "password"}
-                                            placeholder="Password" 
-                                            className="pl-10 pr-10" 
+                                            placeholder=" " 
+                                            className="pl-10 pr-10 peer" 
                                             value={loginPassword}
                                             onChange={(e) => setLoginPassword(e.target.value)}
+                                            required
                                         />
+                                        <Label htmlFor="login-password" className="absolute left-10 top-2.5 text-muted-foreground transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-primary">
+                                            Password
+                                        </Label>
                                         <button type="button" onClick={() => setShowLoginPassword(!showLoginPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground">
                                             {showLoginPassword ? <EyeOff /> : <Eye />}
                                         </button>
@@ -145,28 +153,36 @@ export default function LoginPage() {
                         </TabsContent>
                         <TabsContent value="register" className="animate-in fade-in-0 slide-in-from-right-1/2 duration-500">
                              <CardContent className="pt-6">
-                                <form onSubmit={handleRegister} className="space-y-4">
+                                <form onSubmit={handleRegister} className="space-y-6">
                                      <div className="relative">
                                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                         <Input 
                                             id="reg-identifier"
                                             type="email"
-                                            placeholder="Email Address"
-                                            className="pl-10"
+                                            placeholder=" "
+                                            className="pl-10 peer"
                                             value={registerIdentifier}
                                             onChange={(e) => setRegisterIdentifier(e.target.value)}
+                                            required
                                         />
+                                        <Label htmlFor="reg-identifier" className="absolute left-10 top-2.5 text-muted-foreground transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-primary">
+                                            Email Address
+                                        </Label>
                                     </div>
                                      <div className="relative">
                                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                                         <Input
                                             id="reg-password"
                                             type={showRegisterPassword ? "text" : "password"}
-                                            placeholder="Create Password"
-                                            className="pl-10 pr-10"
+                                            placeholder=" "
+                                            className="pl-10 pr-10 peer"
                                             value={registerPassword}
                                             onChange={(e) => setRegisterPassword(e.target.value)}
+                                            required
                                         />
+                                        <Label htmlFor="reg-password" className="absolute left-10 top-2.5 text-muted-foreground transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-primary">
+                                            Create Password
+                                        </Label>
                                         <button type="button" onClick={() => setShowRegisterPassword(!showRegisterPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground">
                                             {showRegisterPassword ? <EyeOff /> : <Eye />}
                                         </button>
@@ -176,11 +192,15 @@ export default function LoginPage() {
                                         <Input 
                                             id="reg-confirm-password"
                                             type={showConfirmPassword ? "text" : "password"} 
-                                            placeholder="Confirm Password" 
-                                            className="pl-10 pr-10"
+                                            placeholder=" " 
+                                            className="pl-10 pr-10 peer"
                                             value={confirmPassword}
                                             onChange={(e) => setConfirmPassword(e.target.value)}
+                                            required
                                         />
+                                        <Label htmlFor="reg-confirm-password" className="absolute left-10 top-2.5 text-muted-foreground transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-primary">
+                                            Confirm Password
+                                        </Label>
                                         <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground">
                                             {showConfirmPassword ? <EyeOff /> : <Eye />}
                                         </button>
@@ -190,13 +210,16 @@ export default function LoginPage() {
                                         <Input 
                                             id="reg-invite"
                                             type="text" 
-                                            placeholder="Invitation Code (Optional)" 
-                                            className="pl-10"
+                                            placeholder=" "
+                                            className="pl-10 peer"
                                             value={invitationCode}
                                             onChange={(e) => setInvitationCode(e.target.value)}
                                         />
+                                        <Label htmlFor="reg-invite" className="absolute left-10 top-2.5 text-muted-foreground transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-primary">
+                                            Invitation Code (Optional)
+                                        </Label>
                                     </div>
-                                    <div className="flex items-center space-x-2">
+                                    <div className="flex items-center space-x-2 pt-2">
                                         <Checkbox id="terms" checked={agreed} onCheckedChange={(checked) => setAgreed(checked as boolean)} />
                                         <label
                                             htmlFor="terms"
