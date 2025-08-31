@@ -3,12 +3,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { UserData } from "@/context/user-context";
-import { ChevronLeft, Wallet } from "lucide-react";
+import { ChevronLeft, Wallet, Copy } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function UserBalancePage() {
     const [users, setUsers] = React.useState<UserData[]>([]);
+    const { toast } = useToast();
 
     const refreshUsers = React.useCallback(() => {
         const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
@@ -30,6 +32,13 @@ export default function UserBalancePage() {
             window.removeEventListener('local-storage', handleStorageChange);
         };
     }, [refreshUsers]);
+    
+    const copyToClipboard = (text: string) => {
+        if(text) {
+            navigator.clipboard.writeText(text);
+            toast({ title: "UID copied to clipboard!" });
+        }
+    };
 
 
     return (
@@ -63,7 +72,10 @@ export default function UserBalancePage() {
                                 {users.length > 0 ? (
                                     users.map((user) => (
                                         <TableRow key={user.uid}>
-                                            <TableCell className="font-medium">{user.uid}</TableCell>
+                                            <TableCell className="font-medium flex items-center gap-2">
+                                                <span>{user.uid}</span>
+                                                <Copy className="w-4 h-4 text-muted-foreground cursor-pointer" onClick={() => copyToClipboard(user.uid)} />
+                                            </TableCell>
                                             <TableCell className="text-right font-bold text-blue-600">₹{user.balance.toFixed(2)}</TableCell>
                                             <TableCell className="text-right text-green-600">₹{user.totalDepositAmount.toFixed(2)}</TableCell>
                                             <TableCell className="text-right text-red-600">₹{user.totalWithdrawalAmount.toFixed(2)}</TableCell>

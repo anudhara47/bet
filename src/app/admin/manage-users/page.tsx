@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { UserData, useUser } from "@/context/user-context";
-import { ChevronLeft, ShieldCheck, UserCog, Ban } from "lucide-react";
+import { ChevronLeft, ShieldCheck, UserCog, Ban, Copy } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 import {
@@ -57,6 +57,14 @@ export default function ManageUsersPage() {
         toast({ title: "User unblocked successfully." });
     }
 
+    const copyToClipboard = (text: string) => {
+        if(text) {
+            navigator.clipboard.writeText(text);
+            toast({ title: "UID copied to clipboard!" });
+        }
+    };
+
+
     return (
         <div className="min-h-screen bg-neutral-100 text-foreground pb-24 max-w-lg mx-auto relative">
             <header className="bg-primary text-primary-foreground p-4 flex items-center gap-4 sticky top-0 z-10">
@@ -88,7 +96,10 @@ export default function ManageUsersPage() {
                                 {users.length > 0 ? (
                                     users.map((user) => (
                                         <TableRow key={user.uid}>
-                                            <TableCell>{user.uid}</TableCell>
+                                            <TableCell className="flex items-center gap-2">
+                                                <span>{user.uid}</span>
+                                                <Copy className="w-4 h-4 text-muted-foreground cursor-pointer" onClick={() => copyToClipboard(user.uid)} />
+                                            </TableCell>
                                             <TableCell>{user.email || user.phone}</TableCell>
                                             <TableCell>
                                                 <Badge variant={user.blocked ? "destructive" : "default"}>
