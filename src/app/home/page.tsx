@@ -76,6 +76,13 @@ export default function HomePage() {
         { name: '5D', image: '/images/recommend-3.png', href: '/lottery/5d' },
     ]
 
+    const lotteryGames = [
+        { name: 'WINGO', href: '/lottery/wingo-30s', hint: 'lottery colors' },
+        { name: 'K3', href: '/lottery/k3', hint: 'dice game' },
+        { name: '5D', href: '/lottery/5d', hint: 'lottery card' },
+        { name: 'TRX', href: '/lottery/trx-hash', hint: 'crypto lottery' },
+    ];
+
     const carouselCards = Array.from({ length: 8 });
 
     return (
@@ -191,6 +198,20 @@ export default function HomePage() {
                             <Link href={game.href} key={index}>
                                 <Card className="rounded-xl overflow-hidden bg-white border-none shadow-md">
                                     <Image src={`https://picsum.photos/300/200?random=${11+index}`} alt={game.name} width={300} height={200} className="w-full h-auto" data-ai-hint={index === 0 ? "aviator airplane" : "wingo lottery"}/>
+                                    <p className="p-2 text-center text-sm font-semibold">{game.name}</p>
+                                </Card>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="mt-6">
+                    <h2 className="font-bold text-lg mb-3">Lottery</h2>
+                    <div className="grid grid-cols-2 gap-4">
+                        {lotteryGames.map((game, index) => (
+                            <Link href={game.href} key={index}>
+                                <Card className="rounded-xl overflow-hidden bg-white border-none shadow-md">
+                                    <Image src={`https://picsum.photos/300/200?random=${13+index}`} alt={game.name} width={300} height={200} className="w-full h-auto" data-ai-hint={game.hint}/>
                                     <p className="p-2 text-center text-sm font-semibold">{game.name}</p>
                                 </Card>
                             </Link>
