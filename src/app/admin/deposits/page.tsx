@@ -25,8 +25,9 @@ interface DepositRequest {
     id: string;
     userId: string;
     amount: number;
-    utr: string;
-    screenshot: string;
+    utr?: string; // Optional
+    screenshot?: string; // Optional
+    razorpay_payment_id?: string; // Optional
     timestamp: number;
     status: 'pending' | 'approved' | 'rejected';
 }
@@ -79,7 +80,8 @@ export default function AdminDepositsPage() {
 
     const filteredRequests = requests.filter(req => 
         req.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        req.utr.toLowerCase().includes(searchTerm.toLowerCase())
+        req.utr?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        req.razorpay_payment_id?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const pendingRequests = filteredRequests.filter(r => r.status === 'pending');
@@ -97,7 +99,7 @@ export default function AdminDepositsPage() {
             <main className="p-4 space-y-6">
                 <div className="flex gap-2">
                     <Input 
-                        placeholder="Search by User ID or UTR" 
+                        placeholder="Search by User ID or Transaction ID" 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="bg-white"
@@ -120,7 +122,10 @@ export default function AdminDepositsPage() {
                                         </div>
                                         <Badge>Pending</Badge>
                                     </div>
-                                    <p className="text-sm"><strong>UTR:</strong> {req.utr}</p>
+                                    {req.razorpay_payment_id && <p className="text-sm"><strong>Razorpay ID:</strong> {req.razorpay_payment_id}</p>}
+                                    {req.utr && <p className="text-sm"><strong>UTR:</strong> {req.utr}</p>}
+                                    
+                                    {req.screenshot && (
                                     <Dialog>
                                         <DialogTrigger asChild>
                                             <Button variant="outline" size="sm">View Screenshot</Button>
@@ -137,6 +142,7 @@ export default function AdminDepositsPage() {
                                             </div>
                                         </DialogContent>
                                     </Dialog>
+                                    )}
                                      <div className="flex gap-2 pt-3 border-t">
                                         <Button onClick={() => handleAction(req.id, 'approved')} className="w-full bg-green-500 hover:bg-green-600"><Check className="w-4 h-4 mr-2"/>Approve</Button>
                                         <Button onClick={() => handleAction(req.id, 'rejected')} className="w-full" variant="destructive"><X className="w-4 h-4 mr-2"/>Reject</Button>
