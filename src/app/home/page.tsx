@@ -136,7 +136,15 @@ export default function HomePage() {
                                     <Link href="/all-games">
                                         <Card className="rounded-lg bg-gradient-to-br from-gray-200 to-gray-300 aspect-[8/3]">
                                             <CardContent className="flex flex-col items-center justify-center p-3 h-full">
-                                                <span className="text-2xl font-bold text-gray-700">Card {i + 1}</span>
+                                                {i === 0 ? (
+                                                    <p className="text-xl font-bold text-center text-gray-700">
+                                                        Get <span className="text-red-500">100% bonus</span> on your first deposit.
+                                                        <br />
+                                                        <span className="text-sm">Claim from the office after depositing.</span>
+                                                    </p>
+                                                ) : (
+                                                    <span className="text-2xl font-bold text-gray-700">Card {i + 1}</span>
+                                                )}
                                             </CardContent>
                                         </Card>
                                     </Link>
@@ -170,7 +178,7 @@ export default function HomePage() {
                         {recommendedGames.map((game, index) => (
                             <Link href={game.href} key={index}>
                                 <Card className="rounded-xl overflow-hidden bg-white border-none shadow-md">
-                                    <Image src={`https://picsum.photos/300/200?random=${11+index}`} alt={game.name} width={300} height={200} className="w-full h-auto" data-ai-hint={index === 0 ? "forest path" : "woman sunset"}/>
+                                    <Image src={`https://picsum.photos/300/200?random=${11+index}`} alt={game.name} width={300} height={200} className="w-full h-auto" data-ai-hint={index === 0 ? "aviator airplane" : "wingo lottery"}/>
                                     <p className="p-2 text-center text-sm font-semibold">{game.name}</p>
                                 </Card>
                             </Link>
