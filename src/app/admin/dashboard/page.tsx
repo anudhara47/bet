@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,8 +9,22 @@ import * as React from "react";
 
 
 export default function AdminDashboardPage() {
+    const [pendingDepositCount, setPendingDepositCount] = React.useState(0);
+
+    React.useEffect(() => {
+        const checkPendingDeposits = () => {
+            const storedRequests = JSON.parse(localStorage.getItem('depositRequests') || '[]');
+            const adminPendingCount = storedRequests.filter((req: any) => req.status === 'pending').length;
+            setPendingDepositCount(adminPendingCount);
+        };
+        
+        checkPendingDeposits();
+        window.addEventListener('storage', checkPendingDeposits);
+        return () => window.removeEventListener('storage', checkPendingDeposits);
+    }, []);
+
     const menuItems = [
-        { label: "Deposit Requests", icon: <ArrowDownCircle className="w-6 h-6 text-primary" />, href: "/admin/deposits" },
+        { label: "Deposit Requests", icon: <ArrowDownCircle className="w-6 h-6 text-primary" />, href: "/admin/deposits", badge: pendingDepositCount },
         { label: "Withdrawal Requests", icon: <ArrowUpCircle className="w-6 h-6 text-primary" />, href: "/admin/withdrawals" },
         { label: "User Information", icon: <Users className="w-6 h-6 text-primary" />, href: "/admin/user-information" },
         { label: "User Balance", icon: <Wallet className="w-6 h-6 text-primary" />, href: "/admin/user-balance" },
@@ -46,11 +61,16 @@ export default function AdminDashboardPage() {
                     {menuItems.map((item, index) => (
                         <Link href={item.href} key={index} className="text-center">
                             <Card className="rounded-xl shadow-lg hover:bg-gray-50 cursor-pointer aspect-square flex items-center justify-center">
-                                <CardContent className="p-2 flex flex-col items-center gap-2">
+                                <CardContent className="p-2 flex flex-col items-center gap-2 relative">
                                     <div className="bg-primary/10 p-3 rounded-full">
                                       {item.icon}
                                     </div>
                                     <p className="text-xs font-semibold text-center">{item.label}</p>
+                                    {item.badge && item.badge > 0 && (
+                                        <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-white text-xs flex items-center justify-center border-2 border-card">
+                                            {item.badge}
+                                        </div>
+                                    )}
                                 </CardContent>
                             </Card>
                         </Link>

@@ -126,12 +126,12 @@ export default function AccountPage() {
     
     if (email === adminEmail) {
         checkAdminPendingDeposits();
-        window.addEventListener('focus', checkAdminPendingDeposits);
-        return () => window.removeEventListener('focus', checkAdminPendingDeposits);
+        window.addEventListener('storage', checkAdminPendingDeposits);
+        return () => window.removeEventListener('storage', checkAdminPendingDeposits);
     } else {
         checkPendingDeposits();
-        window.addEventListener('focus', checkPendingDeposits);
-        return () => window.removeEventListener('focus', checkPendingDeposits);
+        window.addEventListener('storage', checkPendingDeposits);
+        return () => window.removeEventListener('storage', checkPendingDeposits);
     }
   }, [uid, email, adminEmail]);
 
