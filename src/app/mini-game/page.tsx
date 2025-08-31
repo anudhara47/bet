@@ -1,7 +1,8 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronLeft, Download } from "lucide-react";
+import { ChevronLeft, Download, Gamepad2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
@@ -435,6 +436,7 @@ export default function MiniGamePage() {
         <Link href="/home" className="text-white">
           <ChevronLeft className="w-6 h-6" />
         </Link>
+        <Gamepad2 className="w-6 h-6 text-primary" />
         <h1 className="font-bold text-xl text-white">Mini Game</h1>
       </header>
 
