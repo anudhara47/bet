@@ -50,7 +50,7 @@ export default function WithdrawPage() {
 
     const [remainingWithdrawals, setRemainingWithdrawals] = React.useState(2);
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
         if (!bankDetails && !upiDetails) {
             toast({ title: "Please add a bank account or UPI ID first.", variant: 'destructive'});
             return;
@@ -74,7 +74,8 @@ export default function WithdrawPage() {
             return;
         }
         
-        if (!verifyPassword(data.password)) {
+        const isPasswordValid = await verifyPassword(data.password);
+        if (!isPasswordValid) {
             toast({ title: "Invalid password", variant: 'destructive' });
             return;
         }

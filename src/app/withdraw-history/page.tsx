@@ -35,7 +35,7 @@ const TransactionRow = ({ transaction }: { transaction: WithdrawalRequest }) => 
                     </div>
                     <div>
                         <p className="font-bold text-lg">₹{transaction.amount.toFixed(2)}</p>
-                        <p className="text-xs text-muted-foreground">{transaction.id}</p>
+                        <p className="text-xs text-muted-foreground">Order ID: {transaction.id}</p>
                     </div>
                 </div>
                 <div className="text-right">
