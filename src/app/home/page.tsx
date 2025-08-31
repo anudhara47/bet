@@ -142,6 +142,12 @@ export default function HomePage() {
                                                         <br />
                                                         <span className="text-sm">Claim from the office after depositing.</span>
                                                     </p>
+                                                ) : i === 1 ? (
+                                                    <div className="text-center text-gray-800">
+                                                        <p className="text-2xl font-black text-red-600 drop-shadow-md">AVIATOR</p>
+                                                        <p className="text-lg font-bold">Play and earn more</p>
+                                                        <p className="text-sm font-semibold bg-yellow-400 px-2 py-1 rounded-md inline-block mt-1">Up to 99x cash out!</p>
+                                                    </div>
                                                 ) : (
                                                     <span className="text-2xl font-bold text-gray-700">Card {i + 1}</span>
                                                 )}
