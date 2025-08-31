@@ -148,6 +148,12 @@ export default function HomePage() {
                                                         <p className="text-lg font-bold">Play and earn more</p>
                                                         <p className="text-sm font-semibold bg-yellow-400 px-2 py-1 rounded-md inline-block mt-1">Up to 99x cash out!</p>
                                                     </div>
+                                                ) : i === 2 ? (
+                                                    <div className="text-center text-gray-800">
+                                                        <p className="text-2xl font-black text-blue-600 drop-shadow-md">WINGO LOTTERY</p>
+                                                        <p className="text-lg font-bold">Predict the Color, Win Big!</p>
+                                                        <p className="text-sm font-semibold bg-blue-300 px-2 py-1 rounded-md inline-block mt-1">Fast-paced 30-second rounds!</p>
+                                                    </div>
                                                 ) : (
                                                     <span className="text-2xl font-bold text-gray-700">Card {i + 1}</span>
                                                 )}
